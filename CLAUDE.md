@@ -12,27 +12,34 @@ kintoneの無料プラグインを開発し、Cloudflare Pages(`site/`)で配布
 - `<plugin_name>/src/` — `manifest.json`、`js/`、`css/`、`html/`、`image/`、`package.json`、`private.ppk`(署名鍵。git管理外)
 - `<plugin_name>/src/dist/plugin.zip` — `cli-kintone plugin pack`の成果物(git管理外)
 - `site/` — Cloudflare Pagesの公開ディレクトリ。`index.html`が`plugins.json`を読み込んでプラグイン一覧を表示し、`plugins/<name>/plugin.zip`が実際の配布ファイル(git管理下)
-- `scripts/publish.sh <plugin_dir_name>` — 対象プラグインを`npm run build`し、生成された`plugin.zip`を`site/plugins/<name>/`にコピーする
+- `scripts/publish.sh <plugin_dir_name>` — 対象プラグインを`pnpm run build`し、生成された`plugin.zip`を`site/plugins/<name>/`にコピーする
 
 新しいプラグインを追加したときは、`site/plugins.json`にも1エントリ(id/name/description/version/zip)を追加すること。
 
 ## よく使うコマンド
 
-プラグイン個別の作業は各`<plugin>/src`ディレクトリ内で実行する(`box_gdrive_iframe/src`が現在唯一の実装例)。
+パッケージマネージャーは**pnpm**を使う(npmではない)。各プラグインが独立して`node_modules`を持つ構成上、
+同じdevDependency(`@kintone/cli`, `eslint`, `jest`等)を複数プラグイン分インストールすることになるが、
+pnpmはパッケージ実体をグローバルストア(`~/.pnpm-store`)に1つだけ持ちハードリンクするため、
+プラグイン数が増えてもディスク容量が線形に膨らまない。プラグイン間でコードやworkspace設定を共有するわけではなく、
+あくまで「各プラグインが独立」という方針(上記)は変えていない。
+
+プラグイン個別の作業は各`<plugin>/src`ディレクトリ内で実行する(`box_gdrive_iframe/src`, `fiscal_year_numbering/src`が実装例)。
 
 ```bash
 cd <plugin>/src
-npm install
-npm run build      # cli-kintone plugin pack --private-key private.ppk --output dist/plugin.zip --input manifest.json
-npm run develop    # build --watch
-npm run upload     # cli-kintone plugin upload --input dist/plugin.zip --watch (検証環境アプリへの自動反映)
-npm run lint       # eslint .
+pnpm install
+pnpm run build      # cli-kintone plugin pack --private-key private.ppk --output dist/plugin.zip --input manifest.json
+pnpm run develop    # build --watch
+pnpm run upload     # cli-kintone plugin upload --input dist/plugin.zip --watch (検証環境アプリへの自動反映)
+pnpm run lint       # eslint .
+pnpm test           # jest(導入済みのプラグインのみ)
 ```
 
 初回のみ、プラグインごとに署名鍵を生成する(生成済みなら不要、鍵は使い回す)。
 
 ```bash
-npm run keygen     # cli-kintone plugin keygen --output private.ppk
+pnpm run keygen     # cli-kintone plugin keygen --output private.ppk
 ```
 
 リポジトリルートからは、ビルドして公開サイトへ配布物を反映する。

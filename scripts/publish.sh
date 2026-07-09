@@ -15,7 +15,7 @@ if [ ! -d "$PLUGIN_SRC" ]; then
   exit 1
 fi
 
-(cd "$PLUGIN_SRC" && npm run build)
+(cd "$PLUGIN_SRC" && pnpm run build)
 
 DEST_DIR="$ROOT_DIR/site/plugins/$PLUGIN"
 mkdir -p "$DEST_DIR"
