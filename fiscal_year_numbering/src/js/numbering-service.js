@@ -19,6 +19,7 @@
       fiscalYear,
       era,
       eraYear,
+      segments,
       segmentSummary: segments.map((s) => s.value).join(' / '),
     };
 

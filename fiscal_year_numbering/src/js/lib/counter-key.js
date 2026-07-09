@@ -7,6 +7,11 @@
   const INTERNAL_DELIMITER = '::';
   const SEGMENT_DELIMITER = '|';
 
+  // カウンター専用アプリが個別列(segment_1_code/segment_1_value...)として持てるセグメント数の上限。
+  // provisioning/seed-counter-app.js(アプリ作成)とcounter-client.js(レコード作成)の両方が
+  // この値を共有する(ブラウザ/Node両対応の本ファイルをrequireすることで一致させる)。
+  const MAX_SEGMENTS = 5;
+
   const build = (targetAppId, fiscalYear, segments) => {
     const sorted = [...segments].sort((a, b) => a.order - b.order);
     const segmentPart = sorted.map((s) => `${s.code}=${s.value}`).join(SEGMENT_DELIMITER);
@@ -16,7 +21,7 @@
   const withSequence = (combinationKey, sequence) =>
     `${combinationKey}${INTERNAL_DELIMITER}${sequence}`;
 
-  const CounterKey = { build, withSequence };
+  const CounterKey = { MAX_SEGMENTS, build, withSequence };
 
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = CounterKey;

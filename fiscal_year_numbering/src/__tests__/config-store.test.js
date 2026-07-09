@@ -13,6 +13,12 @@ describe('ConfigStore.load', () => {
     expect(config.bulkNumberingGroupCode).toBe('');
   });
 
+  test('null/undefined (getConfig() on an unconfigured app) is treated like an empty object, not an error', () => {
+    expect(() => ConfigStore.load(null)).not.toThrow();
+    expect(ConfigStore.load(null)).toEqual(ConfigStore.load({}));
+    expect(() => ConfigStore.load(undefined)).not.toThrow();
+  });
+
   test('a saved config round-trips through serialize/load without data loss', () => {
     const original = {
       fiscalYearDateSource: 'FIELD',

@@ -8,6 +8,11 @@
 
   const loadConfig = () => NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
 
+  // 必須項目(採番結果を保存するフィールド・カウンター専用アプリID)が未設定の場合は、
+  // まだ管理者がこのアプリ向けにプラグインを設定していない(またはgetConfig()が取得できなかった)
+  // ということなので、何もせず処理を抜ける(画面全体をクラッシュさせない)。
+  const isConfigured = (config) => Boolean(config.numberFieldCode && config.counterAppId);
+
   const persistNumber = (appId, recordId, revision, numberFieldCode, number) =>
     kintone.api(recordUrl(), 'PUT', {
       app: appId,
@@ -20,7 +25,7 @@
   // 安全策(未採番なら再計算)に委ねるため、ここでの結果は「表示のための先行取得」に過ぎない。
   kintone.events.on('app.record.create.show', (event) => {
     const config = loadConfig();
-    if (event.record[config.numberFieldCode].value) {
+    if (!isConfigured(config) || event.record[config.numberFieldCode].value) {
       return event;
     }
     NS.NumberingService.computeNext(config, event.record, kintone.app.getId())
@@ -38,7 +43,7 @@
   // 作成画面の保存: 未採番のまま保存されようとしている場合のみ採番する(表示時に既に採番済みなら何もしない)。
   kintone.events.on('app.record.create.submit', async (event) => {
     const config = loadConfig();
-    if (!event.record[config.numberFieldCode].value) {
+    if (isConfigured(config) && !event.record[config.numberFieldCode].value) {
       event.record[config.numberFieldCode].value = await NS.NumberingService.computeNext(
         config,
         event.record,
@@ -52,7 +57,7 @@
   // (event.recordの書き換えは表示のみに影響し、サーバーには保存されないため)。
   kintone.events.on('app.record.detail.show', async (event) => {
     const config = loadConfig();
-    if (event.record[config.numberFieldCode].value) {
+    if (!isConfigured(config) || event.record[config.numberFieldCode].value) {
       return event;
     }
     const appId = kintone.app.getId();
@@ -72,6 +77,9 @@
   // あわせて、権限のあるグループのメンバーにのみ一括採番ボタンを表示する。
   kintone.events.on('app.record.index.show', async (event) => {
     const config = loadConfig();
+    if (!isConfigured(config)) {
+      return event;
+    }
     const appId = kintone.app.getId();
 
     const unnumbered = event.records.filter((r) => !r[config.numberFieldCode].value);

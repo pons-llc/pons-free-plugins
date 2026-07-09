@@ -29,8 +29,21 @@
 
 ## REST API利用(本プラグインの核心機能)
 
-- [x] REST API呼び出しはすべて`kintone.api()`経由であり、生の`fetch`/`XHR`は使用していない(`provisioning/seed-counter-app.js`のみNode環境からの初回セットアップ用スクリプトのため例外的に組み込みfetchを使用しており、ブラウザで動くプラグイン本体のコードではない)
+- [x] REST API呼び出しはすべて`kintone.api()`経由であり、生の`fetch`/`XHR`は使用していない(`provisioning/seed-counter-app.js`・`scripts/kintone-admin.js`はNode環境からの管理用スクリプトのため例外的にNode標準の`https`モジュールを使用しており、ブラウザで動くプラグイン本体のコードではない)
 - [x] CLAUDE.md方針3(JavaScript API優先)の中で、フィールド発見(`kintone.app.getFormFields()`)はJavaScript APIを使い、採番の実処理(カウンター参照・作成、対象アプリへの書き込み)のみREST APIを使う設計であることをidea.mdに明記している
+
+## 未解決の重大な検証結果: レコード画面での`getConfig()`が`null`を返す事象
+
+実環境(Puppeteer)での検証で、以下を確認した。
+
+- プラグイン設定画面(`config.js`)では`kintone.plugin.app.getConfig(PLUGIN_ID)`が保存済みの設定を正しく返す(保存→リロード→内容保持を確認済み)。
+- 同一の`PLUGIN_ID`・同一アプリにもかかわらず、レコード一覧・詳細・作成画面(`desktop.js`)では`kintone.plugin.app.getConfig(PLUGIN_ID)`が一貫して`null`を返す。
+- `PLUGIN_ID`自体は正しい値が取得できていること、アプリの「アプリを更新」(デプロイ)が完了していること、プラグインが「有効」であることは確認済みで、原因を特定できていない。
+
+このままではレコード画面での自動採番が一切発動しない。原因不明の状態で画面全体をクラッシュさせないよう、`js/lib/config-store.js`の`load()`は`saved`が`null`/`undefined`でも例外を投げず既定値を返すようにし、`desktop.js`/`mobile.js`は「採番結果を保存するフィールド」「カウンター専用アプリID」のいずれかが未設定(＝設定不可な状態)なら何もせず抜けるガード(`isConfigured()`)を入れた。
+
+- [ ] レコード画面での`getConfig()`が`null`を返す原因を特定し、修正する(現状は未解決。CLAUDE.md方針1に基づき、kintoneドキュメントMCPや検証環境の他の要因をさらに調査する必要がある)
+- [x] 原因不明のまま放置せず、`isConfigured()`ガードにより画面クラッシュは防止済み(ただし採番機能そのものが動作しない状態は未解決)
 
 ## 個別確認事項(利用ユーザーへ委ねる項目)
 

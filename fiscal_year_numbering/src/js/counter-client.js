@@ -52,6 +52,15 @@
       [FIELD.eraYear]: { value: String(meta.eraYear) },
       [FIELD.segmentSummary]: { value: meta.segmentSummary },
     };
+    // 位置ベースの汎用列(segment_N_code/segment_N_value)にも展開する。
+    // MAX_SEGMENTSを超える分はcombination_key/segment_summaryにのみ含まれ、個別列には出ない。
+    const segments = meta.segments || [];
+    const sorted = [...segments].sort((a, b) => a.order - b.order);
+    sorted.slice(0, NS.CounterKey.MAX_SEGMENTS).forEach((segment, index) => {
+      const n = index + 1;
+      record[`segment_${n}_code`] = { value: segment.code };
+      record[`segment_${n}_value`] = { value: segment.value };
+    });
     return kintone.api(recordUrl(), 'POST', { app: counterAppId, record });
   };
 

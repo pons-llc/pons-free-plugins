@@ -25,17 +25,22 @@
     }
   };
 
-  const load = (saved) => ({
-    fiscalYearDateSource: saved.fiscalYearDateSource || DEFAULTS.fiscalYearDateSource,
-    fiscalYearDateField: saved.fiscalYearDateField || DEFAULTS.fiscalYearDateField,
-    eraTable: parseJsonOr(saved.eraTable, DEFAULTS.eraTable),
-    segments: parseJsonOr(saved.segments, DEFAULTS.segments),
-    numberFormat: parseJsonOr(saved.numberFormat, DEFAULTS.numberFormat),
-    numberFieldCode: saved.numberFieldCode || DEFAULTS.numberFieldCode,
-    counterAppId: saved.counterAppId || DEFAULTS.counterAppId,
-    bulkNumberingGroupCode:
-      saved.bulkNumberingGroupCode || DEFAULTS.bulkNumberingGroupCode,
-  });
+  // getConfig()はプラグインが未設定の(あるいは何らかの理由で取得できなかった)アプリでは
+  // null を返すことがあるため、saved自体がnull/undefinedでも例外にせず既定値を返す。
+  const load = (rawSaved) => {
+    const saved = rawSaved || {};
+    return {
+      fiscalYearDateSource: saved.fiscalYearDateSource || DEFAULTS.fiscalYearDateSource,
+      fiscalYearDateField: saved.fiscalYearDateField || DEFAULTS.fiscalYearDateField,
+      eraTable: parseJsonOr(saved.eraTable, DEFAULTS.eraTable),
+      segments: parseJsonOr(saved.segments, DEFAULTS.segments),
+      numberFormat: parseJsonOr(saved.numberFormat, DEFAULTS.numberFormat),
+      numberFieldCode: saved.numberFieldCode || DEFAULTS.numberFieldCode,
+      counterAppId: saved.counterAppId || DEFAULTS.counterAppId,
+      bulkNumberingGroupCode:
+        saved.bulkNumberingGroupCode || DEFAULTS.bulkNumberingGroupCode,
+    };
+  };
 
   const serialize = (config) => ({
     fiscalYearDateSource: config.fiscalYearDateSource,
