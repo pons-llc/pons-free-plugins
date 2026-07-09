@@ -49,7 +49,7 @@ Cloudflare Pages側はビルドコマンドなし・公開ディレクトリ`sit
 
 1. **kintoneドキュメントMCP(`kintone_doc`)を必ず参照する** — JavaScript API/REST APIの仕様や挙動、注意点は実装前に必ずMCP経由で確認する。記憶だけで実装しない。
 2. **セキュリティレビュー** — [secureCodingGuideline.md](secureCodingGuideline.md)(XSS/CSSインジェクション対策、認証情報の保存先、外部スクリプトの扱いなどをまとめたkintoneセキュアコーディングガイドライン)を参照し、実装ごとにチェックリストを作成して確認する。
-3. **JavaScript APIをREST APIより優先する** — 同じ目的を達成できる場合は`kintone.app.getFormFields()`や`kintone.app.getFormLayout()`のようなJavaScript APIを優先する。REST APIはJavaScript APIで実現できない場合のみ使う。
+3. **JavaScript APIをREST APIより優先する** — 同じ目的を達成できる場合は`kintone.app.getFormFields()`や`kintone.app.getFormLayout()`のようなJavaScript APIを優先する。REST APIはJavaScript APIで実現できない場合のみ使い、その際もkintone自身への呼び出しに限り`kintone.api()`(内部向けラッパー)を使用する。生の`fetch`/`XHR`で直接URLを組み立てない。
 4. **テスト駆動開発(TDD)** — Jestを用いたローカルのユニットテストを先に書いてから実装する。現時点ではどのプラグインにもJestは未導入なので、実装に着手する際にそのプラグインの`package.json`へ追加すること。
 5. **プラグインアップローダーによる自動反映** — `npm run upload`(`cli-kintone plugin upload --watch`)で検証環境アプリへプラグインを自動適用しながら開発する。
 6. **Puppeteerによる実環境テスト** — 検証環境(`KINTONE_DOMAIN`, 例: `https://lp950u96r3uk.cybozu.com`)上でPuppeteerを使い実際の画面操作を検証する。Puppeteerも現時点では未導入。プラグイン設定画面のURLパターンは以下の通り。
@@ -60,6 +60,7 @@ Cloudflare Pages側はビルドコマンドなし・公開ディレクトリ`sit
 
 7. **必要なフィールド/スペースはAPIで都度作成する** — 固定のテストデータに依存せず、`kintone.app.getFormFields()`等で現在のフィールド状況を確認したうえで、不足分をAPI経由で作成する。
 8. **スクリーンショットを都度取得し公開サイトに反映する** — Puppeteerでの動作確認時にスクリーンショットを撮り、`site/plugins/<name>/`配下に保存して公開サイト(`index.html`)から参照できるようにする。
+9. **外部パッケージ・外部通信を使わない** — プラグインの実行コード(js/css)には外部ライブラリを一切組み込まず、vanilla JavaScriptのみで実装する。kintone以外のサーバーへの通信(fetch/XHRでの外部API呼び出し)も行わない。この方針により、依存パッケージの脆弱性監査(`npm audit`)や網羅的なクロスブラウザ検証は開発側の必須タスクとせず、個別の不具合は公開後に利用ユーザーからのGitHub Issue報告で対応する。ビルド用のdevDependency(`@kintone/cli`, `eslint`等)はプラグイン本体に含まれないため対象外。
 
 ## 検証環境(.env)
 
