@@ -71,9 +71,26 @@ const login = async (page, env) => {
   ]);
 };
 
+// NOTE: 設定画面のURL(`/k/admin/app/{appId}/plugin/config?pluginId=...`)に`page.goto()`で
+// 直接ハードナビゲーションすると、kintone管理画面(SPA)側の内部状態(現在どのアプリ/画面を
+// 操作中か)が正しく設定されず、`kintone.app.getFormFields()`等が
+// "The specified JavaScript API cannot be executed on this screen." で失敗する
+// (実際に検証環境で確認済み)。実際のユーザーはプラグイン一覧画面から「設定」リンクを
+// クリックして遷移するため、ここでも同じくプラグイン一覧画面 → クリック、の経路を再現する。
 const openPluginConfig = async (page, env, appId, pluginId) => {
-  const url = `https://${env.KINTONE_DOMAIN}/k/admin/app/${appId}/plugin/config?pluginId=${pluginId}`;
-  await page.goto(url, { waitUntil: 'networkidle0' });
+  await page.goto(`https://${env.KINTONE_DOMAIN}/k/admin/app/${appId}/plugin/`, {
+    waitUntil: 'networkidle0',
+  });
+  const configLink = await page.$(`a[href*="plugin/config?pluginId=${pluginId}"]`);
+  if (!configLink) {
+    throw new Error(
+      `アプリ(${appId})にプラグイン(${pluginId})の設定リンクが見つかりません。先にプラグインをアプリに追加してください。`
+    );
+  }
+  await Promise.all([
+    page.waitForNavigation({ waitUntil: 'networkidle0' }),
+    configLink.click(),
+  ]);
 };
 
 // スクリーンショットは site/plugins/<pluginName>/screenshots/ に保存し、

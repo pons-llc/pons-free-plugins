@@ -20,7 +20,9 @@
   const counterAppIdEl = document.querySelector('.js-counter-app-id');
   const bulkGroupCodeEl = document.querySelector('.js-bulk-group-code');
 
-  const { properties: formFields } = await kintone.app.getFormFields();
+  // kintone.app.getFormFields() は REST APIのレスポンスではなく、
+  // その `properties` プロパティと同様の値(フィールドコードをキーにした平坦なオブジェクト)を解決する。
+  const formFields = await kintone.app.getFormFields();
   const dateFields = Object.values(formFields).filter((f) =>
     ['DATE', 'DATETIME', 'CREATED_TIME'].includes(f.type)
   );

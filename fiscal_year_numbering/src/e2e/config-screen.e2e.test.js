@@ -38,10 +38,26 @@ describe('設定画面(実環境)', () => {
     }
   });
 
-  test('設定画面が開き、見出しが表示される', async () => {
+  test('設定画面が開き、見出しとconfig.jsによる動的描画が表示される', async () => {
+    const pageErrors = [];
+    page.on('pageerror', (err) => pageErrors.push(err.message));
+
     await common.openPluginConfig(page, env, env.TEST_APP_ID_1, pluginId);
+
     const heading = await page.$eval('.settings-heading', (el) => el.textContent);
     expect(heading).toContain('年度リセット自動採番プラグイン');
+
+    // config.js が最後まで実行されないと描画されない部分(静的HTMLだけでは検知できないため、
+    // config.js冒頭のkintone.app.getFormFields()呼び出しが実際に壊れていたバグはここでしか検知できなかった)
+    const eraRowCount = await page.$$eval('.js-era-row', (rows) => rows.length);
+    expect(eraRowCount).toBe(1); // 未保存時に令和(2019年〜)が1件シードされる
+
+    await page.click('#js-era-add');
+    const eraRowCountAfterAdd = await page.$$eval('.js-era-row', (rows) => rows.length);
+    expect(eraRowCountAfterAdd).toBe(2);
+
+    expect(pageErrors).toEqual([]);
+
     await common.screenshot(page, repoRoot, PLUGIN_NAME, 'config-screen');
   });
 });
