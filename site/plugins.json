@@ -1,0 +1,9 @@
+[
+  {
+    "id": "box_gdrive_iframe",
+    "name": "box・googleドライブ埋め込みプラグイン",
+    "description": "box・googleドライブをレコード画面に埋め込むプラグイン",
+    "version": "0.1.0",
+    "zip": "plugins/box_gdrive_iframe/plugin.zip"
+  }
+]

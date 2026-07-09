@@ -1,0 +1,51 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+.embed-tabs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  border-bottom: 1px solid #e3e7e8;
+  padding-bottom: 0.5em;
+}
+
+.embed-tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+
+.embed-tab-button {
+  padding: 0.5em 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px 4px 0 0;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.embed-tab-button.is-active {
+  background: #3498db;
+  border-color: #3498db;
+  color: #fff;
+}
+
+.embed-add-tab-button {
+  margin-left: auto;
+}
+
+.embed-tab-panels {
+  border: 1px solid #e3e7e8;
+  border-top: none;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.embed-radio-label {
+  margin-right: 1.5em;
+}

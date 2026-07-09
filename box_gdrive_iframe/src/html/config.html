@@ -1,0 +1,63 @@
+<section class="settings">
+  <h2 class="settings-heading">box・Googleドライブ埋め込み設定</h2>
+  <p class="kintoneplugin-desc">
+    レコードの詳細・作成・編集画面に、Box または Google ドライブの埋め込みビューを表示します。<br>
+    あらかじめアプリのフォームに、表示先となる「スペース」フィールドと、埋め込み用URLを保持する「文字列（1行）」または「リンク」フィールドを配置してください。<br>
+    URLフィールドには、Boxの共有リンク（https://app.box.com/s/…）、またはGoogleドライブのフォルダ／ファイルの共有リンク（https://drive.google.com/…）を入力してください。
+  </p>
+
+  <p id="js-no-space-warning" class="kintoneplugin-alert" style="display:none;">
+    このアプリのフォームに「スペース」フィールドが見つかりません。フォームにスペースフィールドを追加してから、再度このページを開いてください。
+  </p>
+
+  <form class="js-submit-settings">
+    <div class="embed-tabs">
+      <div class="embed-tab-list" id="js-tab-list"></div>
+      <button type="button" id="js-add-tab" class="kintoneplugin-button-normal embed-add-tab-button">＋ 埋め込みを追加</button>
+    </div>
+
+    <div id="js-tab-panels" class="embed-tab-panels"></div>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-panel-template">
+  <div class="embed-panel">
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">
+        タブ名
+        <input type="text" class="kintoneplugin-input-text js-embed-title" placeholder="例）契約書フォルダ">
+      </label>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">表示先スペースフィールド<span class="kintoneplugin-require">必須</span></label><br>
+      <select class="kintoneplugin-select js-embed-space"></select>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">埋め込みURLフィールド<span class="kintoneplugin-require">必須</span></label><br>
+      <select class="kintoneplugin-select js-embed-field"></select>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">サービス<span class="kintoneplugin-require">必須</span></label><br>
+      <label class="embed-radio-label"><input type="radio" value="box" class="js-embed-service"> Box</label>
+      <label class="embed-radio-label"><input type="radio" value="google" class="js-embed-service"> Google ドライブ</label>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">
+        幅(px)
+        <input type="number" class="kintoneplugin-input-text js-embed-width" min="100" step="1" placeholder="600">
+      </label>
+      <label class="kintoneplugin-label">
+        高さ(px)
+        <input type="number" class="kintoneplugin-input-text js-embed-height" min="100" step="1" placeholder="400">
+      </label>
+    </p>
+    <p class="kintoneplugin-row">
+      <button type="button" class="kintoneplugin-button-normal js-remove-tab">この埋め込みを削除</button>
+    </p>
+  </div>
+</template>

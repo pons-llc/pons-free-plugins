@@ -1,0 +1,4 @@
+.env
+*.ppk
+.DS_Store
+node_modules/

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>kintone 無料プラグイン集</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>kintone 無料プラグイン集</h1>
+    <p>ここで公開しているプラグインは自由にダウンロード・利用いただけます。</p>
+  </header>
+
+  <main id="plugin-list">
+    <p class="loading">読み込み中...</p>
+  </main>
+
+  <footer>
+    <p>&copy; <span id="year"></span></p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    fetch("plugins.json")
+      .then((res) => res.json())
+      .then((plugins) => {
+        const list = document.getElementById("plugin-list");
+        list.innerHTML = "";
+        plugins.forEach((plugin) => {
+          const card = document.createElement("article");
+          card.className = "plugin-card";
+          card.innerHTML = `
+            <h2>${plugin.name}</h2>
+            <p>${plugin.description}</p>
+            <p class="version">v${plugin.version}</p>
+            <a class="download" href="${plugin.zip}" download>ダウンロード</a>
+          `;
+          list.appendChild(card);
+        });
+      })
+      .catch(() => {
+        document.getElementById("plugin-list").innerHTML =
+          "<p>プラグイン一覧の読み込みに失敗しました。</p>";
+      });
+  </script>
+</body>
+</html>
