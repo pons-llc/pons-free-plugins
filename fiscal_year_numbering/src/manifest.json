@@ -1,0 +1,64 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/era-table.js",
+      "js/lib/fiscal-year.js",
+      "js/lib/segment-value.js",
+      "js/lib/number-template.js",
+      "js/lib/counter-key.js",
+      "js/lib/retry.js",
+      "js/lib/config-store.js",
+      "js/counter-client.js",
+      "js/numbering-service.js",
+      "js/bulk-numbering.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/config-store.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "fiscal_year_numbering plugin",
+    "ja": "年度リセット自動採番プラグイン"
+  },
+  "description": {
+    "en": "fiscal_year_numbering plugin",
+    "ja": "会計年度(4月始まり)でリセットされる、和暦+セグメント文字列+連番の自動採番プラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/era-table.js",
+      "js/lib/fiscal-year.js",
+      "js/lib/segment-value.js",
+      "js/lib/number-template.js",
+      "js/lib/counter-key.js",
+      "js/lib/retry.js",
+      "js/lib/config-store.js",
+      "js/counter-client.js",
+      "js/numbering-service.js",
+      "js/bulk-numbering.js",
+      "js/mobile.js"
+    ],
+    "css": [
+      "css/mobile.css"
+    ]
+  }
+}

@@ -1,0 +1,112 @@
+<section class="settings">
+  <h2 class="settings-heading">年度リセット自動採番プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    会計年度(4月始まり固定)でリセットされる、和暦+セグメント文字列+連番の形式で自動採番します。
+    採番の実処理はREST API(kintone.api())でカウンター専用アプリを参照して行います。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="fyn-section">
+      <div class="fyn-section-heading">年度判定の基準日</div>
+      <p class="kintoneplugin-row">
+        <label class="embed-radio-label">
+          <input type="radio" name="js-date-source" value="CREATED_TIME" class="js-date-source"> 作成日時を使う
+        </label>
+        <label class="embed-radio-label">
+          <input type="radio" name="js-date-source" value="FIELD" class="js-date-source"> 指定したフィールドを使う
+        </label>
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">基準日フィールド(「指定したフィールドを使う」の場合)</label><br>
+        <select class="kintoneplugin-select js-date-field"></select>
+      </p>
+    </section>
+
+    <section class="fyn-section">
+      <div class="fyn-section-heading">元号テーブル(令和2019年〜が初期値)</div>
+      <table class="fyn-table">
+        <thead>
+          <tr><th>コード</th><th>表示名</th><th>開始年(西暦)</th><th></th></tr>
+        </thead>
+        <tbody id="js-era-table-body"></tbody>
+      </table>
+      <button type="button" id="js-era-add" class="kintoneplugin-button-normal">+ 元号を追加</button>
+    </section>
+
+    <section class="fyn-section">
+      <div class="fyn-section-heading">セグメントフィールド(ドロップダウン・ラジオボタン)</div>
+      <p class="kintoneplugin-desc">
+        番号に組み込むフィールドを選択してください。選択肢ごとの表示文字列を上書きできます(空欄なら値そのものを使用)。
+      </p>
+      <p class="kintoneplugin-row">
+        <select class="kintoneplugin-select js-segment-field-picker"></select>
+        <button type="button" id="js-segment-add" class="kintoneplugin-button-normal">+ セグメントとして追加</button>
+      </p>
+      <div id="js-segment-list"></div>
+    </section>
+
+    <section class="fyn-section">
+      <div class="fyn-section-heading">番号フォーマット</div>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">採番結果を保存するフィールド<span class="kintoneplugin-require">必須</span></label><br>
+        <select class="kintoneplugin-select js-number-field"></select>
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          区切り文字
+          <input type="text" class="kintoneplugin-input-text js-separator" placeholder="-" maxlength="4">
+        </label>
+        <label class="kintoneplugin-label">
+          連番の桁数
+          <input type="number" class="kintoneplugin-input-text js-sequence-digits" min="1" max="10" placeholder="4">
+        </label>
+      </p>
+    </section>
+
+    <section class="fyn-section">
+      <div class="fyn-section-heading">カウンター専用アプリ・一括採番</div>
+      <p class="kintoneplugin-desc">
+        カウンター専用アプリは provisioning/seed-counter-app.js で作成し、一般権限を「閲覧+作成のみ」に設定してください。
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          カウンター専用アプリID<span class="kintoneplugin-require">必須</span>
+          <input type="text" class="kintoneplugin-input-text js-counter-app-id" placeholder="例）581">
+        </label>
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          一括採番を許可するグループコード
+          <input type="text" class="kintoneplugin-input-text js-bulk-group-code" placeholder="例）kanri_group">
+        </label>
+      </p>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-segment-row-template">
+  <div class="fyn-section" style="margin-bottom: 1em;">
+    <div class="fyn-section-heading js-segment-title"></div>
+    <table class="fyn-table">
+      <thead>
+        <tr><th>選択肢(値)</th><th>表示文字列(空欄なら値をそのまま使用)</th></tr>
+      </thead>
+      <tbody class="js-segment-options"></tbody>
+    </table>
+    <button type="button" class="kintoneplugin-button-normal js-segment-remove">このセグメントを削除</button>
+  </div>
+</template>
+
+<template id="js-era-row-template">
+  <tr class="js-era-row">
+    <td><input type="text" class="kintoneplugin-input-text js-era-code" maxlength="4"></td>
+    <td><input type="text" class="kintoneplugin-input-text js-era-label"></td>
+    <td><input type="number" class="kintoneplugin-input-text js-era-start-year"></td>
+    <td><span class="fyn-row-remove js-era-remove">削除</span></td>
+  </tr>
+</template>
