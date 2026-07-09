@@ -58,16 +58,16 @@ const getPluginId = (pluginSrcDir, zipRelativePath = 'dist/plugin.zip') => {
   return match[1];
 };
 
-// NOTE: ログイン画面のセレクターは実際のkintone環境で未検証(ドキュメントに
-// DOM構造の記載がないため)。初回実行時にPuppeteerのheadless:falseで開いて
-// 実際のセレクターに合わせて調整すること。
+// 実環境(https://{KINTONE_DOMAIN}/login)のDOMで検証済みのセレクター。
+// ログイン画面はkintone標準のログインフォーム(`.login-form-slash`)で、
+// 送信ボタンは`<button>`ではなく`<input type="submit">`である点に注意。
 const login = async (page, env) => {
   await page.goto(`https://${env.KINTONE_DOMAIN}/login`, { waitUntil: 'networkidle0' });
   await page.type('input[name="username"]', env.KINTONE_USERNAME);
   await page.type('input[name="password"]', env.KINTONE_PASSWORD);
   await Promise.all([
     page.waitForNavigation({ waitUntil: 'networkidle0' }),
-    page.click('button[type="submit"]'),
+    page.click('input.login-button[type="submit"]'),
   ]);
 };
 
