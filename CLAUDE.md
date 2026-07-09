@@ -57,13 +57,26 @@ Cloudflare Pages側はビルドコマンドなし・公開ディレクトリ`sit
 1. **kintoneドキュメントMCP(`kintone_doc`)を必ず参照する** — JavaScript API/REST APIの仕様や挙動、注意点は実装前に必ずMCP経由で確認する。記憶だけで実装しない。
 2. **セキュリティレビュー** — [secureCodingGuideline.md](secureCodingGuideline.md)(XSS/CSSインジェクション対策、認証情報の保存先、外部スクリプトの扱いなどをまとめたkintoneセキュアコーディングガイドライン)を参照し、実装ごとにチェックリストを作成して確認する。
 3. **JavaScript APIをREST APIより優先する** — 同じ目的を達成できる場合は`kintone.app.getFormFields()`や`kintone.app.getFormLayout()`のようなJavaScript APIを優先する。REST APIはJavaScript APIで実現できない場合のみ使い、その際もkintone自身への呼び出しに限り`kintone.api()`(内部向けラッパー)を使用する。生の`fetch`/`XHR`で直接URLを組み立てない。
-4. **テスト駆動開発(TDD)** — Jestを用いたローカルのユニットテストを先に書いてから実装する。現時点ではどのプラグインにもJestは未導入なので、実装に着手する際にそのプラグインの`package.json`へ追加すること。
+4. **テスト駆動開発(TDD)** — Jestを用いたローカルのユニットテストを先に書いてから実装する。kintoneに依存しない純粋ロジックは`src/js/lib/`配下に切り出し、`src/__tests__/`でテストする(`fiscal_year_numbering`が実装例)。まだJestを導入していないプラグインでは、実装に着手する際にそのプラグインの`package.json`へ追加すること。
 5. **プラグインアップローダーによる自動反映** — `npm run upload`(`cli-kintone plugin upload --watch`)で検証環境アプリへプラグインを自動適用しながら開発する。
-6. **Puppeteerによる実環境テスト** — 検証環境(`KINTONE_DOMAIN`, 例: `https://lp950u96r3uk.cybozu.com`)上でPuppeteerを使い実際の画面操作を検証する。Puppeteerも現時点では未導入。プラグイン設定画面のURLパターンは以下の通り。
+6. **Puppeteerによる実環境テスト** — 検証環境(`KINTONE_DOMAIN`, 例: `https://lp950u96r3uk.cybozu.com`)上でPuppeteerを使い実際の画面操作を検証する。プラグイン設定画面のURLパターンは以下の通り。
 
    ```
    https://{KINTONE_DOMAIN}/k/admin/app/{appId}/plugin/config?pluginId={pluginId}
    ```
+
+   共通処理とプラグイン固有のテストは分けて管理する。
+
+   - `scripts/e2e/common.js` — 全プラグイン共通のヘルパー(`.env`読み込み、ログイン、プラグイン設定画面への遷移、
+     `dist/plugin.zip`からのplugin ID取得、スクリーンショット保存)。puppeteer自体はrequireしない
+     (このファイルは`node_modules`を持たないため。呼び出し元のプラグインが自分の`node_modules`から
+     puppeteerを読み込み、生成した`page`をここの関数に渡す)。
+   - `<plugin>/src/e2e/*.e2e.test.js` — そのプラグイン固有のシナリオ。`scripts/e2e/common.js`を
+     相対パスで読み込んで使う。Jestを実行エンジンとして使い、ユニットテスト用の`jest.config.js`とは
+     別に`jest.e2e.config.js`(`testMatch: e2e/**/*.e2e.test.js`)を用意する。
+   - 実行は`pnpm run test:e2e`(内部で`jest --config jest.e2e.config.js`)。事前に`pnpm run build && pnpm run upload`で
+     検証環境アプリにプラグインをアップロードしておく必要がある。
+   - ログイン画面のセレクター(`scripts/e2e/common.js`の`login()`)は実環境未検証。初回実行時に調整すること。
 
 7. **必要なフィールド/スペースはAPIで都度作成する** — 固定のテストデータに依存せず、`kintone.app.getFormFields()`等で現在のフィールド状況を確認したうえで、不足分をAPI経由で作成する。
 8. **スクリーンショットを都度取得し公開サイトに反映する** — Puppeteerでの動作確認時にスクリーンショットを撮り、`site/plugins/<name>/`配下に保存して公開サイト(`index.html`)から参照できるようにする。
