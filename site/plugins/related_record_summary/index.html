@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>関連レコード集計プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="関連レコード一覧フィールドが参照する先のアプリのレコードを件数・合計・平均で集計し、自アプリの指定フィールドへ書き込むkintone無料プラグイン。関連レコード一覧フィールドの値はAPIで取得できないため、参照先アプリへ自動でクエリを組み立てて集計する。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 関連レコード集計プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>関連レコード集計プラグイン</h2>
+  <p class="plugin-lead">
+    関連レコード一覧フィールドが参照している先のアプリのレコードを、件数・合計・平均で集計し、
+    このアプリの指定フィールド(数値)へ書き込むプラグインです。関連レコード一覧フィールドの値そのものは
+    JavaScript API・REST APIのいずれでも取得できないため、フィールドの設定(参照先アプリ・関連付け条件・
+    絞り込み条件)から参照先アプリへのクエリを自動で組み立てて集計します。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">データ連携</span>
+    <span class="badge badge-tag">#関連レコード集計</span>
+    <span class="badge badge-tag">#自動集計</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="related_record_summary">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>関連レコード一覧に表示されているレコードの件数・合計・平均を自動で反映する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>「顧客」アプリに「注文」アプリの関連レコード一覧を配置している場合に、注文件数・注文金額の合計・平均単価などを顧客レコード上の数値フィールドへ自動で反映できます。関連レコード一覧フィールドは値をそのまま集計に使えない(APIで取得できない)ため、本プラグインは同じ絞り込み条件を参照先アプリへのクエリとして再現し、参照先アプリの実際のレコードを取得・集計します。</p>
+      <div class="accordion-item">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-1-detail">
+          <span>具体例: 関連レコード一覧の表示件数より多いレコードも正しく集計される</span>
+          <span class="accordion-icon">▶</span>
+        </button>
+        <div class="accordion-panel" id="usecase-1-detail" hidden>
+          <p>関連レコード一覧フィールドの「表示するレコードの件数」設定(例: 5件)は画面上の一覧表示のみに影響する設定であり、本プラグインの集計はこの件数に関係なく、関連付け条件・絞り込み条件に一致するレコードを全件取得して集計します。そのため、集計結果の件数・合計が関連レコード一覧の表示件数より多くなることがありますが、これは仕様どおりの動作です。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>保存時・詳細画面ボタン・一覧画面からの一括集計を使い分ける</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>集計のタイミングは3種類から必要なものを選んで組み合わせられます。(a)レコードの保存時に自動集計、(b)詳細画面のボタンを押したときにオンデマンドで集計・保存、(c)一覧画面のボタンで現在の絞り込み条件に該当する全レコードを対象に一括集計、です。一括集計は実行前にAPI実行回数の見積もりを表示して確認を求めます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ 集計設定を追加」で行を作成し、①関連レコード一覧フィールド→②集計種別(件数・合計・平均)→③集計対象フィールド(合計・平均時のみ、参照先アプリの数値フィールドから選択)→④書き込み先フィールド(自アプリの数値フィールド)→⑤除外条件(任意、クエリの断片)の順に設定する。行は複数追加できる。</li>
+    <li>発動条件(保存時・詳細画面ボタン・一覧画面の一括集計ボタン)を必要な分だけONにする。一覧画面の一括集計を使う場合は、実行を許可するグループコードをカンマ区切りで入力する(任意)。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">一括集計ボタンの表示・非表示によるグループ制限は、あくまで画面上の表示切り替えであり、真の権限制御ではありません。実際にレコードを書き換えられるかどうかは、参照先アプリ・このアプリ自体のkintoneのレコード権限設定に依存します。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み・一部は実環境未検証)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>REST APIの呼び出しはすべて<code>kintone.api()</code>(kintone自身への呼び出し専用の内部ラッパー)経由であり、生の<code>fetch</code>/<code>XMLHttpRequest</code>は使用していません。外部サーバーへの通信は一切行わず、外部ライブラリも使用していません。</li>
+        <li>参照先アプリへのクエリに埋め込む値(自レコードの関連付け値・除外条件)は、ダブルクオートをエスケープしてから埋め込んでおり、値に特殊文字が含まれていてもクエリ構文が壊れません。</li>
+        <li>参照先アプリの閲覧権限が無いユーザーが実行した場合は集計を中止し、実態とズレた値を書き込みません(保存時トリガーは保存自体をキャンセルします)。</li>
+        <li>一覧画面からの一括集計は、書き戻し前に全対象レコードの集計を終える2段階構成にしており、集計中にエラーが起きた場合は1件も書き戻しません。書き戻し時のレコードごとの更新競合(revision競合)はそのレコードだけスキップし、他のレコードは正常に反映します。</li>
+        <li>一括集計ボタンの表示グループ制限は画面上の表示切り替えに過ぎず、真の権限境界ではないことを設定画面本文にも明記しています。</li>
+      </ul>
+      <p>revision競合時の実際のエラー判定条件や、絞り込み条件に動的条件を含む場合の挙動など、実環境での検証が一部未了の項目があります。詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/related_record_summary/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="関連レコード集計プラグインの設定画面。関連レコード一覧フィールド・集計種別・集計対象フィールド・書き込み先フィールド・除外条件を行ごとに設定するテーブルのスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    保存時トリガー・詳細画面ボタンは、実行するたびに集計設定の行数分だけ参照先アプリへの検索APIを実行します
+    (件数集計は1回、合計・平均は集計対象レコードを500件ごとに取得するため件数が多いほど増えます)。加えて
+    詳細画面ボタンは書き込み用のAPIを1回実行します。一覧画面からの一括集計は対象レコード数に応じて多数のAPIを
+    実行するため、実行前に<code>kintone.showConfirmDialog()</code>で見積もり回数(参照先アプリへの取得API回数 =
+    ceil(対象レコード数 × 集計設定数 ÷ 500)、書き戻しAPI回数 = ceil(対象レコード数 ÷ 100))を表示し、
+    実行確認を求めます。kintoneのAPI実行数制限にカウントされる点にご留意ください。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/related_record_summary" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/related_record_summary/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

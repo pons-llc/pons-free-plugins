@@ -136,8 +136,16 @@ AND結合して合成する(`js/lib/query-builder.js`、TDD済み)。
 - `config-store.js`: `kintone.plugin.app.setConfig()`/`getConfig()`のペイロードの読み書きと既定値。
 
 kintone依存のグルーコード(`related-record-client.js`, `summary-service.js`, `bulk-summary.js`,
-`desktop.js`/`mobile.js`, `config.js`)は、Puppeteerによる実環境テスト(CLAUDE.md項目6)で検証する
-(今回のタスクスコープには含まない。今後追加予定)。
+`desktop.js`/`mobile.js`, `config.js`)は、Puppeteerによる実環境テスト(CLAUDE.md項目6)で検証する。
+
+- `src/e2e/config-screen.e2e.test.js`: 設定画面で関連レコード一覧フィールドを選ぶと、参照先アプリの
+  数値フィールドが集計対象フィールドの候補として実際に絞り込まれること、集計種別(件数/合計/平均)に応じて
+  集計対象フィールドの有効・無効が切り替わることを検証する。
+- `src/e2e/aggregation.e2e.test.js`: TEST_APP_ID_1に手動設定済みの関連レコード一覧フィールドに対し、
+  設定画面で件数・合計の集計行を保存→詳細画面ボタンをクリックし、実際に書き込まれた値が
+  (参照先アプリへ独立にREST APIクエリを発行して計算した)期待値と一致することを検証する。
+
+保存時トリガー・一覧画面の一括集計トリガーは未検証(判断記録.md「8.」の「未検証の範囲」参照)。
 
 ## 実装時の未決事項の暫定対応
 

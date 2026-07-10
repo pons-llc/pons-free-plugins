@@ -118,5 +118,15 @@
     "page": "plugins/status_arrow/index.html",
     "category": "レイアウト・表示",
     "tags": ["進捗表示", "矢羽根"]
+  },
+  {
+    "id": "related_record_summary",
+    "name": "関連レコード集計プラグイン",
+    "description": "関連レコード一覧フィールドが参照する先のアプリのレコードを件数・合計・平均で集計し、自アプリの指定フィールドへ書き込むプラグイン",
+    "version": "1",
+    "zip": "plugins/related_record_summary/plugin.zip",
+    "page": "plugins/related_record_summary/index.html",
+    "category": "データ連携",
+    "tags": ["関連レコード集計", "自動集計"]
   }
 ]
