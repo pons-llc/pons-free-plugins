@@ -1,0 +1,39 @@
+
+{
+    "manifest_version": 1,
+    "version": "1.0.0",
+    "type": "APP",
+    "name": {
+        "ja": "条件つき必須プラグイン",
+        "en": "condition-required"
+    },
+    "description": {
+        "ja": "あるフィールドを変更した際に、別のフィールドが未入力の場合エラーにします。",
+        "en": "condition-required"
+    },
+    "icon": "icon/icon.png",
+    "homepage_url": {
+        
+    },
+    "desktop": {
+        "js": [
+            "js/setFieldShown.js"
+        ]
+    },
+    "mobile": {
+        "js": [
+            "js/setFieldShown_mobile.js"
+        ]
+    },
+    "config": {
+        "html": "html/config.html",
+        "js": [
+            "js/config.js"
+        ],
+        "css": [
+            "css/config.css",
+            "css/51-modern-default.css"
+        ],
+        "required_params": []
+    }
+}

@@ -58,5 +58,35 @@
     "page": "plugins/subtable_lookup/index.html",
     "category": "サブテーブル",
     "tags": ["サブテーブル検索", "自動入力"]
+  },
+  {
+    "id": "narrowDown",
+    "name": "選択肢絞込プラグイン",
+    "description": "あるフィールドの値に応じて、別のフィールドの選択肢をモーダルで絞り込んで選び直させるプラグイン",
+    "version": "1.0.0",
+    "zip": "plugins/narrowDown/plugin.zip",
+    "page": "plugins/narrowDown/index.html",
+    "category": "入力制御",
+    "tags": ["選択肢絞込", "入力補助"]
+  },
+  {
+    "id": "requiredCondition",
+    "name": "条件つき必須プラグイン",
+    "description": "あるフィールドが特定の値のとき、指定した別のフィールドを必須項目にするプラグイン",
+    "version": "1.0.0",
+    "zip": "plugins/requiredCondition/plugin.zip",
+    "page": "plugins/requiredCondition/index.html",
+    "category": "入力制御",
+    "tags": ["条件付き必須", "入力チェック"]
+  },
+  {
+    "id": "setFieldShown",
+    "name": "条件つき非表示プラグイン",
+    "description": "あるフィールドが特定の値のとき、指定した別のフィールドを非表示にするプラグイン",
+    "version": "1.0.0",
+    "zip": "plugins/setFieldShown/plugin.zip",
+    "page": "plugins/setFieldShown/index.html",
+    "category": "入力制御",
+    "tags": ["条件付き非表示", "表示制御"]
   }
 ]

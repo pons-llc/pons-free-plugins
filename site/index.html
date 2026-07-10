@@ -70,11 +70,11 @@
   </div>
   <div class="filter-group">
     <div class="filter-group-label">カテゴリ</div>
-    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span><span class="chip" data-category="文字列処理">文字列処理</span><span class="chip" data-category="サブテーブル">サブテーブル</span>
+    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span><span class="chip" data-category="文字列処理">文字列処理</span><span class="chip" data-category="サブテーブル">サブテーブル</span><span class="chip" data-category="入力制御">入力制御</span>
   </div>
   <div class="filter-group">
     <div class="filter-group-label">タグ</div>
-    <span class="chip" data-tag="ファイル管理">#ファイル管理</span><span class="chip" data-tag="埋め込み表示">#埋め込み表示</span><span class="chip" data-tag="日付変換">#日付変換</span><span class="chip" data-tag="自動入力">#自動入力</span><span class="chip" data-tag="文字列分割">#文字列分割</span><span class="chip" data-tag="文字列抽出">#文字列抽出</span><span class="chip" data-tag="サブテーブル整列">#サブテーブル整列</span><span class="chip" data-tag="サブテーブル検索">#サブテーブル検索</span><span class="chip" data-tag="自動化">#自動化</span>
+    <span class="chip" data-tag="ファイル管理">#ファイル管理</span><span class="chip" data-tag="埋め込み表示">#埋め込み表示</span><span class="chip" data-tag="日付変換">#日付変換</span><span class="chip" data-tag="自動入力">#自動入力</span><span class="chip" data-tag="文字列分割">#文字列分割</span><span class="chip" data-tag="文字列抽出">#文字列抽出</span><span class="chip" data-tag="サブテーブル整列">#サブテーブル整列</span><span class="chip" data-tag="サブテーブル検索">#サブテーブル検索</span><span class="chip" data-tag="自動化">#自動化</span><span class="chip" data-tag="選択肢絞込">#選択肢絞込</span><span class="chip" data-tag="入力補助">#入力補助</span><span class="chip" data-tag="条件付き必須">#条件付き必須</span><span class="chip" data-tag="入力チェック">#入力チェック</span><span class="chip" data-tag="条件付き非表示">#条件付き非表示</span><span class="chip" data-tag="表示制御">#表示制御</span>
   </div>
 </div>
 
@@ -132,6 +132,33 @@
     <span class="badge badge-tag">#サブテーブル検索</span><span class="badge badge-tag">#自動入力</span>
   </div>
   <div class="plugin-version">v0.1.0</div>
+</a>
+<a class="plugin-card" data-category="入力制御" data-tags="選択肢絞込,入力補助" data-search="選択肢絞込プラグイン あるフィールドの値に応じて、別のフィールドの選択肢をモーダルで絞り込んで選び直させるプラグイン。 選択肢絞込 入力補助" href="plugins/narrowDown/index.html">
+  <div class="plugin-name">選択肢絞込プラグイン</div>
+  <div class="plugin-desc">あるフィールドの値に応じて、別のフィールドの選択肢をモーダルで絞り込んで選び直させるプラグイン。</div>
+  <div>
+    <span class="badge badge-category">入力制御</span>
+    <span class="badge badge-tag">#選択肢絞込</span><span class="badge badge-tag">#入力補助</span>
+  </div>
+  <div class="plugin-version">v1.0.0</div>
+</a>
+<a class="plugin-card" data-category="入力制御" data-tags="条件付き必須,入力チェック" data-search="条件つき必須プラグイン あるフィールドが特定の値のとき、指定した別のフィールドを必須項目にするプラグイン。 条件付き必須 入力チェック" href="plugins/requiredCondition/index.html">
+  <div class="plugin-name">条件つき必須プラグイン</div>
+  <div class="plugin-desc">あるフィールドが特定の値のとき、指定した別のフィールドを必須項目にするプラグイン。</div>
+  <div>
+    <span class="badge badge-category">入力制御</span>
+    <span class="badge badge-tag">#条件付き必須</span><span class="badge badge-tag">#入力チェック</span>
+  </div>
+  <div class="plugin-version">v1.0.0</div>
+</a>
+<a class="plugin-card" data-category="入力制御" data-tags="条件付き非表示,表示制御" data-search="条件つき非表示プラグイン あるフィールドが特定の値のとき、指定した別のフィールドを非表示にするプラグイン。 条件付き非表示 表示制御" href="plugins/setFieldShown/index.html">
+  <div class="plugin-name">条件つき非表示プラグイン</div>
+  <div class="plugin-desc">あるフィールドが特定の値のとき、指定した別のフィールドを非表示にするプラグイン。</div>
+  <div>
+    <span class="badge badge-category">入力制御</span>
+    <span class="badge badge-tag">#条件付き非表示</span><span class="badge badge-tag">#表示制御</span>
+  </div>
+  <div class="plugin-version">v1.0.0</div>
 </a>
 </div>
 <p class="empty-state is-hidden">条件に一致するプラグインが見つかりませんでした。</p>
@@ -223,6 +250,27 @@
       description: 'サブテーブルの中から条件に一致する1行を探し、その行の値をテーブル外のフィールドへ自動入力するプラグイン。',
       tags: ['サブテーブル検索', '自動入力'],
       text: 'サブテーブルルックアッププラグイン サブテーブルの中から条件に一致する1行を探し、その行の値をテーブル外のフィールドへ自動入力するプラグイン。最新の点検結果を転記する。サブテーブル検索 自動入力'
+    },
+    {
+      key: 'narrowDown',
+      name: '選択肢絞込プラグイン',
+      description: 'あるフィールドの値に応じて、別のフィールドの選択肢をモーダルで絞り込んで選び直させるプラグイン。',
+      tags: ['選択肢絞込', '入力補助'],
+      text: '選択肢絞込プラグイン あるフィールドの値に応じて、別のフィールドの選択肢をモーダルで絞り込んで選び直させるプラグイン。都道府県を選んだら市区町村の選択肢を絞り込む。選択肢絞込 入力補助'
+    },
+    {
+      key: 'requiredCondition',
+      name: '条件つき必須プラグイン',
+      description: 'あるフィールドが特定の値のとき、指定した別のフィールドを必須項目にするプラグイン。',
+      tags: ['条件付き必須', '入力チェック'],
+      text: '条件つき必須プラグイン あるフィールドが特定の値のとき、指定した別のフィールドを必須項目にするプラグイン。区分がその他のとき詳細欄を必須にする。条件付き必須 入力チェック'
+    },
+    {
+      key: 'setFieldShown',
+      name: '条件つき非表示プラグイン',
+      description: 'あるフィールドが特定の値のとき、指定した別のフィールドを非表示にするプラグイン。',
+      tags: ['条件付き非表示', '表示制御'],
+      text: '条件つき非表示プラグイン あるフィールドが特定の値のとき、指定した別のフィールドを非表示にするプラグイン。利用しないを選んだら詳細設定欄を隠す。条件付き非表示 表示制御'
     }
   ];
 </script>

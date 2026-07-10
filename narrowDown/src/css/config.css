@@ -1,0 +1,23 @@
+.delbutton{
+  width : 30px;
+  height: 30px;
+  border-radius: 20%;
+  margin-top: 10px;
+  background: red;
+  text-align: center;
+  color :white;
+}
+
+.add-value-button{
+  width: 30px;
+  height: 30px;
+  border-radius: 20%;
+  margin-top: 10px;
+  background: #3498db;
+  color: white;
+}
+
+.row-element{
+  margin:4px;
+  background-color: rgb(227, 245, 255);
+}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>選択肢絞込プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="あるフィールドの値に応じて、別のフィールドの選択肢をモーダルで絞り込んで選び直させるkintone無料プラグイン。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 選択肢絞込プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>選択肢絞込プラグイン</h2>
+  <p class="plugin-lead">
+    ドロップダウンやラジオボタンなど、あるフィールドの値を変更したときに、別のフィールド(ドロップダウン・
+    ラジオボタン・チェックボックス・複数選択)の選択肢をモーダル画面で絞り込んで表示し、選び直させるプラグインです。
+    「都道府県」を選んだら「市区町村」の選択肢を絞り込む、といった段階的な選択肢の親子関係を設定できます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">入力制御</span>
+    <span class="badge badge-tag">#選択肢絞込</span>
+    <span class="badge badge-tag">#入力補助</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="narrowDown">ダウンロード(v1.0.0)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>都道府県を選んだら市区町村の選択肢を絞り込む</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>「都道府県」ドロップダウンの値を変更すると、「市区町村」フィールドの選択肢が該当する市区町村だけに絞り込まれたモーダルが表示され、選び直せます。条件フィールド・絞込対象フィールドの組み合わせは複数登録できます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>カテゴリーを選んだら複数選択の選択肢も絞り込む</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>絞込対象フィールドがチェックボックスや複数選択の場合は、モーダル上で複数選択(Ctrl/commandキーを押しながらクリック)して選び直せます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「条件フィールド追加」ボタンで行を追加し、条件となるフィールド(ドロップダウン・ラジオボタン)と絞込対象とするフィールド(ドロップダウン・ラジオボタン・チェックボックス・複数選択)を選択する。</li>
+    <li>「+」ボタンで条件値ごとに、絞込対象フィールドに表示させたい選択肢を複数選択で指定する。</li>
+    <li>設定を保存し、アプリを更新する。</li>
+  </ol>
+  <p class="download-note">条件フィールドの値を変更したタイミングでのみモーダルが表示されます。既存レコードを開いただけでは動作しません。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>選択肢・ラベルの描画はすべて<code>innerText</code>で行っており、<code>innerHTML</code>への外部由来文字列の差し込みはありません。</li>
+        <li>REST APIの利用はフォームフィールド一覧の取得のみで、kintone自身への呼び出しに限定しています。外部サーバーへの通信は一切行いません。</li>
+        <li>開発当初、外部のライセンス認証サーバーへ通信するコードが混入していましたが、公開前レビューで発見し削除しています。</li>
+        <li>プラグイン未設定の状態で設定画面を開いた際に例外で処理が止まる不具合を修正しています。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/narrowDown/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="選択肢絞込プラグインの設定画面。条件フィールドと絞込対象フィールドを1件設定した状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインは設定画面を開いたときに1回だけ<code>kintone.api()</code>でフォームフィールド一覧を取得します(kintone自身への呼び出し)。
+    レコード画面での絞込動作自体はローカルなJavaScript処理のみで完結し、APIは実行しません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/narrowDown" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/narrowDown/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>条件つき必須プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="あるフィールドが特定の値のとき、指定した別のフィールドを必須項目にするkintone無料プラグイン。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 条件つき必須プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>条件つき必須プラグイン</h2>
+  <p class="plugin-lead">
+    ドロップダウンやラジオボタンフィールドが特定の値のときだけ、指定した別のフィールドを必須項目にするプラグインです。
+    「区分」が「その他」の場合だけ「詳細」を必須にする、といった条件付きの入力チェックを、フィールドを常に必須にせず実現できます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">入力制御</span>
+    <span class="badge badge-tag">#条件付き必須</span>
+    <span class="badge badge-tag">#入力チェック</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="requiredCondition">ダウンロード(v1.0.0)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>「その他」を選んだ場合だけ詳細欄を必須にする</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>「区分」ドロップダウンで「その他」を選んだ場合のみ「詳細」フィールドを必須にし、それ以外の値のときは必須にしません。レコードの保存(作成・編集)時に、条件を満たしているのに対象フィールドが未入力だとエラーになります。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>1つの条件で複数のフィールドをまとめて必須にする</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>条件値ごとに必須対象フィールドを複数選択できるため、「承認区分」が「却下」のときに「却下理由」と「却下日」の両方を必須にする、といった設定も1行でまとめられます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「条件フィールド追加」ボタンで、必須となる条件のもとになるフィールド(ドロップダウン・ラジオボタン)を選択する。</li>
+    <li>「条件値を追加」ボタンで、条件となる値と、必須対象とするフィールドを複数選択で指定する。</li>
+    <li>「設定を保存」を押し、アプリを更新する。</li>
+  </ol>
+  <p class="download-note">必須チェックはレコードの保存(作成・編集画面のsubmit)時にのみ行われます。一覧画面のインライン編集は対象外です。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>設定画面でフィールドコード・選択肢を表示する箇所は、公開前レビューで<code>innerHTML</code>から<code>textContent</code>に修正し、アプリ管理者が設定した文字列がそのままHTMLとして解釈されないようにしています。</li>
+        <li>REST APIの利用はフォームフィールド一覧の取得のみで、kintone自身への呼び出しに限定しています。外部サーバーへの通信は一切行いません。</li>
+        <li>開発当初、外部のライセンス認証サーバーへ通信するコードが混入していましたが、公開前レビューで発見し削除しています。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/requiredCondition/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="条件つき必須プラグインの設定画面。条件フィールドを1件設定した状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインは設定画面を開いたときに1回だけ<code>kintone.api()</code>でフォームフィールド一覧を取得します(kintone自身への呼び出し)。
+    レコード保存時の必須チェック自体はローカルなJavaScript処理のみで完結し、APIは実行しません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/requiredCondition" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/requiredCondition/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

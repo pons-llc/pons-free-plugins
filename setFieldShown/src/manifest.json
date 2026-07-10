@@ -1,0 +1,39 @@
+
+{
+    "manifest_version": 1,
+    "version": "1.0.0",
+    "type": "APP",
+    "name": {
+        "ja": "条件つき非表示プラグイン",
+        "en": "condition-displayblock"
+    },
+    "description": {
+        "ja": "あるフィールドを変更した際に、別のフィールドを非表示にします。",
+        "en": "condition-displayblock"
+    },
+    "icon": "icon/icon.png",
+    "homepage_url": {
+        
+    },
+    "desktop": {
+        "js": [
+            "js/setFieldShown.js"
+        ]
+    },
+    "mobile": {
+        "js": [
+            "js/setFieldShown_mobile.js"
+        ]
+    },
+    "config": {
+        "html": "html/config.html",
+        "js": [
+            "js/config.js"
+        ],
+        "css": [
+            "css/config.css",
+            "css/51-modern-default.css"
+        ],
+        "required_params": []
+    }
+}

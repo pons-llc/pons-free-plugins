@@ -1,0 +1,41 @@
+
+{
+    "manifest_version": 1,
+    "version": "1.0.0",
+    "type": "APP",
+    "name": {
+        "ja": "選択肢絞込プラグイン",
+        "en": "narrow-down"
+    },
+    "description": {
+        "ja": "あるフィールドを変更した際に、別のフィールドの選択肢を絞込ます。",
+        "en": "narrow-down"
+    },
+    "icon": "icon/icon.png",
+    "homepage_url": {
+        
+    },
+    "desktop": {
+        "css":["css/51-modern-default.css"],
+        "js": [
+            "js/narrow.js"
+        ]
+    },
+    "mobile": {
+        "css":["css/51-modern-default.css"],
+        "js": [
+            "js/narrow_mobile.js"
+        ]
+    },
+    "config": {
+        "html": "html/config.html",
+        "js": [
+            "js/config.js"
+        ],
+        "css": [
+            "css/config.css",
+            "css/51-modern-default.css"
+        ],
+        "required_params": []
+    }
+}
