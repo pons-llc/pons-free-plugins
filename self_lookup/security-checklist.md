@@ -2,15 +2,16 @@
 
 [secureCodingGuideline.md](../secureCodingGuideline.md)の一般項目([box_gdrive_iframe/security-checklist.md](../box_gdrive_iframe/security-checklist.md)参照、UTF-8/BOMなし・名前空間分離・`'use strict'`・外部スクリプト不使用などは同様に満たしている)は重複記載を省略し、本プラグイン固有の項目のみ記載する。
 
-最終確認日: 2026-07-10 / 対象: 初回実装時点
+最終確認日: 2026-07-10 / 対象: user-test.mdフィードバック反映(ボタン+モーダル方式への変更)後
 
 ## コーディング作法
 
 - [x] 文字コードはUTF-8(BOMなし)
-- [x] グローバル変数を作らず、即時関数(IIFE)+名前空間オブジェクト(`window.SelfLookup`)のみを公開している(`js/lib/query-builder.js`, `js/lib/client-filter.js`, `js/lib/field-mapping.js`, `js/lib/config-store.js`, `js/lib/config-validation.js`)
+- [x] グローバル変数を作らず、即時関数(IIFE)+名前空間オブジェクト(`window.SelfLookup`)のみを公開している(`js/lib/query-builder.js`, `js/lib/client-filter.js`, `js/lib/field-mapping.js`, `js/lib/config-store.js`, `js/lib/config-validation.js`, `js/lookup-ui.js`)
 - [x] 既存のkintoneグローバルオブジェクトを書き換え・参照していない
 - [x] `'use strict'`を全JSファイルの先頭で使用している
 - [x] kintone内部のid/class属性やDOM構造に依存せず、JavaScript API・`kintone.api()`(内部向けラッパー)のみを使用している
+- [x] レコード画面のキーフィールド強調表示は`kintone.app.record.setFieldStyle()`(公式JavaScript API)のみを使用し、DOM要素へ直接`style`/`className`を書き込むことはしていない(判断記録.mdの9番)
 
 ## REST API・外部通信(本プラグインの中核。CLAUDE.md開発方針3参照)
 
@@ -38,11 +39,12 @@
 
 - [x] 設定画面(`js/config.js`)でフィールド一覧・エラーメッセージを描画する際、`innerHTML`ではなく`document.createElement()` + `textContent`のみを使用している
 - [x] 設定行・条件行・マッピング行のリスト再描画(`innerHTML = ''`)はリストをクリアするためだけの用途で、外部由来の文字列を差し込んでいない(`<template>`要素からの`cloneNode(true)`で行を組み立てる)
-- [x] 出力先フィールドへの書き込み(`desktop.js`/`mobile.js`)は`event.record[...].value`への値代入と`event.record[...].disabled`の真偽値設定のみで、DOM操作(`innerHTML`等)を一切行わない。REST APIで取得した他レコードの値もDOMへ直接描画せず、フィールド値としての代入のみに使う
+- [x] 出力先フィールドへの書き込み(`desktop.js`/`mobile.js`)は`kintone.app.record.get()`で取得したレコードオブジェクトの`[...].value`への値代入のみで、DOM操作(`innerHTML`等)を一切行わない
+- [x] 検索結果の選択モーダル(`js/lookup-ui.js`)は件数にかかわらず必ず表示される(判断記録.mdの9番)。REST APIで取得した他レコードの値(設定画面で選んだ`modalFieldCodes`、未設定時はフィールドマッピングの検索先フィールド値・レコード番号)を候補行に表示するが、**すべて`textContent`への代入のみで組み立てており`innerHTML`は一切使用しない**。他レコードの値に`<script>`等のHTML特殊文字が含まれていてもDOMに構造として解釈されない。表示に使うフィールドラベル(`kintone.app.getFormFields()`由来)も同様に`textContent`経由でのみ埋め込む
 
 ## 設定の妥当性検証
 
-- [x] 保存前に`js/lib/config-validation.js`でチェックし、不正な設定(キーフィールド未選択、未知の演算子、絞り込み条件の値未入力、フィールドマッピング0件、出力先フィールドの重複)は保存させない
+- [x] 保存前に`js/lib/config-validation.js`でチェックし、不正な設定(キーフィールド未選択、未知の演算子、絞り込み条件の値未入力、フィールドマッピング0件、出力先フィールドの重複、モーダル表示フィールドの空選択)は保存させない
 - [x] `kintone.plugin.app.getConfig()`が`null`/`undefined`を返す場合でも、`js/lib/config-store.js`の`load()`は例外を投げず既定値(`{ lookups: [] }`)を返す
 - [x] レコード画面側(`desktop.js`/`mobile.js`)でも、設定に含まれるフィールドが実際のレコードに存在しない場合は早期リターンし、画面をクラッシュさせない。REST呼び出しが失敗した場合(権限エラー・ネットワークエラー等)も例外を握りつぶさずログに残しつつ、画面全体をクラッシュさせない
 

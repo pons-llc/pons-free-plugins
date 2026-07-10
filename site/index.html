@@ -64,7 +64,7 @@
   </div>
   <div class="filter-group">
     <div class="filter-group-label">カテゴリ</div>
-    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span><span class="chip" data-category="文字列処理">文字列処理</span><span class="chip" data-category="サブテーブル">サブテーブル</span><span class="chip" data-category="入力制御">入力制御</span><span class="chip" data-category="レイアウト・表示">レイアウト・表示</span>
+    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span><span class="chip" data-category="文字列処理">文字列処理</span><span class="chip" data-category="サブテーブル">サブテーブル</span><span class="chip" data-category="入力制御">入力制御</span><span class="chip" data-category="レイアウト・表示">レイアウト・表示</span><span class="chip" data-category="データ連携">データ連携</span>
   </div>
   <div class="filter-group">
     <div class="filter-group-label">タグ</div>
@@ -160,6 +160,15 @@
   <div>
     <span class="badge badge-category">レイアウト・表示</span>
     <span class="badge badge-tag">#タブ表示</span><span class="badge badge-tag">#表示切替</span>
+  </div>
+  <div class="plugin-version">v1</div>
+</a>
+<a class="plugin-card" data-category="データ連携" data-tags="セルフルックアップ,自動入力" data-search="セルフルックアッププラグイン 同一アプリ内の他レコードをキー一致で検索し、一致したレコードの値を自レコードへ反映するプラグイン。 セルフルックアップ 自動入力" href="plugins/self_lookup/index.html">
+  <div class="plugin-name">セルフルックアッププラグイン</div>
+  <div class="plugin-desc">同一アプリ内の他レコードをキー一致で検索し、一致したレコードの値を自レコードへ反映するプラグイン。</div>
+  <div>
+    <span class="badge badge-category">データ連携</span>
+    <span class="badge badge-tag">#セルフルックアップ</span><span class="badge badge-tag">#自動入力</span>
   </div>
   <div class="plugin-version">v1</div>
 </a>
@@ -281,6 +290,13 @@
       description: 'スペースフィールドにタブUIを描画し、タブごとにフィールド(通常のフィールド・ラベル・スペース・罫線)の表示/非表示を切り替えるプラグイン。',
       tags: ['タブ表示', '表示切替'],
       text: 'タブ表示プラグイン スペースフィールドにタブUIを描画し、タブごとにフィールド(通常のフィールド・ラベル・スペース・罫線)の表示/非表示を切り替えるプラグイン。基本情報・連絡先・備考のようにフォームをタブで整理する。タブ表示 表示切替'
+    },
+    {
+      key: 'self_lookup',
+      name: 'セルフルックアッププラグイン',
+      description: '同一アプリ内の他レコードをキー一致で検索し、一致したレコードの値を自レコードへ反映するプラグイン。',
+      tags: ['セルフルックアップ', '自動入力'],
+      text: 'セルフルックアッププラグイン 同一アプリ内の他レコードをキー一致で検索し、一致したレコードの値を自レコードへ反映するプラグイン。kintone標準のルックアップフィールドは別アプリしか参照できないが同一アプリ内で参照できる。ボタンを押すとモーダルで検索結果を確認して反映する。セルフルックアップ 自動入力'
     }
   ];
 </script>

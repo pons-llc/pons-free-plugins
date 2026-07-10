@@ -7,6 +7,7 @@ const validLookup = (overrides) =>
     {
       selfKeyFieldCode: 'customer_code',
       otherKeyFieldCode: 'code',
+      buttonSpaceElementId: 'space_1',
       conditions: [
         {
           fieldCode: 'category',
@@ -157,5 +158,103 @@ describe('ConfigValidation.validateLookups', () => {
     ]);
     expect(result.valid).toBe(false);
     expect(result.errors.some((e) => e.includes('重複'))).toBe(true);
+  });
+
+  test('requires buttonSpaceElementId', () => {
+    const result = ConfigValidation.validateLookups([
+      validLookup({ buttonSpaceElementId: '' }),
+    ]);
+    expect(result.valid).toBe(false);
+  });
+
+  test('rejects duplicate buttonSpaceElementId across different lookups', () => {
+    const result = ConfigValidation.validateLookups([
+      validLookup({ buttonSpaceElementId: 'space_1' }),
+      validLookup({
+        selfKeyFieldCode: 'other_code',
+        buttonSpaceElementId: 'space_1',
+        fieldMappings: [
+          { sourceFieldCode: 'title', targetFieldCode: 'other_name' },
+        ],
+      }),
+    ]);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.includes('重複'))).toBe(true);
+  });
+
+  test('accepts different buttonSpaceElementId across different lookups', () => {
+    const result = ConfigValidation.validateLookups([
+      validLookup({ buttonSpaceElementId: 'space_1' }),
+      validLookup({
+        selfKeyFieldCode: 'other_code',
+        buttonSpaceElementId: 'space_2',
+        fieldMappings: [
+          { sourceFieldCode: 'title', targetFieldCode: 'other_name' },
+        ],
+      }),
+    ]);
+    expect(result.valid).toBe(true);
+  });
+
+  describe('otherKeyFieldCode with fieldInfoByCode', () => {
+    test('accepts a unique field', () => {
+      const result = ConfigValidation.validateLookups(
+        [validLookup({ otherKeyFieldCode: 'code' })],
+        { code: { unique: true, type: 'SINGLE_LINE_TEXT' } },
+      );
+      expect(result.valid).toBe(true);
+    });
+
+    test('accepts a RECORD_NUMBER field even when unique is not set', () => {
+      const result = ConfigValidation.validateLookups(
+        [validLookup({ otherKeyFieldCode: 'レコード番号' })],
+        { レコード番号: { unique: false, type: 'RECORD_NUMBER' } },
+      );
+      expect(result.valid).toBe(true);
+    });
+
+    test('rejects a non-unique, non-record-number field', () => {
+      const result = ConfigValidation.validateLookups(
+        [validLookup({ otherKeyFieldCode: 'code' })],
+        { code: { unique: false, type: 'SINGLE_LINE_TEXT' } },
+      );
+      expect(result.valid).toBe(false);
+    });
+
+    test('skips the check when fieldInfoByCode is not given', () => {
+      const result = ConfigValidation.validateLookups([
+        validLookup({ otherKeyFieldCode: 'code' }),
+      ]);
+      expect(result.valid).toBe(true);
+    });
+  });
+
+  describe('modalFieldCodes', () => {
+    test('accepts an empty/omitted list (falls back to field mapping source fields)', () => {
+      expect(
+        ConfigValidation.validateLookups([validLookup({ modalFieldCodes: [] })])
+          .valid,
+      ).toBe(true);
+      expect(
+        ConfigValidation.validateLookups([
+          validLookup({ modalFieldCodes: undefined }),
+        ]).valid,
+      ).toBe(true);
+    });
+
+    test('accepts a list of non-empty field codes', () => {
+      expect(
+        ConfigValidation.validateLookups([
+          validLookup({ modalFieldCodes: ['name', 'code'] }),
+        ]).valid,
+      ).toBe(true);
+    });
+
+    test('rejects an empty entry in the list', () => {
+      const result = ConfigValidation.validateLookups([
+        validLookup({ modalFieldCodes: ['name', ''] }),
+      ]);
+      expect(result.valid).toBe(false);
+    });
   });
 });

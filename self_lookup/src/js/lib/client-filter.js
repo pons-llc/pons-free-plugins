@@ -50,21 +50,29 @@
   };
 
   // 候補レコード群(サーバー側条件で既に絞り込み済み)から、クライアント側限定の条件をすべて満たす
-  // 最初の1件を選ぶ。候補が$id昇順で渡される前提のため、返る結果も$id昇順で最初の一致になる。
-  const pickMatchedRecord = (candidateRecords, lookup, selfRecord) => {
+  // レコードをすべて選ぶ。候補が$id昇順で渡される前提のため、返る結果も$id昇順になる
+  // (ボタン押下時、複数件ヒットした場合にモーダルで選択肢として提示するために使う)。
+  const filterMatchedRecords = (candidateRecords, lookup, selfRecord) => {
     const list = Array.isArray(candidateRecords) ? candidateRecords : [];
     const clientConditions = (lookup.conditions || []).filter((condition) =>
       CLIENT_ONLY_OPERATORS.includes(condition.operator),
     );
-    const found = list.find((record) =>
+    return list.filter((record) =>
       clientConditions.every((condition) =>
         matchesClientCondition(record, condition, selfRecord),
       ),
     );
-    return found || null;
   };
 
-  const ClientFilter = { CLIENT_ONLY_OPERATORS, pickMatchedRecord };
+  // クライアント側限定の条件をすべて満たす最初の1件を選ぶ(0件ならnull)。
+  const pickMatchedRecord = (candidateRecords, lookup, selfRecord) =>
+    filterMatchedRecords(candidateRecords, lookup, selfRecord)[0] || null;
+
+  const ClientFilter = {
+    CLIENT_ONLY_OPERATORS,
+    filterMatchedRecords,
+    pickMatchedRecord,
+  };
 
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = ClientFilter;

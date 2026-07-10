@@ -1,2 +1,54 @@
-/* このプラグインはレコード画面にDOM要素を追加しないため、現時点でdesktop固有のスタイルはない。
-   将来UI要素を追加する場合に備えてファイルを用意している(fiscal_year_numberingの構成に合わせる)。 */
+/* ルックアップボタンで複数件ヒットしたときの選択モーダル(js/lookup-ui.js参照)。 */
+
+.slk-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.slk-modal {
+  background: #fff;
+  border-radius: 4px;
+  padding: 1.5em;
+  width: 28em;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.slk-modal-heading {
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.slk-modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  margin-bottom: 1em;
+}
+
+.slk-modal-row {
+  text-align: left;
+  padding: 0.6em 0.8em;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  background: #f7f9f9;
+  cursor: pointer;
+}
+
+.slk-modal-row:hover {
+  background: #eef3f3;
+}
+
+.slk-modal-cancel {
+  display: block;
+}

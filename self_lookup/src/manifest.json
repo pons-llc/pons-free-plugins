@@ -10,6 +10,7 @@
       "js/lib/field-mapping.js",
       "js/lib/config-store.js",
       "js/lib/config-validation.js",
+      "js/lookup-ui.js",
       "js/desktop.js"
     ],
     "css": [
@@ -49,6 +50,7 @@
       "js/lib/field-mapping.js",
       "js/lib/config-store.js",
       "js/lib/config-validation.js",
+      "js/lookup-ui.js",
       "js/mobile.js"
     ],
     "css": [

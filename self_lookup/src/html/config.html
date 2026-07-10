@@ -1,10 +1,23 @@
 <section class="settings">
   <h2 class="settings-heading">セルフルックアッププラグイン 設定</h2>
   <p class="kintoneplugin-desc">
-    同一アプリ内の他レコードを、キーフィールドが一致するレコードの中から絞り込み条件で検索し、
-    一致した1件のフィールド値を自レコードへ自動入力します。キーフィールドの値を変更したときに検索します。
-    出力先フィールドは追加・編集画面で直接編集できなくなり、キーフィールドはレコード一覧の
-    インライン編集で直接編集できなくなります。
+    同一アプリ内の他レコードを検索し、一致した1件のフィールド値を自レコードへ反映します。設定行ごとに、
+    次の順番で設定してください。
+  </p>
+  <ol class="kintoneplugin-desc slk-flow-list">
+    <li>①検索先のキーフィールド: 他レコードの中から検索するときの一致条件に使うフィールド(<span class="slk-key-label">赤字</span>はキーフィールドの目印です)。一致するレコードを1件に絞り込めるよう、ユニーク設定のあるフィールドまたはレコード番号のみ選択できます。</li>
+    <li>②自レコードの検索キーとなるフィールド: ①と値を照合する、自レコード側のフィールド(ルックアップ元)。</li>
+    <li>③絞り込み条件(任意): さらに条件を絞り込みたい場合に追加します。</li>
+    <li>④フィールドマッピング: 一致したレコードのどのフィールドを、自レコードのどのフィールドへコピーするか。</li>
+    <li>⑤モーダルに表示するフィールド(任意): ボタン押下後、検索結果を確認するモーダルに表示するフィールドです。未設定の場合は④のマッピング元フィールドが表示されます。</li>
+    <li>⑥ルックアップボタンを設置するスペースフィールド: レコード追加・編集画面にこのボタンが表示されます。</li>
+  </ol>
+  <p class="kintoneplugin-desc">
+    検索はキーフィールドの値変更時ではなく、ボタンを押したときに実行されます。検索結果は件数に
+    かかわらず必ずモーダルで表示され、内容を確認してから選択したレコードだけが反映されます
+    (自動で即時反映されることはありません)。出力先フィールドは追加・編集画面で直接編集できなくなり、
+    ②のキーフィールドはレコード一覧のインライン編集で直接編集できなくなります。また、レコード
+    追加・編集画面では②のキーフィールド名が赤字で強調表示されます。
   </p>
 
   <form class="js-submit-settings">
@@ -30,23 +43,36 @@
     <table class="slk-table">
       <tbody>
         <tr>
-          <th>自レコードのキーフィールド</th>
-          <td><select class="kintoneplugin-select js-lookup-self-key"></select></td>
+          <th class="slk-key-label">①検索先のキーフィールド</th>
+          <td><select class="kintoneplugin-select js-lookup-other-key"></select></td>
         </tr>
         <tr>
-          <th>検索先のキーフィールド</th>
-          <td><select class="kintoneplugin-select js-lookup-other-key"></select></td>
+          <th class="slk-key-label">②自レコードの検索キーとなるフィールド</th>
+          <td><select class="kintoneplugin-select js-lookup-self-key"></select></td>
         </tr>
       </tbody>
     </table>
 
-    <div class="slk-section-heading">絞り込み条件(AND結合)</div>
+    <div class="slk-section-heading">③絞り込み条件(AND結合)</div>
     <div class="js-condition-list"></div>
     <button type="button" class="kintoneplugin-button-normal js-condition-add">+ 絞り込み条件を追加</button>
 
-    <div class="slk-section-heading">フィールドマッピング(検索先 → 自レコード)</div>
+    <div class="slk-section-heading">④フィールドマッピング(検索先 → 自レコード)</div>
     <div class="js-mapping-list"></div>
     <button type="button" class="kintoneplugin-button-normal js-mapping-add">+ マッピングを追加</button>
+
+    <div class="slk-section-heading">⑤モーダルに表示するフィールド(任意、未設定時は④のマッピング元フィールドを表示)</div>
+    <div class="js-modal-field-list"></div>
+    <button type="button" class="kintoneplugin-button-normal js-modal-field-add">+ 表示フィールドを追加</button>
+
+    <table class="slk-table">
+      <tbody>
+        <tr>
+          <th>⑥ルックアップボタンを設置するスペースフィールド</th>
+          <td><select class="kintoneplugin-select js-lookup-button-space"></select></td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 </template>
 
@@ -80,5 +106,12 @@
     <span class="slk-arrow">→</span>
     <select class="kintoneplugin-select js-mapping-target"></select>
     <span class="slk-row-remove js-mapping-remove">削除</span>
+  </div>
+</template>
+
+<template id="js-modal-field-row-template">
+  <div class="slk-modal-field-row js-modal-field-row">
+    <select class="kintoneplugin-select js-modal-field-field"></select>
+    <span class="slk-row-remove js-modal-field-remove">削除</span>
   </div>
 </template>

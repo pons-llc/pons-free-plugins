@@ -37,6 +37,9 @@
   const mappingRowTemplateEl = document.getElementById(
     'js-mapping-row-template',
   );
+  const modalFieldRowTemplateEl = document.getElementById(
+    'js-modal-field-row-template',
+  );
 
   // kintone.app.getFormFields() は REST APIレスポンスの properties と同様の値
   // (フィールドコードをキーにした平坦なオブジェクト)を解決する。同一アプリ内のセルフルックアップなので、
@@ -48,6 +51,42 @@
   const mappableFields = Object.values(formFields).filter(
     (f) => !NON_VALUE_FIELD_TYPES.includes(f.type),
   );
+  // 検索先のキーフィールドは、複数レコードがヒットしないようユニーク設定のあるフィールドまたは
+  // レコード番号のみに絞り込む(user-test.mdフィードバック反映、判断記録.md参照)。
+  const otherKeyEligibleFields = queryableFields
+    .filter((f) => f.unique)
+    .concat(
+      Object.values(formFields).filter((f) => f.type === 'RECORD_NUMBER'),
+    );
+  // 保存前バリデーションでも同じ制約を検証できるよう、フィールドコードからunique/typeを引けるようにする。
+  const fieldInfoByCode = {};
+  Object.values(formFields).forEach((f) => {
+    fieldInfoByCode[f.code] = { unique: !!f.unique, type: f.type };
+  });
+
+  // kintone.app.getFormLayout() はREST APIレスポンスのlayoutプロパティと同様の値(配列そのもの)を
+  // 解決する({layout: [...]}のようにラップされない、CLAUDE.mdの既知の落とし穴参照)。
+  // GROUP内のlayoutも再帰的に走査し、ルックアップボタンを設置できるスペースフィールド(SPACER)の
+  // elementIdを集める。
+  const collectSpaceElementIds = (layoutRows) => {
+    const ids = [];
+    (layoutRows || []).forEach((row) => {
+      (row.fields || []).forEach((field) => {
+        if (field.type === 'SPACER' && field.elementId) {
+          ids.push(field.elementId);
+        }
+      });
+      if (row.type === 'GROUP') {
+        ids.push(...collectSpaceElementIds(row.layout));
+      }
+    });
+    return ids;
+  };
+  const formLayout = await kintone.app.getFormLayout();
+  const spaceFields = collectSpaceElementIds(formLayout).map((elementId) => ({
+    code: elementId,
+    label: elementId,
+  }));
 
   const config = NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
 
@@ -75,11 +114,14 @@
       const rowEl = fragment.querySelector('.js-lookup-row');
       const selfKeyEl = rowEl.querySelector('.js-lookup-self-key');
       const otherKeyEl = rowEl.querySelector('.js-lookup-other-key');
+      const buttonSpaceEl = rowEl.querySelector('.js-lookup-button-space');
       const removeEl = rowEl.querySelector('.js-lookup-remove');
       const conditionListEl = rowEl.querySelector('.js-condition-list');
       const conditionAddButtonEl = rowEl.querySelector('.js-condition-add');
       const mappingListEl = rowEl.querySelector('.js-mapping-list');
       const mappingAddButtonEl = rowEl.querySelector('.js-mapping-add');
+      const modalFieldListEl = rowEl.querySelector('.js-modal-field-list');
+      const modalFieldAddButtonEl = rowEl.querySelector('.js-modal-field-add');
 
       const renderConditionList = () => {
         conditionListEl.innerHTML = '';
@@ -190,6 +232,38 @@
         });
       };
 
+      // モーダルに表示するフィールド(任意、user-test.mdフィードバック反映)。
+      const renderModalFieldList = () => {
+        modalFieldListEl.innerHTML = '';
+        (lookup.modalFieldCodes || []).forEach((fieldCode, fieldIndex) => {
+          const modalFieldFragment =
+            modalFieldRowTemplateEl.content.cloneNode(true);
+          const fieldEl = modalFieldFragment.querySelector(
+            '.js-modal-field-field',
+          );
+          const removeFieldEl = modalFieldFragment.querySelector(
+            '.js-modal-field-remove',
+          );
+
+          buildOptions(
+            fieldEl,
+            mappableFields,
+            fieldCode,
+            '(選択してください)',
+          );
+
+          fieldEl.addEventListener('change', () => {
+            lookup.modalFieldCodes[fieldIndex] = fieldEl.value;
+          });
+          removeFieldEl.addEventListener('click', () => {
+            lookup.modalFieldCodes.splice(fieldIndex, 1);
+            renderModalFieldList();
+          });
+
+          modalFieldListEl.appendChild(modalFieldFragment);
+        });
+      };
+
       buildOptions(
         selfKeyEl,
         queryableFields,
@@ -198,18 +272,28 @@
       );
       buildOptions(
         otherKeyEl,
-        queryableFields,
+        otherKeyEligibleFields,
         lookup.otherKeyFieldCode,
+        '(選択してください)',
+      );
+      buildOptions(
+        buttonSpaceEl,
+        spaceFields,
+        lookup.buttonSpaceElementId,
         '(選択してください)',
       );
       renderConditionList();
       renderMappingList();
+      renderModalFieldList();
 
       selfKeyEl.addEventListener('change', () => {
         lookup.selfKeyFieldCode = selfKeyEl.value;
       });
       otherKeyEl.addEventListener('change', () => {
         lookup.otherKeyFieldCode = otherKeyEl.value;
+      });
+      buttonSpaceEl.addEventListener('change', () => {
+        lookup.buttonSpaceElementId = buttonSpaceEl.value;
       });
       removeEl.addEventListener('click', () => {
         config.lookups.splice(lookupIndex, 1);
@@ -229,6 +313,11 @@
         lookup.fieldMappings.push({ sourceFieldCode: '', targetFieldCode: '' });
         renderMappingList();
       });
+      modalFieldAddButtonEl.addEventListener('click', () => {
+        lookup.modalFieldCodes = lookup.modalFieldCodes || [];
+        lookup.modalFieldCodes.push('');
+        renderModalFieldList();
+      });
 
       lookupListEl.appendChild(fragment);
     });
@@ -239,8 +328,10 @@
     config.lookups.push({
       selfKeyFieldCode: '',
       otherKeyFieldCode: '',
+      buttonSpaceElementId: '',
       conditions: [],
       fieldMappings: [],
+      modalFieldCodes: [],
     });
     renderLookupList();
   });
@@ -252,7 +343,10 @@
   formEl.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const validation = NS.ConfigValidation.validateLookups(config.lookups);
+    const validation = NS.ConfigValidation.validateLookups(
+      config.lookups,
+      fieldInfoByCode,
+    );
     if (!validation.valid) {
       // 設定画面でアプリ管理者自身が選択・入力した値の検証結果(フィールドコードや演算子)のみを
       // 表示しており、外部からの入力ではないが、念のためinnerHTMLではなくtextContentで出力する。

@@ -98,5 +98,15 @@
     "page": "plugins/tab_layout/index.html",
     "category": "レイアウト・表示",
     "tags": ["タブ表示", "表示切替"]
+  },
+  {
+    "id": "self_lookup",
+    "name": "セルフルックアッププラグイン",
+    "description": "同一アプリ内の他レコードをキー一致で検索し、一致したレコードの値を自レコードへ反映するプラグイン",
+    "version": "1",
+    "zip": "plugins/self_lookup/plugin.zip",
+    "page": "plugins/self_lookup/index.html",
+    "category": "データ連携",
+    "tags": ["セルフルックアップ", "自動入力"]
   }
 ]

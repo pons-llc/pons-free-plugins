@@ -37,7 +37,8 @@
 }
 
 .slk-condition-row,
-.slk-mapping-row {
+.slk-mapping-row,
+.slk-modal-field-row {
   display: flex;
   align-items: center;
   gap: 0.5em;
@@ -61,7 +62,8 @@
 }
 
 .slk-condition-row .slk-row-remove,
-.slk-mapping-row .slk-row-remove {
+.slk-mapping-row .slk-row-remove,
+.slk-modal-field-row .slk-row-remove {
   float: none;
 }
 
@@ -69,4 +71,18 @@
   color: #e74c3c;
   white-space: pre-wrap;
   margin-bottom: 1em;
+}
+
+.slk-key-label {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.slk-flow-list {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.slk-flow-list li {
+  margin-bottom: 0.4em;
 }
