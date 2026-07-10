@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ダウンロード | ユーザー情報ルックアッププラグイン</title>
+<meta name="description" content="ユーザー情報ルックアッププラグインのダウンロード。">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+  </div>
+</header>
+<div class="container">
+<!-- このページ自体をダウンロード計測のポイントとして使う(このページが開かれた=ダウンロードが
+     開始された、とみなせる中間ページ方式)。将来アクセス解析を導入する場合は、このページの
+     読み込み時点でイベントを送信するスクリプトをここに追加する。 -->
+<div class="download-page">
+  <h2>ユーザー情報ルックアッププラグイン</h2>
+  <p>ダウンロードを開始します。開始しない場合は下のボタンを押してください。</p>
+  <a class="download-button" id="direct-download" href="plugin.zip" download>plugin.zip をダウンロード</a>
+  <p class="download-note"><a href="index.html">← プラグインの詳細ページに戻る</a></p>
+</div>
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+</footer>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('direct-download').click();
+  });
+</script>
+</body>
+</html>

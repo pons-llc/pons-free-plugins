@@ -1,0 +1,86 @@
+<section class="settings">
+  <h2 class="settings-heading">ユーザー情報ルックアッププラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    文字列1行またはユーザー選択フィールドに入力されたユーザーコード(ログイン名)をもとに、氏名・
+    メールアドレス・所属・グループなどのユーザー情報を別の文字列フィールドへ自動入力します。
+    設定行ごとに、次の項目を設定してください。
+  </p>
+  <ol class="kintoneplugin-desc uil-flow-list">
+    <li>①元フィールド: ユーザーコードが入力される文字列1行、またはユーザー選択フィールド(ユーザー選択の場合は1人目のみを使用します)。</li>
+    <li>②発動条件: 「ボタン」を選ぶと、指定したスペースフィールドにボタンが設置され、押下時にユーザー情報を取得・反映します。「保存時」を選ぶと、レコード保存時に自動で取得・反映します。</li>
+    <li>③出力先フィールドを編集可能にするか: オフの場合、追加・編集画面で出力先フィールドを直接編集できなくなります。</li>
+    <li>④転記項目: 取得するユーザー情報の項目と、書き込む出力先フィールド(文字列1行のみ)の組み合わせ。</li>
+  </ol>
+  <p class="kintoneplugin-desc">
+    元フィールドは、レコード一覧のインライン編集では常に編集できなくなります。該当するユーザーが
+    見つからない場合(未入力を含む)、出力先フィールドはすべて空文字列でクリアされます。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="uil-errors"></div>
+
+    <div id="js-row-list"></div>
+    <button type="button" id="js-row-add" class="kintoneplugin-button-normal">+ 設定行を追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-row-template">
+  <section class="uil-section js-row">
+    <div class="uil-section-heading">
+      設定行
+      <span class="uil-row-remove js-row-remove">削除</span>
+    </div>
+
+    <table class="uil-table">
+      <tbody>
+        <tr>
+          <th>①元フィールド(ユーザーコード)</th>
+          <td><select class="kintoneplugin-select js-source-field"></select></td>
+        </tr>
+        <tr>
+          <th>②発動条件</th>
+          <td>
+            <select class="kintoneplugin-select js-trigger">
+              <option value="BUTTON">ボタン押下時</option>
+              <option value="SUBMIT">保存時</option>
+            </select>
+            <span class="js-button-space-wrap">
+              <select class="kintoneplugin-select js-button-space"></select>
+            </span>
+            <p class="uil-inline-note">
+              「ボタン押下時」は、ユーザー情報の取得が非同期通信のため、値の変更時(change)には
+              自動反映できません(kintone公式ドキュメント記載の制約)。ボタンを押したときに反映します。
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <th>③出力先フィールドを編集可能にするか</th>
+          <td>
+            <label>
+              <input type="checkbox" class="js-output-editable">
+              編集可能にする(オフの場合は追加・編集画面で編集不可になります)
+            </label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="uil-section-heading">④転記項目(取得する項目 → 出力先フィールド)</div>
+    <div class="js-mapping-list"></div>
+    <button type="button" class="kintoneplugin-button-normal js-mapping-add">+ 転記項目を追加</button>
+  </section>
+</template>
+
+<template id="js-mapping-row-template">
+  <div class="uil-mapping-row js-mapping-row">
+    <select class="kintoneplugin-select js-mapping-attribute"></select>
+    <span class="uil-arrow">→</span>
+    <select class="kintoneplugin-select js-mapping-destination"></select>
+    <span class="uil-row-remove js-mapping-remove">削除</span>
+  </div>
+</template>

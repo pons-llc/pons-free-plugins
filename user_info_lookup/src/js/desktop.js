@@ -1,0 +1,221 @@
+(function (global, kintone) {
+  'use strict';
+
+  const NS = global.UserInfoLookup;
+  const PLUGIN_ID = kintone.$PLUGIN_ID;
+
+  const config = NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
+
+  const ATTRIBUTE_BY_KEY = {};
+  NS.UserAttributes.ATTRIBUTES.forEach((a) => {
+    ATTRIBUTE_BY_KEY[a.key] = a;
+  });
+
+  // ユーザーコードから、設定行のマッピングが必要とする情報だけを取得する。
+  // - REST(User API, GET /v1/users.json): 氏名・メールアドレス等(kintone.user.*に相当するJavaScript
+  //   APIが存在しないため、CLAUDE.md開発方針3によりkintone自身へのkintone.api()呼び出しのみ許可)
+  // - ORG/GROUP: kintone.user.getOrganizations()/getGroups()(JavaScript API、REST不要。kintone公式
+  //   Tips「アンチパターンから学ぶ ユーザーの組織情報とアイコンの取得」で推奨されている実装方法)
+  // REST呼び出しの失敗は上位に伝播させる(ボタン押下時のalert、submit時のevent.errorで扱うため)。
+  // ORG/GROUPの失敗は転記項目のごく一部にしか影響しないため、ログに残しつつ空扱いにして処理を継続する。
+  const resolveUserInfo = async (code, mappings) => {
+    if (!code) {
+      return { userInfo: null, organizations: null, groups: null };
+    }
+
+    const needsRest = mappings.some(
+      (m) =>
+        ATTRIBUTE_BY_KEY[m.attribute] &&
+        ATTRIBUTE_BY_KEY[m.attribute].source === 'REST',
+    );
+    const needsOrg = mappings.some((m) => m.attribute === 'organizations');
+    const needsGroup = mappings.some((m) => m.attribute === 'groups');
+
+    const restPromise = needsRest
+      ? kintone
+          .api(kintone.api.url('/v1/users.json', true), 'GET', {
+            codes: [code],
+          })
+          .then((resp) => (resp.users && resp.users[0]) || null)
+      : Promise.resolve(null);
+    const orgPromise = needsOrg
+      ? kintone.user.getOrganizations(code).catch((err) => {
+          console.error('kintone.user.getOrganizations()に失敗しました。', err);
+          return null;
+        })
+      : Promise.resolve(null);
+    const groupPromise = needsGroup
+      ? kintone.user.getGroups(code).catch((err) => {
+          console.error('kintone.user.getGroups()に失敗しました。', err);
+          return null;
+        })
+      : Promise.resolve(null);
+
+    const [userInfo, organizations, groups] = await Promise.all([
+      restPromise,
+      orgPromise,
+      groupPromise,
+    ]);
+    return { userInfo, organizations, groups };
+  };
+
+  const applyValuesToRecord = (
+    record,
+    mappings,
+    userInfo,
+    organizations,
+    groups,
+  ) => {
+    const fieldValues = NS.UserAttributeMapping.buildFieldValues(
+      userInfo,
+      organizations,
+      groups,
+      mappings,
+    );
+    Object.keys(fieldValues).forEach((fieldCode) => {
+      const field = record[fieldCode];
+      if (field) {
+        field.value = fieldValues[fieldCode];
+      }
+    });
+  };
+
+  // 出力先フィールドは、行ごとの「編集可能にするか」がオフの場合のみdisabledにする
+  // (idea.mdの「挿入先の編集可不可を選べる」)。
+  const applyOutputEditability = (record) => {
+    config.rows.forEach((row) => {
+      if (row.outputEditable) {
+        return;
+      }
+      (row.mappings || []).forEach((mapping) => {
+        const field = record[mapping.destinationFieldCode];
+        if (field) {
+          field.disabled = true;
+        }
+      });
+    });
+  };
+
+  // 発動条件が「ボタン押下時」の設定行用に、指定のスペースフィールドへボタンを設置する。
+  // ボタンのクリックイベントはkintone.events.on()のイベントハンドラーの外側なので、非同期処理・
+  // kintone.app.record.get()/set()の呼び出し制限を受けない(self_lookupと同じ理由。change系イベントは
+  // Promise非対応のためこの方式にした、README/idea.md参照)。
+  const setupButton = (row) => {
+    if (!row.buttonSpaceElementId) {
+      return;
+    }
+    const spaceEl = kintone.app.record.getSpaceElement(
+      row.buttonSpaceElementId,
+    );
+    if (!spaceEl || spaceEl.dataset.uilButtonRendered) {
+      return;
+    }
+    spaceEl.dataset.uilButtonRendered = '1';
+
+    const buttonEl = document.createElement('button');
+    buttonEl.type = 'button';
+    buttonEl.className = 'kintoneplugin-button-normal uil-button';
+    buttonEl.textContent = 'ユーザー情報を取得して反映';
+
+    buttonEl.addEventListener('click', async () => {
+      buttonEl.disabled = true;
+      try {
+        const record = kintone.app.record.get().record;
+        const sourceField = record[row.sourceFieldCode];
+        const code = NS.SourceValue.extractUserCode(
+          sourceField,
+          sourceField ? sourceField.type : undefined,
+        );
+        if (!code) {
+          alert('元フィールドが入力されていません。');
+          return;
+        }
+
+        let resolved;
+        try {
+          resolved = await resolveUserInfo(code, row.mappings);
+        } catch (err) {
+          alert(`ユーザー情報の取得に失敗しました: ${err.message}`);
+          return;
+        }
+
+        const current = kintone.app.record.get().record;
+        applyValuesToRecord(
+          current,
+          row.mappings,
+          resolved.userInfo,
+          resolved.organizations,
+          resolved.groups,
+        );
+        kintone.app.record.set({ record: current });
+
+        if (!resolved.userInfo) {
+          alert(
+            '該当するユーザーが見つかりませんでした。出力先フィールドを空にしました。',
+          );
+        }
+      } finally {
+        buttonEl.disabled = false;
+      }
+    });
+
+    spaceEl.appendChild(buttonEl);
+  };
+
+  // 発動条件が「保存時」の設定行を、レコード保存前に処理する。create.submit/edit.submitは
+  // Promiseに対応しているため、async関数をそのまま返してよい(change系イベントとは異なる)。
+  const applySubmitRows = async (event) => {
+    const submitRows = config.rows.filter((row) => row.trigger === 'SUBMIT');
+    for (const row of submitRows) {
+      const sourceField = event.record[row.sourceFieldCode];
+      const code = NS.SourceValue.extractUserCode(
+        sourceField,
+        sourceField ? sourceField.type : undefined,
+      );
+      try {
+        const resolved = await resolveUserInfo(code, row.mappings);
+        applyValuesToRecord(
+          event.record,
+          row.mappings,
+          resolved.userInfo,
+          resolved.organizations,
+          resolved.groups,
+        );
+      } catch (err) {
+        event.error = `ユーザー情報の取得に失敗しました(${row.sourceFieldCode}): ${err.message}`;
+        return event;
+      }
+    }
+    return event;
+  };
+
+  kintone.events.on(
+    ['app.record.create.show', 'app.record.edit.show'],
+    (event) => {
+      applyOutputEditability(event.record);
+      config.rows.forEach((row) => {
+        if (row.trigger === 'BUTTON') {
+          setupButton(row);
+        }
+      });
+      return event;
+    },
+  );
+
+  kintone.events.on(
+    ['app.record.create.submit', 'app.record.edit.submit'],
+    applySubmitRows,
+  );
+
+  // レコード一覧画面のインライン編集では、元フィールドの直接編集を禁止する
+  // (idea.mdの「一覧画面では元フィールドの編集を不可にする」)。
+  kintone.events.on('app.record.index.edit.show', (event) => {
+    config.rows.forEach((row) => {
+      const sourceField = event.record[row.sourceFieldCode];
+      if (sourceField) {
+        sourceField.disabled = true;
+      }
+    });
+    return event;
+  });
+})(window, kintone);

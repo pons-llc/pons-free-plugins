@@ -128,5 +128,15 @@
     "page": "plugins/related_record_summary/index.html",
     "category": "データ連携",
     "tags": ["関連レコード集計", "自動集計"]
+  },
+  {
+    "id": "user_info_lookup",
+    "name": "ユーザー情報ルックアッププラグイン",
+    "description": "文字列1行またはユーザー選択フィールドに入力されたユーザーコードをもとに、氏名・メールアドレス・所属・グループなどのユーザー情報を別の文字列フィールドへ自動入力するプラグイン",
+    "version": "1",
+    "zip": "plugins/user_info_lookup/plugin.zip",
+    "page": "plugins/user_info_lookup/index.html",
+    "category": "データ連携",
+    "tags": ["ユーザー情報", "自動入力"]
   }
 ]

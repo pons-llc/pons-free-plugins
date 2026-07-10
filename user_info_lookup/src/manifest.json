@@ -1,0 +1,48 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/user-attributes.js",
+      "js/lib/source-value.js",
+      "js/lib/user-attribute-mapping.js",
+      "js/lib/config-store.js",
+      "js/desktop.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/desktop.css"]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/user-attributes.js",
+      "js/lib/source-value.js",
+      "js/lib/user-attribute-mapping.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/config.css"],
+    "required_params": []
+  },
+  "name": {
+    "en": "user_info_lookup plugin",
+    "ja": "ユーザー情報ルックアッププラグイン"
+  },
+  "description": {
+    "en": "user_info_lookup plugin",
+    "ja": "文字列1行またはユーザー選択フィールドに入力されたユーザーコードをもとに、氏名・メールアドレス・所属・グループ等のユーザー情報を別フィールドへ自動入力するプラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/user-attributes.js",
+      "js/lib/source-value.js",
+      "js/lib/user-attribute-mapping.js",
+      "js/lib/config-store.js",
+      "js/mobile.js"
+    ],
+    "css": ["css/mobile.css"]
+  }
+}
