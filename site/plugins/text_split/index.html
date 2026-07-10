@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>スプリットプラグイン | GovAppsプラグイン</title>
+<meta name="description" content="文字列フィールドの値を指定した記号・文字または正規表現で分割し、複数の出力先フィールドへ順番に格納するkintone無料プラグイン。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; スプリットプラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>スプリットプラグイン</h2>
+  <p class="plugin-lead">
+    元の文字列フィールドの値を、指定した記号・文字(複数指定可)または正規表現で分割し、保存時(submit時)に
+    複数の出力先フィールドへ先頭から順番に格納します。分割結果が出力先フィールドより少ない場合は余った
+    フィールドを空にし、多い場合ははみ出した分を切り捨てます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">文字列処理</span>
+    <span class="badge badge-tag">#文字列分割</span>
+    <span class="badge badge-tag">#自動入力</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="text_split">ダウンロード(v0.1.0)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>住所を町名・番地・号に分割する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>「東京都〇〇区△△1-2-3」のような住所文字列を「-」や全角スペースなど複数の記号で分割し、町名・番地・号を別々のフィールドに格納できます。区切り文字は複数登録できるので、表記ゆれ(全角/半角ハイフンなど)にもまとめて対応できます。</p>
+      <div class="accordion-item">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-1-detail">
+          <span>具体例: 正規表現で複数の区切り文字を一度に指定</span>
+          <span class="accordion-icon">▶</span>
+        </button>
+        <div class="accordion-panel" id="usecase-1-detail" hidden>
+          <p>区切りモードを「正規表現」に切り替えると、<code>[-/\s]+</code>のようなパターンで「ハイフン・スラッシュ・空白のいずれか1文字以上」をまとめて区切り文字として扱えます。記号・文字モードで1つずつ列挙するより設定が簡潔になります。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>「姓 名」のような1フィールドを2つに分ける</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>全角スペース区切りで入力された氏名フィールドを、姓・名の2フィールドに分割します。出力先フィールドを2つだけ設定すれば、3つ目以降の分割結果(ミドルネーム等)は自動的に切り捨てられます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>アプリのフォームに、分割結果を格納する出力先フィールド(必要な個数分の文字列フィールド)を配置する。</li>
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ 設定行を追加」で、元フィールド・区切りモード(記号/正規表現)・区切り指定・出力先フィールドの並びを設定して保存する。</li>
+    <li>保存すると、追加・編集画面で出力先フィールドが編集不可(disabled)になり、レコード一覧のインライン編集では元フィールドが編集不可になる。</li>
+  </ol>
+  <p class="download-note">分割処理は保存(submit)時にのみ実行されます。入力中のリアルタイムプレビューはありません。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>区切り文字を正規表現に変換する際は特殊文字を必ずエスケープしており、「.」や「*」を区切り文字に指定しても意図しない誤マッチが起きません。</li>
+        <li>正規表現パターンはアプリ管理者(設定画面を操作できる権限者)のみが入力するため、一般利用者からの入力による正規表現インジェクションのリスクはありません。</li>
+        <li>フィールド一覧・エラーメッセージの描画はすべて<code>textContent</code>または<code>createElement</code>で行っており、<code>innerHTML</code>への外部由来文字列の差し込みはありません。</li>
+        <li>REST API・外部サーバー通信は一切行わず、外部ライブラリも使用していません。</li>
+        <li>出力先フィールドの編集禁止(disabled化)はUI上の制約であり、REST API等を直接使った書き換えまでは防げない点を明記しています。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/text_split/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="スプリットプラグインの設定画面。元フィールド・区切り文字・出力先フィールドを2つ設定した状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインはREST APIを一切実行しません。フィールド情報の取得は<code>kintone.app.getFormFields()</code>のみで行い、
+    分割処理は<code>submit</code>イベント内のローカルな文字列処理のみで完結します。API実行数制限に影響することはありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/text_split" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/text_split/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintoneサービス</h3>
+  <div class="related-services">
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

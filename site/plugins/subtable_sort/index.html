@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>サブテーブルソートプラグイン | GovAppsプラグイン</title>
+<meta name="description" content="サブテーブルの行を複数列の条件でソートするkintone無料プラグイン。保存時に自動ソート、またはボタンで任意実行できる。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; サブテーブルソートプラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>サブテーブルソートプラグイン</h2>
+  <p class="plugin-lead">
+    サブテーブルの行を、複数列を組み合わせた条件でソートします。「submit時」を選べば保存のたびに自動で
+    ソートし、「任意実行」を選べば追加・編集画面のボタンを押したときだけソートします。ソートキーは複数
+    設定でき、先頭のキーを最優先に、Excelの複数列ソートと同じ考え方で並び替えます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">サブテーブル</span>
+    <span class="badge badge-tag">#サブテーブル整列</span>
+    <span class="badge badge-tag">#自動化</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="subtable_sort">ダウンロード(v0.1.0)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>点検・作業記録を日付順に自動整列する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>作業者が点検結果をサブテーブルに追記していくうちに、入力順がバラバラになりがちです。「submit時」モードで日付列を降順ソートに設定しておくと、保存するたびに最新の記録が常に一番上に整列されます。</p>
+      <div class="accordion-item">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-1-detail">
+          <span>具体例: 複数列を組み合わせたソート</span>
+          <span class="accordion-icon">▶</span>
+        </button>
+        <div class="accordion-panel" id="usecase-1-detail" hidden>
+          <p>ソートキーを複数追加すると、「まず担当者で昇順、同じ担当者内では日付で降順」のような複合条件で並び替えられます。同順位の行は元の順序が保たれる安定ソートなので、意図しない並び替えが起きません。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>ボタンで好きなタイミングだけソートしたい</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>「任意実行」モードでは追加・編集画面のヘッダーにソート実行ボタンが表示され、押したときだけソートします(PC専用)。ソート済フィールドを設定しておくと、画面表示のたびに「未」にリセットされ、ボタンを押すと「済」に変わるため、ソート済みかどうかが一目でわかります。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ ルールを追加」で対象サブテーブル・発動タイミング(submit時/任意実行)を選択する。</li>
+    <li>「+ ソートキーを追加」で対象列・昇順/降順・比較方法(文字列/日付として比較・数値として比較)を、優先順に複数設定できる。</li>
+    <li>「任意実行」を選んだ場合は、ソート済状態を示す文字列フィールド(省略可)を設定する。</li>
+    <li>保存すると、submit時モードは保存のたびに自動でソート、任意実行モードは追加・編集画面のヘッダーにボタンが表示される。</li>
+  </ol>
+  <p class="download-note">「任意実行」モードのボタンはPC画面専用です。モバイルではsubmit時モードのみ動作します。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li><code>kintone.app.record.set()</code>はイベントハンドラー内で使えない制約があるため、submit時モードは<code>event.record</code>を直接書き換える方式、任意実行モードはボタンのクリックハンドラー内でのみ<code>get()</code>/<code>set()</code>を使う方式に使い分けています。</li>
+        <li>ボタンのラベルは固定文字列を<code>textContent</code>で設定するのみで、ユーザー入力やレコード値を描画に使いません。</li>
+        <li>フィールド一覧・エラーメッセージの描画はすべて<code>textContent</code>または<code>createElement</code>で行っており、<code>innerHTML</code>への外部由来文字列の差し込みはありません。</li>
+        <li>REST API・外部サーバー通信は一切行わず、外部ライブラリも使用していません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/subtable_sort/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="サブテーブルソートプラグインの設定画面。対象サブテーブル・発動タイミング(任意実行)・ソート済フィールド・ソートキーを設定した状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインはREST APIを一切実行しません。ソート・値の書き換えはすべてJavaScript API
+    (<code>event.record</code>の書き換え、または<code>kintone.app.record.get()</code>/<code>set()</code>)のみで完結します。
+    API実行数制限に影響することはありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/subtable_sort" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/subtable_sort/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintoneサービス</h3>
+  <div class="related-services">
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

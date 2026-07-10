@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>サブテーブルルックアッププラグイン | GovAppsプラグイン</title>
+<meta name="description" content="サブテーブルの中から条件に一致する1行を探し、その行の値をテーブル外のフィールドへ自動入力するkintone無料プラグイン。最新行・最古行・部分一致など6種類の検索モードに対応。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; サブテーブルルックアッププラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>サブテーブルルックアッププラグイン</h2>
+  <p class="plugin-lead">
+    サブテーブルの中から条件に一致する1行を探し、その行の複数フィールド(列)の値を、テーブル外の
+    フィールドへ保存時(submit時)に自動入力します。点検履歴などをサブテーブルで管理し、「最新の点検結果」
+    「最終点検日」「特定条件に合う行の値」をテーブル外のフィールドへ反映する用途を想定しています。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">サブテーブル</span>
+    <span class="badge badge-tag">#サブテーブル検索</span>
+    <span class="badge badge-tag">#自動入力</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="subtable_lookup">ダウンロード(v0.1.0)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>点検履歴から「最新の点検結果」を転記する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>設備の点検履歴をサブテーブルで管理しているアプリで、検索モードを「最新」にして点検日列を指定すると、点検日が最も新しい行の結果・点検日をテーブル外のフィールドへ自動反映できます。一覧画面やカスタマイズビューで「現在の状態」をひと目で確認できるようになります。</p>
+      <div class="accordion-item">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-1-detail">
+          <span>具体例: 同日に複数回点検した場合の扱い</span>
+          <span class="accordion-icon">▶</span>
+        </button>
+        <div class="accordion-panel" id="usecase-1-detail" hidden>
+          <p>点検日が同値の行が複数ある場合は、検索方向(上から/下から)で採用する行を決められます。「下から」を選べば、同日内で最後に入力された行が採用されます。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>特定条件に一致する行の値を検索して転記する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>「区分」列が「異常」と完全一致する行を探し、その対応内容を別フィールドへ転記する、といった使い方ができます。一致する行がない場合、出力先フィールドは常に空文字列でクリアされるため、古い値が残ったままになる事故を防げます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>アプリのフォームに、ルックアップ結果を格納する出力先フィールド(テーブル外)を配置する。</li>
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ 設定行を追加」で対象サブテーブル・検索モード(部分一致/完全一致/最新/最古/一番上の行/一番下の行)を選択する。モードに応じて検索対象列・一致させる値・検索方向の入力欄が切り替わる。</li>
+    <li>「+ マッピングを追加」で、サブテーブル列 → 出力先フィールドの対応を必要な数だけ追加して保存する。</li>
+  </ol>
+  <p class="download-note">出力先フィールドはプラグインが常に上書きします(一致行がない場合は空文字列でクリア)。手入力欄としては使えません。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>フィールド一覧・エラーメッセージの描画はすべて<code>textContent</code>または<code>createElement</code>で行っており、<code>innerHTML</code>への外部由来文字列の差し込みはありません。</li>
+        <li>「一致させる値」は設定画面でアプリ管理者が入力する文字列で、比較処理(<code>String#includes</code>/<code>===</code>)にのみ使われ、DOMへ描画されることはありません。</li>
+        <li>REST API・外部サーバー通信は一切行わず、外部ライブラリも使用していません。</li>
+        <li>保存前のバリデーションで、対象サブテーブル未選択、モードに応じて必須の項目の未入力、フィールドマッピング0件、出力先フィールドの重複などを検出し、不正な設定は保存させません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/subtable_lookup/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="サブテーブルルックアッププラグインの設定画面。対象サブテーブル・検索モード(最新)・検索対象列・検索方向・フィールドマッピングを設定した状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインはREST APIを一切実行しません。フィールド情報の取得は<code>kintone.app.getFormFields()</code>のみで行い、
+    検索・転記処理は<code>submit</code>イベント内のローカルな処理のみで完結します。API実行数制限に影響することはありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/subtable_lookup" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/subtable_lookup/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintoneサービス</h3>
+  <div class="related-services">
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

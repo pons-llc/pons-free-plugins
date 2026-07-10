@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RIGHT・LEFT・MID関数プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="元の文字列フィールドから指定した位置・文字数の部分文字列を取り出し、出力先フィールドへ格納するkintone無料プラグイン。Excelの LEFT/RIGHT/MID と同じ数え方。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; RIGHT・LEFT・MID関数プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>RIGHT・LEFT・MID関数プラグイン</h2>
+  <p class="plugin-lead">
+    Excel等の表計算ソフトにある<code>LEFT</code>・<code>RIGHT</code>・<code>MID</code>関数のような文字列の
+    部分取得を、kintoneの基本機能にない形で行います。元の文字列フィールドから指定した位置・文字数の
+    部分文字列を取り出し、保存時(submit時)に出力先フィールドへ格納します。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">文字列処理</span>
+    <span class="badge badge-tag">#文字列抽出</span>
+    <span class="badge badge-tag">#自動入力</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="text_slice">ダウンロード(v0.1.0)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>コード体系の一部だけを取り出す</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>「品番の先頭3文字が事業部コード」「社員番号の末尾2桁が拠点コード」のように、固定長コードの一部だけを別フィールドに取り出したい場合に使えます。<code>LEFT</code>で先頭n文字、<code>RIGHT</code>で末尾n文字を取得できます。</p>
+      <div class="accordion-item">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-1-detail">
+          <span>具体例: 途中の文字列だけを取り出す(MID)</span>
+          <span class="accordion-icon">▶</span>
+        </button>
+        <div class="accordion-panel" id="usecase-1-detail" hidden>
+          <p><code>MID</code>関数を使うと、「4文字目から3文字」のように途中の位置から部分文字列を取得できます。開始位置・文字数はExcelと同じく1文字目を1とする数え方です。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>複数のルールを組み合わせてコードを分解する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>同じ元フィールドに対して複数のルールを設定できるため、1つのコード文字列から「先頭2文字」「3〜5文字目」「末尾1文字」のようにそれぞれ別のフィールドへ分解して格納することもできます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>アプリのフォームに、取り出した部分文字列を格納する出力先フィールドを配置する。</li>
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ ルールを追加」で、元フィールド・関数(LEFT/RIGHT/MID)・パラメータ(文字数、MIDの場合は開始位置も)・出力先フィールドを設定して保存する。</li>
+    <li>保存すると、追加・編集画面で出力先フィールドが編集不可(disabled)になり、レコード一覧のインライン編集では元フィールドが編集不可になる。</li>
+  </ol>
+  <p class="download-note">指定した文字数が元の文字列より長い場合はエラーにならず、存在する分だけを返します(Excelと同じ挙動)。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>フィールド一覧・エラーメッセージの描画はすべて<code>textContent</code>または<code>createElement</code>で行っており、<code>innerHTML</code>への外部由来文字列の差し込みはありません。</li>
+        <li>REST API・外部サーバー通信は一切行わず、外部ライブラリも使用していません(標準の<code>String.prototype.slice()</code>のみ使用)。</li>
+        <li>保存前のバリデーションで、開始位置・文字数が1以上の整数でない、出力先フィールド未選択・重複、元フィールドと出力先フィールドの重複などを検出し、不正な設定は保存させません。</li>
+        <li>出力先フィールドの編集禁止(disabled化)はUI上の制約であり、REST API等を直接使った書き換えまでは防げない点を明記しています。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/text_slice/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="RIGHT・LEFT・MID関数プラグインの設定画面。元フィールド・関数(MID)・開始位置・文字数・出力先フィールドを設定した状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインはREST APIを一切実行しません。フィールド情報の取得は<code>kintone.app.getFormFields()</code>のみで行い、
+    切り出し処理は<code>submit</code>イベント内のローカルな文字列処理のみで完結します。API実行数制限に影響することはありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/text_slice" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/text_slice/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintoneサービス</h3>
+  <div class="related-services">
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

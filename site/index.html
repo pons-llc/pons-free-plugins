@@ -70,11 +70,11 @@
   </div>
   <div class="filter-group">
     <div class="filter-group-label">カテゴリ</div>
-    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span>
+    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span><span class="chip" data-category="文字列処理">文字列処理</span><span class="chip" data-category="サブテーブル">サブテーブル</span>
   </div>
   <div class="filter-group">
     <div class="filter-group-label">タグ</div>
-    <span class="chip" data-tag="ファイル管理">#ファイル管理</span><span class="chip" data-tag="埋め込み表示">#埋め込み表示</span><span class="chip" data-tag="日付変換">#日付変換</span><span class="chip" data-tag="自動入力">#自動入力</span>
+    <span class="chip" data-tag="ファイル管理">#ファイル管理</span><span class="chip" data-tag="埋め込み表示">#埋め込み表示</span><span class="chip" data-tag="日付変換">#日付変換</span><span class="chip" data-tag="自動入力">#自動入力</span><span class="chip" data-tag="文字列分割">#文字列分割</span><span class="chip" data-tag="文字列抽出">#文字列抽出</span><span class="chip" data-tag="サブテーブル整列">#サブテーブル整列</span><span class="chip" data-tag="サブテーブル検索">#サブテーブル検索</span><span class="chip" data-tag="自動化">#自動化</span>
   </div>
 </div>
 
@@ -96,6 +96,42 @@
     <span class="badge badge-tag">#日付変換</span><span class="badge badge-tag">#自動入力</span>
   </div>
   <div class="plugin-version">v1</div>
+</a>
+<a class="plugin-card" data-category="文字列処理" data-tags="文字列分割,自動入力" data-search="スプリットプラグイン 文字列フィールドの値を指定した記号・文字または正規表現で分割し、複数の出力先フィールドへ順番に格納するプラグイン。 文字列分割 自動入力" href="plugins/text_split/index.html">
+  <div class="plugin-name">スプリットプラグイン</div>
+  <div class="plugin-desc">文字列フィールドの値を指定した記号・文字または正規表現で分割し、複数の出力先フィールドへ順番に格納するプラグイン。</div>
+  <div>
+    <span class="badge badge-category">文字列処理</span>
+    <span class="badge badge-tag">#文字列分割</span><span class="badge badge-tag">#自動入力</span>
+  </div>
+  <div class="plugin-version">v0.1.0</div>
+</a>
+<a class="plugin-card" data-category="文字列処理" data-tags="文字列抽出,自動入力" data-search="right・left・mid関数プラグイン 元の文字列フィールドから指定した位置・文字数の部分文字列を取り出し、出力先フィールドへ格納するプラグイン。excelのleft/right/midと同じ数え方。 文字列抽出 自動入力" href="plugins/text_slice/index.html">
+  <div class="plugin-name">RIGHT・LEFT・MID関数プラグイン</div>
+  <div class="plugin-desc">元の文字列フィールドから指定した位置・文字数の部分文字列を取り出し、出力先フィールドへ格納するプラグイン。ExcelのLEFT/RIGHT/MIDと同じ数え方。</div>
+  <div>
+    <span class="badge badge-category">文字列処理</span>
+    <span class="badge badge-tag">#文字列抽出</span><span class="badge badge-tag">#自動入力</span>
+  </div>
+  <div class="plugin-version">v0.1.0</div>
+</a>
+<a class="plugin-card" data-category="サブテーブル" data-tags="サブテーブル整列,自動化" data-search="サブテーブルソートプラグイン サブテーブルの行を複数列の条件でソートするプラグイン。保存時に自動ソート、またはボタンで任意実行できる。 サブテーブル整列 自動化" href="plugins/subtable_sort/index.html">
+  <div class="plugin-name">サブテーブルソートプラグイン</div>
+  <div class="plugin-desc">サブテーブルの行を複数列の条件でソートするプラグイン。保存時に自動ソート、またはボタンで任意実行できる。</div>
+  <div>
+    <span class="badge badge-category">サブテーブル</span>
+    <span class="badge badge-tag">#サブテーブル整列</span><span class="badge badge-tag">#自動化</span>
+  </div>
+  <div class="plugin-version">v0.1.0</div>
+</a>
+<a class="plugin-card" data-category="サブテーブル" data-tags="サブテーブル検索,自動入力" data-search="サブテーブルルックアッププラグイン サブテーブルの中から条件に一致する1行を探し、その行の値をテーブル外のフィールドへ自動入力するプラグイン。 サブテーブル検索 自動入力" href="plugins/subtable_lookup/index.html">
+  <div class="plugin-name">サブテーブルルックアッププラグイン</div>
+  <div class="plugin-desc">サブテーブルの中から条件に一致する1行を探し、その行の値をテーブル外のフィールドへ自動入力するプラグイン。</div>
+  <div>
+    <span class="badge badge-category">サブテーブル</span>
+    <span class="badge badge-tag">#サブテーブル検索</span><span class="badge badge-tag">#自動入力</span>
+  </div>
+  <div class="plugin-version">v0.1.0</div>
 </a>
 </div>
 <p class="empty-state is-hidden">条件に一致するプラグインが見つかりませんでした。</p>
@@ -147,6 +183,34 @@
       description: '日付・日時フィールドの値を和暦(または西暦・和暦併記)の文字列に変換し、指定した文字列フィールドへ自動入力するプラグイン。将来の改元にも設定画面から対応できる。',
       tags: ['日付変換', '自動入力'],
       text: '西暦和暦変換プラグイン 日付・日時フィールドの値を和暦(または西暦・和暦併記)の文字列に変換し、指定した文字列フィールドへ自動入力するプラグイン。将来の改元にも設定画面から対応できる。日付変換 自動入力'
+    },
+    {
+      key: 'text_split',
+      name: 'スプリットプラグイン',
+      description: '文字列フィールドの値を指定した記号・文字または正規表現で分割し、複数の出力先フィールドへ順番に格納するプラグイン。',
+      tags: ['文字列分割', '自動入力'],
+      text: 'スプリットプラグイン 文字列フィールドの値を指定した記号・文字または正規表現で分割し、複数の出力先フィールドへ順番に格納するプラグイン。住所を町名・番地・号に分割する、氏名を姓・名に分割する。文字列分割 自動入力'
+    },
+    {
+      key: 'text_slice',
+      name: 'RIGHT・LEFT・MID関数プラグイン',
+      description: '元の文字列フィールドから指定した位置・文字数の部分文字列を取り出し、出力先フィールドへ格納するプラグイン。ExcelのLEFT/RIGHT/MIDと同じ数え方。',
+      tags: ['文字列抽出', '自動入力'],
+      text: 'RIGHT・LEFT・MID関数プラグイン 元の文字列フィールドから指定した位置・文字数の部分文字列を取り出し、出力先フィールドへ格納するプラグイン。コードの一部だけを取り出す。文字列抽出 自動入力'
+    },
+    {
+      key: 'subtable_sort',
+      name: 'サブテーブルソートプラグイン',
+      description: 'サブテーブルの行を複数列の条件でソートするプラグイン。保存時に自動ソート、またはボタンで任意実行できる。',
+      tags: ['サブテーブル整列', '自動化'],
+      text: 'サブテーブルソートプラグイン サブテーブルの行を複数列の条件でソートするプラグイン。保存時に自動ソート、またはボタンで任意実行できる。点検記録を日付順に整列する。サブテーブル整列 自動化'
+    },
+    {
+      key: 'subtable_lookup',
+      name: 'サブテーブルルックアッププラグイン',
+      description: 'サブテーブルの中から条件に一致する1行を探し、その行の値をテーブル外のフィールドへ自動入力するプラグイン。',
+      tags: ['サブテーブル検索', '自動入力'],
+      text: 'サブテーブルルックアッププラグイン サブテーブルの中から条件に一致する1行を探し、その行の値をテーブル外のフィールドへ自動入力するプラグイン。最新の点検結果を転記する。サブテーブル検索 自動入力'
     }
   ];
 </script>

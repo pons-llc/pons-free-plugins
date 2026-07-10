@@ -18,5 +18,45 @@
     "page": "plugins/wareki_date_format/index.html",
     "category": "日付・書式",
     "tags": ["日付変換", "自動入力"]
+  },
+  {
+    "id": "text_split",
+    "name": "スプリットプラグイン",
+    "description": "文字列フィールドの値を指定した記号・文字または正規表現で分割し、複数の出力先フィールドへ順番に格納するプラグイン",
+    "version": "0.1.0",
+    "zip": "plugins/text_split/plugin.zip",
+    "page": "plugins/text_split/index.html",
+    "category": "文字列処理",
+    "tags": ["文字列分割", "自動入力"]
+  },
+  {
+    "id": "text_slice",
+    "name": "RIGHT・LEFT・MID関数プラグイン",
+    "description": "元の文字列フィールドから指定した位置・文字数の部分文字列を取り出し、出力先フィールドへ格納するプラグイン",
+    "version": "0.1.0",
+    "zip": "plugins/text_slice/plugin.zip",
+    "page": "plugins/text_slice/index.html",
+    "category": "文字列処理",
+    "tags": ["文字列抽出", "自動入力"]
+  },
+  {
+    "id": "subtable_sort",
+    "name": "サブテーブルソートプラグイン",
+    "description": "サブテーブルの行を複数列の条件でソートするプラグイン。保存時に自動ソート、またはボタンで任意実行できる",
+    "version": "0.1.0",
+    "zip": "plugins/subtable_sort/plugin.zip",
+    "page": "plugins/subtable_sort/index.html",
+    "category": "サブテーブル",
+    "tags": ["サブテーブル整列", "自動化"]
+  },
+  {
+    "id": "subtable_lookup",
+    "name": "サブテーブルルックアッププラグイン",
+    "description": "サブテーブルの中から条件に一致する1行を探し、その行の値をテーブル外のフィールドへ自動入力するプラグイン",
+    "version": "0.1.0",
+    "zip": "plugins/subtable_lookup/plugin.zip",
+    "page": "plugins/subtable_lookup/index.html",
+    "category": "サブテーブル",
+    "tags": ["サブテーブル検索", "自動入力"]
   }
 ]
