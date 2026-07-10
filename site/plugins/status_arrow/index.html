@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>矢羽プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="ドロップダウン・ラジオボタン・プロセス管理のステータスの値に応じて、矢羽根(進捗インジケーター)をレコードのヘッダーメニューに表示するkintone無料プラグイン。ステップは対象フィールドの選択肢から選ぶだけで設定できる。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 矢羽プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>矢羽プラグイン</h2>
+  <p class="plugin-lead">
+    ドロップダウン・ラジオボタン・プロセス管理のステータスの値に応じて、矢羽根(チェブロン状の矢印を
+    並べた進捗インジケーター)をレコードのヘッダーメニューに表示するプラグインです。現在値より前の
+    ステップは「完了」、現在値と一致するステップは「現在」、それ以外は「未着手」として色分けされ、
+    レコードの進捗状況がひと目で分かるようになります。矢羽根のステップは対象フィールド(またはプロセス
+    管理のステータス)の選択肢一覧から選ぶだけで設定でき、自由入力によるタイプミスの心配がありません。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">レイアウト・表示</span>
+    <span class="badge badge-tag">#進捗表示</span>
+    <span class="badge badge-tag">#矢羽根</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="status_arrow">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>対応状況・審査状況などのドロップダウン/ラジオボタンの進捗を可視化する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>「未着手・対応中・完了」のような対応状況を管理するドロップダウン/ラジオボタンフィールドがある場合、その選択肢の一部(または全部)を並び順どおりに矢羽根として設定できます。選択肢に「保留」のような進捗の並びに含めたくない値がある場合は、矢羽根のステップから除外できます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>プロセス管理のステータス進捗を可視化する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>対象種別で「プロセス管理のステータス」を選ぶと、アプリのプロセス管理で設定済みのステータス名がステップの選択肢として表示されます。承認フローなどプロセス管理で運用しているアプリでも、標準のステータス表示に加えて視覚的な矢羽根で進捗を強調できます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>複数の矢羽根を同時に表示する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>ウィジェットは複数追加できるため、「対応状況」と「承認状況」のように異なるフィールドの進捗を、それぞれ別の矢羽根として同時に表示できます。ウィジェットごとにデザイン(配色プリセット)も個別に選べます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ ウィジェットを追加」で矢羽根を1つ作成し、対象種別(ドロップダウン/ラジオボタン、またはプロセス管理のステータス)を選ぶ。ドロップダウン/ラジオボタンの場合は続けて対象フィールドを選ぶ。</li>
+    <li>「+ ステップを追加」で、矢羽根に表示したい選択肢を左から順にプルダウンで選んでいく(選択肢の一部だけを使う、選択肢の定義順と異なる順序で並べる、いずれも可能)。</li>
+    <li>デザイン(配色プリセット)を選び、保存する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">矢羽根はレコードの追加・編集・詳細画面のヘッダーメニュー領域(PC専用)に表示されます。このAPIに対応するモバイル向けAPIが存在しないため、本プラグインはモバイル画面では動作しません。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>プロセス管理のステータス名一覧の取得のみ、JavaScript API(<code>kintone.app.getStatus()</code>)がプラグイン設定画面では利用できないため、kintone自身への呼び出し専用の内部ラッパー<code>kintone.api()</code>経由でREST API(<code>GET /k/v1/app/status.json</code>)を使用します。それ以外(対象フィールド一覧の取得・矢羽根の描画先取得)はすべてJavaScript APIのみで完結し、生の<code>fetch</code>/<code>XMLHttpRequest</code>は使用していません。外部サーバーへの通信は一切行わず、外部ライブラリも使用していません。</li>
+        <li>矢羽根に表示するステップ名(対象フィールドまたはプロセス管理のステータスの選択肢文字列)をDOMへ描画する際は、<code>innerHTML</code>ではなく<code>textContent</code>への代入のみを使用しており、値に特殊文字が含まれていてもDOMに構造として解釈されません。</li>
+        <li>保存前に、対象種別・対象フィールド未選択やステップ0件などの不正な設定を検出して保存させないバリデーションを実装しています。</li>
+        <li>レコード画面側では、設定に含まれる対象フィールドが実際のレコードに存在しない場合(フィールド削除・設定の食い違い、プロセス管理が無効化された場合等)は早期リターンし、画面をクラッシュさせません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/status_arrow/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="矢羽プラグインの設定画面。対象種別・対象フィールド・デザインを選び、矢羽根のステップを選択肢のプルダウンから追加していく画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインは、レコードの追加・編集・詳細画面の表示ではREST APIを一切実行しません(表示中の
+    レコードのデータのみで矢羽根を描画します)。プラグイン設定画面を開いたときのみ、対象種別に
+    「プロセス管理のステータス」が選べるよう、ステータス名一覧を取得するREST API
+    (<code>GET /k/v1/app/status.json</code>、内部向けラッパーの<code>kintone.api()</code>経由)を
+    1回実行します。設定画面を開かない限り消費されません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/status_arrow" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/status_arrow/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

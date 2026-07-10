@@ -2,7 +2,7 @@
 
 [secureCodingGuideline.md](../secureCodingGuideline.md)の一般項目([box_gdrive_iframe/security-checklist.md](../box_gdrive_iframe/security-checklist.md)参照、UTF-8/BOMなし・名前空間分離・`'use strict'`・外部スクリプト不使用などは同様に満たしている)は重複記載を省略し、本プラグイン固有の項目のみ記載する。
 
-最終確認日: 2026-07-10 / 対象: 初回実装時点
+最終確認日: 2026-07-10 / 対象: ステップ選択肢のフォーム連動対応時点
 
 ## コーディング作法
 
@@ -10,11 +10,12 @@
 - [x] グローバル変数を作らず、即時関数(IIFE)+名前空間オブジェクト(`window.StatusArrow`)のみを公開している(`js/lib/arrow-state.js`, `js/lib/design-preset.js`, `js/lib/config-store.js`, `js/lib/config-validation.js`)
 - [x] 既存のkintoneグローバルオブジェクトを書き換え・参照していない
 - [x] `'use strict'`を全JSファイルの先頭で使用している
-- [x] kintone内部のid/class属性やDOM構造に依存せず、JavaScript API(`kintone.app.getFormFields()`, `kintone.app.record.getHeaderMenuSpaceElement()`, `kintone.plugin.app.getConfig/setConfig()`)のみを使用している
+- [x] kintone内部のid/class属性やDOM構造に依存せず、JavaScript API(`kintone.app.getFormFields()`, `kintone.app.record.getHeaderMenuSpaceElement()`, `kintone.plugin.app.getConfig/setConfig()`)を優先して使用している
 
 ## REST API・外部通信
 
-- [x] 本プラグインはREST APIを一切使用しない(CLAUDE.md開発方針3に準拠)。対象フィールド一覧の取得(`kintone.app.getFormFields()`)・矢羽根の描画先取得(`kintone.app.record.getHeaderMenuSpaceElement()`)はすべてJavaScript APIのみで完結する
+- [x] REST APIは、設定画面でのプロセス管理ステータス一覧の取得(`GET /k/v1/app/status.json`)のみに限定して使用する。JavaScript API `kintone.app.getStatus()`は「利用できる画面」にプラグイン設定画面が含まれておらず(レコード一覧・追加・編集・詳細・グラフ画面のみ)、実機でも`kintone.app.getStatus is not a function`になることを確認したため、CLAUDE.md開発方針3(JavaScript APIで実現できない場合のみRESTを使う)に従いkintone自身への呼び出しに限り`kintone.api()`(内部向けラッパー)で代替した。生の`fetch`/`XHR`は使用しない
+- [x] 対象フィールド一覧の取得(`kintone.app.getFormFields()`)・矢羽根の描画先取得(`kintone.app.record.getHeaderMenuSpaceElement()`)はJavaScript APIのみで完結する
 - [x] kintone以外の外部サーバーへの通信(fetch/XHR)を一切行わない
 - [x] 外部ライブラリを一切使用していない(vanilla JSのみ、矢羽根のDOM描画も標準DOM APIのみで実装する)
 

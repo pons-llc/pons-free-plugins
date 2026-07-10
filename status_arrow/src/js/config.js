@@ -20,9 +20,52 @@
     SOURCE_FIELD_TYPES.includes(f.type),
   );
 
+  // kintone.app.getStatus()(JavaScript API)は「利用できる画面」にプラグイン設定画面が
+  // 含まれておらず(レコード一覧・追加・編集・詳細・グラフ画面のみ)、設定画面から呼ぶと
+  // "kintone.app.getStatus is not a function" になることを実機で確認した。そのため設定画面では
+  // REST API(`GET /k/v1/app/status.json`)をkintone.api()経由で呼ぶ
+  // (CLAUDE.md開発方針3: JavaScript APIで実現できない場合のみRESTを使い、kintone自身への呼び出しは
+  // 生のfetch/XHRではなくkintone.api()を使う)。レスポンスはREST APIドキュメントどおり
+  // { enable, states, actions, revision } で返る。プロセス管理を一度も設定していないアプリでは
+  // statesがnullになる。
+  const processManagement = await kintone.api(
+    kintone.api.url('/k/v1/app/status.json', true),
+    'GET',
+    { app: kintone.app.getId() },
+  );
+  const statusStepValues = processManagement.states
+    ? Object.keys(processManagement.states).sort(
+        (a, b) =>
+          Number(processManagement.states[a].index) -
+          Number(processManagement.states[b].index),
+      )
+    : [];
+
+  // 対象フィールドの選択肢(値)を、選択肢の並び順(index昇順)で返す。
+  const getFieldStepValues = (fieldCode) => {
+    const field = sourceFields.find((f) => f.code === fieldCode);
+    if (!field || !field.options) {
+      return [];
+    }
+    return Object.keys(field.options).sort(
+      (a, b) => Number(field.options[a].index) - Number(field.options[b].index),
+    );
+  };
+
+  const getStepValues = (widget) =>
+    widget.sourceType === 'STATUS'
+      ? statusStepValues
+      : getFieldStepValues(widget.fieldCode);
+
   const config = NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
 
-  const buildOptions = (selectEl, items, selectedCode, placeholder) => {
+  const buildOptions = (
+    selectEl,
+    items,
+    selectedCode,
+    placeholder,
+    showCode = true,
+  ) => {
     selectEl.innerHTML = '';
     if (placeholder) {
       const placeholderOptionEl = document.createElement('option');
@@ -33,7 +76,10 @@
     items.forEach((item) => {
       const optionEl = document.createElement('option');
       optionEl.value = item.code;
-      optionEl.textContent = `${item.label} (${item.code})`;
+      optionEl.textContent =
+        showCode && item.label !== item.code
+          ? `${item.label} (${item.code})`
+          : item.label;
       optionEl.selected = item.code === selectedCode;
       selectEl.appendChild(optionEl);
     });
@@ -58,13 +104,30 @@
 
       const renderStepList = () => {
         stepListEl.innerHTML = '';
+        const stepValues = getStepValues(widget);
+        const stepItems = stepValues.map((value) => ({
+          code: value,
+          label: value,
+        }));
+
         widget.steps.forEach((step, stepIndex) => {
           const stepFragment = stepRowTemplateEl.content.cloneNode(true);
           const valueEl = stepFragment.querySelector('.js-step-value');
           const removeStepEl = stepFragment.querySelector('.js-step-remove');
 
-          valueEl.value = step;
-          valueEl.addEventListener('input', () => {
+          // 対象フィールド変更後などで現在の選択肢に含まれない値は、選択肢の先頭に
+          // 「選択肢に存在しません」と表示して残す(保存時のバリデーションで気づけるようにするため、
+          // 黙って値を消さない)。
+          const items =
+            step && !stepValues.includes(step)
+              ? [
+                  { code: step, label: `${step}(選択肢に存在しません)` },
+                  ...stepItems,
+                ]
+              : stepItems;
+          buildOptions(valueEl, items, step, '(選択してください)', false);
+
+          valueEl.addEventListener('change', () => {
             widget.steps[stepIndex] = valueEl.value;
           });
           removeStepEl.addEventListener('click', () => {
@@ -90,9 +153,11 @@
       sourceTypeEl.addEventListener('change', () => {
         widget.sourceType = sourceTypeEl.value;
         applySourceTypeVisibility();
+        renderStepList();
       });
       fieldEl.addEventListener('change', () => {
         widget.fieldCode = fieldEl.value;
+        renderStepList();
       });
       designEl.addEventListener('change', () => {
         widget.design = designEl.value;

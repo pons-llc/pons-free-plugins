@@ -2,8 +2,8 @@
   <h2 class="settings-heading">矢羽プラグイン 設定</h2>
   <p class="kintoneplugin-desc">
     ドロップダウン・ラジオボタン・プロセス管理のステータスの値に応じて、矢羽根(進捗インジケーター)を
-    レコードのヘッダーメニューに表示します(PC専用)。ステップは値の一致で判定するため、対象フィールドの
-    選択肢の文字列と完全に一致するように入力してください。
+    レコードのヘッダーメニューに表示します(PC専用)。ステップは対象フィールド(またはプロセス管理の
+    ステータス)の選択肢の中から選んでください。
   </p>
 
   <form class="js-submit-settings">
@@ -55,7 +55,7 @@
       </tbody>
     </table>
 
-    <div class="sta-cfg-section-heading">矢羽根のステップ(左から順、値は選択肢の文字列と完全一致させる)</div>
+    <div class="sta-cfg-section-heading">矢羽根のステップ(左から順、対象の選択肢から選ぶ)</div>
     <div class="js-step-list"></div>
     <button type="button" class="kintoneplugin-button-normal js-step-add">+ ステップを追加</button>
   </section>
@@ -63,7 +63,7 @@
 
 <template id="js-step-row-template">
   <div class="sta-cfg-inline-row js-step-row">
-    <input type="text" class="kintoneplugin-input-text js-step-value" placeholder="例: 申請中">
+    <select class="kintoneplugin-select js-step-value"></select>
     <span class="sta-cfg-row-remove js-step-remove">削除</span>
   </div>
 </template>

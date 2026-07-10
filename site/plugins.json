@@ -108,5 +108,15 @@
     "page": "plugins/self_lookup/index.html",
     "category": "データ連携",
     "tags": ["セルフルックアップ", "自動入力"]
+  },
+  {
+    "id": "status_arrow",
+    "name": "矢羽プラグイン",
+    "description": "ドロップダウン・ラジオボタン・プロセス管理のステータスの値に応じて、矢羽根(進捗インジケーター)をレコードのヘッダーメニューに表示するプラグイン",
+    "version": "1",
+    "zip": "plugins/status_arrow/plugin.zip",
+    "page": "plugins/status_arrow/index.html",
+    "category": "レイアウト・表示",
+    "tags": ["進捗表示", "矢羽根"]
   }
 ]
