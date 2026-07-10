@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ | GovAppsプラグイン</title>
+<meta name="description" content="GovAppsプラグインのよくある質問。無料の理由、安全性、ライセンス、プラグイン追加要望の扱いなど。">
+<link rel="stylesheet" href="css/51-modern-default.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="index.html">トップ</a> &gt; FAQ</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="index.html">トップ</a>
+    <a href="about.html">About</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+<h2>よくある質問</h2>
+
+<h3>なぜ無料なのですか?</h3>
+<p>
+  AIによってプラグイン開発そのものの労力は大きく下がった一方で、安全性の確認できないプラグインが増える
+  リスクも高まっています。私たちは「無料で・オープンソースで・広告もない」選択肢を増やすことが、
+  この状況の改善に少しでも役立つと考え、無料で公開しています(詳しくは<a href="about.html">About</a>を
+  ご覧ください)。
+</p>
+
+<h3>安全に使えますか?</h3>
+<p>
+  公開しているプラグインはすべてソースコードを<a href="https://github.com/pons-llc/pons-free-plugins" target="_blank" rel="noopener">GitHub</a>で
+  公開しており、実装時にセキュアコーディングガイドラインに沿ったチェックリストを作成しています。各
+  プラグインのページにセキュリティレビューのサマリを掲載していますので、導入前にご確認ください。
+  それでも「安全」を保証するものではないため、ソースコードをAIエージェントに読み込ませてご自身でも
+  確認いただくこと、本番環境にそのまま導入するのではなくまずは検証環境で動作確認いただくことを
+  推奨しています。
+</p>
+
+<h3>広告はありますか?</h3>
+<p>ありません。</p>
+
+<h3>ライセンスはどうなっていますか?</h3>
+<p>
+  公開しているプラグインはすべて<strong>Apache License 2.0</strong>です。改変・複製・商用利用等も含めて
+  自由にお使いいただけます。ライセンス表記や利用の事前連絡も不要です。なお、本サイト自体の文章・画像等の
+  コンテンツについては、無断複製・転載・再配布はご遠慮いただいています。詳しくは
+  <a href="terms.html">利用規約</a>をご覧ください。
+</p>
+
+<h3>新しいプラグインの作成を依頼できますか?</h3>
+<p>恐れ入りますが、新規プラグインの作成要望は受け付けておりません。</p>
+
+<h3>不具合を見つけたのですが、どこに報告すればいいですか?</h3>
+<p>
+  各プラグインのページに掲載しているGitHub Issueのリンクからご報告ください。改善要望も同様に
+  Issueで受け付けています。
+</p>
+
+<h3>API実行回数について教えてください</h3>
+<p>
+  各プラグインのページに、そのプラグインがREST APIを実行するかどうか・実行するタイミングと概算回数を
+  記載しています。ほとんどのプラグインはkintoneのJavaScript APIのみで完結しており、外部通信・REST API
+  呼び出しを行いません。
+</p>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="about.html">About</a> ／ <a href="faq.html">FAQ</a> ／ <a href="terms.html">利用規約</a> ／ <a href="privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="js/site.js"></script>
+</body>
+</html>

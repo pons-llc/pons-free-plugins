@@ -20,6 +20,17 @@
       <button type="button" id="js-pair-add" class="kintoneplugin-button-normal">+ 変換ペアを追加</button>
     </section>
 
+    <section class="wdf-section">
+      <div class="wdf-section-heading">元号テーブル(将来の改元への対応)</div>
+      <p class="kintoneplugin-desc">
+        和暦の元号・年は通常ブラウザの標準機能(Intl)が自動判定するため、令和までは何も登録する必要はありません。
+        令和の次の改元が発表されてからブラウザ側の対応が行き渡るまでの間だけ、ここに元号名と改元日(施行日)を
+        登録すると、登録した改元日以降の日付にはブラウザの判定より優先してこのテーブルの内容が使われます。
+      </p>
+      <div id="js-era-list"></div>
+      <button type="button" id="js-era-add" class="kintoneplugin-button-normal">+ 元号を追加</button>
+    </section>
+
     <p class="kintoneplugin-row">
       <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
       <button class="kintoneplugin-button-dialog-ok">Save</button>
@@ -53,6 +64,27 @@
           <td><input type="checkbox" class="js-pair-zenkaku"></td>
           <td class="wdf-preview js-pair-preview"></td>
           <td><span class="wdf-row-remove js-pair-remove">削除</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<template id="js-era-row-template">
+  <div class="wdf-section js-era-row" style="margin-bottom: 1em;">
+    <table class="wdf-table">
+      <thead>
+        <tr>
+          <th>元号名</th>
+          <th>改元日(施行日)</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" class="kintoneplugin-input-text js-era-name" placeholder="例: 令和"></td>
+          <td><input type="date" class="kintoneplugin-input-text js-era-start-date"></td>
+          <td><span class="wdf-row-remove js-era-remove">削除</span></td>
         </tr>
       </tbody>
     </table>

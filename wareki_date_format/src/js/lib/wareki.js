@@ -6,6 +6,11 @@
       ? require('./zenkaku')
       : root.WarekiDateFormat.Zenkaku;
 
+  const EraTable =
+    typeof module !== 'undefined' && module.exports
+      ? require('./era-table')
+      : root.WarekiDateFormat.EraTable;
+
   // DATETIME/CREATED_TIME/UPDATED_TIME はUTCのISO8601文字列で保存されている。和暦の年月日を
   // 求める際にどのタイムゾーンの暦日として扱うかの既定値。kintone側でユーザーのタイムゾーンを
   // 取得するJS APIはないため固定値とする(idea.mdの「タイムゾーンの扱い」参照。要確認事項)。
@@ -68,12 +73,24 @@
     return null;
   };
 
-  // {year, month, day} から和暦の元号・年(元号内の年)・月・日を求める。Intl.DateTimeFormat の
-  // 日本暦カレンダー('ja-JP-u-ca-japanese')に元号の判定を委ねているため、コード側に元号テーブルを
-  // 一切持たない(将来の改元にブラウザ/ICUの更新で自動追従できる)。
+  // {year, month, day} から和暦の元号・年(元号内の年)・月・日を求める。
+  // 既定ではIntl.DateTimeFormatの日本暦カレンダー('ja-JP-u-ca-japanese')に元号の判定を委ねる
+  // (ブラウザ/ICUの更新で将来の改元に自動追従できる)。ただしICUのデータ更新が改元の発表・施行に
+  // 追いつかない期間(新元号公布〜ICU側の対応)をカバーするため、管理者が設定画面で登録した
+  // eraTable(era-table.js)に対象日以降の開始日を持つ元号があれば、そちらを優先する。
   // Date を UTC正午で組み立てて timeZone: 'UTC' で読み出すことで、toCalendarParts で既に確定させた
   // 暦日をそのまま(それ以上のタイムゾーン変換なしに)和暦へ変換する。
-  const toEraParts = ({ year, month, day }) => {
+  const toEraParts = ({ year, month, day }, eraTable) => {
+    const override = EraTable.findOverride(eraTable, { year, month, day });
+    if (override) {
+      return {
+        era: override.era.name,
+        eraYear: EraTable.eraYearLabel(override.start, year),
+        month: String(month),
+        day: String(day),
+      };
+    }
+
     const date = new Date(Date.UTC(year, month - 1, day, 12));
     const parts = new Intl.DateTimeFormat('ja-JP-u-ca-japanese', {
       timeZone: 'UTC',
@@ -96,21 +113,35 @@
     };
   };
 
-  const applyZenkaku = (text, zenkaku) =>
-    zenkaku ? Zenkaku.toZenkakuDigits(text) : text;
-
-  const formatWarekiOnly = (calendarParts, zenkaku) => {
-    const era = toEraParts(calendarParts);
-    const text = `${era.era}${era.eraYear}年${era.month}月${era.day}日`;
-    return applyZenkaku(text, zenkaku);
+  // 全角化は「1桁の数値だけ」に限って行う(公用文の帳票で見られる、月日を2桁幅に揃えるための慣習に
+  // 合わせたもの。例: 令和８年７月10日 — 8・7は1桁なので全角、10は2桁なのでそのまま半角)。
+  // 西暦年(4桁)や、複数桁になった元号年(例: 令和10年)は対象外でそのまま半角を返す。
+  // 「元」(元号1年目の表記)は数字ではないため正規表現にマッチせず、無条件でそのまま返る。
+  const zenkakuIfSingleDigit = (value, zenkaku) => {
+    const text = String(value);
+    if (zenkaku && /^[0-9]$/.test(text)) {
+      return Zenkaku.toZenkakuDigits(text);
+    }
+    return text;
   };
 
-  const formatWarekiWithSeireki = (calendarParts, zenkaku) => {
-    const era = toEraParts(calendarParts);
-    const text =
-      `${calendarParts.year}年(${era.era}${era.eraYear}年)` +
-      `${calendarParts.month}月${calendarParts.day}日`;
-    return applyZenkaku(text, zenkaku);
+  const formatWarekiOnly = (calendarParts, zenkaku, eraTable) => {
+    const era = toEraParts(calendarParts, eraTable);
+    const eraYearText = zenkakuIfSingleDigit(era.eraYear, zenkaku);
+    const monthText = zenkakuIfSingleDigit(era.month, zenkaku);
+    const dayText = zenkakuIfSingleDigit(era.day, zenkaku);
+    return `${era.era}${eraYearText}年${monthText}月${dayText}日`;
+  };
+
+  const formatWarekiWithSeireki = (calendarParts, zenkaku, eraTable) => {
+    const era = toEraParts(calendarParts, eraTable);
+    const eraYearText = zenkakuIfSingleDigit(era.eraYear, zenkaku);
+    const monthText = zenkakuIfSingleDigit(calendarParts.month, zenkaku);
+    const dayText = zenkakuIfSingleDigit(calendarParts.day, zenkaku);
+    return (
+      `${calendarParts.year}年(${era.era}${eraYearText}年)` +
+      `${monthText}月${dayText}日`
+    );
   };
 
   // フィールドの型+値から、設定されたプリセット・全角半角オプションに従って和暦の文字列を組み立てる。
@@ -120,6 +151,7 @@
     const opts = options || {};
     const preset = opts.preset || PRESETS.WAREKI_ONLY;
     const zenkaku = Boolean(opts.zenkaku);
+    const eraTable = opts.eraTable || EraTable.DEFAULT_ERA_TABLE;
 
     const calendarParts = toCalendarParts(fieldType, rawValue, opts.timeZone);
     if (!calendarParts) {
@@ -127,9 +159,9 @@
     }
 
     if (preset === PRESETS.WAREKI_WITH_SEIREKI) {
-      return formatWarekiWithSeireki(calendarParts, zenkaku);
+      return formatWarekiWithSeireki(calendarParts, zenkaku, eraTable);
     }
-    return formatWarekiOnly(calendarParts, zenkaku);
+    return formatWarekiOnly(calendarParts, zenkaku, eraTable);
   };
 
   const SUPPORTED_SOURCE_FIELD_TYPES = [...DATE_ONLY_TYPES, ...DATETIME_TYPES];

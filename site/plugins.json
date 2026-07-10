@@ -4,6 +4,19 @@
     "name": "box・googleドライブ埋め込みプラグイン",
     "description": "box・googleドライブをレコード画面に埋め込むプラグイン",
     "version": "0.1.0",
-    "zip": "plugins/box_gdrive_iframe/plugin.zip"
+    "zip": "plugins/box_gdrive_iframe/plugin.zip",
+    "page": "plugins/box_gdrive_iframe/index.html",
+    "category": "ファイル・埋め込み",
+    "tags": ["ファイル管理", "埋め込み表示"]
+  },
+  {
+    "id": "wareki_date_format",
+    "name": "西暦和暦変換プラグイン",
+    "description": "日付・日時フィールドの値を和暦(または西暦・和暦併記)の文字列に変換し、指定した文字列フィールドへ自動入力するプラグイン",
+    "version": "1",
+    "zip": "plugins/wareki_date_format/plugin.zip",
+    "page": "plugins/wareki_date_format/index.html",
+    "category": "日付・書式",
+    "tags": ["日付変換", "自動入力"]
   }
 ]

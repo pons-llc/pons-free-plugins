@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>box・googleドライブ埋め込みプラグイン | GovAppsプラグイン</title>
+<meta name="description" content="URLフィールドに埋め込み用URLを入力すると、レコード画面の指定したスペースにBoxまたはGoogleドライブの埋め込みビューを表示するkintone無料プラグイン。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; box・googleドライブ埋め込みプラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>box・googleドライブ埋め込みプラグイン</h2>
+  <p class="plugin-lead">
+    URLフィールドに埋め込み用URLを入力すると、レコードの詳細・作成・編集画面の指定したスペースに、
+    BoxまたはGoogleドライブの埋め込みビューを表示します。契約書やプロジェクト資料のフォルダを、
+    kintoneのレコード画面から直接確認できるようになります。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">ファイル・埋め込み</span>
+    <span class="badge badge-tag">#ファイル管理</span>
+    <span class="badge badge-tag">#埋め込み表示</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="box_gdrive_iframe">ダウンロード(v0.1.0)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>案件・契約管理での資料共有</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>案件レコードに「契約書フォルダURL」フィールドを持たせ、Boxの共有リンクを入力しておくと、レコードを開くたびに最新のフォルダ内容がその場で確認できます。ファイルをkintone側にアップロードし直す必要がありません。</p>
+      <div class="accordion-item">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-1-detail">
+          <span>具体例: 複数フォルダをタブで切り替える</span>
+          <span class="accordion-icon">▶</span>
+        </button>
+        <div class="accordion-panel" id="usecase-1-detail" hidden>
+          <p>「見積書」「契約書」「納品物」のように用途別にBox/Googleドライブのフォルダを分けている場合、埋め込みをタブごとに複数設定できます。タブを切り替えて必要な資料だけを表示できます。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>プロジェクト管理での参考資料の常時表示</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>プロジェクトの詳細画面にGoogleドライブのフォルダを埋め込み、議事録やデザインファイルなどをレコードを開くだけで一覧できるようにします。フォルダの中身が更新されても、URLはそのままなので設定変更は不要です。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>Google Workspaceユーザー間でのドキュメント確認</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>Googleドライブのファイル(スプレッドシート・ドキュメント等)の共有リンクを直接埋め込み用URLに指定すれば、フォルダだけでなく単一ファイルのプレビュー表示にも利用できます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>アプリのフォームに、埋め込み表示先となる「スペース」フィールドを配置する。</li>
+    <li>同じフォームに、埋め込み用URLを保持する「文字列(1行)」または「リンク」フィールドを配置する。</li>
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ 埋め込みを追加」で埋め込み枠を作成し、表示先スペースフィールド・URLフィールド・サービス(Box / Googleドライブ)・幅高さを選択して保存する。</li>
+    <li>レコードのURLフィールドに、Boxの共有リンク(<code>https://app.box.com/s/…</code>)またはGoogleドライブの共有リンク(<code>https://drive.google.com/…</code>)を入力する。</li>
+    <li>レコードの詳細・作成・編集画面を開くと、指定したスペースに埋め込みビューが表示される。</li>
+  </ol>
+  <p class="download-note">複数の埋め込みを設定すると、レコード画面にタブとして切り替え表示されます。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>埋め込み用URLは「https://から始まる」「Box(box.com)またはGoogleドライブ(drive.google.com/docs.google.com)のドメインのみ」を許可するチェックを行ってから画面に埋め込んでおり、それ以外のURLやhttpのURLは表示されません。</li>
+        <li>入力値(タブ名・URL等)を画面に表示する際はすべて<code>textContent</code>を使っており、任意のHTMLが実行される穴(XSS)はありません。</li>
+        <li>外部サーバーへの通信(fetch/XHR)は一切行いません。表示は<code>iframe</code>による埋め込みのみです。</li>
+        <li>外部ライブラリを一切使用せず、vanilla JavaScriptのみで実装しています。</li>
+        <li>認証情報・APIキーのやり取りは行いません(埋め込みURLは利用者が手動で入力する共有リンクのみ)。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/box_gdrive_iframe/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="box・googleドライブ埋め込みプラグインの設定画面。埋め込みを1件追加し、表示先スペースフィールド・埋め込みURLフィールド・サービス(Googleドライブ)・幅高さを設定している状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインはREST APIを一切実行しません。フィールド・レイアウトの取得は
+    <code>kintone.app.getFormLayout()</code>等のJavaScript APIのみで行い、レコード画面での動作は
+    <code>iframe</code>への埋め込み表示のみで完結します。API実行数制限に影響することはありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/box_gdrive_iframe" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/box_gdrive_iframe/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintoneサービス</h3>
+  <div class="related-services">
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

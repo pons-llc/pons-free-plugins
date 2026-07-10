@@ -6,6 +6,7 @@
   "desktop": {
     "js": [
       "js/lib/zenkaku.js",
+      "js/lib/era-table.js",
       "js/lib/wareki.js",
       "js/lib/config-store.js",
       "js/lib/config-validation.js",
@@ -21,6 +22,7 @@
     "html": "html/config.html",
     "js": [
       "js/lib/zenkaku.js",
+      "js/lib/era-table.js",
       "js/lib/wareki.js",
       "js/lib/config-store.js",
       "js/lib/config-validation.js",
@@ -43,6 +45,7 @@
   "mobile": {
     "js": [
       "js/lib/zenkaku.js",
+      "js/lib/era-table.js",
       "js/lib/wareki.js",
       "js/lib/config-store.js",
       "js/lib/config-validation.js",

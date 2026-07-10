@@ -5,6 +5,9 @@
   // 未保存時のデフォルト値を管理する。
   const DEFAULTS = {
     pairs: [],
+    // 管理者が登録する、Intl(ブラウザのICU)がまだ知らない将来の元号のテーブル。
+    // 既定は空配列(明治〜令和はIntlの日本暦カレンダーで自動判定できるため登録不要。era-table.js参照)。
+    eras: [],
   };
 
   const parseJsonOr = (raw, fallback) => {
@@ -24,11 +27,13 @@
     const saved = rawSaved || {};
     return {
       pairs: parseJsonOr(saved.pairs, DEFAULTS.pairs),
+      eras: parseJsonOr(saved.eras, DEFAULTS.eras),
     };
   };
 
   const serialize = (config) => ({
     pairs: JSON.stringify(config.pairs),
+    eras: JSON.stringify(config.eras),
   });
 
   const ConfigStore = { DEFAULTS, load, serialize };

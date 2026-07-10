@@ -1,0 +1,152 @@
+plugins:
+  # 全プラグイン(plugin_idea.mdに構想メモがあるものと無いものを問わず、ディレクトリの実在で判定)
+  # released   : site/plugins.json に登録済み(公開サイトから配布中)
+  # in_progress: ディレクトリが存在する(着手中、公開はまだ)
+  # not_started: ディレクトリが存在しない(構想のみ、未着手)
+  # in_plugin_idea_md: plugin_idea.md に構想メモがあるかどうか(あくまで初期メモであり、
+  #   無い=対象外という意味ではない。実装状況の判定には使わない)
+
+  - name: box・googleドライブ埋め込みプラグイン
+    dir: box_gdrive_iframe
+    status: released
+    in_plugin_idea_md: false
+
+  - name: サブテーブル別アプリ挿入プラグイン
+    dir: subtable_cross_app_insert
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: 西暦和暦変換プラグイン
+    dir: wareki_date_format
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: ガントチャートプラグイン
+    dir: gantt_chart_view
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: 関連レコード集計プラグイン
+    dir: related_record_summary
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: 複数レコードサブテーブル化プラグイン
+    dir: records_to_subtable_import
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: 神エクセル帳票印刷
+    dir: excel_report_export
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: サブテーブルルックアッププラグイン
+    dir: subtable_lookup
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: スプリットプラグイン
+    dir: text_split
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: 数字抽出プラグイン
+    dir: number_extract
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: Right、LEFT、MID関数プラグイン
+    dir: text_slice
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: セルフルックアッププラグイン
+    dir: self_lookup
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: タブ表示プラグイン
+    dir: tab_layout
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: 矢羽プラグイン
+    dir: status_arrow
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: 一覧強調プラグイン
+    dir: list_highlight
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: モーダル確認プラグイン
+    dir: confirm_modal
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: サブテーブルソートプラグイン
+    dir: subtable_sort
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: 親子階層表示プラグイン
+    dir: hierarchy_view
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: 自動ルックアッププラグイン
+    dir: auto_lookup
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: 年度リセット自動採番プラグイン
+    dir: fiscal_year_numbering
+    status: in_progress
+    in_plugin_idea_md: false
+    note: site/plugins/fiscal_year_numbering/ にビルド成果物はあるが、site/plugins.json 未登録のため公開サイトからは未参照。
+
+  - name: 選択肢絞込プラグイン
+    dir: narrowDown
+    status: in_progress
+    in_plugin_idea_md: false
+
+  - name: 条件つき必須プラグイン
+    dir: requiredCondition
+    status: in_progress
+    in_plugin_idea_md: false
+
+  - name: 条件つき非表示プラグイン
+    dir: setFieldShown
+    status: in_progress
+    in_plugin_idea_md: false
+
+  - name: ユーザー情報ルックアッププラグイン
+    dir: null
+    status: not_started
+    in_plugin_idea_md: true
+
+  - name: 時間帯集計項目自動作成プラグイン
+    dir: null
+    status: not_started
+    in_plugin_idea_md: true
+
+  - name: プラグイン利用AI用バックデータ作成アプリプラグイン
+    dir: null
+    status: not_started
+    in_plugin_idea_md: true
+
+summary:
+  total: 26
+  released: 1
+  in_progress: 22
+  not_started: 3
+
+meta:
+  generated_at: "2026-07-10"
+  sources:
+    - plugin_idea.md (構想メモ。網羅的な正とはみなさない)
+    - リポジトリ直下ディレクトリの実在確認
+    - site/plugins.json (公開判定)
+  method: "plugin_idea.mdの見出し(##)一覧とリポジトリ直下ディレクトリを突き合わせ、plugin_idea.mdに無いディレクトリ(box_gdrive_iframe/fiscal_year_numbering/narrowDown/requiredCondition/setFieldShown)も同じ基準で通常管理する。"

@@ -9,6 +9,9 @@
   const pairListEl = document.getElementById('js-pair-list');
   const pairAddButtonEl = document.getElementById('js-pair-add');
   const pairRowTemplateEl = document.getElementById('js-pair-row-template');
+  const eraListEl = document.getElementById('js-era-list');
+  const eraAddButtonEl = document.getElementById('js-era-add');
+  const eraRowTemplateEl = document.getElementById('js-era-row-template');
 
   // kintone.app.getFormFields() は REST APIのレスポンスではなく、
   // その `properties` プロパティと同様の値(フィールドコードをキーにした平坦なオブジェクト)を解決する。
@@ -49,6 +52,7 @@
       {
         preset: pair.preset,
         zenkaku: pair.zenkaku,
+        eraTable: config.eras,
       },
     );
   };
@@ -104,6 +108,41 @@
     renderPairList();
   });
 
+  const renderEraList = () => {
+    eraListEl.innerHTML = '';
+    config.eras.forEach((era, index) => {
+      const fragment = eraRowTemplateEl.content.cloneNode(true);
+      const nameEl = fragment.querySelector('.js-era-name');
+      const startDateEl = fragment.querySelector('.js-era-start-date');
+      const removeEl = fragment.querySelector('.js-era-remove');
+
+      nameEl.value = era.name || '';
+      startDateEl.value = era.startDate || '';
+
+      nameEl.addEventListener('input', () => {
+        config.eras[index].name = nameEl.value;
+      });
+      startDateEl.addEventListener('change', () => {
+        config.eras[index].startDate = startDateEl.value;
+        // 改元日を変えると各ペアのプレビュー結果が変わりうるため再計算する。
+        renderPairList();
+      });
+      removeEl.addEventListener('click', () => {
+        config.eras.splice(index, 1);
+        renderEraList();
+        renderPairList();
+      });
+
+      eraListEl.appendChild(fragment);
+    });
+  };
+  renderEraList();
+
+  eraAddButtonEl.addEventListener('click', () => {
+    config.eras.push({ name: '', startDate: '' });
+    renderEraList();
+  });
+
   cancelButtonEl.addEventListener('click', () => {
     window.location.href = '../../' + kintone.app.getId() + '/plugin/';
   });
@@ -111,11 +150,13 @@
   formEl.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const validation = NS.ConfigValidation.validatePairs(config.pairs);
-    if (!validation.valid) {
-      // ユーザー自身が設定画面で選択した値の検証結果(フィールドコードやプリセット名)のみを表示しており、
-      // 外部からの入力ではないが、念のためinnerHTMLではなくtextContentで出力する。
-      errorsEl.textContent = validation.errors.join('\n');
+    const pairValidation = NS.ConfigValidation.validatePairs(config.pairs);
+    const eraValidation = NS.ConfigValidation.validateEras(config.eras);
+    const errors = [...pairValidation.errors, ...eraValidation.errors];
+    if (errors.length > 0) {
+      // ユーザー自身が設定画面で入力した値の検証結果(フィールドコード・プリセット名・元号名・改元日)のみを
+      // 表示しており、外部からの入力ではないが、念のためinnerHTMLではなくtextContentで出力する。
+      errorsEl.textContent = errors.join('\n');
       return;
     }
     errorsEl.textContent = '';

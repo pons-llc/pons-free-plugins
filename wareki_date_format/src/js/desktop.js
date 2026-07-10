@@ -26,6 +26,7 @@
         {
           preset: pair.preset,
           zenkaku: pair.zenkaku,
+          eraTable: config.eras,
         },
       );
     });

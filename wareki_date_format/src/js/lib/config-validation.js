@@ -6,6 +6,11 @@
       ? require('./wareki')
       : root.WarekiDateFormat.Wareki;
 
+  const EraTable =
+    typeof module !== 'undefined' && module.exports
+      ? require('./era-table')
+      : root.WarekiDateFormat.EraTable;
+
   const VALID_PRESETS = Object.values(Wareki.PRESETS);
 
   const isNonEmptyString = (v) => typeof v === 'string' && v.length > 0;
@@ -63,7 +68,46 @@
     return { valid: errors.length === 0, errors };
   };
 
-  const ConfigValidation = { validatePairs };
+  // 設定画面の保存前チェック(元号テーブル)。管理者が登録する「Intlがまだ知らない将来の元号」の
+  // 一覧(改元日+元号名)の構造的な不正・矛盾を検出する。
+  const validateEras = (eras) => {
+    const errors = [];
+
+    if (!Array.isArray(eras)) {
+      return { valid: false, errors: ['設定(eras)が配列ではありません。'] };
+    }
+
+    eras.forEach((era, index) => {
+      const label = `元号${index + 1}件目`;
+      if (!era || !isNonEmptyString(era.name)) {
+        errors.push(`${label}: 元号名が入力されていません。`);
+      }
+      if (!era || EraTable.parseStartDate(era.startDate) === null) {
+        errors.push(`${label}: 改元日がYYYY-MM-DD形式で入力されていません。`);
+      }
+    });
+
+    const startDateCounts = new Map();
+    eras.forEach((era) => {
+      if (era && EraTable.parseStartDate(era.startDate) !== null) {
+        startDateCounts.set(
+          era.startDate,
+          (startDateCounts.get(era.startDate) || 0) + 1,
+        );
+      }
+    });
+    startDateCounts.forEach((count, startDate) => {
+      if (count > 1) {
+        errors.push(
+          `改元日「${startDate}」が${count}件の元号で重複しています。`,
+        );
+      }
+    });
+
+    return { valid: errors.length === 0, errors };
+  };
+
+  const ConfigValidation = { validatePairs, validateEras };
 
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = ConfigValidation;

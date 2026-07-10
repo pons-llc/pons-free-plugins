@@ -1,10 +1,10 @@
 (function (PLUGIN_ID) {
-  "use strict";
+  'use strict';
 
   const EVENTS = [
-    "app.record.detail.show",
-    "app.record.create.show",
-    "app.record.edit.show",
+    'app.record.detail.show',
+    'app.record.create.show',
+    'app.record.edit.show',
   ];
 
   kintone.events.on(EVENTS, (event) => {
@@ -12,7 +12,7 @@
     window.BoxGdriveEmbed.renderAll(
       config,
       event.record,
-      kintone.app.record.getSpaceElement
+      kintone.app.record.getSpaceElement,
     );
     return event;
   });

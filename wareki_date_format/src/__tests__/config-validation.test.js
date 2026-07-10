@@ -123,3 +123,75 @@ describe('ConfigValidation.validatePairs — semantic errors', () => {
     expect(result.errors.length).toBeGreaterThanOrEqual(2);
   });
 });
+
+const validEra = (overrides) =>
+  Object.assign({ name: '和新', startDate: '2040-03-01' }, overrides);
+
+describe('ConfigValidation.validateEras — happy paths', () => {
+  test('an empty array of eras is valid (no future era registered yet)', () => {
+    expect(ConfigValidation.validateEras([])).toEqual({
+      valid: true,
+      errors: [],
+    });
+  });
+
+  test('a single well-formed era is valid', () => {
+    expect(ConfigValidation.validateEras([validEra()])).toEqual({
+      valid: true,
+      errors: [],
+    });
+  });
+
+  test('multiple eras with distinct start dates are valid', () => {
+    const eras = [
+      validEra({ name: '和新', startDate: '2040-03-01' }),
+      validEra({ name: '和心', startDate: '2060-08-15' }),
+    ];
+    expect(ConfigValidation.validateEras(eras)).toEqual({
+      valid: true,
+      errors: [],
+    });
+  });
+});
+
+describe('ConfigValidation.validateEras — structural errors', () => {
+  test('non-array input is invalid', () => {
+    expect(ConfigValidation.validateEras(null).valid).toBe(false);
+    expect(ConfigValidation.validateEras(undefined).valid).toBe(false);
+    expect(ConfigValidation.validateEras('x').valid).toBe(false);
+  });
+
+  test('missing era name is invalid', () => {
+    const result = ConfigValidation.validateEras([validEra({ name: '' })]);
+    expect(result.valid).toBe(false);
+  });
+
+  test('missing/malformed startDate is invalid', () => {
+    expect(
+      ConfigValidation.validateEras([validEra({ startDate: '' })]).valid,
+    ).toBe(false);
+    expect(
+      ConfigValidation.validateEras([validEra({ startDate: '2040/03/01' })])
+        .valid,
+    ).toBe(false);
+  });
+});
+
+describe('ConfigValidation.validateEras — semantic errors', () => {
+  test('two eras with the same start date are invalid (ambiguous which era applies)', () => {
+    const eras = [
+      validEra({ name: '和新', startDate: '2040-03-01' }),
+      validEra({ name: '和心', startDate: '2040-03-01' }),
+    ];
+    const result = ConfigValidation.validateEras(eras);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.includes('重複'))).toBe(true);
+  });
+
+  test('all applicable errors are reported together, not just the first one', () => {
+    const eras = [validEra({ name: '' }), validEra({ startDate: 'bogus' })];
+    const result = ConfigValidation.validateEras(eras);
+    expect(result.valid).toBe(false);
+    expect(result.errors.length).toBeGreaterThanOrEqual(2);
+  });
+});

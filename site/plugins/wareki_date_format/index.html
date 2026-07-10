@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>西暦和暦変換プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="日付・日時フィールドの値を和暦(または西暦・和暦併記)の文字列に変換し、指定した文字列フィールドへ自動入力するkintone無料プラグイン。将来の改元にも対応。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 西暦和暦変換プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>西暦和暦変換プラグイン</h2>
+  <p class="plugin-lead">
+    日付・日時フィールド(DATE / DATETIME / 作成日時 / 更新日時)の値を和暦の文字列に変換し、
+    指定した文字列(1行)フィールドへ自動入力します。「和暦のみ」「西暦和暦併記」の書式が選べ、
+    月日・元号年の全角/半角も切り替え可能です。令和より先の改元にも、設定画面から元号名と
+    改元日を登録することで対応できます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">日付・書式</span>
+    <span class="badge badge-tag">#日付変換</span>
+    <span class="badge badge-tag">#自動入力</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="wareki_date_format">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>公文書・帳票向けの日付表記</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>申請日や決裁日を「令和7年7月9日」のような和暦表記で帳票に印字したい場合、DATEフィールドの値から自動的に和暦の文字列フィールドを作成できます。印刷プラグインやカスタマイズビューへの差し込み元として使えます。</p>
+      <div class="accordion-item">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-1-detail">
+          <span>具体例: 西暦と和暦を併記したい</span>
+          <span class="accordion-icon">▶</span>
+        </button>
+        <div class="accordion-panel" id="usecase-1-detail" hidden>
+          <p>「西暦和暦併記」プリセットを選ぶと「2026年(令和8年)7月10日」のように西暦と和暦を1つのフィールドにまとめて出力できます。社内向けと対外向けで表記を使い分けたい場合は、同じ日付フィールドから複数の出力先フィールドへ、異なる書式のペアを設定できます。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>帳票の見栄えを揃えるための全角表記</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>全角オプションをONにすると、月日・元号年のうち1桁の数字だけを全角にします(例: 令和８年７月10日)。2桁になる数字は半角のまま残るため、縦書き帳票や罫線の幅を揃えたい場面での見た目の統一に使えます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>作成日時・更新日時の和暦表示</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>DATE型だけでなく、作成日時・更新日時(CREATED_TIME / UPDATED_TIME)フィールドも変換元に選べます。タイムゾーンはAsia/Tokyo固定で暦日を計算するため、日本国内での利用を想定した挙動になります。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>アプリのフォームに、変換先となる文字列(1行)フィールドを配置する(変換元の日付・日時フィールドは既存のもので構わない)。</li>
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ 変換ペアを追加」で、変換元フィールド・出力先フィールド・書式(和暦のみ/西暦和暦併記)・全角/半角を設定する。ペアは複数追加できる。</li>
+    <li>プレビュー欄でサンプル日付(2024-07-09)の変換結果を確認しながら書式を調整し、保存する。</li>
+    <li>(将来、令和の次の改元が発表された場合のみ)「元号テーブル」に元号名と改元日を登録して保存する。登録した改元日以降の日付にはその元号が使われる。</li>
+  </ol>
+  <p class="download-note">保存後は、変換元フィールドの値を変更したとき、または保存時に、出力先フィールドの内容が自動的に上書きされます。一覧のインライン編集やREST API経由での変更には追従しません。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>フィールド一覧・エラーメッセージ・プレビューの描画はすべて<code>textContent</code>または<code>createElement</code>+プロパティ代入で行っており、<code>innerHTML</code>への外部由来文字列の差し込みはありません。</li>
+        <li>REST APIは一切使用せず、<code>kintone.app.getFormFields()</code>等のJavaScript APIのみで完結します。kintone以外の外部サーバーへの通信も行いません。</li>
+        <li>和暦への変換はブラウザ標準の<code>Intl.DateTimeFormat</code>のみで行い、外部ライブラリを使用していません。</li>
+        <li>保存する設定にはフィールドコード・書式名・真偽値・元号名/改元日のみを含み、認証情報や個人情報は含まれません。</li>
+        <li><code>kintone.plugin.app.getConfig()</code>が<code>null</code>を返す未設定状態でも例外を投げず、既定値で安全に動作します。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/wareki_date_format/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="西暦和暦変換プラグインの設定画面。変換元フィールド・出力先フィールド・書式・全角オプションを設定した変換ペアと、プレビュー結果が表示されている状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインはREST APIを一切実行しません。フィールド情報の取得は<code>kintone.app.getFormFields()</code>のみで行い、
+    レコード画面での変換処理は<code>change</code>/<code>submit</code>イベント内でのローカルな文字列変換のみで完結します。
+    API実行数制限に影響することはありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/wareki_date_format" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/wareki_date_format/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintoneサービス</h3>
+  <div class="related-services">
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

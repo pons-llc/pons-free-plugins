@@ -21,7 +21,8 @@
 ## XSS・CSSインジェクション対策
 
 - [x] 設定画面(`js/config.js`)でフィールド一覧・エラーメッセージを描画する際、`innerHTML`ではなく`document.createElement()` + `textContent`のみを使用している(`buildOptions()`のoption要素、`errorsEl.textContent`でのバリデーションエラー表示)。フィールドラベルはアプリ管理者が設定した文字列であり利用者からの直接入力ではないが、念のため`textContent`で統一している
-- [x] `pairListEl.innerHTML = ''`は再描画のたびにリストをクリアするためだけの用途で、外部由来の文字列を差し込んでいない(`<template>`要素からの`cloneNode(true)`で行を組み立てる)
+- [x] `pairListEl.innerHTML = ''`/`eraListEl.innerHTML = ''`は再描画のたびにリストをクリアするためだけの用途で、外部由来の文字列を差し込んでいない(`<template>`要素からの`cloneNode(true)`で行を組み立てる)
+- [x] 元号テーブルの元号名(管理者がテキスト入力する自由記述)は`<input>`要素の`value`プロパティへの読み書きのみで扱っており、`innerHTML`への差し込みは行っていない(`renderEraList()`)。`Wareki.format()`が組み立てる和暦文字列(元号名を含む)も出力先フィールドへは`event.record[...].value`への代入のみで、DOM描画はkintone本体に委ねられる(既存の「出力先フィールドへの書き込み」の項と同様)
 - [x] プレビュー表示(`updatePreview()`)は固定のサンプル日付(`2024-07-09`)を`Wareki.format()`に通した結果を`textContent`で表示するのみで、ユーザー入力をそのまま描画する箇所はない
 - [x] 出力先フィールドへの書き込み(`desktop.js`/`mobile.js`の`recomputeAll()`)は`event.record[...].value`への文字列代入のみで、DOM操作(`innerHTML`等)を一切行わない。kintone側のフィールド描画(テキストボックスへの値表示)はkintone自身が担うため、XSS対策はkintone本体のレンダリングに委ねられる
 - [x] 外部サイトへのリダイレクト・URL生成を行っていない。`window.location.href`に渡す値は`kintone.app.getId()`など信頼できる内部値のみ(`js/config.js`の保存後・キャンセル時の画面遷移)
@@ -29,6 +30,7 @@
 ## 設定の妥当性検証
 
 - [x] 保存前に`js/lib/config-validation.js`の`validatePairs()`でチェックし、不正な設定(変換元/出力先未選択、未知のプリセット値、`zenkaku`が真偽値でない、変換元と出力先が同一フィールド、複数ペアが同じ出力先フィールドへ書き込む重複設定)は保存させない
+- [x] 元号テーブルも同様に`validateEras()`でチェックし、元号名未入力・改元日がYYYY-MM-DD形式でない・改元日が複数行で重複、のいずれかがあれば保存させない
 - [x] `kintone.plugin.app.getConfig()`が`null`/`undefined`を返す場合(未設定のアプリ)でも、`js/lib/config-store.js`の`load()`は例外を投げず既定値(`{ pairs: [] }`)を返す(`fiscal_year_numbering`で確認された「レコード画面で`getConfig()`が`null`を返す」事象への対策を踏襲)
 - [x] レコード画面側(`desktop.js`/`mobile.js`)でも、設定に含まれる変換元/出力先フィールドコードが実際のレコードに存在しない場合(フィールド削除・設定の食い違い等)は`recomputeAll()`内で早期リターンし、画面をクラッシュさせない
 - [x] 保存する設定(`kintone.plugin.app.setConfig()`)にはフィールドコード・プリセット名・真偽値のみを含み、認証情報や個人情報は一切含まれない
@@ -47,7 +49,7 @@
 
 ## 個別確認事項(利用ユーザーへ委ねる項目)
 
-- 改元当日をまたぐタイミングでの実運用での挙動確認(`Intl`のICUデータに完全に依存するため、ブラウザの更新状況によっては新元号への追従が遅れる可能性がある)
+- 改元当日をまたぐタイミングでの実運用での挙動確認。既定では`Intl`のICUデータに依存するため、ブラウザの更新状況によっては新元号への追従が遅れる可能性がある。新元号公表〜ICU側の対応が行き渡るまでの期間は、設定画面の元号テーブルに元号名・改元日を手動登録することで回避できる(`idea.md`「元号の判定方法」参照)
 - タイムゾーンがAsia/Tokyo以外のユーザーでの、DATETIME系フィールドの和暦変換結果と画面表示の日付のずれ
 
 問題があれば、公開サイトのリポジトリのGitHub Issueで報告してもらい対応する。

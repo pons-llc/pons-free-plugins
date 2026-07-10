@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About | GovAppsプラグイン</title>
+<meta name="description" content="GovAppsプラグインは、オープンソースで安全性を確認できる無料のkintoneプラグインを公開するサイトです。広告は一切ありません。">
+<link rel="stylesheet" href="css/51-modern-default.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="index.html">トップ</a> &gt; About</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="index.html">トップ</a>
+    <a href="about.html">About</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+<h2>GovAppsプラグインについて</h2>
+<p>
+  GovAppsプラグインは、<a href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+  の姉妹サイトとして、オープンソースで安全性を確認できる無料のkintoneプラグインを公開しています。
+</p>
+
+<h3>なぜやっているか</h3>
+<p>
+  AIによる開発が当たり前になった今、誰でも簡単にkintoneプラグインを作って配布できるようになりました。
+  それ自体は良いことですが、その裏で「中身がブラックボックスのまま配布される」「安全性が確認されないまま
+  業務データを扱うプラグインが使われてしまう」といったリスクも同時に増えています。個人情報や業務の
+  機密情報を扱うkintoneに、出どころの分からないコードを組み込むことへの危惧から、私たちはこのサイトを
+  始めました。
+</p>
+<p>
+  「無料で・安全性を自分で確認できて・広告もない」プラグインの選択肢を増やすことで、少しでもこの状況の
+  改善に貢献したいと考えています。
+</p>
+
+<h3>大切にしていること</h3>
+
+<h4>すべてオープンソース(Apache License 2.0)</h4>
+<p>
+  公開しているプラグインのソースコードはすべて
+  <a href="https://github.com/pons-llc/pons-free-plugins" target="_blank" rel="noopener">GitHub</a>
+  で公開しており、ライセンスはすべて<strong>Apache License 2.0</strong>です。改変・複製・商用利用を含め
+  自由にお使いいただけます。
+</p>
+
+<h4>ソースコードのAI読み込みによるレビューを推奨</h4>
+<p>
+  各プラグインのソースコードは、Claude・ChatGPT等のAIエージェントに読み込ませて内容を確認いただくことを
+  推奨しています。人手のレビューだけに頼らず、ご自身の環境・AIでもう一段の確認をしていただくことで、
+  導入前の安心材料にしていただければと思います。各プラグインのページにはGitHubへの直接リンクを掲載して
+  いますので、そこからソースコード一式を取得できます。
+</p>
+
+<h4>セキュリティレビューのチェックリストを公開</h4>
+<p>
+  各プラグインは、実装時に<a href="https://github.com/pons-llc/pons-free-plugins/blob/main/secureCodingGuideline.md" target="_blank" rel="noopener">kintoneセキュアコーディングガイドライン</a>
+  に沿ったチェックリスト(XSS対策・外部通信の有無・認証情報の扱い等)を作成しています。各プラグインの
+  ページにサマリを掲載し、詳細はGitHub上のチェックリストファイルから確認できます。
+</p>
+
+<h4>外部ライブラリ・外部通信を使わない</h4>
+<p>
+  プラグインの実行コード(kintone上で動く部分)には外部ライブラリを一切組み込まず、vanilla JavaScriptの
+  みで実装しています。kintone以外のサーバーへの通信も行いません(例外的に外部ライブラリを使う場合は、
+  そのプラグインのページに明記します)。
+</p>
+
+<h4>広告は一切ありません</h4>
+<p>本サイト・配布するプラグインのいずれにも広告は含まれません。</p>
+
+<h3>プラグイン新規追加のご要望について</h3>
+<p>
+  恐れ入りますが、本サイトでは新規プラグインの作成要望は受け付けておりません。公開しているプラグインへの
+  不具合報告・改善要望は、各プラグインのページから該当のGitHub Issueへお寄せください。
+</p>
+
+<h3>運営</h3>
+<p>本サイトは<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>が運営しています。</p>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="about.html">About</a> ／ <a href="faq.html">FAQ</a> ／ <a href="terms.html">利用規約</a> ／ <a href="privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="js/site.js"></script>
+</body>
+</html>

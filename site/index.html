@@ -1,49 +1,154 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>kintone 無料プラグイン集</title>
-  <link rel="stylesheet" href="css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GovAppsプラグイン | 安全性を確認できる無料kintoneプラグイン集</title>
+<meta name="description" content="オープンソースで中身を確認できる、無料のkintoneプラグイン集。広告は一切ありません。カテゴリ・タグ・キーワード、またはAI検索でプラグインを探せます。">
+<link rel="stylesheet" href="css/51-modern-default.css">
+<link rel="stylesheet" href="css/style.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="GovAppsプラグイン | 安全性を確認できる無料kintoneプラグイン集">
+<meta property="og:description" content="オープンソースで中身を確認できる、無料のkintoneプラグイン集。広告は一切ありません。">
+<meta property="og:site_name" content="GovAppsプラグイン">
+<meta property="og:locale" content="ja_JP">
 </head>
 <body>
-  <header>
-    <h1>kintone 無料プラグイン集</h1>
-    <p>ここで公開しているプラグインは自由にダウンロード・利用いただけます。</p>
-  </header>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
 
-  <main id="plugin-list">
-    <p class="loading">読み込み中...</p>
-  </main>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="index.html">トップ</a>
+    <a href="about.html">About</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
 
-  <footer>
-    <p>&copy; <span id="year"></span></p>
-  </footer>
+<div class="hero">
+  <h1 class="hero-title"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span>プラグイン</h1>
+  <p class="hero-lead">
+    AIによる開発が当たり前になった今、安全性の確認できないkintoneプラグインも増えています。
+    このサイトで公開するプラグインはすべて<strong>オープンソース(Apache 2.0)</strong>で
+    ソースコードを公開し、セキュリティレビューのチェックリストも一緒に掲載しています。
+    広告は一切ありません。
+  </p>
+  <div class="hero-badges">
+    <span class="hero-badge">🔓 オープンソース</span>
+    <span class="hero-badge">🛡️ セキュリティレビュー付き</span>
+    <span class="hero-badge">🚫 広告なし</span>
+    <span class="hero-badge">💴 無料</span>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong id="hero-plugin-count">-</strong>公開プラグイン数</div>
+  </div>
+</div>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+<div class="ai-search-cta">
+  <div class="ai-search-cta-text">
+    <strong>✨ AIでプラグインを探す</strong>
+    <span>やりたいことを自然な言葉で入力すると、AIが意味の近いプラグインを探します</span>
+  </div>
+  <button type="button" class="kintoneplugin-button-normal ai-search-open-btn" id="ai-search-open">AI検索を開く</button>
+</div>
 
-    fetch("plugins.json")
-      .then((res) => res.json())
-      .then((plugins) => {
-        const list = document.getElementById("plugin-list");
-        list.innerHTML = "";
-        plugins.forEach((plugin) => {
-          const card = document.createElement("article");
-          card.className = "plugin-card";
-          card.innerHTML = `
-            <h2>${plugin.name}</h2>
-            <p>${plugin.description}</p>
-            <p class="version">v${plugin.version}</p>
-            <a class="download" href="${plugin.zip}" download>ダウンロード</a>
-          `;
-          list.appendChild(card);
-        });
-      })
-      .catch(() => {
-        document.getElementById("plugin-list").innerHTML =
-          "<p>プラグイン一覧の読み込みに失敗しました。</p>";
-      });
-  </script>
+<h2>プラグイン一覧</h2>
+<div class="filter-bar">
+  <div class="filter-group">
+    <div class="filter-group-label">キーワード検索</div>
+    <input type="search" class="search-input" id="plugin-search" placeholder="プラグイン名・説明・タグで検索">
+  </div>
+  <div class="filter-group">
+    <div class="filter-group-label">カテゴリ</div>
+    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span>
+  </div>
+  <div class="filter-group">
+    <div class="filter-group-label">タグ</div>
+    <span class="chip" data-tag="ファイル管理">#ファイル管理</span><span class="chip" data-tag="埋め込み表示">#埋め込み表示</span><span class="chip" data-tag="日付変換">#日付変換</span><span class="chip" data-tag="自動入力">#自動入力</span>
+  </div>
+</div>
+
+<div class="plugin-grid">
+<a class="plugin-card" data-category="ファイル・埋め込み" data-tags="ファイル管理,埋め込み表示" data-search="box・googleドライブ埋め込みプラグイン urlフィールドに埋め込み用urlを入力すると、特定のスペースにboxかgoogledriveの埋め込みが可能になるプラグイン ファイル管理 埋め込み表示" href="plugins/box_gdrive_iframe/index.html">
+  <div class="plugin-name">box・googleドライブ埋め込みプラグイン</div>
+  <div class="plugin-desc">URLフィールドに埋め込み用URLを入力すると、レコード画面の指定したスペースにBoxまたはGoogleドライブの埋め込みビューを表示するプラグイン。</div>
+  <div>
+    <span class="badge badge-category">ファイル・埋め込み</span>
+    <span class="badge badge-tag">#ファイル管理</span><span class="badge badge-tag">#埋め込み表示</span>
+  </div>
+  <div class="plugin-version">v0.1.0</div>
+</a>
+<a class="plugin-card" data-category="日付・書式" data-tags="日付変換,自動入力" data-search="西暦和暦変換プラグイン 日付・日時フィールドの値を和暦(または西暦・和暦併記)の文字列に変換して指定した文字列フィールドへ自動入力する。将来の改元にも元号テーブルの登録で対応できる。 日付変換 自動入力" href="plugins/wareki_date_format/index.html">
+  <div class="plugin-name">西暦和暦変換プラグイン</div>
+  <div class="plugin-desc">日付・日時フィールドの値を和暦(または西暦・和暦併記)の文字列に変換し、指定した文字列フィールドへ自動入力するプラグイン。将来の改元にも設定画面から対応できる。</div>
+  <div>
+    <span class="badge badge-category">日付・書式</span>
+    <span class="badge badge-tag">#日付変換</span><span class="badge badge-tag">#自動入力</span>
+  </div>
+  <div class="plugin-version">v1</div>
+</a>
+</div>
+<p class="empty-state is-hidden">条件に一致するプラグインが見つかりませんでした。</p>
+
+</div>
+
+<div class="ai-search-overlay" id="ai-search-overlay" hidden>
+  <div class="ai-search-modal" role="dialog" aria-modal="true" aria-labelledby="ai-search-title">
+    <div class="ai-search-modal-header">
+      <h3 id="ai-search-title">✨ AIでプラグインを探す</h3>
+      <button type="button" class="ai-search-close-btn" id="ai-search-close" aria-label="閉じる">&times;</button>
+    </div>
+    <div class="ai-search-modal-body" id="ai-search-body">
+      <p class="ai-search-note">
+        AI検索は、検索用の小さな言語モデル(multilingual-e5-small)をこのブラウザ内にダウンロードして
+        動かします。入力した検索キーワードや本サイトのデータはどこにも送信されません(サーバー通信は
+        モデルのダウンロード元のみ)。初回はモデルのダウンロードに数十秒〜数分かかることがあります。
+      </p>
+      <div class="ai-search-consent">
+        <button type="button" class="kintoneplugin-button-normal" id="ai-search-consent-ok">同意してAI検索を開始</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="about.html">About</a> ／ <a href="faq.html">FAQ</a> ／ <a href="terms.html">利用規約</a> ／ <a href="privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script>
+  document.getElementById('hero-plugin-count').textContent =
+    document.querySelectorAll('.plugin-card').length;
+</script>
+<script src="js/site.js"></script>
+<script src="js/ai-search.js"></script>
+<script>
+  window.__PLUGIN_CORPUS__ = [
+    {
+      key: 'box_gdrive_iframe',
+      name: 'box・googleドライブ埋め込みプラグイン',
+      description: 'URLフィールドに埋め込み用URLを入力すると、レコード画面の指定したスペースにBoxまたはGoogleドライブの埋め込みビューを表示するプラグイン。',
+      tags: ['ファイル管理', '埋め込み表示'],
+      text: 'box・googleドライブ埋め込みプラグイン URLフィールドに埋め込み用URLを入力すると、レコード画面の指定したスペースにBoxまたはGoogleドライブの埋め込みビューを表示するプラグイン。ファイル管理 埋め込み表示'
+    },
+    {
+      key: 'wareki_date_format',
+      name: '西暦和暦変換プラグイン',
+      description: '日付・日時フィールドの値を和暦(または西暦・和暦併記)の文字列に変換し、指定した文字列フィールドへ自動入力するプラグイン。将来の改元にも設定画面から対応できる。',
+      tags: ['日付変換', '自動入力'],
+      text: '西暦和暦変換プラグイン 日付・日時フィールドの値を和暦(または西暦・和暦併記)の文字列に変換し、指定した文字列フィールドへ自動入力するプラグイン。将来の改元にも設定画面から対応できる。日付変換 自動入力'
+    }
+  ];
+</script>
 </body>
 </html>
