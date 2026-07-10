@@ -136,6 +136,11 @@ plugins:
     dir: null
     status: not_started
     in_plugin_idea_md: true
+  
+  - name: お祝いプラグイン
+    dir: null
+    status: not_started
+    in_plugin_idea_md: true
 
 summary:
   total: 26

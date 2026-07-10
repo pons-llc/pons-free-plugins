@@ -243,6 +243,38 @@ a {
   line-height: 1.3;
 }
 
+@media (max-width: 600px) {
+  .hero {
+    margin: -24px -24px 20px;
+    padding: 20px 16px 16px;
+  }
+
+  .hero-image {
+    max-height: 130px;
+    width: auto;
+    max-width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .hero-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .hero-stats {
+    gap: 10px;
+  }
+
+  .hero-stat {
+    padding: 8px 20px;
+    min-width: 100px;
+  }
+
+  .hero-stat strong {
+    font-size: 22px;
+  }
+}
+
 /* --- トップページ: フィルタ + カード一覧 --- */
 
 .filter-bar {
