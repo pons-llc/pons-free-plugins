@@ -11,6 +11,7 @@
   const layoutRowTemplateEl = document.getElementById('js-layout-row-template');
   const tabRowTemplateEl = document.getElementById('js-tab-row-template');
   const itemRowTemplateEl = document.getElementById('js-item-row-template');
+  const noSpaceWarningEl = document.getElementById('js-no-space-warning');
 
   // layout[].type === 'SUBTABLE' の中身(テーブル内フィールド)はスコープ外として除外する
   // (判断記録.md参照)。GROUPの中身は再帰的に展開する。
@@ -48,17 +49,25 @@
   // kintone.app.getFormFields() は通常フィールドのラベル・型を、kintone.app.getFormLayout() は
   // ラベル/スペース/罫線を含むレイアウト順・要素ID(elementId)を解決する。両方を組み合わせて、
   // タブに割り当てられる「選択可能な項目」の一覧を組み立てる(idea.mdの「ラベルフィールドへの対応」参照)。
-  const [formFields, formLayoutResponse] = await Promise.all([
+  // kintone.app.getFormFields()/getFormLayout() は、それぞれREST APIの`properties`/`layout`
+  // プロパティ「と同様の値」に解決される(=戻り値自体がそのプロパティの値であり、
+  // `{ properties: {...} }`や`{ layout: [...] }`のようにプロパティ名でラップされてはいない)。
+  // kintoneドキュメントMCPで確認済み。
+  const [formFields, layout] = await Promise.all([
     kintone.app.getFormFields(),
     kintone.app.getFormLayout(),
   ]);
-  const layoutFields = flattenLayout(formLayoutResponse.layout);
+  const layoutFields = flattenLayout(layout);
 
   const selectableItems = layoutFields.map((field) => {
     const code = field.code || field.elementId;
     return { code, label: labelOf(field, formFields), type: field.type };
   });
   const spaceItems = selectableItems.filter((item) => item.type === 'SPACER');
+  // アンカーにできるスペースフィールドがアプリのフォームに1つもない場合、その旨を明示する
+  // (「アンカーとなるスペースが選択できない」というフィードバックへの対応。原因は選択肢が
+  // 空になっていて分かりにくいことだったため、空である事実をUIで明示する)。
+  noSpaceWarningEl.hidden = spaceItems.length > 0;
 
   const config = NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
 
@@ -84,17 +93,29 @@
     config.layouts.forEach((layoutConfig, layoutIndex) => {
       const fragment = layoutRowTemplateEl.content.cloneNode(true);
       const rowEl = fragment.querySelector('.js-layout-row');
+      const headingTextEl = rowEl.querySelector('.js-layout-heading-text');
       const spaceEl = rowEl.querySelector('.js-layout-space');
-      const defaultTabEl = rowEl.querySelector('.js-layout-default-tab');
       const removeEl = rowEl.querySelector('.js-layout-remove');
       const tabListEl = rowEl.querySelector('.js-tab-list');
       const tabAddButtonEl = rowEl.querySelector('.js-tab-add');
+
+      // 見出しに選択中のアンカー(スペースフィールド)のラベルを表示し、複数のタブグループが
+      // あるときにどれがどのスペースに対応するか一目で分かるようにする(UXフィードバック対応)。
+      const updateHeadingText = () => {
+        const selectedItem = spaceItems.find(
+          (item) => item.code === layoutConfig.spaceElementId,
+        );
+        headingTextEl.textContent = selectedItem
+          ? `タブグループ — ${selectedItem.label} (${selectedItem.code})`
+          : 'タブグループ(表示場所が未選択)';
+      };
 
       const renderTabList = () => {
         tabListEl.innerHTML = '';
         layoutConfig.tabs.forEach((tab, tabIndex) => {
           const tabFragment = tabRowTemplateEl.content.cloneNode(true);
           const labelEl = tabFragment.querySelector('.js-tab-label');
+          const defaultRadioEl = tabFragment.querySelector('.js-tab-default');
           const removeTabEl = tabFragment.querySelector('.js-tab-remove');
           const itemListEl = tabFragment.querySelector('.js-item-list');
           const itemAddButtonEl = tabFragment.querySelector('.js-item-add');
@@ -128,10 +149,19 @@
           };
 
           labelEl.value = tab.label || '';
+          // 既定タブはタブごとのラジオボタンで選ぶ(数値インデックス入力は分かりにくいという
+          // フィードバックへの対応)。同じタブグループ内でのみ排他選択されるよう、name属性を
+          // layoutIndexでスコープする。
+          defaultRadioEl.name = `js-layout-${layoutIndex}-default-tab`;
+          defaultRadioEl.checked =
+            tabIndex === (layoutConfig.defaultTabIndex || 0);
           renderItemList();
 
           labelEl.addEventListener('input', () => {
             tab.label = labelEl.value;
+          });
+          defaultRadioEl.addEventListener('change', () => {
+            layoutConfig.defaultTabIndex = tabIndex;
           });
           removeTabEl.addEventListener('click', () => {
             layoutConfig.tabs.splice(tabIndex, 1);
@@ -150,16 +180,16 @@
         spaceEl,
         spaceItems,
         layoutConfig.spaceElementId,
-        '(選択してください)',
+        spaceItems.length === 0
+          ? '(スペースフィールドがありません)'
+          : '(選択してください)',
       );
-      defaultTabEl.value = layoutConfig.defaultTabIndex || 0;
+      updateHeadingText();
       renderTabList();
 
       spaceEl.addEventListener('change', () => {
         layoutConfig.spaceElementId = spaceEl.value;
-      });
-      defaultTabEl.addEventListener('input', () => {
-        layoutConfig.defaultTabIndex = parseInt(defaultTabEl.value, 10) || 0;
+        updateHeadingText();
       });
       removeEl.addEventListener('click', () => {
         config.layouts.splice(layoutIndex, 1);

@@ -88,5 +88,15 @@
     "page": "plugins/setFieldShown/index.html",
     "category": "入力制御",
     "tags": ["条件付き非表示", "表示制御"]
+  },
+  {
+    "id": "tab_layout",
+    "name": "タブ表示プラグイン",
+    "description": "スペースフィールドにタブUIを描画し、タブごとにフィールド(通常のフィールド・ラベル・スペース・罫線)の表示/非表示を切り替えるプラグイン",
+    "version": "1",
+    "zip": "plugins/tab_layout/plugin.zip",
+    "page": "plugins/tab_layout/index.html",
+    "category": "レイアウト・表示",
+    "tags": ["タブ表示", "表示切替"]
   }
 ]

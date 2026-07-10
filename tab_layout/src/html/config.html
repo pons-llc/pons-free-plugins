@@ -1,8 +1,23 @@
 <section class="settings">
   <h2 class="settings-heading">タブ表示プラグイン 設定</h2>
   <p class="kintoneplugin-desc">
-    スペースフィールドにタブUIを描画し、タブごとにフィールド(通常のフィールド・ラベル・スペース・罫線)の
-    表示/非表示を切り替えます。タブに割り当てなかった項目は常に表示されたままです。
+    フォーム内の項目(通常のフィールド・ラベル・スペース・罫線)をタブで出し分けます。
+  </p>
+
+  <ol class="tbl-steps">
+    <li>アプリのフォーム編集で「スペース」フィールドを1つ配置する(タブボタンはここに表示されます)</li>
+    <li>下の「+ タブグループを追加」で①のスペースを選び、タブを追加する</li>
+    <li>各タブに「このタブを選んだときだけ表示したい項目」を追加する</li>
+  </ol>
+
+  <p class="tbl-callout">
+    タブに追加した項目は、<strong>そのタブを選んでいる間だけ表示</strong>され、他のタブを選ぶと非表示に
+    なります。どのタブにも追加しなかった項目は、プラグインの管理対象外として常に通常通り表示されます。
+  </p>
+
+  <p id="js-no-space-warning" class="tbl-warning" hidden>
+    このアプリのフォームにはアンカーにできるスペースフィールドがありません。アプリのフォーム設定でスペース
+    フィールドを配置してから、このプラグインの設定を行ってください。
   </p>
 
   <form class="js-submit-settings">
@@ -21,23 +36,25 @@
 <template id="js-layout-row-template">
   <section class="tbl-section js-layout-row">
     <div class="tbl-section-heading">
-      タブグループ
+      <span class="js-layout-heading-text">タブグループ</span>
       <span class="tbl-row-remove js-layout-remove">削除</span>
     </div>
 
     <table class="tbl-table">
       <tbody>
         <tr>
-          <th>アンカーとなるスペースフィールド</th>
-          <td><select class="kintoneplugin-select js-layout-space"></select></td>
-        </tr>
-        <tr>
-          <th>既定で表示するタブ</th>
-          <td><input type="number" min="0" step="1" class="kintoneplugin-input-text js-layout-default-tab"></td>
+          <th>①タブを表示する場所</th>
+          <td>
+            <select class="kintoneplugin-select js-layout-space"></select>
+            <p class="tbl-field-hint">
+              フォーム上の「スペース」フィールド(アンカー)を選びます。ここにタブボタンが描画されます。
+            </p>
+          </td>
         </tr>
       </tbody>
     </table>
 
+    <div class="tbl-subheading">②タブ(切り替え先)</div>
     <div class="js-tab-list"></div>
     <button type="button" class="kintoneplugin-button-normal js-tab-add">+ タブを追加</button>
   </section>
@@ -46,11 +63,15 @@
 <template id="js-tab-row-template">
   <div class="tbl-tab-row js-tab-row">
     <div class="tbl-tab-row-heading">
-      <input type="text" class="kintoneplugin-input-text js-tab-label" placeholder="タブのラベル">
+      <input type="text" class="kintoneplugin-input-text js-tab-label" placeholder="タブのラベル(例: 基本情報)">
+      <label class="tbl-tab-default-label">
+        <input type="radio" class="js-tab-default">レコードを開いたとき最初に表示する
+      </label>
       <span class="tbl-row-remove js-tab-remove">削除</span>
     </div>
+    <div class="tbl-field-hint">③このタブを選んだときだけ表示する項目</div>
     <div class="js-item-list"></div>
-    <button type="button" class="kintoneplugin-button-normal js-item-add">+ 表示対象の項目を追加</button>
+    <button type="button" class="kintoneplugin-button-normal js-item-add">+ 表示する項目を追加</button>
   </div>
 </template>
 

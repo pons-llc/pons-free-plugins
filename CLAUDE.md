@@ -62,6 +62,7 @@ Cloudflare Pages側はビルドコマンドなし・公開ディレクトリ`sit
 新規プラグインの実装・改修では以下を必ず守ること。
 
 1. **kintoneドキュメントMCP(`kintone_doc`)を必ず参照する** — JavaScript API/REST APIの仕様や挙動、注意点は実装前に必ずMCP経由で確認する。記憶だけで実装しない。
+   - **既知の落とし穴: JavaScript APIの戻り値は対応するREST APIレスポンスのプロパティ名でラップされていない。** `kintone.app.getFormFields()`/`kintone.app.getFormLayout()`等のドキュメントには「Promiseの解決時に、REST APIの`properties`/`layout`プロパティ**と同様の値**が取得できます」とあるが、これは「戻り値そのものがそのプロパティの値」という意味であり、`{ properties: {...} }`や`{ layout: [...] }`のようにプロパティ名でラップされて返るわけではない(REST APIレスポンスをそのまま`kintone.api()`で受けた場合は逆にラップされている)。`resp.properties`や`resp.layout`のようにアクセスすると常に`undefined`になり、空配列/空オブジェクト扱いで処理が黙って何もしなくなるため気づきにくい。新しく`kintone.app.*`のJavaScript APIを使う箇所では、MCPで戻り値の形を確認したうえで、確認した内容をその場に一言コメントで残すこと(既存プラグインの`getFormFields()`呼び出し箇所の多くに同様のコメントがある。実例: `tab_layout`が`getFormLayout()`でこのラップ有無を誤り、「アンカーが選択できない」という不具合になった)。
 2. **セキュリティレビュー** — [secureCodingGuideline.md](secureCodingGuideline.md)(XSS/CSSインジェクション対策、認証情報の保存先、外部スクリプトの扱いなどをまとめたkintoneセキュアコーディングガイドライン)を参照し、実装ごとにチェックリストを作成して確認する。
 3. **JavaScript APIをREST APIより優先する** — 同じ目的を達成できる場合は`kintone.app.getFormFields()`や`kintone.app.getFormLayout()`のようなJavaScript APIを優先する。REST APIはJavaScript APIで実現できない場合のみ使い、その際もkintone自身への呼び出しに限り`kintone.api()`(内部向けラッパー)を使用する。生の`fetch`/`XHR`で直接URLを組み立てない。
 4. **テスト駆動開発(TDD)** — Jestを用いたローカルのユニットテストを先に書いてから実装する。kintoneに依存しない純粋ロジックは`src/js/lib/`配下に切り出し、`src/__tests__/`でテストする(`fiscal_year_numbering`が実装例)。まだJestを導入していないプラグインでは、実装に着手する際にそのプラグインの`package.json`へ追加すること。

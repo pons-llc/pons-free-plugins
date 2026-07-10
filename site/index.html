@@ -12,6 +12,11 @@
 <meta property="og:description" content="オープンソースで中身を確認できる、無料のkintoneプラグイン集。広告は一切ありません。">
 <meta property="og:site_name" content="GovAppsプラグイン">
 <meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://govapps-plugin.pons-llc.com/">
+<meta property="og:image" content="https://govapps-plugin.pons-llc.com/image/hero-ogp.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 <header class="site-header">
@@ -36,19 +41,8 @@
 <div class="container">
 
 <div class="hero">
+  <img class="hero-image" src="image/hero.webp" alt="GovAppsプラグイン。自治体向けkintone無料プラグイン配布サイト。自治体業務をもっと便利に、もっと安全に。無料・広告なし・オープンソース。" width="1672" height="941" loading="eager">
   <h1 class="hero-title"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span>プラグイン</h1>
-  <p class="hero-lead">
-    AIによる開発が当たり前になった今、安全性の確認できないkintoneプラグインも増えています。
-    このサイトで公開するプラグインはすべて<strong>オープンソース(Apache 2.0)</strong>で
-    ソースコードを公開し、セキュリティレビューのチェックリストも一緒に掲載しています。
-    広告は一切ありません。
-  </p>
-  <div class="hero-badges">
-    <span class="hero-badge">🔓 オープンソース</span>
-    <span class="hero-badge">🛡️ セキュリティレビュー付き</span>
-    <span class="hero-badge">🚫 広告なし</span>
-    <span class="hero-badge">💴 無料</span>
-  </div>
   <div class="hero-stats">
     <div class="hero-stat"><strong id="hero-plugin-count">-</strong>公開プラグイン数</div>
   </div>
@@ -70,11 +64,11 @@
   </div>
   <div class="filter-group">
     <div class="filter-group-label">カテゴリ</div>
-    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span><span class="chip" data-category="文字列処理">文字列処理</span><span class="chip" data-category="サブテーブル">サブテーブル</span><span class="chip" data-category="入力制御">入力制御</span>
+    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span><span class="chip" data-category="文字列処理">文字列処理</span><span class="chip" data-category="サブテーブル">サブテーブル</span><span class="chip" data-category="入力制御">入力制御</span><span class="chip" data-category="レイアウト・表示">レイアウト・表示</span>
   </div>
   <div class="filter-group">
     <div class="filter-group-label">タグ</div>
-    <span class="chip" data-tag="ファイル管理">#ファイル管理</span><span class="chip" data-tag="埋め込み表示">#埋め込み表示</span><span class="chip" data-tag="日付変換">#日付変換</span><span class="chip" data-tag="自動入力">#自動入力</span><span class="chip" data-tag="文字列分割">#文字列分割</span><span class="chip" data-tag="文字列抽出">#文字列抽出</span><span class="chip" data-tag="サブテーブル整列">#サブテーブル整列</span><span class="chip" data-tag="サブテーブル検索">#サブテーブル検索</span><span class="chip" data-tag="自動化">#自動化</span><span class="chip" data-tag="選択肢絞込">#選択肢絞込</span><span class="chip" data-tag="入力補助">#入力補助</span><span class="chip" data-tag="条件付き必須">#条件付き必須</span><span class="chip" data-tag="入力チェック">#入力チェック</span><span class="chip" data-tag="条件付き非表示">#条件付き非表示</span><span class="chip" data-tag="表示制御">#表示制御</span>
+    <span class="chip" data-tag="ファイル管理">#ファイル管理</span><span class="chip" data-tag="埋め込み表示">#埋め込み表示</span><span class="chip" data-tag="日付変換">#日付変換</span><span class="chip" data-tag="自動入力">#自動入力</span><span class="chip" data-tag="文字列分割">#文字列分割</span><span class="chip" data-tag="文字列抽出">#文字列抽出</span><span class="chip" data-tag="サブテーブル整列">#サブテーブル整列</span><span class="chip" data-tag="サブテーブル検索">#サブテーブル検索</span><span class="chip" data-tag="自動化">#自動化</span><span class="chip" data-tag="選択肢絞込">#選択肢絞込</span><span class="chip" data-tag="入力補助">#入力補助</span><span class="chip" data-tag="条件付き必須">#条件付き必須</span><span class="chip" data-tag="入力チェック">#入力チェック</span><span class="chip" data-tag="条件付き非表示">#条件付き非表示</span><span class="chip" data-tag="表示制御">#表示制御</span><span class="chip" data-tag="タブ表示">#タブ表示</span><span class="chip" data-tag="表示切替">#表示切替</span>
   </div>
 </div>
 
@@ -159,6 +153,15 @@
     <span class="badge badge-tag">#条件付き非表示</span><span class="badge badge-tag">#表示制御</span>
   </div>
   <div class="plugin-version">v1.0.0</div>
+</a>
+<a class="plugin-card" data-category="レイアウト・表示" data-tags="タブ表示,表示切替" data-search="タブ表示プラグイン スペースフィールドにタブUIを描画し、タブごとにフィールド(通常のフィールド・ラベル・スペース・罫線)の表示/非表示を切り替えるプラグイン。 タブ表示 表示切替" href="plugins/tab_layout/index.html">
+  <div class="plugin-name">タブ表示プラグイン</div>
+  <div class="plugin-desc">スペースフィールドにタブUIを描画し、タブごとにフィールド(通常のフィールド・ラベル・スペース・罫線)の表示/非表示を切り替えるプラグイン。</div>
+  <div>
+    <span class="badge badge-category">レイアウト・表示</span>
+    <span class="badge badge-tag">#タブ表示</span><span class="badge badge-tag">#表示切替</span>
+  </div>
+  <div class="plugin-version">v1</div>
 </a>
 </div>
 <p class="empty-state is-hidden">条件に一致するプラグインが見つかりませんでした。</p>
@@ -271,6 +274,13 @@
       description: 'あるフィールドが特定の値のとき、指定した別のフィールドを非表示にするプラグイン。',
       tags: ['条件付き非表示', '表示制御'],
       text: '条件つき非表示プラグイン あるフィールドが特定の値のとき、指定した別のフィールドを非表示にするプラグイン。利用しないを選んだら詳細設定欄を隠す。条件付き非表示 表示制御'
+    },
+    {
+      key: 'tab_layout',
+      name: 'タブ表示プラグイン',
+      description: 'スペースフィールドにタブUIを描画し、タブごとにフィールド(通常のフィールド・ラベル・スペース・罫線)の表示/非表示を切り替えるプラグイン。',
+      tags: ['タブ表示', '表示切替'],
+      text: 'タブ表示プラグイン スペースフィールドにタブUIを描画し、タブごとにフィールド(通常のフィールド・ラベル・スペース・罫線)の表示/非表示を切り替えるプラグイン。基本情報・連絡先・備考のようにフォームをタブで整理する。タブ表示 表示切替'
     }
   ];
 </script>

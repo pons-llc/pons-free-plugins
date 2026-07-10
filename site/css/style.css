@@ -167,6 +167,15 @@ a {
   border-bottom: 1px solid #e3e7e8;
 }
 
+.hero-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
 .hero-title {
   margin: 0 0 12px;
   font-size: 28px;

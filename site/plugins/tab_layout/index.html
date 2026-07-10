@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>タブ表示プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="フォーム内の項目(通常のフィールド・ラベル・スペース・罫線)をタブで出し分けるkintone無料プラグイン。スペースフィールドをアンカーにタブUIを描画し、タブごとに表示する項目を設定できる。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; タブ表示プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>タブ表示プラグイン</h2>
+  <p class="plugin-lead">
+    フォーム内の項目(通常のフィールド・ラベル・スペース・罫線)をタブで出し分けるプラグインです。アプリの
+    フォームに配置した「スペース」フィールドをアンカーとしてタブUIを描画し、タブを切り替えるとそのタブに
+    割り当てた項目だけが表示されます。項目数が多いフォームを用途別・工程別にすっきり見せたいときに使えます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">レイアウト・表示</span>
+    <span class="badge badge-tag">#タブ表示</span>
+    <span class="badge badge-tag">#表示切替</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="tab_layout">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>「基本情報」「連絡先」「備考」のように入力項目をタブで整理する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>項目数が多いフォームを、用途ごとにタブで分けて表示できます。「基本情報」「連絡先」「その他」のようにタブを分けておくと、レコード追加・編集画面がすっきりして入力しやすくなります。タブに割り当てなかった項目は常に表示されたままなので、常に見せておきたい項目(タイトルなど)はどのタブにも入れなければ影響を受けません。</p>
+      <div class="accordion-item">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-1-detail">
+          <span>具体例: 同じ項目を複数のタブに表示したい場合</span>
+          <span class="accordion-icon">▶</span>
+        </button>
+        <div class="accordion-panel" id="usecase-1-detail" hidden>
+          <p>同じ項目を複数のタブに重複して割り当てることもできます。その場合、アクティブなタブにその項目が含まれていれば表示されます(例えば「概要」フィールドを全タブ共通で見せたい場合など)。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>1フォームに複数のタブUIを設置する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>スペースフィールドを複数配置すれば、タブグループも複数持てます。画面上部に「入力用タブ」、画面下部に「参照用タブ」のように、独立したタブ切り替えを同じフォーム内に複数設置できます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>アプリのフォーム編集で「スペース」フィールドを1つ配置する(タブボタンが描画される場所になります)。</li>
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ タブグループを追加」で①のスペースフィールドを選ぶ。</li>
+    <li>「+ タブを追加」でタブを追加し、ラベル・レコードを開いたとき最初に表示するタブ・そのタブで表示する項目を設定して保存する。</li>
+  </ol>
+  <p class="download-note">タブに追加しなかった項目は常に表示されたままです。非表示にしたい項目は、必ずいずれかのタブに割り当ててください。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>タブラベルなど、アプリ管理者が設定画面で入力する自由記述の文字列をDOMへ描画する際は、<code>innerHTML</code>ではなく<code>textContent</code>または<code>createElement</code> + <code>&lt;template&gt;</code>のみを使用しています。</li>
+        <li>REST API・外部サーバー通信は一切行わず、外部ライブラリも使用していません。タブの描画・フィールドの表示/非表示切り替えはすべて<code>kintone.app.getFormLayout()</code>・<code>kintone.app.record.getSpaceElement()</code>・<code>kintone.app.record.setFieldShown()</code>のJavaScript APIのみで行います。</li>
+        <li>保存前のバリデーションで、アンカーとなるスペースフィールドの未選択・タブ0件・タブラベル未入力を検出し、不正な設定は保存させません。</li>
+        <li><code>setFieldShown()</code>によるフィールドの非表示化はUIレベルの制御であり、非表示にした項目の値自体はレコードデータとして保持され続けます。「特定のタブでフィールドを隠す」ことはアクセス権による制御とは異なり、情報を完全に秘匿する機能ではない点にご注意ください。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/tab_layout/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="タブ表示プラグインの設定画面。3ステップの使い方説明と、タブグループ(アンカーとなるスペースフィールドの選択)の設定欄を表示した状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインはREST APIを一切実行しません。フォームのレイアウト取得は<code>kintone.app.getFormLayout()</code>、
+    フィールドの表示/非表示切り替えは<code>kintone.app.record.setFieldShown()</code>のみで行い、いずれもJavaScript
+    APIです。API実行数制限に影響することはありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/tab_layout" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/tab_layout/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>
