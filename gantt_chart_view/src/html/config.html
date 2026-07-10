@@ -1,0 +1,81 @@
+<section class="settings">
+  <h2 class="settings-heading">ガントチャートプラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    表形式の一覧(レコード一覧画面)のヘッダー領域にガントチャートを表示します。一覧ごとに表示設定を切り替えられます。
+    「すべて(デフォルト)」は、ユーザーが作成していないビルトインの一覧に対応します(REST APIの一覧取得には現れないため、固定の選択肢として用意しています)。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="gcv-section">
+      <div class="gcv-section-heading">対象一覧を追加</div>
+      <p class="kintoneplugin-row">
+        <select class="kintoneplugin-select js-view-picker"></select>
+        <button type="button" id="js-view-add" class="kintoneplugin-button-normal">+ この一覧の設定を追加</button>
+      </p>
+      <p class="kintoneplugin-desc">
+        あらかじめ管理者が対象の一覧(表形式)を作成しておく必要があります(このプラグインは一覧の自動作成を行いません)。
+      </p>
+    </section>
+
+    <div id="js-view-config-list"></div>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-view-config-template">
+  <section class="gcv-section js-view-config-block">
+    <div class="gcv-section-heading js-view-title"></div>
+    <button type="button" class="gcv-row-remove js-view-remove">この一覧の設定を削除</button>
+
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">開始日フィールド<span class="kintoneplugin-require">必須</span></label><br>
+      <select class="kintoneplugin-select js-start-field"></select>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">終了日フィールド(未設定の行は開始日と同じ1日幅で表示)</label><br>
+      <select class="kintoneplugin-select js-end-field"></select>
+    </p>
+
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">バー内に表示する項目(複数選択可)</label><br>
+      <div class="gcv-checkbox-list js-bar-fields"></div>
+    </p>
+
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">色分けに使う項目</label><br>
+      <select class="kintoneplugin-select js-color-field"></select>
+    </p>
+
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">既定のグループ分けフィールド</label><br>
+      <select class="kintoneplugin-select js-default-group-field"></select>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">一覧画面で切り替え可能なグループ分けフィールド(複数選択可)</label><br>
+      <div class="gcv-checkbox-list js-allowed-group-fields"></div>
+    </p>
+
+    <p class="kintoneplugin-row">
+      <label class="embed-checkbox-label">
+        <input type="checkbox" class="js-enable-full-fetch"> 全件取得ボタンを表示する
+      </label>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">
+        全件取得時の件数上限
+        <input type="number" class="kintoneplugin-input-text js-max-records" min="1" step="1">
+      </label>
+    </p>
+  </section>
+</template>
+
+<template id="js-checkbox-item-template">
+  <label class="gcv-checkbox-item">
+    <input type="checkbox" class="js-checkbox-item-input">
+    <span class="js-checkbox-item-label"></span>
+  </label>
+</template>

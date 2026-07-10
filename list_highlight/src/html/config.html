@@ -1,0 +1,69 @@
+<section class="settings">
+  <h2 class="settings-heading">一覧強調プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコード一覧画面(表形式)で、条件に一致する行を指定した色で強調表示します。複数のルールが一致した
+    場合は、設定順で最初に一致したルールの色が使われます。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="lsh-errors"></div>
+
+    <div id="js-rule-list"></div>
+    <button type="button" id="js-rule-add" class="kintoneplugin-button-normal">+ ルールを追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-rule-row-template">
+  <section class="lsh-section js-rule-row">
+    <div class="lsh-section-heading">
+      ルール
+      <span class="lsh-row-remove js-rule-remove">削除</span>
+    </div>
+
+    <table class="lsh-table">
+      <tbody>
+        <tr>
+          <th>条件の結合</th>
+          <td>
+            <select class="kintoneplugin-select js-rule-operator">
+              <option value="AND">すべての条件を満たす(AND)</option>
+              <option value="OR">いずれかの条件を満たす(OR)</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>背景色</th>
+          <td><input type="color" class="js-rule-color" value="#ffe0b2"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="js-clause-list"></div>
+    <button type="button" class="kintoneplugin-button-normal js-clause-add">+ 条件を追加</button>
+  </section>
+</template>
+
+<template id="js-clause-row-template">
+  <div class="lsh-inline-row js-clause-row">
+    <select class="kintoneplugin-select js-clause-field"></select>
+    <select class="kintoneplugin-select js-clause-operator">
+      <option value="EQ">等しい (=)</option>
+      <option value="NEQ">等しくない (≠)</option>
+      <option value="GT">より大きい (>)</option>
+      <option value="GTE">以上 (>=)</option>
+      <option value="LT">より小さい (<)</option>
+      <option value="LTE">以下 (<=)</option>
+      <option value="CONTAINS">を含む</option>
+      <option value="NOT_CONTAINS">を含まない</option>
+      <option value="IS_EMPTY">空である</option>
+      <option value="IS_NOT_EMPTY">空でない</option>
+    </select>
+    <input type="text" class="kintoneplugin-input-text lsh-clause-value js-clause-value">
+    <span class="lsh-row-remove js-clause-remove">削除</span>
+  </div>
+</template>

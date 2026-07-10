@@ -1,0 +1,30 @@
+.scai-manual-transfer-button {
+  margin: 8px;
+}
+
+.scai-dialog-body {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.scai-dialog-controls {
+  margin-bottom: 0.75em;
+}
+
+.scai-dialog-controls button {
+  margin-right: 0.5em;
+}
+
+.scai-dialog-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.scai-dialog-table td {
+  border: 1px solid #e3e7e8;
+  padding: 0.4em 0.6em;
+}
+
+.scai-dialog-error {
+  color: #e74c3c;
+}

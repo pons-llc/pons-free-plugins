@@ -1,0 +1,134 @@
+<section class="settings">
+  <h2 class="settings-heading">神エクセル帳票印刷プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    Excelテンプレートのセル番地とこのアプリのフィールドを対応付け、レコードの値を差し込んだExcelファイル(xlsx)を
+    生成・ダウンロードします。テンプレートは、任意のアプリの添付ファイルフィールドにある1件のレコードの
+    ファイル(1番目のファイル)を参照します。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="ere-section">
+      <div class="ere-section-heading">テンプレート参照先</div>
+      <p class="kintoneplugin-desc">
+        テンプレートを添付したレコードのアプリID・レコードID・添付ファイルフィールドのフィールドコードを指定してください。
+        フィールドの1番目のファイルをテンプレートとして使用します。
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          アプリID<span class="kintoneplugin-require">必須</span>
+          <input type="text" class="kintoneplugin-input-text js-template-app-id" placeholder="例）12">
+        </label>
+        <label class="kintoneplugin-label">
+          レコードID<span class="kintoneplugin-require">必須</span>
+          <input type="text" class="kintoneplugin-input-text js-template-record-id" placeholder="例）3">
+        </label>
+        <label class="kintoneplugin-label">
+          添付ファイルフィールドのフィールドコード<span class="kintoneplugin-require">必須</span>
+          <input type="text" class="kintoneplugin-input-text js-template-field-code" placeholder="例）template_file">
+        </label>
+      </p>
+    </section>
+
+    <section class="ere-section">
+      <div class="ere-section-heading">セルマッピング(シート名 + セル番地 ⇔ フィールドコード)</div>
+      <p class="kintoneplugin-desc">
+        このアプリのフィールドの値を、テンプレートの指定したシート・セルへ書き込みます。
+      </p>
+      <table class="ere-table">
+        <thead>
+          <tr><th>シート名</th><th>セル番地</th><th>フィールド</th><th></th></tr>
+        </thead>
+        <tbody id="js-mapping-table-body"></tbody>
+      </table>
+      <button type="button" id="js-mapping-add" class="kintoneplugin-button-normal">+ マッピングを追加</button>
+      <p class="ere-error js-mapping-errors"></p>
+    </section>
+
+    <section class="ere-section">
+      <div class="ere-section-heading">サブテーブル設定(別シートへの繰り返し挿入)</div>
+      <p class="kintoneplugin-desc">
+        テーブル(サブテーブル)のフィールドを選び、出力先シート・繰り返し開始行・最大行数・列マッピングを設定します。
+      </p>
+      <div id="js-subtable-list"></div>
+      <p class="kintoneplugin-row">
+        <select class="kintoneplugin-select js-subtable-field-picker"></select>
+        <button type="button" id="js-subtable-add" class="kintoneplugin-button-normal">+ テーブルを追加</button>
+      </p>
+    </section>
+
+    <section class="ere-section">
+      <div class="ere-section-heading">出力ファイル名</div>
+      <p class="kintoneplugin-desc">
+        「{フィールドコード}」の形式でこのアプリのフィールド値を差し込めます(例: {customer_name}_請求書)。
+        拡張子(.xlsx)は自動的に付与されます。
+      </p>
+      <p class="kintoneplugin-row">
+        <input type="text" class="kintoneplugin-input-text js-filename-template" placeholder="例）{customer_name}_請求書" style="width: 30em;">
+      </p>
+    </section>
+
+    <section class="ere-section">
+      <div class="ere-section-heading">一括ダウンロード</div>
+      <p class="kintoneplugin-desc">
+        一覧画面での一括ダウンロード(zip)を許可する最大レコード数です。ブラウザ上でファイル生成・圧縮を行うため、
+        大きすぎる値は動作が重くなる可能性があります。
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          上限件数<span class="kintoneplugin-require">必須</span>
+          <input type="number" class="kintoneplugin-input-text js-bulk-limit" min="1" max="1000" placeholder="100">
+        </label>
+      </p>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-mapping-row-template">
+  <tr class="js-mapping-row">
+    <td><input type="text" class="kintoneplugin-input-text js-mapping-sheet"></td>
+    <td><input type="text" class="kintoneplugin-input-text js-mapping-cell" placeholder="例）B2"></td>
+    <td><select class="kintoneplugin-select js-mapping-field"></select></td>
+    <td><span class="ere-row-remove js-mapping-remove">削除</span></td>
+  </tr>
+</template>
+
+<template id="js-subtable-block-template">
+  <div class="ere-section ere-subtable-block">
+    <div class="ere-section-heading js-subtable-title"></div>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">
+        出力先シート名
+        <input type="text" class="kintoneplugin-input-text js-subtable-sheet">
+      </label>
+      <label class="kintoneplugin-label">
+        繰り返し開始行
+        <input type="number" class="kintoneplugin-input-text js-subtable-start-row" min="1">
+      </label>
+      <label class="kintoneplugin-label">
+        最大行数
+        <input type="number" class="kintoneplugin-input-text js-subtable-max-rows" min="1">
+      </label>
+    </p>
+    <table class="ere-table">
+      <thead>
+        <tr><th>列</th><th>テーブル内フィールド</th><th></th></tr>
+      </thead>
+      <tbody class="js-subtable-columns"></tbody>
+    </table>
+    <button type="button" class="kintoneplugin-button-normal js-subtable-column-add">+ 列を追加</button>
+    <button type="button" class="kintoneplugin-button-normal js-subtable-remove">このテーブル設定を削除</button>
+  </div>
+</template>
+
+<template id="js-subtable-column-row-template">
+  <tr class="js-subtable-column-row">
+    <td><input type="text" class="kintoneplugin-input-text js-subtable-column" placeholder="例）A"></td>
+    <td><select class="kintoneplugin-select js-subtable-column-field"></select></td>
+    <td><span class="ere-row-remove js-subtable-column-remove">削除</span></td>
+  </tr>
+</template>

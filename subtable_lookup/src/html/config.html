@@ -1,0 +1,88 @@
+<section class="settings">
+  <h2 class="settings-heading">サブテーブルルックアッププラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    サブテーブルの中から条件に一致する1行を探し、その行の複数フィールドの値を、テーブル外のフィールドへ
+    保存時(submit時)に自動入力します。一致する行がない場合、出力先フィールドは空文字列でクリアされます。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="stl-errors"></div>
+
+    <div id="js-lookup-list"></div>
+    <button type="button" id="js-lookup-add" class="kintoneplugin-button-normal">+ 設定行を追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-lookup-row-template">
+  <section class="stl-section js-lookup-row">
+    <div class="stl-section-heading">
+      設定行
+      <span class="stl-row-remove js-lookup-remove">削除</span>
+    </div>
+
+    <table class="stl-table">
+      <tbody>
+        <tr>
+          <th>対象サブテーブル</th>
+          <td><select class="kintoneplugin-select js-lookup-subtable"></select></td>
+        </tr>
+        <tr>
+          <th>検索モード</th>
+          <td>
+            <select class="kintoneplugin-select js-lookup-mode">
+              <option value="PARTIAL_MATCH">部分一致</option>
+              <option value="EXACT_MATCH">完全一致</option>
+              <option value="LATEST">最新(日付・日時・時刻が最大の行)</option>
+              <option value="OLDEST">最古(日付・日時・時刻が最小の行)</option>
+              <option value="TOP_ROW">一番上の行</option>
+              <option value="BOTTOM_ROW">一番下の行</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="js-lookup-condition-field-row">
+          <th>検索対象列</th>
+          <td><select class="kintoneplugin-select js-lookup-condition-field"></select></td>
+        </tr>
+        <tr class="js-lookup-match-value-row">
+          <th>一致させる値</th>
+          <td><input type="text" class="kintoneplugin-input-text js-lookup-match-value"></td>
+        </tr>
+        <tr class="js-lookup-direction-row">
+          <th>検索方向</th>
+          <td>
+            <select class="kintoneplugin-select js-lookup-direction">
+              <option value="TOP_TO_BOTTOM">上から</option>
+              <option value="BOTTOM_TO_TOP">下から</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="stl-section-heading">フィールドマッピング(サブテーブル列 → 出力先フィールド)</div>
+    <table class="stl-table">
+      <thead>
+        <tr>
+          <th>サブテーブル列</th>
+          <th>出力先フィールド</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="js-mapping-list"></tbody>
+    </table>
+    <button type="button" class="kintoneplugin-button-normal js-mapping-add">+ マッピングを追加</button>
+  </section>
+</template>
+
+<template id="js-mapping-row-template">
+  <tr class="js-mapping-row">
+    <td><select class="kintoneplugin-select js-mapping-column"></select></td>
+    <td><select class="kintoneplugin-select js-mapping-target"></select></td>
+    <td><span class="stl-row-remove js-mapping-remove">削除</span></td>
+  </tr>
+</template>

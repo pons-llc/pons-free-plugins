@@ -1,0 +1,24 @@
+.tbl-tab-buttons {
+  display: flex;
+  gap: 0.25em;
+  border-bottom: 2px solid #e3e7e8;
+  margin-bottom: 0.5em;
+}
+
+.tbl-tab-button {
+  padding: 0.5em 1em;
+  border: 1px solid #e3e7e8;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  background: #f7f9f9;
+  color: #333;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.tbl-tab-button-active {
+  background: #fff;
+  border-color: #3498db;
+  color: #3498db;
+  font-weight: bold;
+}

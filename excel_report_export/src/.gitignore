@@ -1,0 +1,8 @@
+node_modules/
+dist/
+package.json
+package-lock.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+eslint.config.mjs
+js/vendor/

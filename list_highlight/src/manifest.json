@@ -1,0 +1,58 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/condition-engine.js",
+      "js/lib/rule-matcher.js",
+      "js/lib/style-builder.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/condition-engine.js",
+      "js/lib/rule-matcher.js",
+      "js/lib/style-builder.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "list_highlight plugin",
+    "ja": "一覧強調プラグイン"
+  },
+  "description": {
+    "en": "list_highlight plugin",
+    "ja": "レコード一覧画面(表形式)で、条件に一致する行を指定した色で強調表示するプラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/condition-engine.js",
+      "js/lib/rule-matcher.js",
+      "js/lib/style-builder.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/mobile.js"
+    ],
+    "css": [
+      "css/mobile.css"
+    ]
+  }
+}

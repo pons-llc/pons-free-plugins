@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/condition-engine.js",
+      "js/lib/field-mapping.js",
+      "js/lib/upsert-batch.js",
+      "js/lib/config-store.js",
+      "js/rest-client.js",
+      "js/transfer-service.js",
+      "js/manual-dialog.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/config-store.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "subtable_cross_app_insert plugin",
+    "ja": "サブテーブル別アプリ挿入プラグイン"
+  },
+  "description": {
+    "en": "subtable_cross_app_insert plugin",
+    "ja": "サブテーブルの行を別アプリへレコードとして転送(UPSERT)するプラグイン。保存時の自動転送と詳細画面からの手動転送に対応(モバイル未対応)"
+  }
+}

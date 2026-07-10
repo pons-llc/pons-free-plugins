@@ -1,0 +1,62 @@
+<section class="settings">
+  <h2 class="settings-heading">モーダル確認プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    指定したイベントの発火時に確認ダイアログを表示し、キャンセルを選ぶと処理を中止します(PC専用)。
+    「プロセス管理のアクション実行」を対象にした場合、本文に<code>{action}</code>(アクション名)・
+    <code>{nextStatus}</code>(変更後のステータス名)を埋め込めます。同じ対象イベントに複数のルールを
+    設定した場合、設定順で最初のルールのみが使われます。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="cfm-errors"></div>
+
+    <div id="js-rule-list"></div>
+    <button type="button" id="js-rule-add" class="kintoneplugin-button-normal">+ ルールを追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-rule-row-template">
+  <section class="cfm-section js-rule-row">
+    <div class="cfm-section-heading">
+      ルール
+      <span class="cfm-row-remove js-rule-remove">削除</span>
+    </div>
+
+    <table class="cfm-table">
+      <tbody>
+        <tr>
+          <th>対象イベント</th>
+          <td>
+            <select class="kintoneplugin-select js-rule-trigger">
+              <option value="CREATE_SUBMIT">レコード追加の保存</option>
+              <option value="EDIT_SUBMIT">レコード編集の保存</option>
+              <option value="INDEX_DELETE_SUBMIT">レコード一覧からの削除</option>
+              <option value="PROCESS_PROCEED">プロセス管理のアクション実行</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>タイトル(省略可)</th>
+          <td><input type="text" class="kintoneplugin-input-text js-rule-title"></td>
+        </tr>
+        <tr>
+          <th>本文</th>
+          <td><textarea class="kintoneplugin-input-text js-rule-body" rows="3"></textarea></td>
+        </tr>
+        <tr>
+          <th>OKボタンのテキスト(省略可)</th>
+          <td><input type="text" class="kintoneplugin-input-text js-rule-ok-text"></td>
+        </tr>
+        <tr>
+          <th>キャンセルボタンのテキスト(省略可)</th>
+          <td><input type="text" class="kintoneplugin-input-text js-rule-cancel-text"></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</template>

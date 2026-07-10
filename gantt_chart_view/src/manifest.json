@@ -1,0 +1,45 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/record-model.js",
+      "js/lib/grouping.js",
+      "js/lib/time-scale.js",
+      "js/lib/color-assignment.js",
+      "js/lib/paging-query.js",
+      "js/lib/config-store.js",
+      "js/full-fetch.js",
+      "js/gantt-render.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/paging-query.js",
+      "js/lib/config-store.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "gantt_chart_view plugin",
+    "ja": "ガントチャートプラグイン"
+  },
+  "description": {
+    "en": "gantt_chart_view plugin",
+    "ja": "レコード一覧(表形式)のヘッダー領域にガントチャートを表示する、PC専用の表示専用プラグイン"
+  }
+}

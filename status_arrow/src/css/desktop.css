@@ -1,0 +1,63 @@
+.sta-container {
+  padding: 0.5em 0;
+}
+
+.sta-widget {
+  display: flex;
+  margin-bottom: 0.5em;
+}
+
+.sta-arrow {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5em 1.2em 0.5em 1.6em;
+  margin-right: 4px;
+  font-size: 0.85em;
+  white-space: nowrap;
+  clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%);
+  color: #fff;
+  background: #c8ced1;
+}
+
+.sta-arrow:first-child {
+  clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
+}
+
+/* 完了(DONE) */
+.sta-arrow-done {
+  background: #9aa5ab;
+}
+
+/* 未着手(PENDING) */
+.sta-arrow-pending {
+  background: #dde3e6;
+  color: #6b7378;
+}
+
+/* 現在(ACTIVE) - デザインプリセットの基準色 */
+.sta-design-default .sta-arrow-active {
+  background: #3498db;
+}
+.sta-design-blue .sta-arrow-active {
+  background: #2b6cb0;
+}
+.sta-design-blue .sta-arrow-done {
+  background: #90cdf4;
+  color: #1a365d;
+}
+.sta-design-green .sta-arrow-active {
+  background: #2f855a;
+}
+.sta-design-green .sta-arrow-done {
+  background: #9ae6b4;
+  color: #22543d;
+}
+.sta-design-orange .sta-arrow-active {
+  background: #dd6b20;
+}
+.sta-design-orange .sta-arrow-done {
+  background: #fbd38d;
+  color: #7b341e;
+}

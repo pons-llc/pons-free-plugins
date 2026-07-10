@@ -1,0 +1,51 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+.rrs-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.rrs-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.rrs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75em;
+}
+
+.rrs-table th,
+.rrs-table td {
+  border: 1px solid #e3e7e8;
+  padding: 0.4em 0.6em;
+  text-align: left;
+  vertical-align: top;
+}
+
+.rrs-table .kintoneplugin-input-text,
+.rrs-table .kintoneplugin-select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.rrs-row-remove {
+  color: #e74c3c;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.embed-checkbox-label,
+.embed-radio-label {
+  display: inline-block;
+  margin-right: 1.5em;
+}

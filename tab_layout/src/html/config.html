@@ -1,0 +1,62 @@
+<section class="settings">
+  <h2 class="settings-heading">タブ表示プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    スペースフィールドにタブUIを描画し、タブごとにフィールド(通常のフィールド・ラベル・スペース・罫線)の
+    表示/非表示を切り替えます。タブに割り当てなかった項目は常に表示されたままです。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="tbl-errors"></div>
+
+    <div id="js-layout-list"></div>
+    <button type="button" id="js-layout-add" class="kintoneplugin-button-normal">+ タブグループを追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-layout-row-template">
+  <section class="tbl-section js-layout-row">
+    <div class="tbl-section-heading">
+      タブグループ
+      <span class="tbl-row-remove js-layout-remove">削除</span>
+    </div>
+
+    <table class="tbl-table">
+      <tbody>
+        <tr>
+          <th>アンカーとなるスペースフィールド</th>
+          <td><select class="kintoneplugin-select js-layout-space"></select></td>
+        </tr>
+        <tr>
+          <th>既定で表示するタブ</th>
+          <td><input type="number" min="0" step="1" class="kintoneplugin-input-text js-layout-default-tab"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="js-tab-list"></div>
+    <button type="button" class="kintoneplugin-button-normal js-tab-add">+ タブを追加</button>
+  </section>
+</template>
+
+<template id="js-tab-row-template">
+  <div class="tbl-tab-row js-tab-row">
+    <div class="tbl-tab-row-heading">
+      <input type="text" class="kintoneplugin-input-text js-tab-label" placeholder="タブのラベル">
+      <span class="tbl-row-remove js-tab-remove">削除</span>
+    </div>
+    <div class="js-item-list"></div>
+    <button type="button" class="kintoneplugin-button-normal js-item-add">+ 表示対象の項目を追加</button>
+  </div>
+</template>
+
+<template id="js-item-row-template">
+  <div class="tbl-inline-row js-item-row">
+    <select class="kintoneplugin-select js-item-select"></select>
+    <span class="tbl-row-remove js-item-remove">削除</span>
+  </div>
+</template>

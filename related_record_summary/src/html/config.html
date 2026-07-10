@@ -1,0 +1,84 @@
+<section class="settings">
+  <h2 class="settings-heading">関連レコード集計プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    関連レコード一覧フィールドが参照する先のアプリのレコードを、件数・合計・平均で集計し、
+    このアプリの指定フィールドへ書き込みます。関連レコード一覧フィールドの値そのものはAPIで取得できないため、
+    参照先アプリへ都度クエリを組み立てて集計します。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="rrs-section">
+      <div class="rrs-section-heading">集計設定</div>
+      <p class="kintoneplugin-desc">
+        集計したい関連レコード一覧フィールドごとに行を追加してください。
+      </p>
+      <table class="rrs-table">
+        <thead>
+          <tr>
+            <th>関連レコード一覧フィールド</th>
+            <th>集計種別</th>
+            <th>集計対象フィールド(合計・平均時)</th>
+            <th>書き込み先フィールド(数値)</th>
+            <th>除外条件(クエリの断片)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="js-row-body"></tbody>
+      </table>
+      <button type="button" id="js-row-add" class="kintoneplugin-button-normal">+ 集計設定を追加</button>
+    </section>
+
+    <section class="rrs-section">
+      <div class="rrs-section-heading">発動条件</div>
+      <p class="kintoneplugin-row">
+        <label class="embed-checkbox-label">
+          <input type="checkbox" class="js-trigger-submit"> 保存時(作成・編集の保存時)に集計する
+        </label>
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="embed-checkbox-label">
+          <input type="checkbox" class="js-trigger-detail"> 詳細画面にボタンを表示し、クリック時に集計する
+        </label>
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="embed-checkbox-label">
+          <input type="checkbox" class="js-trigger-index"> 一覧画面に一括集計ボタンを表示する
+        </label>
+      </p>
+    </section>
+
+    <section class="rrs-section">
+      <div class="rrs-section-heading">一括集計の実行許可グループ</div>
+      <p class="kintoneplugin-desc">
+        一覧画面の一括集計ボタンを表示するグループコードをカンマ区切りで入力してください(複数可)。<br>
+        <strong>注意:</strong> これはボタンの表示・非表示を切り替えるだけの制御であり、真の権限制御ではありません。
+        実際にレコードを書き換えられるかどうかは、参照先アプリ・このアプリ自体のkintoneのレコード権限設定に依存します。
+      </p>
+      <p class="kintoneplugin-row">
+        <input type="text" class="kintoneplugin-input-text js-bulk-group-codes" placeholder="例）kanri_group, admins">
+      </p>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-row-template">
+  <tr class="js-row">
+    <td><select class="kintoneplugin-select js-row-reference-field"></select></td>
+    <td>
+      <select class="kintoneplugin-select js-row-summary-type">
+        <option value="COUNT">件数</option>
+        <option value="SUM">合計</option>
+        <option value="AVERAGE">平均</option>
+      </select>
+    </td>
+    <td><select class="kintoneplugin-select js-row-target-field"></select></td>
+    <td><select class="kintoneplugin-select js-row-write-field"></select></td>
+    <td><input type="text" class="kintoneplugin-input-text js-row-exclusion-cond" placeholder="例）ステータス not in (&quot;完了&quot;)"></td>
+    <td><span class="rrs-row-remove js-row-remove">削除</span></td>
+  </tr>
+</template>

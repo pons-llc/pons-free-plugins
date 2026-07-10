@@ -1,0 +1,69 @@
+<section class="settings">
+  <h2 class="settings-heading">矢羽プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    ドロップダウン・ラジオボタン・プロセス管理のステータスの値に応じて、矢羽根(進捗インジケーター)を
+    レコードのヘッダーメニューに表示します(PC専用)。ステップは値の一致で判定するため、対象フィールドの
+    選択肢の文字列と完全に一致するように入力してください。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="sta-cfg-errors"></div>
+
+    <div id="js-widget-list"></div>
+    <button type="button" id="js-widget-add" class="kintoneplugin-button-normal">+ ウィジェットを追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-widget-row-template">
+  <section class="sta-cfg-section js-widget-row">
+    <div class="sta-cfg-section-heading">
+      ウィジェット
+      <span class="sta-cfg-row-remove js-widget-remove">削除</span>
+    </div>
+
+    <table class="sta-cfg-table">
+      <tbody>
+        <tr>
+          <th>対象種別</th>
+          <td>
+            <select class="kintoneplugin-select js-widget-source-type">
+              <option value="FIELD">ドロップダウン/ラジオボタン</option>
+              <option value="STATUS">プロセス管理のステータス</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="js-widget-field-row">
+          <th>対象フィールド</th>
+          <td><select class="kintoneplugin-select js-widget-field"></select></td>
+        </tr>
+        <tr>
+          <th>デザイン</th>
+          <td>
+            <select class="kintoneplugin-select js-widget-design">
+              <option value="DEFAULT">標準(青)</option>
+              <option value="BLUE">ブルー</option>
+              <option value="GREEN">グリーン</option>
+              <option value="ORANGE">オレンジ</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sta-cfg-section-heading">矢羽根のステップ(左から順、値は選択肢の文字列と完全一致させる)</div>
+    <div class="js-step-list"></div>
+    <button type="button" class="kintoneplugin-button-normal js-step-add">+ ステップを追加</button>
+  </section>
+</template>
+
+<template id="js-step-row-template">
+  <div class="sta-cfg-inline-row js-step-row">
+    <input type="text" class="kintoneplugin-input-text js-step-value" placeholder="例: 申請中">
+    <span class="sta-cfg-row-remove js-step-remove">削除</span>
+  </div>
+</template>

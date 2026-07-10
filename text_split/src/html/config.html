@@ -1,0 +1,76 @@
+<section class="settings">
+  <h2 class="settings-heading">スプリットプラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    元の文字列フィールドの値を、指定した記号・文字または正規表現で分割し、保存時(submit時)に
+    複数の出力先フィールドへ順番に格納します。出力先フィールドは追加・編集画面で直接編集できなくなり、
+    元フィールドはレコード一覧のインライン編集で直接編集できなくなります。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="tsp-errors"></div>
+
+    <div id="js-split-list"></div>
+    <button type="button" id="js-split-add" class="kintoneplugin-button-normal">+ 設定行を追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-split-row-template">
+  <section class="tsp-section js-split-row">
+    <div class="tsp-section-heading">
+      設定行
+      <span class="tsp-row-remove js-split-remove">削除</span>
+    </div>
+
+    <table class="tsp-table">
+      <tbody>
+        <tr>
+          <th>元フィールド</th>
+          <td><select class="kintoneplugin-select js-split-source"></select></td>
+        </tr>
+        <tr>
+          <th>区切りモード</th>
+          <td>
+            <select class="kintoneplugin-select js-split-mode">
+              <option value="CHARACTERS">記号・文字</option>
+              <option value="REGEX">正規表現</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="js-delimiters-row">
+          <th>区切り文字</th>
+          <td>
+            <div class="js-delimiter-list"></div>
+            <button type="button" class="kintoneplugin-button-normal js-delimiter-add">+ 区切り文字を追加</button>
+          </td>
+        </tr>
+        <tr class="js-pattern-row">
+          <th>正規表現パターン</th>
+          <td><input type="text" class="kintoneplugin-input-text js-split-pattern" placeholder="例: [-/\s]+"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tsp-section-heading">出力先フィールド(分割結果を先頭から順に格納します)</div>
+    <div class="js-target-list"></div>
+    <button type="button" class="kintoneplugin-button-normal js-target-add">+ 出力先フィールドを追加</button>
+  </section>
+</template>
+
+<template id="js-delimiter-row-template">
+  <div class="tsp-inline-row js-delimiter-row">
+    <input type="text" class="kintoneplugin-input-text tsp-delimiter-input js-delimiter-value" placeholder="例: -">
+    <span class="tsp-row-remove js-delimiter-remove">削除</span>
+  </div>
+</template>
+
+<template id="js-target-row-template">
+  <div class="tsp-inline-row js-target-row">
+    <select class="kintoneplugin-select js-target-field"></select>
+    <span class="tsp-row-remove js-target-remove">削除</span>
+  </div>
+</template>

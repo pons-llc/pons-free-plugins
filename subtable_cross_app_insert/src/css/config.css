@@ -1,0 +1,41 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+.scai-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.scai-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.scai-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75em;
+}
+
+.scai-table th,
+.scai-table td {
+  border: 1px solid #e3e7e8;
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
+
+.scai-row-remove {
+  color: #e74c3c;
+  cursor: pointer;
+}
+
+.js-destination-fetch-status {
+  color: #666;
+}

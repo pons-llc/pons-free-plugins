@@ -1,0 +1,57 @@
+<section class="settings">
+  <h2 class="settings-heading">数字抽出プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    元の文字列フィールドから数字(半角・全角・漢数字)の連続を左から順に抽出し、保存時(submit時)に
+    複数の出力先フィールドへ順番に格納します。出力先フィールドは追加・編集画面で直接編集できなくなり、
+    元フィールドはレコード一覧のインライン編集で直接編集できなくなります。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="nex-errors"></div>
+
+    <div id="js-extract-list"></div>
+    <button type="button" id="js-extract-add" class="kintoneplugin-button-normal">+ 設定行を追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-extract-row-template">
+  <section class="nex-section js-extract-row">
+    <div class="nex-section-heading">
+      設定行
+      <span class="nex-row-remove js-extract-remove">削除</span>
+    </div>
+
+    <table class="nex-table">
+      <tbody>
+        <tr>
+          <th>元フィールド</th>
+          <td><select class="kintoneplugin-select js-extract-source"></select></td>
+        </tr>
+        <tr>
+          <th>抽出対象</th>
+          <td>
+            <label><input type="checkbox" class="js-extract-fullwidth"> 全角数字を含む</label>
+            &nbsp;&nbsp;
+            <label><input type="checkbox" class="js-extract-kanji"> 漢数字を含む</label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="nex-section-heading">出力先フィールド(抽出結果を先頭から順に格納します)</div>
+    <div class="js-target-list"></div>
+    <button type="button" class="kintoneplugin-button-normal js-target-add">+ 出力先フィールドを追加</button>
+  </section>
+</template>
+
+<template id="js-target-row-template">
+  <div class="nex-inline-row js-target-row">
+    <select class="kintoneplugin-select js-target-field"></select>
+    <span class="nex-row-remove js-target-remove">削除</span>
+  </div>
+</template>

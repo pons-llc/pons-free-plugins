@@ -1,0 +1,70 @@
+<section class="settings">
+  <h2 class="settings-heading">サブテーブルソートプラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    サブテーブルの行を複数列の条件でソートします。「submit時」を選ぶと保存のたびに自動でソートし、
+    「任意実行」を選ぶとレコード追加・編集画面のヘッダーにボタンが表示され、押したときだけソートします
+    (任意実行はPC専用)。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="sts-errors"></div>
+
+    <div id="js-rule-list"></div>
+    <button type="button" id="js-rule-add" class="kintoneplugin-button-normal">+ ルールを追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-rule-row-template">
+  <section class="sts-section js-rule-row">
+    <div class="sts-section-heading">
+      ルール
+      <span class="sts-row-remove js-rule-remove">削除</span>
+    </div>
+
+    <table class="sts-table">
+      <tbody>
+        <tr>
+          <th>対象サブテーブル</th>
+          <td><select class="kintoneplugin-select js-rule-subtable"></select></td>
+        </tr>
+        <tr>
+          <th>発動タイミング</th>
+          <td>
+            <select class="kintoneplugin-select js-rule-trigger">
+              <option value="SUBMIT">submit時(自動)</option>
+              <option value="MANUAL">任意実行(ボタン、PC専用)</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="js-rule-flag-row">
+          <th>ソート済フィールド(省略可)</th>
+          <td><select class="kintoneplugin-select js-rule-flag"></select></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sts-section-heading">ソートキー(先頭が最優先)</div>
+    <div class="js-sortkey-list"></div>
+    <button type="button" class="kintoneplugin-button-normal js-sortkey-add">+ ソートキーを追加</button>
+  </section>
+</template>
+
+<template id="js-sortkey-row-template">
+  <div class="sts-inline-row js-sortkey-row">
+    <select class="kintoneplugin-select js-sortkey-column"></select>
+    <select class="kintoneplugin-select js-sortkey-order">
+      <option value="ASC">昇順</option>
+      <option value="DESC">降順</option>
+    </select>
+    <select class="kintoneplugin-select js-sortkey-type">
+      <option value="STRING">文字列/日付として比較</option>
+      <option value="NUMBER">数値として比較</option>
+    </select>
+    <span class="sts-row-remove js-sortkey-remove">削除</span>
+  </div>
+</template>

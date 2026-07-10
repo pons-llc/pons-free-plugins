@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/arrow-state.js",
+      "js/lib/design-preset.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/arrow-state.js",
+      "js/lib/design-preset.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "status_arrow plugin",
+    "ja": "矢羽プラグイン"
+  },
+  "description": {
+    "en": "status_arrow plugin",
+    "ja": "ドロップダウン・ラジオボタン・プロセス管理のステータスの値に応じて矢羽根の進捗表示をレコードのヘッダーに表示するプラグイン(PC専用)"
+  }
+}

@@ -1,0 +1,29 @@
+<section class="settings">
+  <h2 class="settings-heading">親子階層表示プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコード一覧画面(表形式)を親子階層(ツリー)で表示します(PC専用)。「親レコードの識別値を格納する
+    フィールド」に、親として指定したいレコードの識別値(通常はレコード番号)を入力しておいてください。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="hrv-cfg-errors"></div>
+
+    <table class="hrv-cfg-table">
+      <tbody>
+        <tr>
+          <th>親レコードの識別値を格納するフィールド</th>
+          <td><select class="kintoneplugin-select js-parent-field"></select></td>
+        </tr>
+        <tr>
+          <th>照合対象フィールド</th>
+          <td><select class="kintoneplugin-select js-match-field"></select></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>

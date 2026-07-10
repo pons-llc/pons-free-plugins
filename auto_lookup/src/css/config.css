@@ -1,0 +1,35 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+.atl-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.atl-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.atl-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+
+.atl-checkbox-item {
+  cursor: pointer;
+}
+
+.atl-errors {
+  color: #e74c3c;
+  white-space: pre-wrap;
+  margin-bottom: 1em;
+}

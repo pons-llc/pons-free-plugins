@@ -1,0 +1,52 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/slice.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/slice.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "text_slice plugin",
+    "ja": "RIGHT・LEFT・MID関数プラグイン"
+  },
+  "description": {
+    "en": "text_slice plugin",
+    "ja": "文字列フィールドから指定した位置・文字数の部分文字列(LEFT/RIGHT/MID)を取り出し、別フィールドへ自動入力するプラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/slice.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/mobile.js"
+    ],
+    "css": [
+      "css/mobile.css"
+    ]
+  }
+}

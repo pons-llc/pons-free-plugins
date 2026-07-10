@@ -1,0 +1,4 @@
+/* 追加/編集画面のヘッダーメニュー上部に設置する取り込みボタンの見た目調整。 */
+.kintoneplugin-button-normal {
+  margin: 0.5em 0;
+}

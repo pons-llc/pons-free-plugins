@@ -1,0 +1,4 @@
+/* モバイルのヘッダー下スペースに設置する取り込みボタンの見た目調整。 */
+button.kintoneplugin-button-normal {
+  margin: 0.5em;
+}

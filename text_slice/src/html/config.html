@@ -1,0 +1,61 @@
+<section class="settings">
+  <h2 class="settings-heading">RIGHT・LEFT・MID関数プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    元の文字列フィールドから、指定した位置・文字数の部分文字列を取り出し、保存時(submit時)に
+    出力先フィールドへ格納します。開始位置・文字数は1文字目を1とするExcelと同じ数え方です。
+    出力先フィールドは追加・編集画面で直接編集できなくなり、元フィールドはレコード一覧の
+    インライン編集で直接編集できなくなります。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="tsl-errors"></div>
+
+    <div id="js-slice-list"></div>
+    <button type="button" id="js-slice-add" class="kintoneplugin-button-normal">+ ルールを追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-slice-row-template">
+  <section class="tsl-section js-slice-row">
+    <div class="tsl-section-heading">
+      ルール
+      <span class="tsl-row-remove js-slice-remove">削除</span>
+    </div>
+
+    <table class="tsl-table">
+      <tbody>
+        <tr>
+          <th>元フィールド</th>
+          <td><select class="kintoneplugin-select js-slice-source"></select></td>
+        </tr>
+        <tr>
+          <th>関数</th>
+          <td>
+            <select class="kintoneplugin-select js-slice-func">
+              <option value="LEFT">LEFT(先頭からn文字)</option>
+              <option value="RIGHT">RIGHT(末尾からn文字)</option>
+              <option value="MID">MID(開始位置からn文字)</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="js-slice-start-row">
+          <th>開始位置(1始まり)</th>
+          <td><input type="number" min="1" step="1" class="kintoneplugin-input-text js-slice-start"></td>
+        </tr>
+        <tr>
+          <th>文字数</th>
+          <td><input type="number" min="1" step="1" class="kintoneplugin-input-text js-slice-length"></td>
+        </tr>
+        <tr>
+          <th>出力先フィールド</th>
+          <td><select class="kintoneplugin-select js-slice-target"></select></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</template>

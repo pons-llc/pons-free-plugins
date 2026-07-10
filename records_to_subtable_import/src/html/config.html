@@ -1,0 +1,121 @@
+<section class="settings">
+  <h2 class="settings-heading">複数レコードサブテーブル化プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    別アプリのレコードを検索条件で絞り込み、このアプリのレコード追加/編集画面に設置されるボタンから、
+    現在のレコードのサブテーブルへ行として取り込みます。実行のたびにサブテーブルの内容は全置換されます
+    (既存行はクリアされ、取得結果で上書きされます)。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="rtsi-section">
+      <div class="rtsi-section-heading">取得元アプリ</div>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          取得元アプリID<span class="kintoneplugin-require">必須</span>
+        </label><br>
+        <input type="text" class="kintoneplugin-input-text js-source-app-id" placeholder="例）12">
+        <button type="button" class="kintoneplugin-button-normal js-source-app-fetch">このアプリのフィールドを読み込む</button>
+      </p>
+      <p class="rtsi-note js-source-app-status"></p>
+    </section>
+
+    <section class="rtsi-section">
+      <div class="rtsi-section-heading">検索条件(すべてAND条件で絞り込みます)</div>
+      <p class="kintoneplugin-desc">
+        値は「固定値」または「現在のレコードのフィールドの値」のどちらかを選べます。条件を指定しない場合は全件が対象になります。
+      </p>
+      <table class="rtsi-table">
+        <thead>
+          <tr>
+            <th>取得元フィールド</th>
+            <th>演算子</th>
+            <th>値の種類</th>
+            <th>値</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="js-condition-body"></tbody>
+      </table>
+      <button type="button" id="js-condition-add" class="kintoneplugin-button-normal">+ 検索条件を追加</button>
+    </section>
+
+    <section class="rtsi-section">
+      <div class="rtsi-section-heading">書き込み先サブテーブル</div>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          このアプリのサブテーブル<span class="kintoneplugin-require">必須</span>
+        </label><br>
+        <select class="kintoneplugin-select js-subtable-field"></select>
+      </p>
+    </section>
+
+    <section class="rtsi-section">
+      <div class="rtsi-section-heading">フィールドマッピング(取得元フィールド → サブテーブル列)</div>
+      <table class="rtsi-table">
+        <thead>
+          <tr>
+            <th>取得元フィールド</th>
+            <th>サブテーブル列</th>
+            <th>互換性</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="js-mapping-body"></tbody>
+      </table>
+      <button type="button" id="js-mapping-add" class="kintoneplugin-button-normal">+ マッピングを追加</button>
+    </section>
+
+    <section class="rtsi-section">
+      <div class="rtsi-section-heading">実行設定</div>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          取り込み上限件数<span class="kintoneplugin-require">必須</span>
+          <input type="number" class="kintoneplugin-input-text js-max-records" min="1" max="2000" placeholder="300">
+        </label>
+      </p>
+      <p class="kintoneplugin-desc">
+        ヒット件数が上限を超える場合は、先頭から上限件数までを取り込み、超過した旨を実行時に表示します。
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          ボタンの表示文字列
+          <input type="text" class="kintoneplugin-input-text js-button-label" placeholder="別アプリのレコードを取り込む">
+        </label>
+      </p>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-condition-row-template">
+  <tr class="js-condition-row">
+    <td><select class="kintoneplugin-select js-cond-field"></select></td>
+    <td><select class="kintoneplugin-select js-cond-operator"></select></td>
+    <td>
+      <label class="embed-radio-label">
+        <input type="radio" name="js-cond-value-source" value="CONSTANT" class="js-cond-value-source" checked> 固定値
+      </label>
+      <label class="embed-radio-label">
+        <input type="radio" name="js-cond-value-source" value="RECORD_FIELD" class="js-cond-value-source"> 自レコードのフィールド
+      </label>
+    </td>
+    <td>
+      <input type="text" class="kintoneplugin-input-text js-cond-value-constant" placeholder="値(in/not inはカンマ区切り)">
+      <select class="kintoneplugin-select js-cond-value-field" style="display:none;"></select>
+    </td>
+    <td><span class="rtsi-row-remove js-condition-remove">削除</span></td>
+  </tr>
+</template>
+
+<template id="js-mapping-row-template">
+  <tr class="js-mapping-row">
+    <td><select class="kintoneplugin-select js-map-source"></select></td>
+    <td><select class="kintoneplugin-select js-map-target"></select></td>
+    <td><span class="js-map-compat rtsi-note"></span></td>
+    <td><span class="rtsi-row-remove js-mapping-remove">削除</span></td>
+  </tr>
+</template>

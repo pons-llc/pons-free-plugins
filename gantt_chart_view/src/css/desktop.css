@@ -1,0 +1,149 @@
+.gcv-root {
+  margin: 8px 0;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 12px;
+}
+
+.gcv-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #e3e7e8;
+}
+
+.gcv-toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gcv-toolbar-label {
+  color: #888;
+  margin-right: 4px;
+}
+
+.gcv-scale-button {
+  border: 1px solid #e3e7e8;
+  background: #fff;
+  color: #3498db;
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.gcv-scale-button-active {
+  background: #3498db;
+  color: #fff;
+}
+
+.gcv-group-select {
+  height: 28px;
+}
+
+.gcv-fetch-button {
+  border: 1px solid #3498db;
+  background: #3498db;
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.gcv-status-text {
+  color: #888;
+  margin-left: auto;
+}
+
+.gcv-scroll {
+  overflow-x: auto;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.gcv-chart {
+  position: relative;
+  min-width: 100%;
+}
+
+.gcv-grid-header {
+  position: relative;
+  height: 24px;
+  border-bottom: 1px solid #e3e7e8;
+  background: #f7f9fa;
+}
+
+.gcv-grid-header-label {
+  position: absolute;
+  top: 4px;
+  font-size: 11px;
+  color: #666;
+  white-space: nowrap;
+}
+
+.gcv-grid-lines {
+  position: absolute;
+  top: 24px;
+  pointer-events: none;
+}
+
+.gcv-grid-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #eef1f2;
+}
+
+.gcv-group-header {
+  padding: 4px 8px;
+  font-weight: bold;
+  background: #f7f9fa;
+  border-bottom: 1px solid #eef1f2;
+}
+
+.gcv-row {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.gcv-row-label {
+  flex: 0 0 auto;
+  padding: 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.gcv-row-track {
+  position: relative;
+  flex: 0 0 auto;
+  height: 100%;
+}
+
+.gcv-row-note {
+  color: #bbb;
+  font-style: italic;
+  padding-left: 4px;
+}
+
+.gcv-bar {
+  position: absolute;
+  top: 5px;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+.gcv-bar-label {
+  position: absolute;
+  top: 5px;
+  white-space: nowrap;
+  color: #333;
+  line-height: 18px;
+}

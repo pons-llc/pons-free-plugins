@@ -1,0 +1,45 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/tree-builder.js",
+      "js/lib/cycle-check.js",
+      "js/lib/pending-changes.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/tree-builder.js",
+      "js/lib/cycle-check.js",
+      "js/lib/pending-changes.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "hierarchy_view plugin",
+    "ja": "親子階層表示プラグイン"
+  },
+  "description": {
+    "en": "hierarchy_view plugin",
+    "ja": "レコード一覧を親子階層(ツリー)で表示し、ドラッグ&ドロップで親レコードをまとめて変更できるプラグイン(PC専用)"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/query-builder.js",
+      "js/lib/aggregator.js",
+      "js/lib/api-estimate.js",
+      "js/lib/paged-fetch.js",
+      "js/lib/batch-writer.js",
+      "js/lib/cursor-enumerator.js",
+      "js/lib/config-store.js",
+      "js/related-record-client.js",
+      "js/summary-service.js",
+      "js/bulk-summary.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/config-store.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "related_record_summary plugin",
+    "ja": "関連レコード集計プラグイン"
+  },
+  "description": {
+    "en": "related_record_summary plugin",
+    "ja": "関連レコード一覧フィールドが参照する先のレコードを件数・合計・平均で集計し、指定フィールドへ書き込むプラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/query-builder.js",
+      "js/lib/aggregator.js",
+      "js/lib/api-estimate.js",
+      "js/lib/paged-fetch.js",
+      "js/lib/batch-writer.js",
+      "js/lib/cursor-enumerator.js",
+      "js/lib/config-store.js",
+      "js/related-record-client.js",
+      "js/summary-service.js",
+      "js/bulk-summary.js",
+      "js/mobile.js"
+    ],
+    "css": [
+      "css/mobile.css"
+    ]
+  }
+}

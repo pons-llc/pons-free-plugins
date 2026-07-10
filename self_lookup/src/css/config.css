@@ -1,0 +1,72 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+.slk-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.slk-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.slk-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75em;
+}
+
+.slk-table th,
+.slk-table td {
+  border: 1px solid #e3e7e8;
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
+
+.slk-table th {
+  width: 12em;
+  background: #f7f9f9;
+}
+
+.slk-condition-row,
+.slk-mapping-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.4em;
+  flex-wrap: wrap;
+}
+
+.slk-condition-value {
+  width: 10em;
+}
+
+.slk-arrow {
+  color: #888;
+}
+
+.slk-row-remove {
+  color: #e74c3c;
+  cursor: pointer;
+  float: right;
+  font-weight: normal;
+}
+
+.slk-condition-row .slk-row-remove,
+.slk-mapping-row .slk-row-remove {
+  float: none;
+}
+
+.slk-errors {
+  color: #e74c3c;
+  white-space: pre-wrap;
+  margin-bottom: 1em;
+}

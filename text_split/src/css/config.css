@@ -1,0 +1,65 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+.tsp-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.tsp-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.tsp-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75em;
+}
+
+.tsp-table th,
+.tsp-table td {
+  border: 1px solid #e3e7e8;
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
+
+.tsp-table th {
+  width: 10em;
+  background: #f7f9f9;
+}
+
+.tsp-inline-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.4em;
+}
+
+.tsp-delimiter-input {
+  width: 6em;
+}
+
+.tsp-row-remove {
+  color: #e74c3c;
+  cursor: pointer;
+  float: right;
+  font-weight: normal;
+}
+
+.tsp-inline-row .tsp-row-remove {
+  float: none;
+}
+
+.tsp-errors {
+  color: #e74c3c;
+  white-space: pre-wrap;
+  margin-bottom: 1em;
+}

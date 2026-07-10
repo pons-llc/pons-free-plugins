@@ -1,0 +1,153 @@
+<section class="settings">
+  <h2 class="settings-heading">サブテーブル別アプリ挿入プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    このアプリのサブテーブルの行を、別アプリへ「1行=1レコード」としてUPSERT(重複禁止フィールドをキーにした登録/更新)で転送します。
+    転送先アプリへの書き込みはREST API(kintone.api())で行います。モバイルは非対応です。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="scai-section">
+      <div class="scai-section-heading">対象サブテーブル<span class="kintoneplugin-require">必須</span></div>
+      <select class="kintoneplugin-select js-subtable-select"></select>
+    </section>
+
+    <section class="scai-section">
+      <div class="scai-section-heading">転送先アプリ<span class="kintoneplugin-require">必須</span></div>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          転送先アプリID
+          <input type="text" class="kintoneplugin-input-text js-destination-app-id" placeholder="例）456">
+        </label>
+        <button type="button" class="kintoneplugin-button-normal js-fetch-destination-fields">転送先アプリのフィールドを取得</button>
+      </p>
+      <p class="js-destination-fetch-status kintoneplugin-desc"></p>
+      <p class="kintoneplugin-desc">
+        フィールドマッピング・更新キーの選択肢を表示するには、先に「転送先アプリのフィールドを取得」を押してください
+        (このプラグインの設定画面を開くユーザー自身に、転送先アプリの閲覧権限が必要です)。
+      </p>
+    </section>
+
+    <section class="scai-section">
+      <div class="scai-section-heading">フィールドマッピング<span class="kintoneplugin-require">必須(1件以上)</span></div>
+      <p class="kintoneplugin-desc">サブテーブルの列、またはテーブル外のフィールドの値を、転送先アプリのどのフィールドへ書き込むかを指定します。</p>
+      <table class="scai-table">
+        <thead>
+          <tr><th>転送元の種類</th><th>転送元フィールド</th><th>転送先フィールド</th><th></th></tr>
+        </thead>
+        <tbody id="js-mapping-body"></tbody>
+      </table>
+      <button type="button" id="js-mapping-add" class="kintoneplugin-button-normal">+ マッピングを追加</button>
+    </section>
+
+    <section class="scai-section">
+      <div class="scai-section-heading">更新キー(UPSERT・必須)</div>
+      <p class="kintoneplugin-desc">
+        サブテーブルの列と、転送先アプリの重複禁止設定済みフィールド(文字列1行または数値)のペアを指定してください。
+        同じキー値の行は新規登録ではなく更新になり、保存を繰り返しても行が重複しません。
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">サブテーブル列</label><br>
+        <select class="kintoneplugin-select js-update-key-column"></select>
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">転送先フィールド(重複禁止設定済み)</label><br>
+        <select class="kintoneplugin-select js-update-key-dest"></select>
+      </p>
+    </section>
+
+    <section class="scai-section">
+      <div class="scai-section-heading">発動条件(保存時の自動転送にのみ適用)</div>
+      <p class="kintoneplugin-desc">
+        条件を1件も設定しない場合は常に発動します。手動転送(詳細画面のボタン)にはこの条件は適用されません。
+      </p>
+      <p class="kintoneplugin-row">
+        <select class="kintoneplugin-select js-condition-operator">
+          <option value="AND">すべての条件を満たす(AND)</option>
+          <option value="OR">いずれかの条件を満たす(OR)</option>
+        </select>
+      </p>
+      <table class="scai-table">
+        <thead>
+          <tr><th>フィールド</th><th>演算子</th><th>値</th><th></th></tr>
+        </thead>
+        <tbody id="js-condition-body"></tbody>
+      </table>
+      <button type="button" id="js-condition-add" class="kintoneplugin-button-normal">+ 条件を追加</button>
+    </section>
+
+    <section class="scai-section">
+      <div class="scai-section-heading">実行タイミング</div>
+      <div class="kintoneplugin-input-checkbox">
+        <span class="kintoneplugin-input-checkbox-item">
+          <input type="checkbox" id="js-trigger-submit" class="js-trigger-submit">
+          <label for="js-trigger-submit">保存(追加・編集)時に自動転送する</label>
+        </span>
+      </div>
+      <div class="kintoneplugin-input-checkbox">
+        <span class="kintoneplugin-input-checkbox-item">
+          <input type="checkbox" id="js-trigger-manual" class="js-trigger-manual">
+          <label for="js-trigger-manual">詳細画面に手動転送ボタンを表示する(PC専用)</label>
+        </span>
+      </div>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          手動転送ボタンの設置先(スペースフィールドの要素ID)
+          <input type="text" class="kintoneplugin-input-text js-manual-space-id" placeholder="例）Space_0">
+        </label>
+      </p>
+      <p class="kintoneplugin-desc">
+        あらかじめレコード詳細画面のフォームにスペースフィールドを配置し、その要素IDを指定してください
+        (要素IDはスペースフィールドの設定ダイアログで確認できます)。指定がない、または該当するスペースフィールドが
+        フォーム上に見つからない場合、手動転送ボタンは表示されません。
+      </p>
+    </section>
+
+    <section class="scai-section">
+      <div class="scai-section-heading">転送成功時アクション</div>
+      <div class="kintoneplugin-input-checkbox">
+        <span class="kintoneplugin-input-checkbox-item">
+          <input type="checkbox" id="js-success-enabled" class="js-success-enabled">
+          <label for="js-success-enabled">転送成功時に元レコードのフィールドへ値を書き込む</label>
+        </span>
+      </div>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">書き込み先フィールド</label><br>
+        <select class="kintoneplugin-select js-success-field"></select>
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          書き込む値
+          <input type="text" class="kintoneplugin-input-text js-success-value" placeholder="例）転送済み">
+        </label>
+      </p>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-mapping-row-template">
+  <tr class="js-mapping-row">
+    <td>
+      <select class="kintoneplugin-select js-mapping-source-type">
+        <option value="SUBTABLE_COLUMN">サブテーブル列</option>
+        <option value="OUTSIDE_FIELD">テーブル外フィールド</option>
+      </select>
+    </td>
+    <td><select class="kintoneplugin-select js-mapping-source-field"></select></td>
+    <td><select class="kintoneplugin-select js-mapping-dest-field"></select></td>
+    <td><span class="scai-row-remove js-mapping-remove">削除</span></td>
+  </tr>
+</template>
+
+<template id="js-condition-row-template">
+  <tr class="js-condition-row">
+    <td><select class="kintoneplugin-select js-condition-field"></select></td>
+    <td><select class="kintoneplugin-select js-condition-operator-select"></select></td>
+    <td><input type="text" class="kintoneplugin-input-text js-condition-value"></td>
+    <td><span class="scai-row-remove js-condition-remove">削除</span></td>
+  </tr>
+</template>

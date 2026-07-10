@@ -1,0 +1,34 @@
+<section class="settings">
+  <h2 class="settings-heading">自動ルックアッププラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコード編集画面を開いたとき、選択したルックアップフィールドを自動的に再取得します。サブテーブルを
+    選ぶと、そのサブテーブル内のすべてのルックアップ列について、全行分を自動ルックアップします。
+    参照先で一致するレコードが複数件ある場合は、kintone標準の仕様により自動実行されません。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="atl-errors"></div>
+
+    <div class="atl-section">
+      <div class="atl-section-heading">ルックアップフィールド</div>
+      <div id="js-lookup-field-list" class="atl-checkbox-list"></div>
+    </div>
+
+    <div class="atl-section">
+      <div class="atl-section-heading">ルックアップ列を含むサブテーブル</div>
+      <div id="js-subtable-list" class="atl-checkbox-list"></div>
+    </div>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-checkbox-item-template">
+  <label class="atl-checkbox-item">
+    <input type="checkbox" class="js-checkbox-input">
+    <span class="js-checkbox-label"></span>
+  </label>
+</template>

@@ -1,0 +1,61 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+.sts-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.sts-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.sts-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75em;
+}
+
+.sts-table th,
+.sts-table td {
+  border: 1px solid #e3e7e8;
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
+
+.sts-table th {
+  width: 12em;
+  background: #f7f9f9;
+}
+
+.sts-inline-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.4em;
+}
+
+.sts-row-remove {
+  color: #e74c3c;
+  cursor: pointer;
+  float: right;
+  font-weight: normal;
+}
+
+.sts-inline-row .sts-row-remove {
+  float: none;
+}
+
+.sts-errors {
+  color: #e74c3c;
+  white-space: pre-wrap;
+  margin-bottom: 1em;
+}

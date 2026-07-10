@@ -1,0 +1,55 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/vendor/exceljs.min.js",
+      "js/vendor/fflate.min.js",
+      "js/lib/cell-address.js",
+      "js/lib/field-value-format.js",
+      "js/lib/cell-mapping.js",
+      "js/lib/subtable-layout.js",
+      "js/lib/filename-template.js",
+      "js/lib/record-values.js",
+      "js/lib/bulk-limit.js",
+      "js/lib/config-store.js",
+      "js/template-source.js",
+      "js/record-fetcher.js",
+      "js/workbook-builder.js",
+      "js/zip-bundle.js",
+      "js/download-file.js",
+      "js/single-export.js",
+      "js/bulk-export.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/cell-address.js",
+      "js/lib/cell-mapping.js",
+      "js/lib/config-store.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "excel_report_export plugin",
+    "ja": "神エクセル帳票印刷プラグイン"
+  },
+  "description": {
+    "en": "excel_report_export plugin",
+    "ja": "Excelテンプレートのセル番地とkintoneフィールドを対応付け、レコードの値を流し込んだExcelファイルを生成・ダウンロードするプラグイン(xlsxのみ、PDF非対応)"
+  }
+}

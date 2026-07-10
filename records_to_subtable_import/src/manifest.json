@@ -1,0 +1,63 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/query-builder.js",
+      "js/lib/id-paging.js",
+      "js/lib/row-mapper.js",
+      "js/lib/limit-guard.js",
+      "js/lib/type-compatibility.js",
+      "js/lib/config-store.js",
+      "js/records-client.js",
+      "js/subtable-writer.js",
+      "js/import-runner.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/type-compatibility.js",
+      "js/lib/config-store.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "records_to_subtable_import plugin",
+    "ja": "複数レコードサブテーブル化プラグイン"
+  },
+  "description": {
+    "en": "records_to_subtable_import plugin",
+    "ja": "別アプリのレコードを検索条件で絞り込み、現在のレコードのサブテーブルへ行として取り込みます"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/query-builder.js",
+      "js/lib/id-paging.js",
+      "js/lib/row-mapper.js",
+      "js/lib/limit-guard.js",
+      "js/lib/type-compatibility.js",
+      "js/lib/config-store.js",
+      "js/records-client.js",
+      "js/subtable-writer.js",
+      "js/import-runner.js",
+      "js/mobile.js"
+    ],
+    "css": [
+      "css/mobile.css"
+    ]
+  }
+}

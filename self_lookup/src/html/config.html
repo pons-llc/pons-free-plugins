@@ -1,0 +1,84 @@
+<section class="settings">
+  <h2 class="settings-heading">セルフルックアッププラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    同一アプリ内の他レコードを、キーフィールドが一致するレコードの中から絞り込み条件で検索し、
+    一致した1件のフィールド値を自レコードへ自動入力します。キーフィールドの値を変更したときに検索します。
+    出力先フィールドは追加・編集画面で直接編集できなくなり、キーフィールドはレコード一覧の
+    インライン編集で直接編集できなくなります。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="slk-errors"></div>
+
+    <div id="js-lookup-list"></div>
+    <button type="button" id="js-lookup-add" class="kintoneplugin-button-normal">+ 設定行を追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-lookup-row-template">
+  <section class="slk-section js-lookup-row">
+    <div class="slk-section-heading">
+      設定行
+      <span class="slk-row-remove js-lookup-remove">削除</span>
+    </div>
+
+    <table class="slk-table">
+      <tbody>
+        <tr>
+          <th>自レコードのキーフィールド</th>
+          <td><select class="kintoneplugin-select js-lookup-self-key"></select></td>
+        </tr>
+        <tr>
+          <th>検索先のキーフィールド</th>
+          <td><select class="kintoneplugin-select js-lookup-other-key"></select></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="slk-section-heading">絞り込み条件(AND結合)</div>
+    <div class="js-condition-list"></div>
+    <button type="button" class="kintoneplugin-button-normal js-condition-add">+ 絞り込み条件を追加</button>
+
+    <div class="slk-section-heading">フィールドマッピング(検索先 → 自レコード)</div>
+    <div class="js-mapping-list"></div>
+    <button type="button" class="kintoneplugin-button-normal js-mapping-add">+ マッピングを追加</button>
+  </section>
+</template>
+
+<template id="js-condition-row-template">
+  <div class="slk-condition-row js-condition-row">
+    <select class="kintoneplugin-select js-condition-field"></select>
+    <select class="kintoneplugin-select js-condition-operator">
+      <option value="EXACT_MATCH">文字列完全一致</option>
+      <option value="CONTAINS">含む</option>
+      <option value="EQ">等しい</option>
+      <option value="GTE">以上</option>
+      <option value="LTE">以下</option>
+      <option value="GT">より大きい</option>
+      <option value="LT">より小さい</option>
+      <option value="SAME_MONTH">同一月</option>
+      <option value="SAME_DAY">同一日</option>
+    </select>
+    <select class="kintoneplugin-select js-condition-value-source">
+      <option value="FIXED">固定値</option>
+      <option value="SELF_FIELD">自レコードの値</option>
+    </select>
+    <input type="text" class="kintoneplugin-input-text slk-condition-value js-condition-value">
+    <select class="kintoneplugin-select js-condition-self-field"></select>
+    <span class="slk-row-remove js-condition-remove">削除</span>
+  </div>
+</template>
+
+<template id="js-mapping-row-template">
+  <div class="slk-mapping-row js-mapping-row">
+    <select class="kintoneplugin-select js-mapping-source"></select>
+    <span class="slk-arrow">→</span>
+    <select class="kintoneplugin-select js-mapping-target"></select>
+    <span class="slk-row-remove js-mapping-remove">削除</span>
+  </div>
+</template>
