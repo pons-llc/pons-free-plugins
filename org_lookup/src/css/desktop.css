@@ -1,0 +1,5 @@
+/* レコード追加・編集画面に設置する反映ボタン(js/desktop.js参照)。 */
+
+.orgl-button {
+  margin: 0.3em 0;
+}

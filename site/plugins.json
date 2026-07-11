@@ -138,5 +138,15 @@
     "page": "plugins/user_info_lookup/index.html",
     "category": "データ連携",
     "tags": ["ユーザー情報", "自動入力"]
+  },
+  {
+    "id": "org_lookup",
+    "name": "組織ルックアッププラグイン",
+    "description": "文字列1行または組織選択フィールドに入力された組織コードをもとに、組織名・説明・親組織の情報を別の文字列フィールドへ自動入力するプラグイン",
+    "version": "1",
+    "zip": "plugins/org_lookup/plugin.zip",
+    "page": "plugins/org_lookup/index.html",
+    "category": "データ連携",
+    "tags": ["組織情報", "自動入力"]
   }
 ]

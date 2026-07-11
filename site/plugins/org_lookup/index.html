@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>組織ルックアッププラグイン | GovAppsプラグイン</title>
+<meta name="description" content="文字列1行または組織選択フィールドに入力された組織コードをもとに、組織名・説明・親組織の情報を別の文字列フィールドへ自動入力するkintone無料プラグイン。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 組織ルックアッププラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>組織ルックアッププラグイン</h2>
+  <p class="plugin-lead">
+    文字列1行または組織選択フィールドに入力された「組織コード」をもとに、組織名・説明・親組織の情報を
+    取得し、別の文字列フィールドへ自動入力するプラグインです。親組織が設定されている場合は親組織の
+    情報も1階層分だけ取得します(親のさらに親〈祖父にあたる組織〉までは遡りません)。設定したボタンを
+    押したとき、またはレコード保存時に反映できます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">データ連携</span>
+    <span class="badge badge-tag">#組織情報</span>
+    <span class="badge badge-tag">#自動入力</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="org_lookup">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>組織コードを入力すると、組織名や説明を自動転記する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>申請フォームや台帳アプリなどで、担当部署の組織コードを文字列フィールドに入力するだけで、正式な組織名や説明文を別フィールドへ自動入力できます。組織名の表記ゆれを防ぎたい場合に活用できます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>組織選択フィールドから、上位組織(親組織)の情報もあわせて転記する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>組織選択フィールドで部署を選ぶと、その部署名だけでなく、直属の親組織(部の下の課であれば「部」)の名称も別フィールドへ自動入力できます。組織階層をまたいだ集計・絞り込み用の文字列フィールドとして活用できます(親のさらに親までは取得しません)。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>「ボタン押下時」を使う場合は、アプリのフォーム編集で「スペース」フィールドを1つ配置し、要素IDを設定する(組織情報取得ボタンが表示される場所になります)。</li>
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ 設定行を追加」で設定行を作成し、①元フィールド(組織コードが入力される文字列1行、または組織選択)→②発動条件(ボタン押下時/保存時)→③出力先フィールドを編集可能にするか→④転記項目(取得する項目→出力先フィールド)の順に設定して保存する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">元フィールドは、レコード一覧のインライン編集では常に編集できなくなります。該当する組織が見つからない場合(未入力を含む)、出力先フィールドはすべて空でクリアされます。親組織が設定されていない場合、親組織関連の項目も空になります。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>組織コードから組織そのものを取得するJavaScript APIが存在しないためOrganization API(REST)を使いますが、呼び出しは必ず<code>kintone.api()</code>(kintone自身への呼び出し専用の内部ラッパー)のみを使用しています。外部サーバーへの通信は一切行わず、外部ライブラリも使用していません。</li>
+        <li>親組織の取得は組織自身に親組織コードが設定されている場合のみ1回だけ行い、親組織のさらに親(祖父にあたる組織)を取得することは絶対にありません。この階層制御ロジックはユニットテストでモックにより確定的に検証しています。</li>
+        <li>設定画面でのフィールド一覧・エラーメッセージの描画、出力先フィールドへの値の書き込みは、いずれも<code>innerHTML</code>ではなく<code>textContent</code>やkintone標準のフィールド値レンダリングを経由しており、DOMへ構造として解釈されません。</li>
+        <li>保存前のバリデーションで、元フィールド・出力先フィールドの型制約(元フィールドは文字列1行/組織選択、出力先は文字列1行のみ)、ボタン押下時の設置スペース必須・重複禁止、転記項目0件・出力先の重複などの不正な設定を検出して保存させません。</li>
+        <li>出力先フィールド・元フィールドの編集禁止はJavaScript APIによるUIレベルの制御であり、「不正操作を防ぐ」機能ではなく「通常操作でのミスを防ぐUI上の制約」です。出力先フィールドのアクセス権(誰が閲覧できるか)はアプリ管理者が別途適切に設定してください。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/org_lookup/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="組織ルックアッププラグインの設定画面。元フィールド・発動条件・出力先フィールドの編集可否・転記項目(取得する項目と出力先フィールドの組み合わせ、親組織の項目を含む)を設定する画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインは、組織名・説明等の取得のためにOrganization API(<code>GET /v1/organizations.json</code>、
+    内部向けラッパーの<code>kintone.api()</code>経由)を実行します。「ボタン押下時」を選んだ設定行は
+    ボタンを押すたびに、「保存時」を選んだ設定行はレコード保存のたびに実行されます。組織自身に親組織
+    コードが設定されている場合は、親組織の取得のためにもう1回追加実行されます(最大2回。親のさらに親を
+    取得することはありません)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/org_lookup" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/org_lookup/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

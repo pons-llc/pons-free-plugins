@@ -1,0 +1,81 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+.orgl-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.orgl-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.orgl-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75em;
+}
+
+.orgl-table th,
+.orgl-table td {
+  border: 1px solid #e3e7e8;
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
+
+.orgl-table th {
+  width: 14em;
+  background: #f7f9f9;
+}
+
+.orgl-mapping-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.4em;
+  flex-wrap: wrap;
+}
+
+.orgl-arrow {
+  color: #888;
+}
+
+.orgl-row-remove {
+  color: #e74c3c;
+  cursor: pointer;
+  float: right;
+  font-weight: normal;
+}
+
+.orgl-mapping-row .orgl-row-remove {
+  float: none;
+}
+
+.orgl-errors {
+  color: #e74c3c;
+  white-space: pre-wrap;
+  margin-bottom: 1em;
+}
+
+.orgl-flow-list {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.orgl-flow-list li {
+  margin-bottom: 0.4em;
+}
+
+.orgl-inline-note {
+  color: #888;
+  font-size: 0.9em;
+  margin-top: 0.3em;
+}

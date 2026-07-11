@@ -127,6 +127,12 @@ plugins:
     status: released
     in_plugin_idea_md: true
 
+  - name: 組織ルックアッププラグイン
+    dir: org_lookup
+    status: released
+    in_plugin_idea_md: false
+    note: plugin_idea.mdには無く、/goalコマンドでの追加依頼(ユーザー情報ルックアッププラグインと同様の仕様、所属ユーザーは不要、親組織は1階層のみ遡る)により作成。
+
   - name: 時間帯集計項目自動作成プラグイン
     dir: null
     status: not_started
@@ -143,8 +149,8 @@ plugins:
     in_plugin_idea_md: true
 
 summary:
-  total: 26
-  released: 2
+  total: 27
+  released: 3
   in_progress: 22
   not_started: 2
 
