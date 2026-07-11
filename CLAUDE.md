@@ -19,9 +19,10 @@ kintoneの無料プラグインを開発し、Cloudflare Pages(`site/`)で配布
   - `plugins/<name>/download.html` — ダウンロード計測用の中間ページ(直接`plugin.zip`をリンクせず、ここを経由させる)
   - `plugins/<name>/plugin.zip` — 実際の配布ファイル(git管理下)
   - `plugins/<name>/screenshots/config-screen.png` — 設定画面のスクリーンショット(E2Eテストで撮影、`scripts/e2e/common.js`の`screenshot()`参照)
-- `scripts/publish.sh <plugin_dir_name>` — 対象プラグインを`pnpm run build`し、生成された`plugin.zip`を`site/plugins/<name>/`にコピーする
+- `scripts/publish.sh <plugin_dir_name>` — 対象プラグインを`pnpm run build`し、生成された`plugin.zip`を`site/plugins/<name>/`にコピーしたうえで、`scripts/generate-feeds.js`を実行して`site/sitemap.xml`・`site/rss.xml`・`site/robots.txt`を再生成する
+- `scripts/generate-feeds.js` — `site/plugins.json`(各エントリの`publishedAt`)と静的ページ一覧から`site/sitemap.xml`・`site/rss.xml`・`site/robots.txt`を生成するNode製スクリプト(外部パッケージ不使用)。`publish.sh`から自動実行されるほか、`node scripts/generate-feeds.js`単体でも再生成できる
 
-新しいプラグインを公開するときは、上記の`site/plugins/<name>/`一式(`index.html`・`download.html`・`plugin.zip`・`screenshots/`)を用意したうえで、`site/plugins.json`にも1エントリ(id/name/description/version/zip/page/category/tags)を追加し、`site/index.html`の`.plugin-grid`と`window.__PLUGIN_CORPUS__`にもカードとAI検索用のコーパスを追加すること。
+新しいプラグインを公開するときは、上記の`site/plugins/<name>/`一式(`index.html`・`download.html`・`plugin.zip`・`screenshots/`)を用意したうえで、`site/plugins.json`にも1エントリ(id/name/description/version/publishedAt/zip/page/category/tags)を追加し、`site/index.html`の`.plugin-grid`と`window.__PLUGIN_CORPUS__`にもカードとAI検索用のコーパスを追加すること。`publishedAt`(`YYYY-MM-DD`)はサイトマップの`lastmod`とRSSの`pubDate`・掲載順に使われるため必須。手順の実行版は`.claude/skills/publish-site/SKILL.md`(サイトへの公開)を参照(プラグインをサイトに公開/一覧に追加すると依頼されたときに使う)。
 
 ## よく使うコマンド
 
@@ -59,7 +60,8 @@ Cloudflare Pages側はビルドコマンドなし・公開ディレクトリ`sit
 
 ## 開発方針(必須)
 
-新規プラグインの実装・改修では以下を必ず守ること。
+新規プラグインの実装・改修では以下を必ず守ること。手順の実行版は`.claude/skills/new-plugin/SKILL.md`
+(新規プラグイン作成)を参照(新規プラグインを作る/追加すると依頼されたときに使う)。
 
 1. **kintoneドキュメントMCP(`kintone_doc`)を必ず参照する** — JavaScript API/REST APIの仕様や挙動、注意点は実装前に必ずMCP経由で確認する。記憶だけで実装しない。
    - **既知の落とし穴: JavaScript APIの戻り値は対応するREST APIレスポンスのプロパティ名でラップされていない。** `kintone.app.getFormFields()`/`kintone.app.getFormLayout()`等のドキュメントには「Promiseの解決時に、REST APIの`properties`/`layout`プロパティ**と同様の値**が取得できます」とあるが、これは「戻り値そのものがそのプロパティの値」という意味であり、`{ properties: {...} }`や`{ layout: [...] }`のようにプロパティ名でラップされて返るわけではない(REST APIレスポンスをそのまま`kintone.api()`で受けた場合は逆にラップされている)。`resp.properties`や`resp.layout`のようにアクセスすると常に`undefined`になり、空配列/空オブジェクト扱いで処理が黙って何もしなくなるため気づきにくい。新しく`kintone.app.*`のJavaScript APIを使う箇所では、MCPで戻り値の形を確認したうえで、確認した内容をその場に一言コメントで残すこと(既存プラグインの`getFormFields()`呼び出し箇所の多くに同様のコメントがある。実例: `tab_layout`が`getFormLayout()`でこのラップ有無を誤り、「アンカーが選択できない」という不具合になった)。

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>GovAppsプラグイン - 新着プラグイン</title>
+    <link>https://govapps-plugin.pons-llc.com/</link>
+    <description>安全性を確認できる無料kintoneプラグイン集の新着情報</description>
+    <language>ja</language>
+    <lastBuildDate>Fri, 10 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>組織ルックアッププラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/org_lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/org_lookup/</guid>
+      <description>文字列1行または組織選択フィールドに入力された組織コードをもとに、組織名・説明・親組織の情報を別の文字列フィールドへ自動入力するプラグイン</description>
+      <pubDate>Fri, 10 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>ユーザー情報ルックアッププラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/user_info_lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/user_info_lookup/</guid>
+      <description>文字列1行またはユーザー選択フィールドに入力されたユーザーコードをもとに、氏名・メールアドレス・所属・グループなどのユーザー情報を別の文字列フィールドへ自動入力するプラグイン</description>
+      <pubDate>Fri, 10 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>関連レコード集計プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/related_record_summary/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/related_record_summary/</guid>
+      <description>関連レコード一覧フィールドが参照する先のアプリのレコードを件数・合計・平均で集計し、自アプリの指定フィールドへ書き込むプラグイン</description>
+      <pubDate>Fri, 10 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>矢羽プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/status_arrow/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/status_arrow/</guid>
+      <description>ドロップダウン・ラジオボタン・プロセス管理のステータスの値に応じて、矢羽根(進捗インジケーター)をレコードのヘッダーメニューに表示するプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>セルフルックアッププラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/self_lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/self_lookup/</guid>
+      <description>同一アプリ内の他レコードをキー一致で検索し、一致したレコードの値を自レコードへ反映するプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>タブ表示プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/tab_layout/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/tab_layout/</guid>
+      <description>スペースフィールドにタブUIを描画し、タブごとにフィールド(通常のフィールド・ラベル・スペース・罫線)の表示/非表示を切り替えるプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>条件つき非表示プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/setFieldShown/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/setFieldShown/</guid>
+      <description>あるフィールドが特定の値のとき、指定した別のフィールドを非表示にするプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>条件つき必須プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/requiredCondition/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/requiredCondition/</guid>
+      <description>あるフィールドが特定の値のとき、指定した別のフィールドを必須項目にするプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>選択肢絞込プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/narrowDown/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/narrowDown/</guid>
+      <description>あるフィールドの値に応じて、別のフィールドの選択肢をモーダルで絞り込んで選び直させるプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>サブテーブルルックアッププラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/subtable_lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/subtable_lookup/</guid>
+      <description>サブテーブルの中から条件に一致する1行を探し、その行の値をテーブル外のフィールドへ自動入力するプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>サブテーブルソートプラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/subtable_sort/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/subtable_sort/</guid>
+      <description>サブテーブルの行を複数列の条件でソートするプラグイン。保存時に自動ソート、またはボタンで任意実行できる</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>RIGHT・LEFT・MID関数プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/text_slice/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/text_slice/</guid>
+      <description>元の文字列フィールドから指定した位置・文字数の部分文字列を取り出し、出力先フィールドへ格納するプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>スプリットプラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/text_split/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/text_split/</guid>
+      <description>文字列フィールドの値を指定した記号・文字または正規表現で分割し、複数の出力先フィールドへ順番に格納するプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>西暦和暦変換プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/wareki_date_format/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/wareki_date_format/</guid>
+      <description>日付・日時フィールドの値を和暦(または西暦・和暦併記)の文字列に変換し、指定した文字列フィールドへ自動入力するプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>box・googleドライブ埋め込みプラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/box_gdrive_iframe/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/box_gdrive_iframe/</guid>
+      <description>box・googleドライブをレコード画面に埋め込むプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

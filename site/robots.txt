@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://govapps-plugin.pons-llc.com/sitemap.xml
