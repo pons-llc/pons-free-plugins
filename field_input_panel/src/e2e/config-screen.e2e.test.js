@@ -56,7 +56,7 @@ describe('設定画面(実環境)', () => {
       '.settings-heading',
       (el) => el.textContent,
     );
-    expect(heading).toContain('入力箇所モーダル表示プラグイン');
+    expect(heading).toContain('入力補助サイドパネルプラグイン');
 
     // NOTE: TEST_APP_ID_1には本テストとは別に、record-panel.e2e.test.jsが保存した設定
     // (E2E_BUTTON_LABEL)が既に存在することがあるため、「ボタン0件」の絶対的な初期状態は

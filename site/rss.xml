@@ -7,7 +7,7 @@
     <language>ja</language>
     <lastBuildDate>Sat, 11 Jul 2026 15:00:00 GMT</lastBuildDate>
     <item>
-      <title>入力箇所モーダル表示プラグイン</title>
+      <title>入力補助サイドパネルプラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/field_input_panel/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/field_input_panel/</guid>
       <description>レコード追加・編集画面にフローティングボタンを設置し、指定したフィールドだけを画面右端のパネルにまとめて表示して入力しやすくするプラグイン</description>
