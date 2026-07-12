@@ -196,5 +196,16 @@
     "page": "plugins/printSelect/index.html",
     "category": "レイアウト・表示",
     "tags": ["印刷設定", "表示制御"]
+  },
+  {
+    "id": "status_celebration",
+    "name": "お祝いプラグイン",
+    "description": "ドロップダウン・ラジオボタン・プロセス管理のステータスが指定した値に変わったとき、くす玉・クラッカー・紙吹雪のお祝い演出をレコード画面に表示するプラグイン",
+    "version": "1",
+    "publishedAt": "2026-07-12",
+    "zip": "plugins/status_celebration/plugin.zip",
+    "page": "plugins/status_celebration/index.html",
+    "category": "レイアウト・表示",
+    "tags": ["お祝い演出", "ステータス"]
   }
 ]

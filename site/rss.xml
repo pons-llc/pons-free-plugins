@@ -7,6 +7,13 @@
     <language>ja</language>
     <lastBuildDate>Sat, 11 Jul 2026 15:00:00 GMT</lastBuildDate>
     <item>
+      <title>お祝いプラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/status_celebration/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/status_celebration/</guid>
+      <description>ドロップダウン・ラジオボタン・プロセス管理のステータスが指定した値に変わったとき、くす玉・クラッカー・紙吹雪のお祝い演出をレコード画面に表示するプラグイン</description>
+      <pubDate>Sat, 11 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
       <title>印刷選択プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/printSelect/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/printSelect/</guid>

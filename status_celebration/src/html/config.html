@@ -1,0 +1,79 @@
+<section class="settings">
+  <h2 class="settings-heading">お祝いプラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    ドロップダウン・ラジオボタン・プロセス管理のステータスが、指定した値に変わったときに、
+    くす玉・クラッカー・紙吹雪のお祝い演出をレコード画面に表示します。お祝い対象の値は複数選択できます。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="stc-cfg-errors"></div>
+
+    <div id="js-rule-list"></div>
+    <button type="button" id="js-rule-add" class="kintoneplugin-button-normal">+ ルールを追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-rule-row-template">
+  <section class="stc-cfg-section js-rule-row">
+    <div class="stc-cfg-section-heading">
+      お祝いルール
+      <span class="stc-cfg-row-remove js-rule-remove">削除</span>
+    </div>
+
+    <table class="stc-cfg-table">
+      <tbody>
+        <tr>
+          <th>対象種別</th>
+          <td>
+            <select class="kintoneplugin-select js-rule-source-type">
+              <option value="FIELD">ドロップダウン/ラジオボタン</option>
+              <option value="STATUS">プロセス管理のステータス</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="js-rule-field-row">
+          <th>対象フィールド</th>
+          <td><select class="kintoneplugin-select js-rule-field"></select></td>
+        </tr>
+        <tr>
+          <th>お祝い対象の値(複数選択可)</th>
+          <td><div class="stc-cfg-checkbox-list js-rule-trigger-values"></div></td>
+        </tr>
+        <tr>
+          <th>演出パターン</th>
+          <td>
+            <select class="kintoneplugin-select js-rule-pattern">
+              <option value="KUSUDAMA">くす玉</option>
+              <option value="CRACKER">クラッカー</option>
+              <option value="CONFETTI">紙吹雪</option>
+              <option value="RANDOM">ランダム</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>メッセージ(任意)</th>
+          <td>
+            <input
+              type="text"
+              class="kintoneplugin-input-text js-rule-message"
+              placeholder="達成しました!"
+              maxlength="60"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</template>
+
+<template id="js-checkbox-item-template">
+  <label class="stc-cfg-checkbox-item">
+    <input type="checkbox" class="js-checkbox-input" />
+    <span class="js-checkbox-label"></span>
+  </label>
+</template>

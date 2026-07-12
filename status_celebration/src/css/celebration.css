@@ -1,0 +1,51 @@
+.stc-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999999;
+}
+
+.stc-banner {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-12px) scale(0.92);
+  padding: 0.6em 1.4em;
+  max-width: min(80vw, 420px);
+  border-radius: 999px;
+  background: rgba(51, 51, 51, 0.88);
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  z-index: 1000000;
+  opacity: 0;
+  animation: stc-banner-in 2.4s ease forwards;
+}
+
+@keyframes stc-banner-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-12px) scale(0.92);
+  }
+  12% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  78% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-8px) scale(0.96);
+  }
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>お祝いプラグイン | GovAppsプラグイン</title>
+<meta name="description" content="ドロップダウン・ラジオボタン・プロセス管理のステータスが指定した値に変わったとき、くす玉・クラッカー・紙吹雪のお祝い演出をレコード画面に表示する無料kintoneプラグイン。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; お祝いプラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>お祝いプラグイン</h2>
+  <p class="plugin-lead">
+    ドロップダウン・ラジオボタン・プロセス管理のステータスが、設定画面で指定した値に変わったときに、
+    くす玉・クラッカー・紙吹雪のお祝い演出をレコード画面に表示するプラグインです。お祝い対象の値は
+    複数選択でき、演出は2.5秒ほどで自動的に消えるため、派手すぎず、それでいて達成感の伝わる表示に
+    なっています。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">レイアウト・表示</span>
+    <span class="badge badge-tag">#お祝い演出</span>
+    <span class="badge badge-tag">#ステータス</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="status_celebration">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>ステータスが「完了」になったら、担当者をねぎらう演出を出す</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>プロセス管理のステータスや、ドロップダウン・ラジオボタンの「対応状況」フィールドが「完了」「承認済」などの値に変わった瞬間に、くす玉やクラッカーの演出を表示できます。日々の業務にちょっとした達成感を加えられます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>複数の「達成」状態をまとめて1つのルールでお祝いする</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>お祝い対象の値は複数選択できるため、「完了」と「承認済」のように、達成を表す複数のステータス値を1つのルールでまとめて演出対象にできます。演出パターン(くす玉・クラッカー・紙吹雪・ランダム)やバナーメッセージもルールごとに設定できます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ ルールを追加」で対象種別(ドロップダウン/ラジオボタン、またはプロセス管理のステータス)を選ぶ。</li>
+    <li>対象種別がドロップダウン/ラジオボタンの場合は対象フィールドを選び、お祝い対象の値(複数選択可)・演出パターン・バナーメッセージを設定して保存する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">演出は、対象の値に「変わった」ときにのみ表示されます(レコードを開くたびに毎回表示されることはありません)。プロセス管理のステータスは、アクション実行前のタイミングで演出が表示されます。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>プロセス管理のステータス選択肢一覧を設定画面で取得するためだけにREST API(<code>GET /k/v1/app/status.json</code>)を使いますが、呼び出しは必ず<code>kintone.api()</code>(kintone自身への呼び出し専用の内部ラッパー)のみを使用しています。レコード画面側の発火判定はJavaScript APIのイベントオブジェクトのみで完結し、REST呼び出しは行いません。外部サーバーへの通信・外部ライブラリの使用は一切ありません。</li>
+        <li>演出(くす玉・クラッカー・紙吹雪)は<code>&lt;canvas&gt;</code>要素のCanvas 2D APIのみで描画しており、外部の紙吹雪ライブラリ等は組み込んでいません。</li>
+        <li>設定画面でのフィールド一覧・選択肢一覧の描画、レコード画面のバナーメッセージ表示は、いずれも<code>innerHTML</code>ではなく<code>textContent</code>のみを使用しており、アプリ管理者が入力した文字列がHTMLとして解釈されることはありません。</li>
+        <li>演出のオーバーレイは<code>pointer-events: none</code>にしており、演出中も背後のレコード画面の操作(ボタン・入力欄のクリック)を妨げません。演出終了時には要素を確実にDOMから除去します。</li>
+        <li>「値が変わったときにのみ発火する」判定ロジックはユニットテストで確定的に検証しており、レコードを開くたびに毎回演出されたり、プロセス管理のアクションでステータスが変わらない場合に誤って発火したりしないようにしています。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/status_celebration/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="お祝いプラグインの設定画面。対象種別(ドロップダウン/ラジオボタン、またはプロセス管理のステータス)・対象フィールド・お祝い対象の値(複数選択のチェックボックス)・演出パターン・バナーメッセージを設定する画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインは、設定画面でプロセス管理のステータス選択肢一覧を表示するときにのみ、
+    ステータス設定確認API(<code>GET /k/v1/app/status.json</code>、内部向けラッパーの
+    <code>kintone.api()</code>経由)を実行します。レコード画面での演出表示自体は、JavaScript APIの
+    イベントオブジェクトのみで判定しており、追加のAPI実行は発生しません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/status_celebration" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/status_celebration/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

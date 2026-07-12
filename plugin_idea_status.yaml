@@ -144,15 +144,15 @@ plugins:
     in_plugin_idea_md: true
   
   - name: お祝いプラグイン
-    dir: null
-    status: not_started
+    dir: status_celebration
+    status: released
     in_plugin_idea_md: true
 
 summary:
-  total: 27
-  released: 3
+  total: 28
+  released: 5
   in_progress: 22
-  not_started: 2
+  not_started: 1
 
 meta:
   generated_at: "2026-07-10"
