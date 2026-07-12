@@ -7,6 +7,13 @@
     <language>ja</language>
     <lastBuildDate>Sat, 11 Jul 2026 15:00:00 GMT</lastBuildDate>
     <item>
+      <title>印刷選択プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/printSelect/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/printSelect/</guid>
+      <description>レコード印刷画面で、あらかじめ設定画面でチェックしておいたフィールドを非表示にできるプラグイン</description>
+      <pubDate>Sat, 11 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
       <title>時間帯集計項目自動作成プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/time_band_aggregator/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/time_band_aggregator/</guid>

@@ -1,0 +1,31 @@
+{
+  "manifest_version": 1,
+  "version": "1.0.0",
+  "type": "APP",
+  "name": {
+    "ja": "印刷選択プラグイン",
+    "en": "Print Field Hide plugin"
+  },
+  "description": {
+    "ja": "印刷時に隠す項目を事前に設定できます。",
+    "en": "you can make another print type."
+  },
+  "icon": "image/icon.png",
+  "homepage_url": {},
+  "desktop": {
+    "css": ["css/51-modern-default.css"],
+    "js": [
+      "js/js.js"
+    ]
+  },
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css"
+    ],
+    "required_params": []
+  }
+}

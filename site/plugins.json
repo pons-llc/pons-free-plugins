@@ -185,5 +185,16 @@
     "page": "plugins/time_band_aggregator/index.html",
     "category": "日付・書式",
     "tags": ["時間帯集計", "自動フィールド作成"]
+  },
+  {
+    "id": "printSelect",
+    "name": "印刷選択プラグイン",
+    "description": "レコード印刷画面で、あらかじめ設定画面でチェックしておいたフィールドを非表示にできるプラグイン",
+    "version": "1.0.0",
+    "publishedAt": "2026-07-12",
+    "zip": "plugins/printSelect/plugin.zip",
+    "page": "plugins/printSelect/index.html",
+    "category": "レイアウト・表示",
+    "tags": ["印刷設定", "表示制御"]
   }
 ]
