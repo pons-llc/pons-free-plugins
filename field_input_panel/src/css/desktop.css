@@ -1,0 +1,108 @@
+/* レコード追加・編集画面に設置するフローティングボタンと入力パネル(js/desktop.js参照)。 */
+
+.fip-floating-buttons {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+}
+
+.fip-floating-button {
+  border: none;
+  border-radius: 24px;
+  padding: 0.7em 1.2em;
+  background: #3498db;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.fip-floating-button:hover {
+  background: #2f88c4;
+}
+
+.fip-floating-button.fip-floating-button-active {
+  background: #1f5f8b;
+}
+
+/* パネルはkintoneのレコードコメント/変更履歴サイドバーと同じ右端の位置に、独自のDOM要素として
+   z-indexで重ねて表示する(サイドバー内部へのコンテンツ挿入は公開APIが無いため、idea.md参照)。 */
+.fip-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 360px;
+  max-width: 90vw;
+  background: #fff;
+  box-shadow: -2px 0 12px rgba(0, 0, 0, 0.25);
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+}
+
+.fip-panel-header {
+  padding: 0.9em 1em;
+  border-bottom: 1px solid #e3e7e8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  background: #f7f9f9;
+}
+
+.fip-panel-close {
+  cursor: pointer;
+  color: #888;
+  font-size: 1.3em;
+  line-height: 1;
+}
+
+.fip-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1em;
+}
+
+.fip-panel-field {
+  margin-bottom: 1.2em;
+}
+
+.fip-panel-field label {
+  display: block;
+  font-weight: bold;
+  font-size: 0.9em;
+  margin-bottom: 0.35em;
+}
+
+.fip-panel-field input[type='text'],
+.fip-panel-field input[type='date'],
+.fip-panel-field input[type='time'],
+.fip-panel-field input[type='datetime-local'],
+.fip-panel-field textarea,
+.fip-panel-field select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fip-option-list label {
+  display: block;
+  font-weight: normal;
+  margin-bottom: 0.3em;
+}
+
+.fip-panel-spacer {
+  height: 1.4em;
+}
+
+.fip-panel-footer {
+  padding: 0.8em 1em;
+  border-top: 1px solid #e3e7e8;
+  display: flex;
+  gap: 0.5em;
+  justify-content: flex-end;
+}

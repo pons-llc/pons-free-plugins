@@ -1,0 +1,36 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/field-eligibility.js",
+      "js/lib/field-value-codec.js",
+      "js/lib/config-store.js",
+      "js/desktop.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/desktop.css"]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/field-eligibility.js",
+      "js/lib/field-value-codec.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/config.css"],
+    "required_params": []
+  },
+  "name": {
+    "en": "field_input_panel plugin",
+    "ja": "入力箇所モーダル表示プラグイン"
+  },
+  "description": {
+    "en": "field_input_panel plugin",
+    "ja": "レコード追加・編集画面にフローティングボタンを設置し、指定したフィールドだけを画面下部のパネルにまとめて表示して入力しやすくするプラグイン"
+  }
+}

@@ -163,5 +163,16 @@
     "page": "plugins/org_lookup/index.html",
     "category": "データ連携",
     "tags": ["組織情報", "自動入力"]
+  },
+  {
+    "id": "field_input_panel",
+    "name": "入力箇所モーダル表示プラグイン",
+    "description": "レコード追加・編集画面にフローティングボタンを設置し、指定したフィールドだけを画面右端のパネルにまとめて表示して入力しやすくするプラグイン",
+    "version": "1",
+    "publishedAt": "2026-07-12",
+    "zip": "plugins/field_input_panel/plugin.zip",
+    "page": "plugins/field_input_panel/index.html",
+    "category": "入力制御",
+    "tags": ["まとめ入力", "入力補助"]
   }
 ]

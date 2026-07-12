@@ -1,0 +1,104 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+.fip-errors {
+  color: #e74c3c;
+  white-space: pre-wrap;
+  margin-bottom: 1em;
+}
+
+.fip-empty-message {
+  color: #888;
+  margin: 0.75em 0;
+}
+
+.fip-tab-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  margin-bottom: 0.75em;
+}
+
+.fip-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.5em 0.9em;
+  border: 1px solid #cfd8dc;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  background: #f7f9f9;
+  cursor: pointer;
+  font-size: 0.95em;
+}
+
+.fip-tab.fip-tab-active {
+  background: #fff;
+  border-color: #3498db;
+  font-weight: bold;
+}
+
+.fip-tab-remove {
+  color: #e74c3c;
+  font-weight: normal;
+}
+
+.fip-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 0 4px 4px 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.fip-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75em;
+}
+
+.fip-table th,
+.fip-table td {
+  border: 1px solid #e3e7e8;
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
+
+.fip-table th {
+  width: 14em;
+  background: #f7f9f9;
+}
+
+.fip-subheading {
+  font-weight: bold;
+  margin: 0.75em 0 0.5em;
+}
+
+.fip-item-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.4em;
+}
+
+.fip-item-move {
+  color: #3498db;
+  cursor: pointer;
+  user-select: none;
+  padding: 0 0.3em;
+}
+
+.fip-item-spacer-label {
+  color: #888;
+  font-style: italic;
+}
+
+.fip-row-remove {
+  color: #e74c3c;
+  cursor: pointer;
+  font-weight: normal;
+}

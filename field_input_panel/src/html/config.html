@@ -1,0 +1,65 @@
+<section class="settings">
+  <h2 class="settings-heading">入力箇所モーダル表示プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコード追加・編集画面にフローティングボタンを設置します。ボタンを押すと、画面右端に指定した
+    フィールドだけをまとめた入力パネルが開き、他のフィールドを見ながらまとめて入力できます。
+  </p>
+  <p class="kintoneplugin-desc">
+    「+ ボタンを追加」でボタン(タブ)を追加できます。タブを選んで、フローティングボタンのラベルと、
+    パネルに表示するフィールドを設定してください。フィールドの並び順がそのままパネルでの表示順に
+    なります。「空白を挿入」は、関連するフィールドの間に空行を入れて見やすくするための項目です。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="fip-errors"></div>
+
+    <div id="js-tab-nav" class="fip-tab-nav"></div>
+    <button type="button" id="js-button-add" class="kintoneplugin-button-normal">+ ボタンを追加</button>
+
+    <div id="js-no-button-message" class="fip-empty-message" hidden>
+      ボタンがまだありません。「+ ボタンを追加」から設定を始めてください。
+    </div>
+
+    <div id="js-button-panel"></div>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-button-panel-template">
+  <section class="fip-section js-button-panel-body">
+    <table class="fip-table">
+      <tbody>
+        <tr>
+          <th>フローティングボタンのラベル</th>
+          <td>
+            <input type="text" class="kintoneplugin-input-text js-button-label" placeholder="例: 入力補助">
+          </td>
+        </tr>
+        <tr>
+          <th>パネルのタイトル(省略可)</th>
+          <td>
+            <input type="text" class="kintoneplugin-input-text js-button-title" placeholder="未入力時はボタンのラベルを使用">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="fip-subheading">表示する項目(この順番でパネルに1列で並びます)</div>
+    <div class="js-item-list"></div>
+    <button type="button" class="kintoneplugin-button-normal js-item-add-field">+ フィールドを追加</button>
+    <button type="button" class="kintoneplugin-button-normal js-item-add-spacer">+ 空白を挿入</button>
+  </section>
+</template>
+
+<template id="js-item-row-template">
+  <div class="fip-item-row js-item-row">
+    <span class="fip-item-move js-item-move-up" title="上へ移動">↑</span>
+    <select class="kintoneplugin-select js-item-field-select"></select>
+    <span class="fip-item-spacer-label js-item-spacer-label">(空白)</span>
+    <span class="fip-row-remove js-item-remove">削除</span>
+  </div>
+</template>

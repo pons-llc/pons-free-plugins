@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>入力箇所モーダル表示プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="レコード追加・編集画面にフローティングボタンを設置し、指定したフィールドだけを画面右端のパネルにまとめて表示して入力しやすくするkintone無料プラグイン。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 入力箇所モーダル表示プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>入力箇所モーダル表示プラグイン</h2>
+  <p class="plugin-lead">
+    レコード追加・編集画面にフローティングボタンを設置し、押すと画面右端に指定したフィールドだけを
+    まとめた入力パネルが開くプラグインです。背景の元フォームは隠れず見えたままなので、他のフィールドの
+    値を確認しながらまとめて入力できます。パネルの「反映」ボタンで、入力した値をレコードへ書き込みます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">入力制御</span>
+    <span class="badge badge-tag">#まとめ入力</span>
+    <span class="badge badge-tag">#入力補助</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="field_input_panel">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>長いフォームの中の一部フィールドだけを素早くまとめて入力したい</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>項目数の多いフォームでも、よく使う入力箇所だけをボタン1つで呼び出せるパネルにまとめておけば、画面をスクロールして探し回らずに入力できます。ボタンは複数設定できるので、「基本情報」「連絡先」のように用途ごとに使い分けることもできます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>他のフィールドの値を確認しながら、関連する項目を入力したい</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>パネルは画面全体を覆わず右端に表示されるため、背景のフォームに書かれている他の項目の値を見ながら判断が必要な入力(例: 他部署の記入内容を見ながら自分の担当欄を埋める)をスムーズに行えます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ ボタンを追加」でボタン(タブ)を作成し、フローティングボタンのラベル・パネルのタイトル(省略可)を入力する。</li>
+    <li>「+ フィールドを追加」でパネルに表示したいフィールドを選ぶ(選んだ順にパネルへ縦1列で並びます)。フィールドの間を空けたい場合は「+ 空白を挿入」を使う。</li>
+    <li>設定を保存し、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+    <li>レコード追加・編集画面の左下に表示されるフローティングボタンを押すと、画面右端にパネルが開きます。値を入力して「反映」を押すとレコードに反映されます。</li>
+  </ol>
+  <p class="download-note">対応フィールド型は、文字列(1行・複数行)・数値・リンク・ラジオボタン・チェックボックス・複数選択・ドロップダウン・日付・時刻・日時です。ルックアップ・ユーザー選択・組織選択・グループ選択・添付ファイル・リッチエディター・関連レコード一覧・テーブル・システム項目(計算・レコード番号など)は選択肢に出ません。パネルはPC専用です(モバイル非対応)。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>REST API・<code>kintone.api()</code>を一切使用しません。フィールド情報の取得は<code>kintone.app.getFormFields()</code>、レコードの読み書きは<code>kintone.app.record.get()</code>/<code>kintone.app.record.set()</code>(いずれもJavaScript API)のみで完結し、外部サーバーへの通信も行いません。</li>
+        <li>入力パネルはkintoneのレコードコメント欄(サイドバー)と同じ位置に表示しますが、そのサイドバー内部にコンテンツを挿入する公開APIが無いため、実サイドバーのDOMは一切読み書きせず、独自のDOM要素を重ねて表示するだけの実装にしています。kintone側の画面変更の影響を受けません。</li>
+        <li><code>kintone.app.record.set()</code>で書き換えるのは、設定画面でアプリ管理者が明示的に選んだフィールドのみです。添付ファイル・リッチエディター・ユーザー/組織/グループ選択・ルックアップ・関連レコード一覧・テーブル・システム項目は選択肢に出せない仕組みにしており、HTML文字列をそのまま書き込むような経路も作っていません。</li>
+        <li>設定画面・実行時パネルのラベルや選択肢の表示は、すべて<code>textContent</code>のみで組み立てており、<code>innerHTML</code>を使用していません。</li>
+        <li>保存前のバリデーションで、ボタンラベル未入力・フィールド未選択・同一ボタン内でのフィールド重複などの不正な設定を検出して保存させません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/field_input_panel/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="入力箇所モーダル表示プラグインの設定画面。ボタンをタブ切り替えで追加し、フローティングボタンのラベル・パネルのタイトル・表示するフィールドや空白の項目リストを設定する画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインはREST APIを一切実行しません。フィールド情報の取得は<code>kintone.app.getFormFields()</code>、
+    レコードの読み書きは<code>kintone.app.record.get()</code>/<code>kintone.app.record.set()</code>のみで行い、
+    いずれもJavaScript APIです。API実行数制限に影響することはありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/field_input_panel" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/field_input_panel/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>
