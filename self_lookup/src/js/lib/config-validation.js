@@ -11,15 +11,16 @@
 
   const isNonEmptyString = (v) => typeof v === 'string' && v.length > 0;
 
-  // 検索先のキーフィールド(otherKeyFieldCode)に指定できるのは、ユニーク設定のあるフィールドまたは
-  // レコード番号フィールドのみ(user-test.mdフィードバック反映、判断記録.md参照)。
+  // キー一致は部分一致(like)で検索するため、検索先のキーフィールド(otherKeyFieldCode)に指定できるのは
+  // kintoneのクエリ言語でlike演算子が使えるフィールド型のみ(user-test.mdフィードバック反映、判断記録.md参照)。
+  const LIKE_ELIGIBLE_FIELD_TYPES = ['SINGLE_LINE_TEXT', 'LINK'];
   const isEligibleOtherKeyField = (fieldInfo) =>
-    !fieldInfo || !!fieldInfo.unique || fieldInfo.type === 'RECORD_NUMBER';
+    !fieldInfo || LIKE_ELIGIBLE_FIELD_TYPES.includes(fieldInfo.type);
 
   // 設定画面の保存前チェック。プラグイン設定(設定行の配列)の構造的な不正・意味的に矛盾した設定を検出する。
   // 例外を投げず、常に { valid, errors } を返す(呼び出し側でalert等に表示しやすくするため)。
-  // fieldInfoByCode(任意、{ フィールドコード: { unique, type } })を渡した場合のみ、検索先のキーフィールドの
-  // ユニーク/レコード番号チェックを行う(省略時はスキップ、既存の呼び出し元との後方互換のため)。
+  // fieldInfoByCode(任意、{ フィールドコード: { type } })を渡した場合のみ、検索先のキーフィールドの
+  // like対応型チェックを行う(省略時はスキップ、既存の呼び出し元との後方互換のため)。
   const validateLookups = (lookups, fieldInfoByCode) => {
     const errors = [];
 
@@ -45,7 +46,7 @@
         !isEligibleOtherKeyField(fieldInfoByCode[lookup.otherKeyFieldCode])
       ) {
         errors.push(
-          `${label}: 検索先のキーフィールドはユニーク設定のあるフィールドまたはレコード番号のみ選択できます。`,
+          `${label}: 検索先のキーフィールドは文字列(1行)またはリンクのみ選択できます。`,
         );
       }
       if (!lookup || !isNonEmptyString(lookup.buttonSpaceElementId)) {

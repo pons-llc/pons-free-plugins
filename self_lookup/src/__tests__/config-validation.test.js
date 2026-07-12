@@ -197,26 +197,34 @@ describe('ConfigValidation.validateLookups', () => {
   });
 
   describe('otherKeyFieldCode with fieldInfoByCode', () => {
-    test('accepts a unique field', () => {
+    test('accepts a SINGLE_LINE_TEXT field', () => {
       const result = ConfigValidation.validateLookups(
         [validLookup({ otherKeyFieldCode: 'code' })],
-        { code: { unique: true, type: 'SINGLE_LINE_TEXT' } },
+        { code: { type: 'SINGLE_LINE_TEXT' } },
       );
       expect(result.valid).toBe(true);
     });
 
-    test('accepts a RECORD_NUMBER field even when unique is not set', () => {
+    test('accepts a LINK field', () => {
+      const result = ConfigValidation.validateLookups(
+        [validLookup({ otherKeyFieldCode: 'url' })],
+        { url: { type: 'LINK' } },
+      );
+      expect(result.valid).toBe(true);
+    });
+
+    test('rejects a RECORD_NUMBER field (like operator is not usable)', () => {
       const result = ConfigValidation.validateLookups(
         [validLookup({ otherKeyFieldCode: 'レコード番号' })],
-        { レコード番号: { unique: false, type: 'RECORD_NUMBER' } },
+        { レコード番号: { type: 'RECORD_NUMBER' } },
       );
-      expect(result.valid).toBe(true);
+      expect(result.valid).toBe(false);
     });
 
-    test('rejects a non-unique, non-record-number field', () => {
+    test('rejects a NUMBER field (like operator is not usable)', () => {
       const result = ConfigValidation.validateLookups(
         [validLookup({ otherKeyFieldCode: 'code' })],
-        { code: { unique: false, type: 'SINGLE_LINE_TEXT' } },
+        { code: { type: 'NUMBER' } },
       );
       expect(result.valid).toBe(false);
     });

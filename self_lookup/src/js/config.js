@@ -51,17 +51,17 @@
   const mappableFields = Object.values(formFields).filter(
     (f) => !NON_VALUE_FIELD_TYPES.includes(f.type),
   );
-  // 検索先のキーフィールドは、複数レコードがヒットしないようユニーク設定のあるフィールドまたは
-  // レコード番号のみに絞り込む(user-test.mdフィードバック反映、判断記録.md参照)。
-  const otherKeyEligibleFields = queryableFields
-    .filter((f) => f.unique)
-    .concat(
-      Object.values(formFields).filter((f) => f.type === 'RECORD_NUMBER'),
-    );
-  // 保存前バリデーションでも同じ制約を検証できるよう、フィールドコードからunique/typeを引けるようにする。
+  // キー一致は部分一致(like)で検索する。kintoneのクエリ言語でlike演算子が使えるフィールド型は
+  // 文字列(1行)・リンク等の一部のみのため、検索先のキーフィールドの選択肢もそれらに絞り込む
+  // (user-test.mdフィードバック反映、判断記録.md参照)。
+  const LIKE_ELIGIBLE_FIELD_TYPES = ['SINGLE_LINE_TEXT', 'LINK'];
+  const otherKeyEligibleFields = queryableFields.filter((f) =>
+    LIKE_ELIGIBLE_FIELD_TYPES.includes(f.type),
+  );
+  // 保存前バリデーションでも同じ制約を検証できるよう、フィールドコードからtypeを引けるようにする。
   const fieldInfoByCode = {};
   Object.values(formFields).forEach((f) => {
-    fieldInfoByCode[f.code] = { unique: !!f.unique, type: f.type };
+    fieldInfoByCode[f.code] = { type: f.type };
   });
 
   // kintone.app.getFormLayout() はREST APIレスポンスのlayoutプロパティと同様の値(配列そのもの)を

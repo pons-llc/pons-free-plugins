@@ -64,8 +64,11 @@
       { valueSource: 'SELF_FIELD', selfFieldCode: lookup.selfKeyFieldCode },
       selfRecord,
     );
+    // キー一致は部分一致(like)で検索する(user-test.mdフィードバック反映、判断記録.md参照)。
+    // kintoneのクエリ言語でlikeが使えるのは文字列(1行)/リンク等の一部フィールド型のみのため、
+    // otherKeyFieldCodeの選択肢自体をjs/config.js側で絞り込んでいる。
     clauses.push(
-      `${lookup.otherKeyFieldCode} = "${escapeQueryValue(keyValue)}"`,
+      `${lookup.otherKeyFieldCode} like "${escapeQueryValue(keyValue)}"`,
     );
 
     (lookup.conditions || [])

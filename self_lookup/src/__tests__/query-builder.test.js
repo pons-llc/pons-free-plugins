@@ -58,7 +58,7 @@ describe('QueryBuilder.buildQuery', () => {
       selfRecord,
       null,
     );
-    expect(query).toBe('code = "C001" order by $id asc limit 500');
+    expect(query).toBe('code like "C001" order by $id asc limit 500');
   });
 
   test('appends server-expressible conditions with and', () => {
@@ -85,7 +85,7 @@ describe('QueryBuilder.buildQuery', () => {
       null,
     );
     expect(query).toBe(
-      'code = "C001" and year = "2024" and category like "定期" order by $id asc limit 500',
+      'code like "C001" and year = "2024" and category like "定期" order by $id asc limit 500',
     );
   });
 
@@ -106,7 +106,7 @@ describe('QueryBuilder.buildQuery', () => {
       selfRecord,
       null,
     );
-    expect(query).toBe('code = "C001" order by $id asc limit 500');
+    expect(query).toBe('code like "C001" order by $id asc limit 500');
   });
 
   test('appends a $id exclusion clause when excludeRecordId is given (edit screen)', () => {
@@ -120,7 +120,7 @@ describe('QueryBuilder.buildQuery', () => {
       42,
     );
     expect(query).toBe(
-      'code = "C001" and $id != "42" order by $id asc limit 500',
+      'code like "C001" and $id != "42" order by $id asc limit 500',
     );
   });
 
@@ -134,7 +134,7 @@ describe('QueryBuilder.buildQuery', () => {
       { customer_code: { type: 'SINGLE_LINE_TEXT', value: 'A"B\\C' } },
       null,
     );
-    expect(query).toBe('code = "A\\"B\\\\C" order by $id asc limit 500');
+    expect(query).toBe('code like "A\\"B\\\\C" order by $id asc limit 500');
   });
 
   test('does not append a $id exclusion clause on the create screen (no excludeRecordId)', () => {

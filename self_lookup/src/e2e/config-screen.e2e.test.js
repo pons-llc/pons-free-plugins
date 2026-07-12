@@ -9,8 +9,8 @@
 //
 // 実行: pnpm run test:e2e
 //
-// このテストの主眼は「検索先のキーフィールド」プルダウンが実際にunique設定のフィールド/
-// レコード番号のみに絞り込まれること、「ルックアップボタンを設置するスペースフィールド」
+// このテストの主眼は「検索先のキーフィールド」プルダウンが実際にlike演算子の使えるフィールド型
+// (文字列(1行)・リンク)のみに絞り込まれること、「ルックアップボタンを設置するスペースフィールド」
 // プルダウンにkintone.app.getFormLayout()由来の選択肢が実際に出ることの回帰確認
 // (静的HTML・単体テストでは検知できない。CLAUDE.mdの開発方針1参照)。
 //
@@ -68,17 +68,18 @@ describe('設定画面(実環境)', () => {
     const rows = await page.$$('.js-lookup-row');
     const newRow = rows[rows.length - 1];
 
-    // 検索先のキーフィールド: unique設定のあるフィールドまたはレコード番号のみが選択肢に
-    // 出ているはず(config.js冒頭のotherKeyEligibleFieldsの絞り込みが実際に効いているかの
-    // 回帰確認)。fixtures.jsで用意した「slk_key」(unique)と「レコード番号」が含まれ、
-    // unique設定のない「文字列__1行_」は含まれない。
+    // 検索先のキーフィールド: like演算子が使えるフィールド型(文字列(1行)・リンク)のみが
+    // 選択肢に出ているはず(config.js冒頭のotherKeyEligibleFieldsの絞り込みが実際に効いているかの
+    // 回帰確認)。fixtures.jsで用意した「slk_key」と既存の「文字列__1行_」(いずれも文字列(1行))は
+    // 含まれ、like演算子が使えない「レコード番号」「数値」は含まれない。
     const otherKeyOptionValues = await newRow.$$eval(
       '.js-lookup-other-key option',
       (options) => options.map((o) => o.value).filter((v) => v !== ''),
     );
     expect(otherKeyOptionValues).toContain('slk_key');
-    expect(otherKeyOptionValues).toContain('レコード番号');
-    expect(otherKeyOptionValues).not.toContain('文字列__1行_');
+    expect(otherKeyOptionValues).toContain('文字列__1行_');
+    expect(otherKeyOptionValues).not.toContain('レコード番号');
+    expect(otherKeyOptionValues).not.toContain('数値');
 
     // 自レコードの検索キーとなるフィールド: 対応フィールド型ならunique制約なく選べる。
     const selfKeyOptionValues = await newRow.$$eval(
