@@ -15,3 +15,9 @@
 destructure property 'formatFieldValue' of '(intermediate value)(intermediate value)(intermediate value)' as it is undefined.
 properties of undefined (reading 'validateMapping')
 
+## ユーザールックアップアップ
+ユーザー選択からルックアップすると、必ずアラートで見つかりません。になる。
+値は挿入される
+
+## セルフルックアップ
+LIKEで検索してなくない？
