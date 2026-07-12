@@ -6,32 +6,25 @@
 
   const config = NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
 
-  const ATTRIBUTE_BY_KEY = {};
-  NS.UserAttributes.ATTRIBUTES.forEach((a) => {
-    ATTRIBUTE_BY_KEY[a.key] = a;
-  });
-
   // desktop.jsと同じロジック(kintone.api()/kintone.user.getOrganizations()/getGroups()はPC/モバイル共通)。
   const resolveUserInfo = async (code, mappings) => {
     if (!code) {
       return { userInfo: null, organizations: null, groups: null };
     }
 
-    const needsRest = mappings.some(
-      (m) =>
-        ATTRIBUTE_BY_KEY[m.attribute] &&
-        ATTRIBUTE_BY_KEY[m.attribute].source === 'REST',
-    );
     const needsOrg = mappings.some((m) => m.attribute === 'organizations');
     const needsGroup = mappings.some((m) => m.attribute === 'groups');
 
-    const restPromise = needsRest
-      ? kintone
-          .api(kintone.api.url('/v1/users.json', true), 'GET', {
-            codes: [code],
-          })
-          .then((resp) => (resp.users && resp.users[0]) || null)
-      : Promise.resolve(null);
+    // 転記項目がORG/GROUPのみの設定行でもREST呼び出しは常に行う。kintone.user.getOrganizations()/
+    // getGroups()は存在しないユーザーコードでもエラーにならず空配列を返すため、「該当ユーザーなし」を
+    // 判定できるのはUser API(REST)の応答だけ(userInfoがnullかどうか)。ここを転記項目次第でスキップすると
+    // ユーザーが実在してもuserInfoが常にnullのままになり、下位の「見つかりませんでした」判定が誤発火する
+    // (user-test.mdフィードバック反映)。
+    const restPromise = kintone
+      .api(kintone.api.url('/v1/users.json', true), 'GET', {
+        codes: [code],
+      })
+      .then((resp) => (resp.users && resp.users[0]) || null);
     const orgPromise = needsOrg
       ? kintone.user.getOrganizations(code).catch((err) => {
           console.error('kintone.user.getOrganizations()に失敗しました。', err);

@@ -119,12 +119,14 @@
 <section class="plugin-section">
   <h3>API実行数について</h3>
   <p class="api-usage-note">
-    このプラグインは、氏名・メールアドレス等の取得のためにUser API(<code>GET /v1/users.json</code>、
-    内部向けラッパーの<code>kintone.api()</code>経由)を実行します。「ボタン押下時」を選んだ設定行は
-    ボタンを押すたびに、「保存時」を選んだ設定行はレコード保存のたびに1回実行されます。所属・グループの
-    取得(<code>kintone.user.getOrganizations()</code>/<code>kintone.user.getGroups()</code>)は
-    JavaScript APIのため、kintoneのREST API実行数にはカウントされません。転記項目に所属・グループのみを
-    設定した設定行では、User API自体は呼び出されません。
+    このプラグインは、該当するユーザーコードが実在するかどうかの判定と、氏名・メールアドレス等の取得のために
+    User API(<code>GET /v1/users.json</code>、内部向けラッパーの<code>kintone.api()</code>経由)を実行します。
+    「ボタン押下時」を選んだ設定行はボタンを押すたびに、「保存時」を選んだ設定行はレコード保存のたびに1回
+    実行されます。転記項目に所属・グループのみを設定した設定行でも、存在しないユーザーコードを正しく
+    「見つかりませんでした」と判定するためにUser APIを呼び出します(<code>kintone.user.getOrganizations()</code>/
+    <code>kintone.user.getGroups()</code>自体は存在しないユーザーコードでもエラーにならず空配列を返すため、
+    判定には使えません)。所属・グループの実データ取得自体はJavaScript APIのため、kintoneのREST API実行数には
+    別途カウントされません。
   </p>
 </section>
 
