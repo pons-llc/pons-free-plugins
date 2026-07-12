@@ -174,5 +174,16 @@
     "page": "plugins/field_input_panel/index.html",
     "category": "入力制御",
     "tags": ["まとめ入力", "入力補助"]
+  },
+  {
+    "id": "time_band_aggregator",
+    "name": "時間帯集計項目自動作成プラグイン",
+    "description": "日時・時刻フィールドから時間帯(例: 09:00〜10:00)を自動算出するドロップダウン・数値フィールドを保存時に自動作成し、値を自動入力するプラグイン",
+    "version": "1",
+    "publishedAt": "2026-07-12",
+    "zip": "plugins/time_band_aggregator/plugin.zip",
+    "page": "plugins/time_band_aggregator/index.html",
+    "category": "日付・書式",
+    "tags": ["時間帯集計", "自動フィールド作成"]
   }
 ]

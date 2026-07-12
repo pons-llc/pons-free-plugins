@@ -134,8 +134,8 @@ plugins:
     note: plugin_idea.mdには無く、/goalコマンドでの追加依頼(ユーザー情報ルックアッププラグインと同様の仕様、所属ユーザーは不要、親組織は1階層のみ遡る)により作成。
 
   - name: 時間帯集計項目自動作成プラグイン
-    dir: null
-    status: not_started
+    dir: time_band_aggregator
+    status: released
     in_plugin_idea_md: true
 
   - name: プラグイン利用AI用バックデータ作成アプリプラグイン

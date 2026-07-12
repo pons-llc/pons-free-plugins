@@ -1,0 +1,5 @@
+/* レコード一覧画面に設置する一括実行ボタン(js/bulk-runner.js参照)。 */
+
+.tba-bulk-button {
+  margin: 0.3em 0;
+}

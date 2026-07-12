@@ -1,0 +1,50 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/time-band.js",
+      "js/lib/config-store.js",
+      "js/lib/group-permission.js",
+      "js/lib/api-estimate.js",
+      "js/lib/cursor-enumerator.js",
+      "js/lib/batch-writer.js",
+      "js/bulk-runner.js",
+      "js/desktop.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/desktop.css"]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/time-band.js",
+      "js/lib/field-spec-builder.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/lib/group-permission.js",
+      "js/lib/deploy-poller.js",
+      "js/config.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/config.css"],
+    "required_params": []
+  },
+  "name": {
+    "en": "time_band_aggregator plugin",
+    "ja": "時間帯集計項目自動作成プラグイン"
+  },
+  "description": {
+    "en": "time_band_aggregator plugin",
+    "ja": "日時・時刻フィールドから時間帯(ドロップダウン・数値)を自動算出するフィールドを自動作成し、値を自動入力するプラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/time-band.js",
+      "js/lib/config-store.js",
+      "js/mobile.js"
+    ],
+    "css": ["css/mobile.css"]
+  }
+}

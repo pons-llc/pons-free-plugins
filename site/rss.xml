@@ -7,6 +7,13 @@
     <language>ja</language>
     <lastBuildDate>Sat, 11 Jul 2026 15:00:00 GMT</lastBuildDate>
     <item>
+      <title>時間帯集計項目自動作成プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/time_band_aggregator/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/time_band_aggregator/</guid>
+      <description>日時・時刻フィールドから時間帯(例: 09:00〜10:00)を自動算出するドロップダウン・数値フィールドを保存時に自動作成し、値を自動入力するプラグイン</description>
+      <pubDate>Sat, 11 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
       <title>入力補助サイドパネルプラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/field_input_panel/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/field_input_panel/</guid>

@@ -1,0 +1,88 @@
+<section class="settings">
+  <h2 class="settings-heading">時間帯集計項目自動作成プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    日時(DATETIME)フィールドまたは時刻(TIME)フィールドを選択すると、その時刻部分を「時間帯」の区分
+    (例: 09:00〜10:00)に変換し、<strong>ドロップダウン</strong>フィールド(グルーピング分析用)と
+    <strong>数値</strong>フィールド(数値分析用、時間帯開始時刻の0時からの経過分数)を保存時に
+    自動作成します。作成された2フィールドはレコード画面では常に非表示になります。
+  </p>
+  <p class="kintoneplugin-desc">
+    日時フィールドの変換は、実行ユーザーのタイムゾーン設定に依存します。同じレコードでも、
+    実行するユーザーのタイムゾーンによって算出される時間帯が変わる場合があります。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="tba-errors"></div>
+    <div id="js-status" class="tba-status"></div>
+
+    <section class="tba-section">
+      <div class="tba-section-heading">時間帯集計の設定行</div>
+      <div id="js-row-list"></div>
+      <button type="button" id="js-row-add" class="kintoneplugin-button-normal">+ 設定行を追加</button>
+    </section>
+
+    <section class="tba-section">
+      <div class="tba-section-heading">発動タイミング</div>
+      <label>
+        <input type="radio" name="trigger" class="js-trigger-change" value="CHANGE">
+        フィールド変更時(変換元フィールドの値が変わるたびに再計算)
+      </label>
+      <label>
+        <input type="radio" name="trigger" class="js-trigger-submit" value="SUBMIT">
+        保存時(レコード保存の直前にまとめて再計算)
+      </label>
+    </section>
+
+    <section class="tba-section">
+      <div class="tba-section-heading">一括実行(既存レコードへの遡及適用)</div>
+      <label>
+        <input type="checkbox" class="js-bulk-enabled">
+        一覧画面に一括実行ボタンを表示する
+      </label>
+      <p class="kintoneplugin-desc">
+        実行を許可するグループ(ロール)のコードをカンマ区切りで指定してください。
+        これはボタンの表示/非表示を切り替えるだけの制御であり、真の権限制御ではありません
+        (security-checklist.md参照)。
+      </p>
+      <input type="text" class="kintoneplugin-input-text js-bulk-group-codes" placeholder="例: admin_group, manager_group">
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok js-save-button">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-row-template">
+  <section class="tba-row js-row">
+    <span class="tba-row-remove js-row-remove">削除</span>
+    <table class="tba-table">
+      <tbody>
+        <tr>
+          <th>変換元フィールド(日時/時刻)</th>
+          <td><select class="kintoneplugin-select js-source-field"></select></td>
+        </tr>
+        <tr>
+          <th>時間帯の区切り幅</th>
+          <td>
+            <select class="kintoneplugin-select js-band-width">
+              <option value="15">15分</option>
+              <option value="30">30分</option>
+              <option value="60">1時間</option>
+              <option value="120">2時間</option>
+              <option value="180">3時間</option>
+              <option value="240">4時間</option>
+              <option value="360">6時間</option>
+              <option value="720">12時間</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>作成されるフィールド</th>
+          <td class="js-created-fields tba-inline-note">(保存時に自動作成されます)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</template>
