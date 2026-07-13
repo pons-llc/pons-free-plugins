@@ -12,8 +12,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RIGHT・LEFT・MID関数プラグイン | GovAppsプラグイン</title>
-<meta name="description" content="元の文字列フィールドから指定した位置・文字数の部分文字列を取り出し、出力先フィールドへ格納するkintone無料プラグイン。Excelの LEFT/RIGHT/MID と同じ数え方。">
+<title>一覧強調プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="レコード一覧画面(表形式)で、条件に一致する行を指定した色で強調表示するkintone無料プラグイン。強調ルールを複数設定できる。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -30,7 +30,7 @@
       <span class="header-menu-toggle-bar"></span>
     </button>
   </div>
-  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; RIGHT・LEFT・MID関数プラグイン</p>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 一覧強調プラグイン</p>
   <nav class="header-menu" id="header-menu" hidden>
     <a href="../../index.html">トップ</a>
     <a href="../../about.html">About</a>
@@ -40,24 +40,24 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>RIGHT・LEFT・MID関数プラグイン</h2>
+  <h2>一覧強調プラグイン</h2>
   <p class="plugin-lead">
-    Excel等の表計算ソフトにある<code>LEFT</code>・<code>RIGHT</code>・<code>MID</code>関数のような文字列の
-    部分取得を、kintoneの基本機能にない形で行います。元の文字列フィールドから指定した位置・文字数の
-    部分文字列を取り出し、保存時(submit時)に出力先フィールドへ格納します。
+    レコード一覧画面(表形式)で、指定した条件に一致する行を指定した色で強調表示します。強調ルールを
+    複数設定でき、ルールごとに条件(AND/OR結合の複数条件)と背景色を選べます。1行が複数のルールに
+    一致した場合は、設定順で最初に一致したルールの色が使われます。
   </p>
   <div class="plugin-hero-badges">
-    <span class="badge badge-category">文字列処理</span>
-    <span class="badge badge-tag">#文字列抽出</span>
-    <span class="badge badge-tag">#自動入力</span>
+    <span class="badge badge-category">レイアウト・表示</span>
+    <span class="badge badge-tag">#一覧強調</span>
+    <span class="badge badge-tag">#表示制御</span>
   </div>
-  <a class="download-button" href="download.html" data-dl-plugin="text_slice">ダウンロード(v0.1.0)</a>
+  <a class="download-button" href="download.html" data-dl-plugin="list_highlight">ダウンロード(v1)</a>
 </div>
 
 <section class="plugin-section">
   <h3>紹介動画</h3>
   <div class="video-frame">
-    <iframe src="https://player.vimeo.com/video/1209250152" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+    <iframe src="https://player.vimeo.com/video/1209250739" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
   </div>
 </section>
 
@@ -65,29 +65,20 @@
   <h3>ユースケース</h3>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
-      <span>コード体系の一部だけを取り出す</span>
+      <span>期限超過・優先度の高い案件を一目でわかるようにする</span>
       <span class="accordion-icon">▶</span>
     </button>
     <div class="accordion-panel" id="usecase-1">
-      <p>「品番の先頭3文字が事業部コード」「社員番号の末尾2桁が拠点コード」のように、固定長コードの一部だけを別フィールドに取り出したい場合に使えます。<code>LEFT</code>で先頭n文字、<code>RIGHT</code>で末尾n文字を取得できます。</p>
-      <div class="accordion-item">
-        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-1-detail">
-          <span>具体例: 途中の文字列だけを取り出す(MID)</span>
-          <span class="accordion-icon">▶</span>
-        </button>
-        <div class="accordion-panel" id="usecase-1-detail" hidden>
-          <p><code>MID</code>関数を使うと、「4文字目から3文字」のように途中の位置から部分文字列を取得できます。開始位置・文字数はExcelと同じく1文字目を1とする数え方です。</p>
-        </div>
-      </div>
+      <p>「対応期限が今日以前かつステータスが未対応」のような条件を設定しておくと、一覧画面を開いた瞬間に赤色などで目立つ行として確認できます。件数の多い一覧から緊急対応が必要なレコードを探す手間を減らせます。</p>
     </div>
   </div>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
-      <span>複数のルールを組み合わせてコードを分解する</span>
+      <span>複数の状態を色分けして俯瞰する</span>
       <span class="accordion-icon">▶</span>
     </button>
     <div class="accordion-panel" id="usecase-2" hidden>
-      <p>同じ元フィールドに対して複数のルールを設定できるため、1つのコード文字列から「先頭2文字」「3〜5文字目」「末尾1文字」のようにそれぞれ別のフィールドへ分解して格納することもできます。</p>
+      <p>ステータスの値ごとに異なる背景色のルールを複数設定すれば、一覧全体を見渡すだけで「承認待ち」「差し戻し」「完了」などの内訳をおおまかに把握できます。複数のルールに一致する行は、設定した順番のうち最初に一致した色が優先されます。</p>
     </div>
   </div>
 </section>
@@ -95,12 +86,12 @@
 <section class="plugin-section">
   <h3>セットアップ手順</h3>
   <ol class="setup-steps">
-    <li>アプリのフォームに、取り出した部分文字列を格納する出力先フィールドを配置する。</li>
     <li>プラグインをアプリに追加し、設定画面を開く。</li>
-    <li>「+ ルールを追加」で、元フィールド・関数(LEFT/RIGHT/MID)・パラメータ(文字数、MIDの場合は開始位置も)・出力先フィールドを設定して保存する。</li>
-    <li>保存すると、追加・編集画面で出力先フィールドが編集不可(disabled)になり、レコード一覧のインライン編集では元フィールドが編集不可になる。</li>
+    <li>「+ ルールを追加」でルールを作成し、条件の結合方法(AND/OR)・背景色を選ぶ。</li>
+    <li>「+ 条件を追加」で条件(対象フィールド・演算子・値)を1つ以上追加して保存する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
   </ol>
-  <p class="download-note">指定した文字数が元の文字列より長い場合はエラーにならず、存在する分だけを返します(Excelと同じ挙動)。</p>
+  <p class="download-note">強調はレコード一覧画面(表形式)でのみ有効です。カレンダー形式・カスタマイズビューでは動作しません。関連レコード・グループ・罫線・ラベル・スペース・テーブル内フィールド、詳細表示/編集/削除ボタンの列には背景色を適用しません。</p>
 </section>
 
 <section class="plugin-section">
@@ -113,13 +104,14 @@
     <div class="accordion-panel" id="security-summary" hidden>
       <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
       <ul class="review-checklist">
-        <li>フィールド一覧・エラーメッセージの描画はすべて<code>textContent</code>または<code>createElement</code>で行っており、<code>innerHTML</code>への外部由来文字列の差し込みはありません。</li>
-        <li>REST API・外部サーバー通信は一切行わず、外部ライブラリも使用していません(標準の<code>String.prototype.slice()</code>のみ使用)。</li>
-        <li>保存前のバリデーションで、開始位置・文字数が1以上の整数でない、出力先フィールド未選択・重複、元フィールドと出力先フィールドの重複などを検出し、不正な設定は保存させません。</li>
-        <li>出力先フィールドの編集禁止(disabled化)はUI上の制約であり、REST API等を直接使った書き換えまでは防げない点を明記しています。</li>
+        <li>行の背景色変更はDOMの直接操作ではなく、kintone標準のJavaScript API(<code>kintone.app.setRecordListStyle()</code>)に委ねています。外部サーバーへの通信・外部ライブラリは一切使用していません。</li>
+        <li>背景色は設定画面のブラウザ標準カラーピッカー(<code>&lt;input type="color"&gt;</code>)で選択した<code>#rrggbb</code>形式の文字列のみを使用し、保存前に形式(<code>/^#[0-9a-fA-F]{6}$/</code>)を検証します。任意の文字列をCSSプロパティ値としてそのまま埋め込むことはなく、CSSインジェクションのリスクは実質的にありません。</li>
+        <li>設定画面でのフィールド一覧・エラーメッセージの描画は、すべて<code>textContent</code>または<code>&lt;template&gt;</code>要素の<code>cloneNode</code>で行っており、<code>innerHTML</code>への外部由来文字列の埋め込みはありません。</li>
+        <li>保存前のバリデーションで、条件0件・フィールド未選択・未知の演算子・色の形式不正などの不正な設定を検出して保存させません。</li>
+        <li>一覧の行強調はUIレベルの視覚表現であり、レコードデータそのものやアクセス権には一切影響しません。</li>
       </ul>
       <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
-      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/text_slice/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/list_highlight/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
     </div>
   </div>
 </section>
@@ -127,23 +119,24 @@
 <section class="plugin-section">
   <h3>設定画面イメージ</h3>
   <div class="screenshot-frame">
-    <img src="screenshots/config-screen.png" alt="RIGHT・LEFT・MID関数プラグインの設定画面。元フィールド・関数(MID)・開始位置・文字数・出力先フィールドを設定した状態のスクリーンショット。" loading="lazy">
+    <img src="screenshots/config-screen.png" alt="一覧強調プラグインの設定画面。ルールを1件追加し、条件(対象フィールド・演算子・値)と背景色を設定している状態のスクリーンショット。" loading="lazy">
   </div>
 </section>
 
 <section class="plugin-section">
   <h3>API実行数について</h3>
   <p class="api-usage-note">
-    このプラグインはREST APIを一切実行しません。フィールド情報の取得は<code>kintone.app.getFormFields()</code>のみで行い、
-    切り出し処理は<code>submit</code>イベント内のローカルな文字列処理のみで完結します。API実行数制限に影響することはありません。
+    このプラグインはREST APIを一切実行しません。フィールド一覧の取得は
+    <code>kintone.app.getFormFields()</code>、行の強調表示は<code>kintone.app.setRecordListStyle()</code>と
+    いったJavaScript APIのみで完結し、API実行数制限に影響することはありません。
   </p>
 </section>
 
 <section class="plugin-section">
   <h3>GitHub / 改善要望</h3>
   <div class="plugin-links">
-    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/text_slice" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
-    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/text_slice/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/list_highlight" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/list_highlight/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
     <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
   </div>
 </section>

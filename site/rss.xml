@@ -5,7 +5,35 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着情報</description>
     <language>ja</language>
-    <lastBuildDate>Sat, 11 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 12 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>数字抽出プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/number_extract/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/number_extract/</guid>
+      <description>文字列フィールドの値から数字(半角・全角・漢数字)の連続を左から順に抽出し、複数の出力先フィールドへ格納するプラグイン</description>
+      <pubDate>Sun, 12 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>自動ルックアッププラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/auto_lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/auto_lookup/</guid>
+      <description>レコード編集画面を開いたとき、選んだルックアップフィールド(サブテーブル内含む)を自動的に再取得(再ルックアップ)するプラグイン</description>
+      <pubDate>Sun, 12 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>一覧強調プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/list_highlight/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/list_highlight/</guid>
+      <description>レコード一覧画面(表形式)で、条件に一致する行を指定した色で強調表示するプラグイン</description>
+      <pubDate>Sun, 12 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>モーダル確認プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/confirm_modal/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/confirm_modal/</guid>
+      <description>レコードの保存・削除・プロセス管理のアクション実行時に確認ダイアログを表示し、キャンセルを選ぶと処理を中止できるプラグイン(PC専用)</description>
+      <pubDate>Sun, 12 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>お祝いプラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/status_celebration/</link>

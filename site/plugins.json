@@ -8,7 +8,11 @@
     "zip": "plugins/box_gdrive_iframe/plugin.zip",
     "page": "plugins/box_gdrive_iframe/index.html",
     "category": "ファイル・埋め込み",
-    "tags": ["ファイル管理", "埋め込み表示"]
+    "tags": [
+      "ファイル管理",
+      "埋め込み表示"
+    ],
+    "video": "https://vimeo.com/1209249108"
   },
   {
     "id": "wareki_date_format",
@@ -19,7 +23,11 @@
     "zip": "plugins/wareki_date_format/plugin.zip",
     "page": "plugins/wareki_date_format/index.html",
     "category": "日付・書式",
-    "tags": ["日付変換", "自動入力"]
+    "tags": [
+      "日付変換",
+      "自動入力"
+    ],
+    "video": "https://vimeo.com/1209251118"
   },
   {
     "id": "text_split",
@@ -30,7 +38,11 @@
     "zip": "plugins/text_split/plugin.zip",
     "page": "plugins/text_split/index.html",
     "category": "文字列処理",
-    "tags": ["文字列分割", "自動入力"]
+    "tags": [
+      "文字列分割",
+      "自動入力"
+    ],
+    "video": "https://vimeo.com/1209250618"
   },
   {
     "id": "text_slice",
@@ -41,7 +53,11 @@
     "zip": "plugins/text_slice/plugin.zip",
     "page": "plugins/text_slice/index.html",
     "category": "文字列処理",
-    "tags": ["文字列抽出", "自動入力"]
+    "tags": [
+      "文字列抽出",
+      "自動入力"
+    ],
+    "video": "https://vimeo.com/1209250152"
   },
   {
     "id": "subtable_sort",
@@ -52,7 +68,11 @@
     "zip": "plugins/subtable_sort/plugin.zip",
     "page": "plugins/subtable_sort/index.html",
     "category": "サブテーブル",
-    "tags": ["サブテーブル整列", "自動化"]
+    "tags": [
+      "サブテーブル整列",
+      "自動化"
+    ],
+    "video": "https://vimeo.com/1209250308"
   },
   {
     "id": "subtable_lookup",
@@ -63,7 +83,11 @@
     "zip": "plugins/subtable_lookup/plugin.zip",
     "page": "plugins/subtable_lookup/index.html",
     "category": "サブテーブル",
-    "tags": ["サブテーブル検索", "自動入力"]
+    "tags": [
+      "サブテーブル検索",
+      "自動入力"
+    ],
+    "video": "https://vimeo.com/1209250554"
   },
   {
     "id": "narrowDown",
@@ -74,7 +98,11 @@
     "zip": "plugins/narrowDown/plugin.zip",
     "page": "plugins/narrowDown/index.html",
     "category": "入力制御",
-    "tags": ["選択肢絞込", "入力補助"]
+    "tags": [
+      "選択肢絞込",
+      "入力補助"
+    ],
+    "video": "https://vimeo.com/1209391752"
   },
   {
     "id": "requiredCondition",
@@ -85,7 +113,11 @@
     "zip": "plugins/requiredCondition/plugin.zip",
     "page": "plugins/requiredCondition/index.html",
     "category": "入力制御",
-    "tags": ["条件付き必須", "入力チェック"]
+    "tags": [
+      "条件付き必須",
+      "入力チェック"
+    ],
+    "video": "https://vimeo.com/1209391702"
   },
   {
     "id": "setFieldShown",
@@ -96,7 +128,11 @@
     "zip": "plugins/setFieldShown/plugin.zip",
     "page": "plugins/setFieldShown/index.html",
     "category": "入力制御",
-    "tags": ["条件付き非表示", "表示制御"]
+    "tags": [
+      "条件付き非表示",
+      "表示制御"
+    ],
+    "video": "https://vimeo.com/1209391649"
   },
   {
     "id": "tab_layout",
@@ -107,7 +143,11 @@
     "zip": "plugins/tab_layout/plugin.zip",
     "page": "plugins/tab_layout/index.html",
     "category": "レイアウト・表示",
-    "tags": ["タブ表示", "表示切替"]
+    "tags": [
+      "タブ表示",
+      "表示切替"
+    ],
+    "video": "https://vimeo.com/1209391127"
   },
   {
     "id": "self_lookup",
@@ -118,7 +158,11 @@
     "zip": "plugins/self_lookup/plugin.zip",
     "page": "plugins/self_lookup/index.html",
     "category": "データ連携",
-    "tags": ["セルフルックアップ", "自動入力"]
+    "tags": [
+      "セルフルックアップ",
+      "自動入力"
+    ],
+    "video": "https://vimeo.com/1209390811"
   },
   {
     "id": "status_arrow",
@@ -129,7 +173,11 @@
     "zip": "plugins/status_arrow/plugin.zip",
     "page": "plugins/status_arrow/index.html",
     "category": "レイアウト・表示",
-    "tags": ["進捗表示", "矢羽根"]
+    "tags": [
+      "進捗表示",
+      "矢羽根"
+    ],
+    "video": "https://vimeo.com/1209391917"
   },
   {
     "id": "related_record_summary",
@@ -140,7 +188,11 @@
     "zip": "plugins/related_record_summary/plugin.zip",
     "page": "plugins/related_record_summary/index.html",
     "category": "データ連携",
-    "tags": ["関連レコード集計", "自動集計"]
+    "tags": [
+      "関連レコード集計",
+      "自動集計"
+    ],
+    "video": "https://vimeo.com/1209391294"
   },
   {
     "id": "user_info_lookup",
@@ -151,7 +203,11 @@
     "zip": "plugins/user_info_lookup/plugin.zip",
     "page": "plugins/user_info_lookup/index.html",
     "category": "データ連携",
-    "tags": ["ユーザー情報", "自動入力"]
+    "tags": [
+      "ユーザー情報",
+      "自動入力"
+    ],
+    "video": "https://vimeo.com/1209391212"
   },
   {
     "id": "org_lookup",
@@ -162,7 +218,11 @@
     "zip": "plugins/org_lookup/plugin.zip",
     "page": "plugins/org_lookup/index.html",
     "category": "データ連携",
-    "tags": ["組織情報", "自動入力"]
+    "tags": [
+      "組織情報",
+      "自動入力"
+    ],
+    "video": "https://vimeo.com/1209391867"
   },
   {
     "id": "field_input_panel",
@@ -173,7 +233,11 @@
     "zip": "plugins/field_input_panel/plugin.zip",
     "page": "plugins/field_input_panel/index.html",
     "category": "入力制御",
-    "tags": ["まとめ入力", "入力補助"]
+    "tags": [
+      "まとめ入力",
+      "入力補助"
+    ],
+    "video": "https://vimeo.com/1209250231"
   },
   {
     "id": "time_band_aggregator",
@@ -184,7 +248,11 @@
     "zip": "plugins/time_band_aggregator/plugin.zip",
     "page": "plugins/time_band_aggregator/index.html",
     "category": "日付・書式",
-    "tags": ["時間帯集計", "自動フィールド作成"]
+    "tags": [
+      "時間帯集計",
+      "自動フィールド作成"
+    ],
+    "video": "https://vimeo.com/1209391373"
   },
   {
     "id": "printSelect",
@@ -195,7 +263,11 @@
     "zip": "plugins/printSelect/plugin.zip",
     "page": "plugins/printSelect/index.html",
     "category": "レイアウト・表示",
-    "tags": ["印刷設定", "表示制御"]
+    "tags": [
+      "印刷設定",
+      "表示制御"
+    ],
+    "video": "https://vimeo.com/1209392939"
   },
   {
     "id": "status_celebration",
@@ -206,6 +278,70 @@
     "zip": "plugins/status_celebration/plugin.zip",
     "page": "plugins/status_celebration/index.html",
     "category": "レイアウト・表示",
-    "tags": ["お祝い演出", "ステータス"]
+    "tags": [
+      "お祝い演出",
+      "ステータス"
+    ],
+    "video": "https://vimeo.com/1209391446"
+  },
+  {
+    "id": "confirm_modal",
+    "name": "モーダル確認プラグイン",
+    "description": "レコードの保存・削除・プロセス管理のアクション実行時に確認ダイアログを表示し、キャンセルを選ぶと処理を中止できるプラグイン(PC専用)",
+    "version": "1",
+    "publishedAt": "2026-07-13",
+    "zip": "plugins/confirm_modal/plugin.zip",
+    "page": "plugins/confirm_modal/index.html",
+    "category": "入力制御",
+    "tags": [
+      "確認ダイアログ",
+      "誤操作防止"
+    ],
+    "video": "https://vimeo.com/1209250678"
+  },
+  {
+    "id": "list_highlight",
+    "name": "一覧強調プラグイン",
+    "description": "レコード一覧画面(表形式)で、条件に一致する行を指定した色で強調表示するプラグイン",
+    "version": "1",
+    "publishedAt": "2026-07-13",
+    "zip": "plugins/list_highlight/plugin.zip",
+    "page": "plugins/list_highlight/index.html",
+    "category": "レイアウト・表示",
+    "tags": [
+      "一覧強調",
+      "表示制御"
+    ],
+    "video": "https://vimeo.com/1209250739"
+  },
+  {
+    "id": "auto_lookup",
+    "name": "自動ルックアッププラグイン",
+    "description": "レコード編集画面を開いたとき、選んだルックアップフィールド(サブテーブル内含む)を自動的に再取得(再ルックアップ)するプラグイン",
+    "version": "1",
+    "publishedAt": "2026-07-13",
+    "zip": "plugins/auto_lookup/plugin.zip",
+    "page": "plugins/auto_lookup/index.html",
+    "category": "データ連携",
+    "tags": [
+      "自動ルックアップ",
+      "再取得"
+    ],
+    "video": "https://vimeo.com/1209250825"
+  },
+  {
+    "id": "number_extract",
+    "name": "数字抽出プラグイン",
+    "description": "文字列フィールドの値から数字(半角・全角・漢数字)の連続を左から順に抽出し、複数の出力先フィールドへ格納するプラグイン",
+    "version": "1",
+    "publishedAt": "2026-07-13",
+    "zip": "plugins/number_extract/plugin.zip",
+    "page": "plugins/number_extract/index.html",
+    "category": "文字列処理",
+    "tags": [
+      "数字抽出",
+      "自動入力"
+    ],
+    "video": "https://vimeo.com/1209251044"
   }
 ]

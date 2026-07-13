@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自動ルックアッププラグイン | GovAppsプラグイン</title>
+<meta name="description" content="レコード編集画面を開いたときに、選んだルックアップフィールドを自動的に再取得(再ルックアップ)するkintone無料プラグイン。サブテーブル内のルックアップ列にも対応。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 自動ルックアッププラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>自動ルックアッププラグイン</h2>
+  <p class="plugin-lead">
+    レコード編集画面を開いたとき、設定画面で選んだルックアップフィールドを自動的に再取得(再ルックアップ)
+    します。サブテーブルを対象に選ぶと、そのサブテーブル内のルックアップ列すべてについて、全行分を
+    自動ルックアップします。参照先の情報が更新された後も、レコードを開き直すだけで最新の値に揃えられます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">データ連携</span>
+    <span class="badge badge-tag">#自動ルックアップ</span>
+    <span class="badge badge-tag">#再取得</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="auto_lookup">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>紹介動画</h3>
+  <div class="video-frame">
+    <iframe src="https://player.vimeo.com/video/1209250825" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>参照先マスタの情報が変わっても、古いコピー値を残さない</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>取引先マスタの住所や単価が更新された後、既存のレコードのルックアップフィールドはそのままでは古い値のままです。本プラグインを設定しておけば、レコード編集画面を開くだけで自動的に再ルックアップが実行され、最新の値に更新されます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>サブテーブル内の複数行のルックアップをまとめて更新する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>明細サブテーブルの各行に商品マスタへのルックアップ列がある場合、対象にサブテーブルを選択しておけば、行数に関わらず全行分のルックアップ列がまとめて再取得されます。行ごとに手動で再ルックアップを操作する手間がありません。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>対象のアプリに、あらかじめルックアップフィールド(またはルックアップ列を含むサブテーブル)を設定しておく。</li>
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>自動的に再取得したいルックアップフィールド、またはルックアップ列を含むサブテーブルにチェックを付けて保存する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">レコード編集画面を開いたとき(<code>edit.show</code>)にのみ発動します。レコード追加画面では発動しません。参照先で一致するレコードが複数件ある場合は、kintone標準の仕様により自動実行されません(その場合はユーザーが手動で選択してください)。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>再ルックアップの実行はkintone標準のJavaScript API(イベントオブジェクトのフィールドの<code>lookup</code>プロパティに<code>true</code>をセットして<code>return</code>する仕組み)のみで行っており、本プラグイン自身が参照先アプリへの通信を組み立てることはありません。外部サーバーへの通信・外部ライブラリも一切使用していません。</li>
+        <li>本プラグインはDOMへの描画を伴わない(フィールドの<code>lookup</code>プロパティを設定するのみ)ため、XSSのリスクとなる文字列描画箇所がありません。設定画面のエラーメッセージ等の描画は<code>textContent</code>のみを使用しています。</li>
+        <li>設定に含まれる対象フィールドが実際のフォームに存在しない場合(フィールド削除・設定の食い違い等)は該当フィールドをスキップし、画面をクラッシュさせません。</li>
+        <li>ルックアップフィールドの再取得は、ログインユーザーが参照先アプリのレコードを閲覧できる権限を持っている場合のみ正しく動作します(kintone標準のルックアップフィールドの権限モデルに準拠、本プラグインが独自の権限チェックを行うわけではありません)。</li>
+        <li>参照先で複数件が一致する場合は自動実行されません(kintone標準の制約)。本プラグインがこの制約を回避したり、任意のレコードを推測で選択したりすることは一切ありません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/auto_lookup/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="自動ルックアッププラグインの設定画面。ルックアップフィールドの一覧がチェックボックスとして表示され、対象を1件選択している状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインはREST APIを一切実行しません。フィールド一覧の取得は
+    <code>kintone.app.getFormFields()</code>、再ルックアップの指示はイベントオブジェクトの
+    <code>lookup</code>プロパティ経由のJavaScript APIのみで完結し、API実行数制限に影響することは
+    ありません(再ルックアップ自体の実行はkintone本体が内部的に行います)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/auto_lookup" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/auto_lookup/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

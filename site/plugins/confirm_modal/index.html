@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>モーダル確認プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="レコードの保存・削除・プロセス管理のアクション実行時に確認ダイアログを表示し、キャンセルを選ぶと処理を中止できるkintone無料プラグイン(PC専用)。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; モーダル確認プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>モーダル確認プラグイン</h2>
+  <p class="plugin-lead">
+    レコード追加・編集の保存、レコード一覧からの削除、プロセス管理のアクション実行のいずれかが行われる
+    ときに確認ダイアログを表示し、キャンセルを選ぶとその処理を中止します(PC専用)。ダイアログのタイトル・
+    本文・OK/キャンセルボタンのテキストをルールごとに設定できます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">入力制御</span>
+    <span class="badge badge-tag">#確認ダイアログ</span>
+    <span class="badge badge-tag">#誤操作防止</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="confirm_modal">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>紹介動画</h3>
+  <div class="video-frame">
+    <iframe src="https://player.vimeo.com/video/1209250678" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>重要なレコードの削除前に、もう一度確認させる</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>レコード一覧からの削除操作に確認ルールを設定しておくと、「本当に削除しますか?」といったダイアログが表示され、キャンセルを選べば削除は行われません。誤操作による削除事故を防ぎたい台帳・マスタ系アプリに向いています。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>プロセス管理のアクション実行時に、次のステータス名を確認させる</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>プロセス管理のアクション実行を対象にしたルールでは、ダイアログ本文に<code>{action}</code>(実行したアクション名)・<code>{nextStatus}</code>(変更後のステータス名)を埋め込めます。「『承認』を実行し、ステータスを『承認済み』に変更します。よろしいですか?」のように、実際の値を含めた確認文言を表示できます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>保存前に入力内容の再確認を促す</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>レコード追加・編集の保存を対象にしたルールを設定すれば、保存ボタンを押した際に「この内容で保存しますか?」といった確認を挟めます。ボタンのテキストを「保存する」「やめる」のように業務に合わせて変更することもできます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ ルールを追加」でルールを作成し、対象イベント(レコード追加の保存/レコード編集の保存/レコード一覧からの削除/プロセス管理のアクション実行)を選ぶ。</li>
+    <li>ダイアログのタイトル(省略可)・本文(必須)・OKボタンのテキスト(省略可)・キャンセルボタンのテキスト(省略可)を入力して保存する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">同じ対象イベントに複数のルールを設定した場合、設定順で最初のルールのみが使われます。本プラグインはPC専用で、モバイル画面では動作しません。REST API経由でのレコード保存・削除・ステータス更新はこの確認ダイアログを経由しません。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>確認ダイアログはkintone標準のJavaScript API(<code>kintone.showConfirmDialog()</code>)のみで表示しており、外部サーバーへの通信・外部ライブラリは一切使用していません。</li>
+        <li>ダイアログ本文のプレースホルダー置換(<code>{action}</code>/<code>{nextStatus}</code>)は文字列の置換のみで、DOM操作や<code>eval</code>等コード実行を伴いません。置換元の値はkintone自身が生成するプロセス管理のアクション名・ステータス名であり、レコード編集者の自由入力ではありません。</li>
+        <li>設定画面でのエラーメッセージ・ルール一覧の描画は、すべて<code>textContent</code>または<code>&lt;template&gt;</code>要素の<code>cloneNode</code>で行っており、<code>innerHTML</code>への外部由来文字列の埋め込みはありません。</li>
+        <li>保存前のバリデーションで、対象イベント未選択・本文未入力などの不正な設定を検出して保存させません。</li>
+        <li>本プラグインが実現する「確認してキャンセルできる」機能はUIレベルの誤操作防止であり、アクセス権による制御を代替するものではないことを明記しています。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/confirm_modal/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="モーダル確認プラグインの設定画面。ルールを1件追加し、対象イベント・ダイアログの本文を入力している状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインはREST APIを一切実行しません。確認ダイアログの表示・キャンセル処理は
+    <code>kintone.showConfirmDialog()</code>等のJavaScript APIのみで完結し、API実行数制限に
+    影響することはありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/confirm_modal" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/confirm_modal/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

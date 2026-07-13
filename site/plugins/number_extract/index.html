@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>数字抽出プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="文字列フィールドの値から数字(半角・全角・漢数字)の連続を左から順に抽出し、複数の出力先フィールドへ格納するkintone無料プラグイン。住所からの丁目・番地・号の抽出等に利用できる。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 数字抽出プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>数字抽出プラグイン</h2>
+  <p class="plugin-lead">
+    元の文字列フィールドから、数字(半角・全角・漢数字)の連続した並びを左から順にすべて取り出し、
+    複数の出力先フィールドへ先頭から順に格納します。「二丁目3番4号」のような住所文字列から丁目・番地・号を
+    分けて取り出すような用途に使えます(区切り文字で1回だけ分割する<code>text_split</code>とは異なり、
+    数字の連続部分だけを拾い集めます)。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">文字列処理</span>
+    <span class="badge badge-tag">#数字抽出</span>
+    <span class="badge badge-tag">#自動入力</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="number_extract">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>紹介動画</h3>
+  <div class="video-frame">
+    <iframe src="https://player.vimeo.com/video/1209251044" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>住所文字列から丁目・番地・号を分けて取り出す</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>「二丁目3番4号」のような住所の一部を1つの文字列フィールドに入力しておくだけで、含まれる数字の連続部分(この例では「二」→2、「3」→3、「4」→4)を順番に別々のフィールドへ自動入力できます。漢数字を含めるかどうかはオプションで切り替えられます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>年号の読み上げ表記から西暦を取り出す</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>「二〇二四年」のような読み上げ表記の漢数字も1文字ずつ桁として連結して変換するため(例: 「二〇二四」→2024)、位取り表記(十・百・千・万を含む)とは別パターンとして抽出できます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ 設定行を追加」で設定行を作成し、元フィールド(文字列1行/文字列複数行から選択)・抽出対象(全角数字を含む/漢数字を含む)を設定する。</li>
+    <li>「+ 出力先フィールドを追加」で、抽出結果を先頭から順に格納する出力先フィールドを必要な数だけ追加して保存する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">元フィールドの値が変わるたびに抽出処理が実行されます(保存時ではありません)。抽出結果が出力先フィールドの数より少ない場合は余ったフィールドを空にし、多い場合ははみ出した分を切り捨てます。出力先フィールドはdisabledにならないため、抽出後にユーザーが手で修正できます。元フィールドはレコード一覧のインライン編集でのみ編集を禁止します。数値(NUMBER)型の出力先フィールドに格納した場合、先頭ゼロはkintoneの仕様により保持されません。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>数字・漢数字の抽出には固定パターンの正規表現(<code>/\d+/g</code>等)のみを使用しており、設定画面からの入力を正規表現として動的に組み立てることはしません。ReDoSや正規表現インジェクションのリスクは実質的にありません。</li>
+        <li>外部サーバーへの通信(fetch/XHR)は一切行わず、漢数字変換も自前のロジックで実装しており外部ライブラリは使用していません。</li>
+        <li>設定画面でのフィールド一覧・エラーメッセージの描画は、すべて<code>textContent</code>または<code>&lt;template&gt;</code>要素の<code>cloneNode</code>で行っており、<code>innerHTML</code>への外部由来文字列の埋め込みはありません。出力先フィールドへの書き込みも<code>event.record[...].value</code>への文字列代入のみです。</li>
+        <li>保存前のバリデーションで、元フィールド未選択・出力先フィールド0件・出力先フィールドの重複・元フィールドとの重複などの不正な設定を検出して保存させません。</li>
+        <li>出力先フィールドのdisabled化を行わない設計は利便性を優先した設計判断であり、セキュリティ上の制約ではないことを明記しています。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/number_extract/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="数字抽出プラグインの設定画面。設定行を1件追加し、元フィールド・抽出オプション・出力先フィールドを設定している状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインはREST APIを一切実行しません。フィールド一覧の取得は
+    <code>kintone.app.getFormFields()</code>、抽出結果の反映は<code>change</code>イベントの
+    JavaScript APIのみで完結し、API実行数制限に影響することはありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/number_extract" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/number_extract/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>
