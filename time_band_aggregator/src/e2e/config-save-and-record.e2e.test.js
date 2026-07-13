@@ -5,12 +5,14 @@
 // 「保存によって実際にフィールドが作成されるか」「保存時トリガーで実際に時間帯が算出されるか」
 // 「作成されたフィールドがレコード画面で非表示になるか」という機能面を検証する。
 //
-// 発動タイミングはSUBMIT(保存時)を使う。CHANGE(フィールド変更時)は、実際のUI操作を伴わない
-// kintone.app.record.set()による値のセットではchangeイベントが発火しない(kintone公式の既知の
-// 制約)ため、Puppeteerでの自動テストとして安定して検証できるSUBMITトリガーのみをここでは
-// 実機確認する。CHANGEトリガー自体はdesktop.js/mobile.jsがSUBMITと同じapplyRowToRecordを呼ぶ
-// だけの実装なので、ユニットテスト(time-band.test.js)で計算ロジックを、目視確認で実際の
-// UI操作(日時ピッカー操作)によるchange発火を担保する(未検証の範囲、判断記録として明記)。
+// 最初のテストは発動タイミングSUBMIT(保存時)、2番目のテストはCHANGE(フィールド変更時)で、
+// どちらもkintone.app.record.set()のみで値をセットする(実際のUI操作を伴わないため、ネイティブの
+// changeイベントは発火しない、kintone公式の既知の制約)。desktop.js/mobile.jsは発動タイミングの
+// 設定によらず保存時に必ずapplyRowToRecordを呼ぶ実装にしているため(user-test.mdフィードバック
+// 「レコード保存しても値が入らない」反映)、CHANGE設定でもchangeイベントが発火しないケースで
+// 保存時に反映されることをここで回帰確認する。「フィールド変更時」選択時の保存前リアルタイム
+// プレビュー(change発火時の即時反映)自体は、実際のUI操作(日時ピッカー操作)を伴うため
+// Puppeteerでの安定した自動テストが難しく、目視確認に委ねている(未検証の範囲)。
 //
 // 事前準備: config-screen.e2e.test.jsと同様(pnpm run build && pnpm run upload、.env設定済み)。
 // 実行: pnpm run test:e2e
@@ -40,6 +42,7 @@ describe('設定の保存とレコードへの反映(実環境)', () => {
   let browser;
   let page;
   let env;
+  let pluginId;
   let sourceField;
   let dropdownFieldCode;
   let numberFieldCode;
@@ -47,7 +50,7 @@ describe('設定の保存とレコードへの反映(実環境)', () => {
   beforeAll(async () => {
     const repoRoot = common.findRepoRoot(PLUGIN_SRC_DIR);
     env = common.loadEnv(repoRoot);
-    const pluginId = common.getPluginId(PLUGIN_SRC_DIR);
+    pluginId = common.getPluginId(PLUGIN_SRC_DIR);
     await kintoneAdmin.ensurePluginAdded(env, env.TEST_APP_ID_1, pluginId);
     sourceField = await findSourceField(env, env.TEST_APP_ID_1);
     dropdownFieldCode = `${sourceField.code}_timeband`;
@@ -154,6 +157,82 @@ describe('設定の保存とレコードへの反映(実環境)', () => {
     const bandStart = Math.floor(expectedMinutes / 60) * 60;
     const expectedLabel = `${clock(bandStart)}〜${clock(bandStart + 60)}`;
 
+    await page.evaluate(
+      (code, value) => {
+        const current = kintone.app.record.get().record;
+        current[code].value = value;
+        kintone.app.record.set({ record: current });
+      },
+      sourceField.code,
+      testValue,
+    );
+
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 30000 }),
+      page.click('.gaia-ui-actionmenu-save'),
+    ]);
+    await page
+      .waitForNetworkIdle({ idleTime: 500, timeout: 15000 })
+      .catch(() => {});
+
+    const record = await page.evaluate(() => kintone.app.record.get().record);
+    expect(record[dropdownFieldCode].value).toBe(expectedLabel);
+    expect(record[numberFieldCode].value).toBe(String(bandStart));
+
+    expect(pageErrors).toEqual([]);
+  });
+
+  // user-test.mdフィードバック「レコード保存しても値が入らない」の回帰テスト。発動タイミングを
+  // 「フィールド変更時」に切り替えたうえで、kintone.app.record.set()のみで変換元フィールドの値を
+  // 入れる(ネイティブのchangeイベントは発火しない、kintone公式の既知の制約)。修正前はCHANGE設定時に
+  // 保存時の再計算が一切行われなかったため出力先が空のままだったが、修正後は保存時に必ず再計算される。
+  test('「フィールド変更時」設定でも、changeイベントを伴わない値のセット後に保存すれば反映される', async () => {
+    await common.openPluginConfig(page, env, env.TEST_APP_ID_1, pluginId);
+    await (await page.$('.js-trigger-change')).click();
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 60000 }),
+      page.click('.js-save-button'),
+    ]);
+    await kintoneAdmin.deployApp(env, env.TEST_APP_ID_1);
+
+    await page.goto(`https://${env.KINTONE_DOMAIN}/k/${env.TEST_APP_ID_1}/`, {
+      waitUntil: 'networkidle0',
+    });
+    const addLinkEl = await page.$('a.gaia-argoui-app-menu-add');
+    await page.evaluate((el) => el.click(), addLinkEl);
+    await page.waitForFunction(() => location.href.includes('/edit'));
+    await page
+      .waitForNetworkIdle({ idleTime: 500, timeout: 15000 })
+      .catch(() => {});
+
+    const pageErrors = [];
+    page.on('pageerror', (err) => pageErrors.push(err.message));
+
+    const testValue =
+      sourceField.type === 'TIME' ? '14:15' : '2024-06-01T09:15:00Z';
+    const expectedMinutes = await (async () => {
+      if (sourceField.type === 'TIME') {
+        return 14 * 60 + 15;
+      }
+      const timezone = await page.evaluate(
+        () => kintone.getLoginUser().timezone,
+      );
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: timezone,
+        hourCycle: 'h23',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      const parts = formatter.formatToParts(new Date(testValue));
+      const hour = Number(parts.find((p) => p.type === 'hour').value) % 24;
+      const minute = Number(parts.find((p) => p.type === 'minute').value);
+      return hour * 60 + minute;
+    })();
+    const bandStart = Math.floor(expectedMinutes / 60) * 60;
+    const expectedLabel = `${clock(bandStart)}〜${clock(bandStart + 60)}`;
+
+    // kintone.app.record.set()のみで値をセットする(ネイティブのUI操作を経ないため、
+    // フィールド変更時イベントは発火しない)。
     await page.evaluate(
       (code, value) => {
         const current = kintone.app.record.get().record;

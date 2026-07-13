@@ -51,23 +51,28 @@
     },
   );
 
-  // 発動タイミングが「保存時」の場合、レコード保存の直前にすべての設定行を再計算する。
-  if (config.trigger === 'SUBMIT') {
-    kintone.events.on(
-      ['app.record.create.submit', 'app.record.edit.submit'],
-      (event) => {
-        // kintone.getLoginUser()は同期API(Promiseを返さない)。
-        const timeZone = kintone.getLoginUser().timezone;
-        config.rows.forEach((row) =>
-          applyRowToRecord(event.record, row, timeZone),
-        );
-        return event;
-      },
-    );
-  }
+  // トリガー設定によらず、レコード保存の直前に必ずすべての設定行を再計算する
+  // (user-test.mdフィードバック「レコード保存しても値が入らない」反映)。「フィールド変更時」を
+  // 選んでいても、変換元フィールドの値が他プラグイン・レコード取込・複製等の`kintone.app.record.set()`
+  // 経由で入った場合はchangeイベントが発火しない(kintone公式の既知の制約、
+  // e2e/config-save-and-record.e2e.test.js参照)ため、保存時の再計算だけがフィールド変更時の
+  // 「取りこぼし」を防ぐ唯一の手段になる。「フィールド変更時」設定は、保存前に画面上でリアルタイムに
+  // 値を確認できるようにする追加のプレビュー用途として残す。
+  kintone.events.on(
+    ['app.record.create.submit', 'app.record.edit.submit'],
+    (event) => {
+      // kintone.getLoginUser()は同期API(Promiseを返さない)。
+      const timeZone = kintone.getLoginUser().timezone;
+      config.rows.forEach((row) =>
+        applyRowToRecord(event.record, row, timeZone),
+      );
+      return event;
+    },
+  );
 
   // 発動タイミングが「フィールド変更時」の場合、設定行ごとに変換元フィールドのchangeイベントを
-  // 個別に登録する(config-validationで変換元フィールドの重複は禁止済み)。
+  // 個別に登録し、保存前の画面上でも値をリアルタイムに反映する(config-validationで変換元
+  // フィールドの重複は禁止済み)。
   if (config.trigger === 'CHANGE') {
     config.rows.forEach((row) => {
       if (!row.sourceFieldCode) {

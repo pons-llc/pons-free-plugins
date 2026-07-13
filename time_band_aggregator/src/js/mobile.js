@@ -48,18 +48,18 @@
     },
   );
 
-  if (config.trigger === 'SUBMIT') {
-    kintone.events.on(
-      ['mobile.app.record.create.submit', 'mobile.app.record.edit.submit'],
-      (event) => {
-        const timeZone = kintone.getLoginUser().timezone;
-        config.rows.forEach((row) =>
-          applyRowToRecord(event.record, row, timeZone),
-        );
-        return event;
-      },
-    );
-  }
+  // トリガー設定によらず、レコード保存の直前に必ずすべての設定行を再計算する
+  // (desktop.jsと同じ理由。user-test.mdフィードバック「レコード保存しても値が入らない」反映)。
+  kintone.events.on(
+    ['mobile.app.record.create.submit', 'mobile.app.record.edit.submit'],
+    (event) => {
+      const timeZone = kintone.getLoginUser().timezone;
+      config.rows.forEach((row) =>
+        applyRowToRecord(event.record, row, timeZone),
+      );
+      return event;
+    },
+  );
 
   if (config.trigger === 'CHANGE') {
     config.rows.forEach((row) => {

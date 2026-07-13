@@ -23,13 +23,14 @@
 
     <section class="tba-section">
       <div class="tba-section-heading">発動タイミング</div>
+      <p class="kintoneplugin-desc">レコード保存時は、どちらを選んでいても必ず再計算されます。ここで選ぶのは、保存前の画面上でもリアルタイムに値を確認したいかどうかです。</p>
       <label>
         <input type="radio" name="trigger" class="js-trigger-change" value="CHANGE">
-        フィールド変更時(変換元フィールドの値が変わるたびに再計算)
+        フィールド変更時にも再計算(変換元フィールドの値が変わるたびに、保存前の画面上でも反映)
       </label>
       <label>
         <input type="radio" name="trigger" class="js-trigger-submit" value="SUBMIT">
-        保存時(レコード保存の直前にまとめて再計算)
+        保存時のみ再計算(保存するまで画面上には反映されません)
       </label>
     </section>
 
