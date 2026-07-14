@@ -11,7 +11,7 @@
   // desktop.jsと同じ理由(kintone.plugin.app.getConfig()が画面表示直後の最初の呼び出しでは
   // 内部準備が間に合わずnullを返すことがある)でリトライする。
   const loadConfig = async () => {
-    for (let attempt = 0; attempt < 5; attempt += 1) {
+    for (let attempt = 0; attempt < 8; attempt += 1) {
       const raw = kintone.plugin.app.getConfig(PLUGIN_ID);
       if (raw) {
         return NS.ConfigStore.load(raw);
@@ -33,6 +33,25 @@
       revision,
       record: { [numberFieldCode]: { value: number } },
     });
+
+  // desktop.jsと同じ理由(採番結果を保存するフィールドは常にプラグインが書き込む値なので手入力させない)。
+  const disableNumberField = (record, config) => {
+    const field = record[config.numberFieldCode];
+    if (field) {
+      field.disabled = true;
+    }
+  };
+
+  kintone.events.on(
+    ['mobile.app.record.create.show', 'mobile.app.record.edit.show'],
+    async (event) => {
+      const config = await loadConfig();
+      if (isConfigured(config)) {
+        disableNumberField(event.record, config);
+      }
+      return event;
+    }
+  );
 
   // NOTE: 表示直後(create.show)での先行計算はあえて行わない。desktop.jsと同じ理由
   // (record.set()をkintone.events.on()のハンドラー内から呼べない制限)で不具合になるため。

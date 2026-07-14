@@ -13,7 +13,7 @@
   // 実機検証で、同一ページ内の2つ目以降のイベントでは正しい値が返ることを確認したため、
   // 短い間隔でのリトライにより取得できない場合だけ「未設定」として扱う。
   const loadConfig = async () => {
-    for (let attempt = 0; attempt < 5; attempt += 1) {
+    for (let attempt = 0; attempt < 8; attempt += 1) {
       const raw = kintone.plugin.app.getConfig(PLUGIN_ID);
       if (raw) {
         return NS.ConfigStore.load(raw);
@@ -35,6 +35,34 @@
       revision,
       record: { [numberFieldCode]: { value: number } },
     });
+
+  // 採番結果を保存するフィールドは常にプラグインが書き込む値なので、どの画面でも手入力できないように
+  // しておく。event.recordを書き換えてreturnするだけ(record.set()は呼ばない)なので、
+  // create.showハンドラー内で踏んだ「イベントハンドラー内ではrecord.set()を呼べない」制限には
+  // 抵触しない。
+  const disableNumberField = (record, config) => {
+    const field = record[config.numberFieldCode];
+    if (field) {
+      field.disabled = true;
+    }
+  };
+
+  kintone.events.on(['app.record.create.show', 'app.record.edit.show'], async (event) => {
+    const config = await loadConfig();
+    if (isConfigured(config)) {
+      disableNumberField(event.record, config);
+    }
+    return event;
+  });
+
+  // 一覧画面のインライン編集(モバイルには存在しないイベントのためdesktop.jsのみ)。
+  kintone.events.on('app.record.index.edit.show', async (event) => {
+    const config = await loadConfig();
+    if (isConfigured(config)) {
+      disableNumberField(event.record, config);
+    }
+    return event;
+  });
 
   // 作成画面の保存: 採番タイミングが「保存時」で、かつ未採番のまま保存されようとしている場合のみ採番する。
   // NOTE: 表示直後(create.show)での先行計算はあえて行わない。computeNext()成功後に
