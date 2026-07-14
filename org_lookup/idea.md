@@ -73,6 +73,28 @@
 場合、親組織系の項目(`parentName`/`parentLocalName`/`parentDescription`)のみ空文字列にする
 (`parentCode`は自組織の生値なので、親組織の取得可否に関わらずそのまま表示される)。
 
+## クリアボタン(確定、ユーザーフィードバック反映)
+
+本プラグインは値取得系のボタン(「組織情報を取得して反映」)のみで、取得済みの値を取り消す手段が
+無かったため「クリア」ボタンを追加した。専用の設定項目は設けず、既存の`buttonSpaceElementId`の
+スペースフィールドの中に反映ボタンと並べて自動的に追加表示される(発動条件が「保存時」〈`SUBMIT`〉
+の設定行はボタン自体が無いため対象外)。主ボタンより一回り小さいスタイル(`orgl-button-small`)に
+し、視覚的な優先度を下げている。
+
+押すと`confirm()`で確認したうえで、元フィールド(`sourceFieldCode`)・転記項目の出力先フィールドを
+すべてクリアする(`js/desktop.js`/`js/mobile.js`の`clearAllFields`)。元フィールドが組織選択
+(`ORGANIZATION_SELECT`)の場合は値の型が配列(`[{code, name}, ...]`)のため、空文字列ではなく
+空配列(`[]`)にする(`js/lib/source-value.js`の`extractOrgCode`が組織選択フィールドの値を配列として
+扱っているのと対になる型判定)。
+
+### 既知の落とし穴: kintone.app.record.set()で値を空文字列にクリアすると、valueキー自体が消える
+
+`biz_code_search`プラグインの開発時に実際の検証環境で確認した挙動: `kintone.app.record.set()`で
+フィールドの`value`に空文字列を渡すと、その後の`kintone.app.record.get()`では`value`キー自体が
+存在しなくなり(`undefined`)、`''`にはならない。本プラグインの`clearAllFields`はこの挙動を前提に
+実装しており、クリア後の値を扱う既存コード(`extractOrgCode`)は`typeof sourceField.value === 'string'`
+というtypeof判定のみで、`undefined`を安全に「文字列ではない」として扱えるため影響を受けない。
+
 ## 編集禁止の仕様(user_info_lookupと同じ、確定)
 
 - 出力先フィールドは、設定行ごとの「出力先フィールドを編集可能にするか」がオフの場合のみ、追加・

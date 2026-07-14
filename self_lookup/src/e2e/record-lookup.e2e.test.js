@@ -33,6 +33,25 @@ const {
 
 const PLUGIN_SRC_DIR = path.join(__dirname, '..');
 
+// スペース内に複数ボタン(主ボタン+クリアボタン)が並ぶため、textContentで対象のボタンを
+// 特定してPuppeteerのネイティブクリック(ElementHandle.click())で押す。
+// confirm()を伴うクリアボタンは、page.evaluate()内のDOM.click()(非trusted-event)だと
+// window.confirm()のダイアログが正しく処理されないことがある(biz_code_searchで確認済み)。
+const clickButtonInSpace = async (page, spaceId, buttonText) => {
+  const buttonHandle = await page.evaluateHandle(
+    (id, text) => {
+      const spaceEl = kintone.app.record.getSpaceElement(id);
+      return Array.from(
+        (spaceEl && spaceEl.querySelectorAll('button')) || [],
+      ).find((b) => b.textContent === text);
+    },
+    spaceId,
+    buttonText,
+  );
+  const buttonEl = buttonHandle.asElement();
+  await buttonEl.click();
+};
+
 describe('レコード追加画面でのルックアップ(実環境)', () => {
   let browser;
   let page;
@@ -161,6 +180,68 @@ describe('レコード追加画面でのルックアップ(実環境)', () => {
       {},
       SEED_NAME_VALUE,
     );
+
+    expect(pageErrors).toEqual([]);
+  });
+
+  test('クリアボタンを押すと、検索キー・転記先フィールドがすべて空になる', async () => {
+    await page.goto(`https://${env.KINTONE_DOMAIN}/k/${env.TEST_APP_ID_1}/`, {
+      waitUntil: 'networkidle0',
+    });
+    const addLinkEl = await page.$('a.gaia-argoui-app-menu-add');
+    await page.evaluate((el) => el.click(), addLinkEl);
+    await page.waitForFunction(() => location.href.includes('/edit'));
+    await page
+      .waitForNetworkIdle({ idleTime: 500, timeout: 15000 })
+      .catch(() => {});
+
+    const pageErrors = [];
+    page.on('pageerror', (err) => pageErrors.push(err.message));
+
+    // まず検索して反映ボタンで値を反映させ、クリア対象があることを確認したうえでクリアする。
+    await page.evaluate((value) => {
+      const current = kintone.app.record.get().record;
+      current['文字列__1行_'].value = value;
+      kintone.app.record.set({ record: current });
+    }, SEED_KEY_VALUE);
+
+    await page.waitForFunction(
+      (spaceId) => {
+        const spaceEl = kintone.app.record.getSpaceElement(spaceId);
+        return !!(spaceEl && spaceEl.querySelector('button'));
+      },
+      {},
+      BUTTON_SPACE_ELEMENT_ID,
+    );
+    await clickButtonInSpace(page, BUTTON_SPACE_ELEMENT_ID, '検索して反映');
+
+    await page.waitForSelector('.slk-modal-row');
+    await page.click('.slk-modal-row');
+
+    await page.waitForFunction(
+      (expected) => {
+        const record = kintone.app.record.get().record;
+        return record.slk_copied_name.value === expected;
+      },
+      { timeout: 20000 },
+      SEED_NAME_VALUE,
+    );
+
+    // クリアボタンは「検索して反映」ボタンと同じスペースに並んで表示される
+    // (page.on('dialog')でconfirm()は自動的に承諾される、beforeAll参照)。
+    await clickButtonInSpace(page, BUTTON_SPACE_ELEMENT_ID, 'クリア');
+
+    // kintone.app.record.set()でフィールド値を空文字列にクリアすると、field.valueキー自体が
+    // 無くなりundefinedになることがある(実際に検証環境で確認済みのkintoneの挙動)。
+    // そのため「クリアされた」判定はvalueが偽値(''またはundefined)であることで行う。
+    await page.waitForFunction(
+      () => !kintone.app.record.get().record.slk_copied_name.value,
+      { timeout: 20000 },
+    );
+
+    const record = await page.evaluate(() => kintone.app.record.get().record);
+    expect(record['文字列__1行_'].value).toBeFalsy();
+    expect(record.slk_copied_name.value).toBeFalsy();
 
     expect(pageErrors).toEqual([]);
   });

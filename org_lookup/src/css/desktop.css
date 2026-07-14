@@ -3,3 +3,11 @@
 .orgl-button {
   margin: 0.3em 0;
 }
+
+/* 反映ボタンの隣に添える「クリア」ボタン(js/desktop.js参照)。
+   主ボタンより一回り小さく、控えめな見た目にする。 */
+.orgl-button-small {
+  padding: 2px 8px;
+  font-size: 0.85em;
+  margin-left: 0.5em;
+}

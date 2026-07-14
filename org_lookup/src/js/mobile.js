@@ -112,6 +112,55 @@
     spaceEl.appendChild(buttonEl);
   };
 
+  // desktop.jsと同じ「クリア」ボタン処理。
+  const clearAllFields = (row) => {
+    const current = kintone.mobile.app.record.get().record;
+    const sourceField = current[row.sourceFieldCode];
+    if (sourceField) {
+      sourceField.value = sourceField.type === 'ORGANIZATION_SELECT' ? [] : '';
+    }
+    (row.mappings || []).forEach((mapping) => {
+      const field = current[mapping.destinationFieldCode];
+      if (field) {
+        field.value = '';
+      }
+    });
+    kintone.mobile.app.record.set({ record: current });
+  };
+
+  // desktop.jsと同じく、専用のスペースフィールドは設けずボタンと同じスペースフィールドの
+  // 中に追加する。
+  const setupClearButton = (row) => {
+    if (!row.buttonSpaceElementId) {
+      return;
+    }
+    const spaceEl = kintone.mobile.app.record.getSpaceElement(
+      row.buttonSpaceElementId,
+    );
+    if (!spaceEl || spaceEl.dataset.orglClearButtonRendered) {
+      return;
+    }
+    spaceEl.dataset.orglClearButtonRendered = '1';
+
+    const buttonEl = document.createElement('button');
+    buttonEl.type = 'button';
+    buttonEl.className = 'kintoneplugin-button-normal orgl-button-small';
+    buttonEl.textContent = 'クリア';
+
+    buttonEl.addEventListener('click', () => {
+      if (
+        !confirm(
+          '元フィールド・転記済みの内容をすべてクリアします。よろしいですか？',
+        )
+      ) {
+        return;
+      }
+      clearAllFields(row);
+    });
+
+    spaceEl.appendChild(buttonEl);
+  };
+
   const applySubmitRows = async (event) => {
     const submitRows = config.rows.filter((row) => row.trigger === 'SUBMIT');
     for (const row of submitRows) {
@@ -146,6 +195,7 @@
       config.rows.forEach((row) => {
         if (row.trigger === 'BUTTON') {
           setupButton(row);
+          setupClearButton(row);
         }
       });
       return event;

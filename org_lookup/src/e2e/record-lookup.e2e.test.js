@@ -28,6 +28,25 @@ const {
 
 const PLUGIN_SRC_DIR = path.join(__dirname, '..');
 
+// スペース内に複数ボタン(主ボタン+クリアボタン)が並ぶため、textContentで対象のボタンを
+// 特定してPuppeteerのネイティブクリック(ElementHandle.click())で押す。
+// confirm()を伴うクリアボタンは、page.evaluate()内のDOM.click()(非trusted-event)だと
+// window.confirm()のダイアログが正しく処理されないことがある(biz_code_searchで確認済み)。
+const clickButtonInSpace = async (page, spaceId, buttonText) => {
+  const buttonHandle = await page.evaluateHandle(
+    (id, text) => {
+      const spaceEl = kintone.app.record.getSpaceElement(id);
+      return Array.from(
+        (spaceEl && spaceEl.querySelectorAll('button')) || [],
+      ).find((b) => b.textContent === text);
+    },
+    spaceId,
+    buttonText,
+  );
+  const buttonEl = buttonHandle.asElement();
+  await buttonEl.click();
+};
+
 describe('レコード追加画面での組織情報反映(実環境)', () => {
   let browser;
   let page;
@@ -56,25 +75,30 @@ describe('レコード追加画面での組織情報反映(実環境)', () => {
     // 保存済み(再実行時)なら追加・保存をスキップする(buttonSpaceElementIdは設定行間で重複できない
     // ため、冪等にする)。
     await common.openPluginConfig(page, env, env.TEST_APP_ID_1, pluginId);
-    const alreadyConfigured = await page.evaluate((spaceId) => {
-      const rows = Array.from(document.querySelectorAll('.js-row'));
-      return rows.some(
-        (row) => row.querySelector('.js-button-space')?.value === spaceId,
-      );
-    }, BUTTON_SPACE_ELEMENT_ID);
+    const rows = await page.$$('.js-row');
+    let targetRow = null;
+    for (const row of rows) {
+      const spaceValue = await row.$eval('.js-button-space', (el) => el.value);
+      if (spaceValue === BUTTON_SPACE_ELEMENT_ID) {
+        targetRow = row;
+        break;
+      }
+    }
 
-    if (!alreadyConfigured) {
+    let needsSave = false;
+
+    if (!targetRow) {
       await page.click('#js-row-add');
-      const rows = await page.$$('.js-row');
-      const newRow = rows[rows.length - 1];
+      const newRows = await page.$$('.js-row');
+      targetRow = newRows[newRows.length - 1];
 
-      await (await newRow.$('.js-source-field')).select('orgl_org_code');
+      await (await targetRow.$('.js-source-field')).select('orgl_org_code');
       await (
-        await newRow.$('.js-button-space')
+        await targetRow.$('.js-button-space')
       ).select(BUTTON_SPACE_ELEMENT_ID);
 
-      await (await newRow.$('.js-mapping-add')).click();
-      let mappingRows = await newRow.$$('.js-mapping-row');
+      await (await targetRow.$('.js-mapping-add')).click();
+      let mappingRows = await targetRow.$$('.js-mapping-row');
       await mappingRows[0]
         .$('.js-mapping-attribute')
         .then((el) => el.select('name'));
@@ -82,8 +106,8 @@ describe('レコード追加画面での組織情報反映(実環境)', () => {
         .$('.js-mapping-destination')
         .then((el) => el.select('orgl_out_name'));
 
-      await (await newRow.$('.js-mapping-add')).click();
-      mappingRows = await newRow.$$('.js-mapping-row');
+      await (await targetRow.$('.js-mapping-add')).click();
+      mappingRows = await targetRow.$$('.js-mapping-row');
       await mappingRows[1]
         .$('.js-mapping-attribute')
         .then((el) => el.select('parentName'));
@@ -91,6 +115,22 @@ describe('レコード追加画面での組織情報反映(実環境)', () => {
         .$('.js-mapping-destination')
         .then((el) => el.select('orgl_out_parent_name'));
 
+      needsSave = true;
+    } else {
+      // TEST_APP_ID_1に既に本テスト用のボタン設置スペースを使った行があるが、元フィールドが
+      // 期待(orgl_org_code)と異なる場合(手動検証等で別のフィールドに差し替えられていた場合)は
+      // 選び直す(過去の手動デバッグ時に元フィールドが「組織選択」になっていたことがあったため)。
+      const sourceValue = await targetRow.$eval(
+        '.js-source-field',
+        (el) => el.value,
+      );
+      if (sourceValue !== 'orgl_org_code') {
+        await (await targetRow.$('.js-source-field')).select('orgl_org_code');
+        needsSave = true;
+      }
+    }
+
+    if (needsSave) {
       await Promise.all([
         page.waitForNavigation({ waitUntil: 'networkidle0' }),
         page.click('.kintoneplugin-button-dialog-ok'),
@@ -170,6 +210,69 @@ describe('レコード追加画面での組織情報反映(実環境)', () => {
       // (該当する親組織が無い場合の既定動作、resolve-org-info.test.jsで階層制御ロジック自体は検証済み)。
       expect(record.orgl_out_parent_name.value).toBeFalsy();
     }
+
+    expect(pageErrors).toEqual([]);
+  });
+
+  test('クリアボタンを押すと、元フィールド・転記先フィールドがすべて空になる', async () => {
+    await page.goto(`https://${env.KINTONE_DOMAIN}/k/${env.TEST_APP_ID_1}/`, {
+      waitUntil: 'networkidle0',
+    });
+    const addLinkEl = await page.$('a.gaia-argoui-app-menu-add');
+    await page.evaluate((el) => el.click(), addLinkEl);
+    await page.waitForFunction(() => location.href.includes('/edit'));
+    await page
+      .waitForNetworkIdle({ idleTime: 500, timeout: 15000 })
+      .catch(() => {});
+
+    const pageErrors = [];
+    page.on('pageerror', (err) => pageErrors.push(err.message));
+
+    // まず反映ボタンで値を反映させ、クリア対象があることを確認したうえでクリアする。
+    await page.evaluate((value) => {
+      const current = kintone.app.record.get().record;
+      current.orgl_org_code.value = value;
+      kintone.app.record.set({ record: current });
+    }, expectedOrg.code);
+
+    await page.waitForFunction(
+      (spaceId) => {
+        const spaceEl = kintone.app.record.getSpaceElement(spaceId);
+        return !!(spaceEl && spaceEl.querySelector('button'));
+      },
+      {},
+      BUTTON_SPACE_ELEMENT_ID,
+    );
+    await clickButtonInSpace(
+      page,
+      BUTTON_SPACE_ELEMENT_ID,
+      '組織情報を取得して反映',
+    );
+
+    await page.waitForFunction(
+      (expected) => {
+        const record = kintone.app.record.get().record;
+        return record.orgl_out_name.value === expected;
+      },
+      { timeout: 15000 },
+      expectedOrg.name,
+    );
+
+    // クリアボタンは反映ボタンと同じスペースに並んで表示される
+    // (page.on('dialog')でconfirm()は自動的に承諾される、beforeAll参照)。
+    await clickButtonInSpace(page, BUTTON_SPACE_ELEMENT_ID, 'クリア');
+
+    // kintone.app.record.set()でフィールド値を空文字列にクリアすると、field.valueキー自体が
+    // 無くなりundefinedになることがある(このファイル冒頭の既存コメント・kintone公式ドキュメント
+    // 「フィールドの値が空の場合」に明記された挙動)。そのため偽値判定で確認する。
+    await page.waitForFunction(
+      () => !kintone.app.record.get().record.orgl_out_name.value,
+      { timeout: 20000 },
+    );
+
+    const record = await page.evaluate(() => kintone.app.record.get().record);
+    expect(record.orgl_org_code.value).toBeFalsy();
+    expect(record.orgl_out_name.value).toBeFalsy();
 
     expect(pageErrors).toEqual([]);
   });

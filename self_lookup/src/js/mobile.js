@@ -144,11 +144,63 @@
     spaceEl.appendChild(buttonEl);
   };
 
+  // desktop.jsと同じ「クリア」ボタン処理。
+  const clearAllFields = (lookup) => {
+    const current = kintone.mobile.app.record.get().record;
+    const selfKeyField = current[lookup.selfKeyFieldCode];
+    if (selfKeyField) {
+      selfKeyField.value = '';
+    }
+    (lookup.fieldMappings || []).forEach((mapping) => {
+      const targetField = current[mapping.targetFieldCode];
+      if (targetField) {
+        targetField.value = '';
+      }
+    });
+    kintone.mobile.app.record.set({ record: current });
+  };
+
+  // desktop.jsと同じく、専用のスペースフィールドは設けずルックアップボタンと同じ
+  // スペースフィールドの中に追加する。
+  const setupClearButton = (lookup) => {
+    if (!lookup.buttonSpaceElementId) {
+      return;
+    }
+    const spaceEl = kintone.mobile.app.record.getSpaceElement(
+      lookup.buttonSpaceElementId,
+    );
+    if (!spaceEl || spaceEl.dataset.slkClearButtonRendered) {
+      return;
+    }
+    spaceEl.dataset.slkClearButtonRendered = '1';
+
+    const buttonEl = document.createElement('button');
+    buttonEl.type = 'button';
+    buttonEl.className = 'kintoneplugin-button-normal slk-button-small';
+    buttonEl.textContent = 'クリア';
+
+    buttonEl.addEventListener('click', () => {
+      if (
+        !confirm(
+          '検索キー・転記済みの内容をすべてクリアします。よろしいですか？',
+        )
+      ) {
+        return;
+      }
+      clearAllFields(lookup);
+    });
+
+    spaceEl.appendChild(buttonEl);
+  };
+
   kintone.events.on(
     ['mobile.app.record.create.show', 'mobile.app.record.edit.show'],
     async (event) => {
       disableTargetFields(event.record);
-      config.lookups.forEach((lookup) => setupLookupButton(lookup));
+      config.lookups.forEach((lookup) => {
+        setupLookupButton(lookup);
+        setupClearButton(lookup);
+      });
       await highlightKeyFields();
       return event;
     },

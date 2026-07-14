@@ -45,6 +45,25 @@ const goToNewRecordScreen = async (page, env) => {
     .catch(() => {});
 };
 
+// スペース内に複数ボタン(主ボタン+クリアボタン)が並ぶため、textContentで対象のボタンを
+// 特定してPuppeteerのネイティブクリック(ElementHandle.click())で押す。
+// confirm()を伴うクリアボタンは、page.evaluate()内のDOM.click()(非trusted-event)だと
+// window.confirm()のダイアログが正しく処理されないことがある(実際に検証環境で確認済み)。
+const clickButtonInSpace = async (page, spaceId, buttonText) => {
+  const buttonHandle = await page.evaluateHandle(
+    (id, text) => {
+      const spaceEl = kintone.app.record.getSpaceElement(id);
+      return Array.from(
+        (spaceEl && spaceEl.querySelectorAll('button')) || [],
+      ).find((b) => b.textContent === text);
+    },
+    spaceId,
+    buttonText,
+  );
+  const buttonEl = buttonHandle.asElement();
+  await buttonEl.click();
+};
+
 describe('レコード追加画面でのgBizINFO実APIリクエスト(実環境)', () => {
   let browser;
   let page;
@@ -70,54 +89,84 @@ describe('レコード追加画面でのgBizINFO実APIリクエスト(実環境)
     await common.login(page, env);
 
     // 設定行を1件追加し、APIトークンとともに保存する。TEST_APP_ID_1に既に本テスト用の行が
-    // 保存済み(再実行時)なら追加・保存をスキップする(ボタン設置スペースは設定行間で重複
-    // できないため、冪等にする。self_lookupのrecord-lookup.e2e.test.jsと同じ方針)。
+    // 保存済み(再実行時)なら追加をスキップし、転記項目の内容だけ正しいか検証・修正する
+    // (ボタン設置スペースは設定行間で重複できないため、行自体の冪等性はスペースの一致で判定する。
+    // self_lookupのrecord-lookup.e2e.test.jsと同じ方針)。
     await common.openPluginConfig(page, env, env.TEST_APP_ID_1, pluginId);
-    const alreadyConfigured = await page.evaluate((spaceId) => {
-      const rows = Array.from(document.querySelectorAll('.js-lookup-row'));
-      return rows.some(
-        (row) =>
-          row.querySelector('.js-lookup-number-button-space')?.value ===
-          spaceId,
+    const rows = await page.$$('.js-lookup-row');
+    let targetRow = null;
+    for (const row of rows) {
+      const numberSpaceValue = await row.$eval(
+        '.js-lookup-number-button-space',
+        (el) => el.value,
       );
-    }, NUMBER_BUTTON_SPACE_ELEMENT_ID);
+      if (numberSpaceValue === NUMBER_BUTTON_SPACE_ELEMENT_ID) {
+        targetRow = row;
+        break;
+      }
+    }
 
-    if (!alreadyConfigured) {
+    let needsSave = false;
+
+    if (!targetRow) {
       await page.click('#js-lookup-add');
-      const rows = await page.$$('.js-lookup-row');
-      const newRow = rows[rows.length - 1];
+      const newRows = await page.$$('.js-lookup-row');
+      targetRow = newRows[newRows.length - 1];
 
       await (
-        await newRow.$('.js-lookup-corporate-number')
+        await targetRow.$('.js-lookup-corporate-number')
       ).select('bcs_corporate_number');
       await (
-        await newRow.$('.js-lookup-company-name')
+        await targetRow.$('.js-lookup-company-name')
       ).select('bcs_company_name');
       await (
-        await newRow.$('.js-lookup-number-button-space')
+        await targetRow.$('.js-lookup-number-button-space')
       ).select(NUMBER_BUTTON_SPACE_ELEMENT_ID);
       await (
-        await newRow.$('.js-lookup-name-button-space')
+        await targetRow.$('.js-lookup-name-button-space')
       ).select(NAME_BUTTON_SPACE_ELEMENT_ID);
 
-      await (await newRow.$('.js-mapping-add')).click();
-      let mappingRows = await newRow.$$('.js-mapping-row');
-      await (await mappingRows[0].$('.js-mapping-attribute')).select('name');
-      await (
-        await mappingRows[0].$('.js-mapping-target')
-      ).select('bcs_name_output');
-
-      await (await newRow.$('.js-mapping-add')).click();
-      mappingRows = await newRow.$$('.js-mapping-row');
-      await (
-        await mappingRows[1].$('.js-mapping-attribute')
-      ).select('representative_name');
-      await (
-        await mappingRows[1].$('.js-mapping-target')
-      ).select('bcs_rep_output');
+      await (await targetRow.$('.js-mapping-add')).click();
+      await (await targetRow.$('.js-mapping-add')).click();
 
       await page.type('#js-api-token', env.GBIZ_API_KEY);
+      needsSave = true;
+    }
 
+    // 転記項目(法人名→bcs_name_output、代表者名→bcs_rep_output)の内容を検証し、
+    // 想定と異なる場合は選び直す(過去の手動デバッグ時に代表者名の属性が誤って別の値で
+    // 保存されたことがあったため、実行のたびに内容を確定させる)。
+    const expectedMappings = [
+      { attribute: 'name', targetFieldCode: 'bcs_name_output' },
+      { attribute: 'representative_name', targetFieldCode: 'bcs_rep_output' },
+    ];
+    const mappingRows = await targetRow.$$('.js-mapping-row');
+    for (let i = 0; i < expectedMappings.length; i += 1) {
+      const mappingRow = mappingRows[i];
+      const expected = expectedMappings[i];
+      const currentAttribute = await mappingRow.$eval(
+        '.js-mapping-attribute',
+        (el) => el.value,
+      );
+      const currentTarget = await mappingRow.$eval(
+        '.js-mapping-target',
+        (el) => el.value,
+      );
+      if (currentAttribute !== expected.attribute) {
+        await (
+          await mappingRow.$('.js-mapping-attribute')
+        ).select(expected.attribute);
+        needsSave = true;
+      }
+      if (currentTarget !== expected.targetFieldCode) {
+        await (
+          await mappingRow.$('.js-mapping-target')
+        ).select(expected.targetFieldCode);
+        needsSave = true;
+      }
+    }
+
+    if (needsSave) {
       await Promise.all([
         page.waitForNavigation({ waitUntil: 'networkidle0' }),
         page.click('.kintoneplugin-button-dialog-ok'),
@@ -162,12 +211,11 @@ describe('レコード追加画面でのgBizINFO実APIリクエスト(実環境)
       {},
       NUMBER_BUTTON_SPACE_ELEMENT_ID,
     );
-    await page.evaluate((spaceId) => {
-      kintone.app.record
-        .getSpaceElement(spaceId)
-        .querySelector('button')
-        .click();
-    }, NUMBER_BUTTON_SPACE_ELEMENT_ID);
+    await clickButtonInSpace(
+      page,
+      NUMBER_BUTTON_SPACE_ELEMENT_ID,
+      '法人番号から取得',
+    );
 
     await page.waitForFunction(
       (expected) => {
@@ -211,12 +259,11 @@ describe('レコード追加画面でのgBizINFO実APIリクエスト(実環境)
       {},
       NAME_BUTTON_SPACE_ELEMENT_ID,
     );
-    await page.evaluate((spaceId) => {
-      kintone.app.record
-        .getSpaceElement(spaceId)
-        .querySelector('button')
-        .click();
-    }, NAME_BUTTON_SPACE_ELEMENT_ID);
+    await clickButtonInSpace(
+      page,
+      NAME_BUTTON_SPACE_ELEMENT_ID,
+      '法人名から検索',
+    );
 
     await page.waitForSelector('.bcs-modal-row', { timeout: 20000 });
     const rowTexts = await page.$$eval('.bcs-modal-row', (rows) =>
@@ -246,6 +293,69 @@ describe('レコード追加画面でのgBizINFO実APIリクエスト(実環境)
     const record = await page.evaluate(() => kintone.app.record.get().record);
     expect(record.bcs_corporate_number.value).toBe(KNOWN_CORPORATE_NUMBER);
     expect(record.bcs_name_output.value).toBe(KNOWN_CORPORATE_NAME);
+
+    expect(pageErrors).toEqual([]);
+  });
+
+  test('クリアボタンを押すと、法人番号・法人名・転記項目がすべて空になる', async () => {
+    if (!hasApiKey) {
+      console.warn(
+        '.envにGBIZ_API_KEYが設定されていないため、このテストをスキップします。',
+      );
+      return;
+    }
+
+    await goToNewRecordScreen(page, env);
+    const pageErrors = [];
+    page.on('pageerror', (err) => pageErrors.push(err.message));
+
+    // まず法人番号から取得ボタンで値を反映させ、クリア対象があることを確認したうえでクリアする。
+    await page.evaluate((value) => {
+      const current = kintone.app.record.get().record;
+      current.bcs_corporate_number.value = value;
+      kintone.app.record.set({ record: current });
+    }, KNOWN_CORPORATE_NUMBER);
+
+    await page.waitForFunction(
+      (spaceId) => {
+        const spaceEl = kintone.app.record.getSpaceElement(spaceId);
+        return !!(spaceEl && spaceEl.querySelector('button'));
+      },
+      {},
+      NUMBER_BUTTON_SPACE_ELEMENT_ID,
+    );
+    await clickButtonInSpace(
+      page,
+      NUMBER_BUTTON_SPACE_ELEMENT_ID,
+      '法人番号から取得',
+    );
+
+    await page.waitForFunction(
+      (expected) => {
+        const record = kintone.app.record.get().record;
+        return record.bcs_name_output.value === expected;
+      },
+      { timeout: 20000 },
+      KNOWN_CORPORATE_NAME,
+    );
+
+    // クリアボタンは「法人番号から取得」ボタンと同じスペースに並んで表示される
+    // (page.on('dialog')でconfirm()は自動的に承諾される、beforeAll参照)。
+    await clickButtonInSpace(page, NUMBER_BUTTON_SPACE_ELEMENT_ID, 'クリア');
+
+    // kintone.app.record.set()でフィールド値を空文字列にクリアすると、field.valueキー自体が
+    // 無くなりundefinedになることがある(実際に検証環境で確認済みのkintoneの挙動)。
+    // そのため「クリアされた」判定はvalueが偽値(''またはundefined)であることで行う。
+    await page.waitForFunction(
+      () => !kintone.app.record.get().record.bcs_name_output.value,
+      { timeout: 20000 },
+    );
+
+    const record = await page.evaluate(() => kintone.app.record.get().record);
+    expect(record.bcs_corporate_number.value).toBeFalsy();
+    expect(record.bcs_company_name.value).toBeFalsy();
+    expect(record.bcs_name_output.value).toBeFalsy();
+    expect(record.bcs_rep_output.value).toBeFalsy();
 
     expect(pageErrors).toEqual([]);
   });

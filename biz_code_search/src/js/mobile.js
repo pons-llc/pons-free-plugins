@@ -76,6 +76,26 @@
     kintone.mobile.app.record.set({ record: current });
   };
 
+  // desktop.jsと同じ「クリア」ボタン処理。
+  const clearAllFields = (lookup) => {
+    const current = kintone.mobile.app.record.get().record;
+    const corporateNumberField = current[lookup.corporateNumberFieldCode];
+    if (corporateNumberField) {
+      corporateNumberField.value = '';
+    }
+    const companyNameField = current[lookup.companyNameFieldCode];
+    if (companyNameField) {
+      companyNameField.value = '';
+    }
+    (lookup.fieldMappings || []).forEach((mapping) => {
+      const targetField = current[mapping.targetFieldCode];
+      if (targetField) {
+        targetField.value = '';
+      }
+    });
+    kintone.mobile.app.record.set({ record: current });
+  };
+
   const setupNumberButton = (lookup) => {
     if (!lookup.numberButtonSpaceElementId) {
       return;
@@ -134,7 +154,9 @@
       try {
         const record = kintone.mobile.app.record.get().record;
         const field = record[lookup.companyNameFieldCode];
-        const companyName = field ? field.value.trim() : '';
+        // desktop.jsと同じ理由(kintone.app.record.set()で値を空文字列にクリアすると
+        // field.valueキー自体が無くなりundefinedになることがある)でfield.valueの存在も確認する。
+        const companyName = field && field.value ? field.value.trim() : '';
         if (!companyName) {
           alert('法人名が入力されていません。');
           return;
@@ -173,6 +195,42 @@
     spaceEl.appendChild(buttonEl);
   };
 
+  // desktop.jsと同じく、専用のスペースフィールドは設けず「法人番号から取得」
+  // 「法人名から検索」ボタンと同じスペースフィールドの中にそれぞれ追加する。
+  const setupClearButton = (lookup) => {
+    [
+      lookup.numberButtonSpaceElementId,
+      lookup.nameButtonSpaceElementId,
+    ].forEach((spaceElementId) => {
+      if (!spaceElementId) {
+        return;
+      }
+      const spaceEl = kintone.mobile.app.record.getSpaceElement(spaceElementId);
+      if (!spaceEl || spaceEl.dataset.bcsClearButtonRendered) {
+        return;
+      }
+      spaceEl.dataset.bcsClearButtonRendered = '1';
+
+      const buttonEl = document.createElement('button');
+      buttonEl.type = 'button';
+      buttonEl.className = 'kintoneplugin-button-normal bcs-button-small';
+      buttonEl.textContent = 'クリア';
+
+      buttonEl.addEventListener('click', () => {
+        if (
+          !confirm(
+            '法人番号・法人名・転記済みの内容をすべてクリアします。よろしいですか？',
+          )
+        ) {
+          return;
+        }
+        clearAllFields(lookup);
+      });
+
+      spaceEl.appendChild(buttonEl);
+    });
+  };
+
   kintone.events.on(
     ['mobile.app.record.create.show', 'mobile.app.record.edit.show'],
     (event) => {
@@ -180,6 +238,7 @@
       config.lookups.forEach((lookup) => {
         setupNumberButton(lookup);
         setupNameButton(lookup);
+        setupClearButton(lookup);
       });
       return event;
     },

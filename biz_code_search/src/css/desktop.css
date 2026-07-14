@@ -52,3 +52,11 @@
 .bcs-modal-cancel {
   display: block;
 }
+
+/* 「法人番号から取得」「法人名から検索」ボタンの隣に添える「クリア」ボタン(desktop.js参照)。
+   主ボタンより一回り小さく、控えめな見た目にする。 */
+.bcs-button-small {
+  padding: 2px 8px;
+  font-size: 0.85em;
+  margin-left: 0.5em;
+}

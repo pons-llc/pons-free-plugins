@@ -52,3 +52,11 @@
 .slk-modal-cancel {
   display: block;
 }
+
+/* ルックアップボタンの隣に添える「クリア」ボタン(desktop.js参照)。
+   主ボタンより一回り小さく、控えめな見た目にする。 */
+.slk-button-small {
+  padding: 2px 8px;
+  font-size: 0.85em;
+  margin-left: 0.5em;
+}

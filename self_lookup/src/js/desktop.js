@@ -156,11 +156,66 @@
     spaceEl.appendChild(buttonEl);
   };
 
+  // 自レコードの検索キー・転記項目の出力先フィールドをすべて空文字列にクリアする
+  // (ユーザーフィードバック反映。ボタンによる値取得系プラグインだが、取得済みの値を
+  // 取り消す手段が無かったため追加した)。
+  const clearAllFields = (lookup) => {
+    const current = kintone.app.record.get().record;
+    const selfKeyField = current[lookup.selfKeyFieldCode];
+    if (selfKeyField) {
+      selfKeyField.value = '';
+    }
+    (lookup.fieldMappings || []).forEach((mapping) => {
+      const targetField = current[mapping.targetFieldCode];
+      if (targetField) {
+        targetField.value = '';
+      }
+    });
+    kintone.app.record.set({ record: current });
+  };
+
+  // 「クリア」ボタン。専用のスペースフィールドは設けず、ルックアップボタンと同じスペース
+  // フィールドの中に追加する(ユーザーフィードバック反映。新たにスペースフィールドを
+  // 配置する手間を増やさないため)。主ボタンより一回り小さいスタイルにする。
+  const setupClearButton = (lookup) => {
+    if (!lookup.buttonSpaceElementId) {
+      return;
+    }
+    const spaceEl = kintone.app.record.getSpaceElement(
+      lookup.buttonSpaceElementId,
+    );
+    if (!spaceEl || spaceEl.dataset.slkClearButtonRendered) {
+      return;
+    }
+    spaceEl.dataset.slkClearButtonRendered = '1';
+
+    const buttonEl = document.createElement('button');
+    buttonEl.type = 'button';
+    buttonEl.className = 'kintoneplugin-button-normal slk-button-small';
+    buttonEl.textContent = 'クリア';
+
+    buttonEl.addEventListener('click', () => {
+      if (
+        !confirm(
+          '検索キー・転記済みの内容をすべてクリアします。よろしいですか？',
+        )
+      ) {
+        return;
+      }
+      clearAllFields(lookup);
+    });
+
+    spaceEl.appendChild(buttonEl);
+  };
+
   kintone.events.on(
     ['app.record.create.show', 'app.record.edit.show'],
     async (event) => {
       disableTargetFields(event.record);
-      config.lookups.forEach((lookup) => setupLookupButton(lookup));
+      config.lookups.forEach((lookup) => {
+        setupLookupButton(lookup);
+        setupClearButton(lookup);
+      });
       await highlightKeyFields();
       return event;
     },

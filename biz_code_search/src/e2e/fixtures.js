@@ -9,7 +9,8 @@
 //   - bcs_company_name(文字列1行): 法人名フィールド(ボタン2の検索キー)
 //   - bcs_name_output(文字列1行): 転記項目「法人名」の出力先
 //   - bcs_rep_output(文字列1行): 転記項目「代表者名」の出力先
-//   - ボタン設置スペースとして bcs_number_button_space / bcs_name_button_space を新設する。
+//   - ボタン設置スペースとして bcs_number_button_space / bcs_name_button_space を新設する
+//     (「クリア」ボタンは専用スペースを持たず、この2つのスペースにそれぞれ追加表示される)。
 
 const kintoneAdmin = require('../../../scripts/kintone-admin');
 

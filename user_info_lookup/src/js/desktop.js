@@ -155,6 +155,58 @@
     spaceEl.appendChild(buttonEl);
   };
 
+  // 元フィールド・出力先フィールドをすべてクリアする(ユーザーフィードバック反映。ボタンによる
+  // 値取得系プラグインだが、取得済みの値を取り消す手段が無かったため追加した)。「保存時」発動の
+  // 設定行にはボタン自体が無いため対象外。ユーザー選択フィールドは値が配列形式なので空配列にする
+  // (source-value.jsのextractUserCodeと対になる型判定)。
+  const clearAllFields = (row) => {
+    const current = kintone.app.record.get().record;
+    const sourceField = current[row.sourceFieldCode];
+    if (sourceField) {
+      sourceField.value = sourceField.type === 'USER_SELECT' ? [] : '';
+    }
+    (row.mappings || []).forEach((mapping) => {
+      const field = current[mapping.destinationFieldCode];
+      if (field) {
+        field.value = '';
+      }
+    });
+    kintone.app.record.set({ record: current });
+  };
+
+  // 専用のスペースフィールドは設けず、「ユーザー情報を取得して反映」ボタンと同じスペースフィールドの
+  // 中に追加する(ユーザーフィードバック反映)。主ボタンより一回り小さいスタイルにする。
+  const setupClearButton = (row) => {
+    if (!row.buttonSpaceElementId) {
+      return;
+    }
+    const spaceEl = kintone.app.record.getSpaceElement(
+      row.buttonSpaceElementId,
+    );
+    if (!spaceEl || spaceEl.dataset.uilClearButtonRendered) {
+      return;
+    }
+    spaceEl.dataset.uilClearButtonRendered = '1';
+
+    const buttonEl = document.createElement('button');
+    buttonEl.type = 'button';
+    buttonEl.className = 'kintoneplugin-button-normal uil-button-small';
+    buttonEl.textContent = 'クリア';
+
+    buttonEl.addEventListener('click', () => {
+      if (
+        !confirm(
+          '元フィールド・転記済みの内容をすべてクリアします。よろしいですか？',
+        )
+      ) {
+        return;
+      }
+      clearAllFields(row);
+    });
+
+    spaceEl.appendChild(buttonEl);
+  };
+
   // 発動条件が「保存時」の設定行を、レコード保存前に処理する。create.submit/edit.submitは
   // Promiseに対応しているため、async関数をそのまま返してよい(change系イベントとは異なる)。
   const applySubmitRows = async (event) => {
@@ -189,6 +241,7 @@
       config.rows.forEach((row) => {
         if (row.trigger === 'BUTTON') {
           setupButton(row);
+          setupClearButton(row);
         }
       });
       return event;
