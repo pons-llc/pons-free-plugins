@@ -1,0 +1,67 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/corporate-number.js",
+      "js/lib/gbiz-attributes.js",
+      "js/lib/gbiz-api.js",
+      "js/lib/gbiz-field-mapping.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/result-modal.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "homepage_url": {
+    "ja": "https://govapps-plugin.pons-llc.com/plugins/biz_code_search/",
+    "en": "https://govapps-plugin.pons-llc.com/plugins/biz_code_search/"
+  },
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/corporate-number.js",
+      "js/lib/gbiz-attributes.js",
+      "js/lib/gbiz-api.js",
+      "js/lib/gbiz-field-mapping.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "biz_code_search plugin",
+    "ja": "法人番号検索プラグイン"
+  },
+  "description": {
+    "en": "Looks up corporate information from a corporate number, or a corporate number from a company name, using the gBizINFO REST API v2.",
+    "ja": "gBizINFO REST API v2を利用し、法人番号から法人情報を、法人名から法人番号を検索して自動入力するプラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/corporate-number.js",
+      "js/lib/gbiz-attributes.js",
+      "js/lib/gbiz-api.js",
+      "js/lib/gbiz-field-mapping.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/result-modal.js",
+      "js/mobile.js"
+    ],
+    "css": [
+      "css/mobile.css"
+    ]
+  }
+}

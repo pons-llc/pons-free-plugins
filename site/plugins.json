@@ -343,5 +343,19 @@
       "自動入力"
     ],
     "video": "https://vimeo.com/1209251044"
+  },
+  {
+    "id": "biz_code_search",
+    "name": "法人番号検索プラグイン",
+    "description": "gBizINFO REST API v2を利用し、法人番号から法人情報を、法人名から法人番号を検索して自動入力するプラグイン",
+    "version": "1",
+    "publishedAt": "2026-07-14",
+    "zip": "plugins/biz_code_search/plugin.zip",
+    "page": "plugins/biz_code_search/index.html",
+    "category": "データ連携",
+    "tags": [
+      "法人情報",
+      "自動入力"
+    ]
   }
 ]

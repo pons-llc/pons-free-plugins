@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着情報</description>
     <language>ja</language>
-    <lastBuildDate>Sun, 12 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 13 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>法人番号検索プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/biz_code_search/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/biz_code_search/</guid>
+      <description>gBizINFO REST API v2を利用し、法人番号から法人情報を、法人名から法人番号を検索して自動入力するプラグイン</description>
+      <pubDate>Mon, 13 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>数字抽出プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/number_extract/</link>

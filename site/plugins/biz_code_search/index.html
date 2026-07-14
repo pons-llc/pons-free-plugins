@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>法人番号検索プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="gBizINFO REST API v2を使い、法人番号から法人情報を、法人名から法人番号を検索して自動入力するkintone無料プラグイン。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 法人番号検索プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>法人番号検索プラグイン</h2>
+  <p class="plugin-lead">
+    経済産業省が提供するgBizINFO REST API v2を使い、「法人番号→法人情報入力」「法人名→法人番号検索」の
+    2つのボタンをレコード追加・編集画面に設置します。法人番号から代表者名・資本金・従業員数・所在地
+    などの法人情報を自動入力したり、法人名の一部を入力して候補から選ぶだけで法人番号を自動入力したり
+    できます。法人番号を軸に企業情報を取得するサービスは国税庁のAPIを使うものが多く、gBizINFOを使う
+    ものはあまり多くありません。gBizINFOはAPIトークンの申請から即日〜数時間程度で使えるようになる
+    (国税庁側より早いことが多い)のも利点です。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">データ連携</span>
+    <span class="badge badge-tag">#法人情報</span>
+    <span class="badge badge-tag">#自動入力</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="biz_code_search">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>取引先の法人番号を入力すると、代表者名・資本金・所在地などを自動転記する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>取引先マスタや与信管理アプリなどで、法人番号を文字列フィールドに入力するだけで、代表者名・資本金・従業員数・所在地・事業概要などの公開情報を自動入力できます。手入力による表記ゆれや転記ミスを防げます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>法人番号がわからない場合、法人名の一部から検索して法人番号を特定する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>法人名(部分一致)で検索すると、候補一覧がモーダルで表示されます。候補の中から該当する法人を選ぶだけで、法人番号と法人情報が自動入力されます。法人番号を事前に調べておく手間が省けます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li><a href="https://info.gbiz.go.jp/hojin/various_registration/form" target="_blank" rel="noopener noreferrer">gBizINFOのWeb API利用申請ページ</a>からAPIトークンを取得する(申請後、即日〜数時間程度で登録メールアドレスに届きます)。</li>
+    <li>アプリのフォーム編集で「スペース」フィールドを2つ配置し、それぞれ要素IDを設定する(「法人番号から取得」ボタン・「法人名から検索」ボタンが表示される場所になります)。</li>
+    <li>プラグインをアプリに追加し、設定画面を開く。上部の欄に取得したAPIトークンを入力する。</li>
+    <li>「+ 設定行を追加」で設定行を作成し、①法人番号フィールド→②法人名フィールド→③転記項目(gBizINFOの項目→出力先フィールド)→④⑤ボタンの設置スペース、の順に設定して保存する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">転記項目の出力先フィールドは、レコード追加・編集画面で常に編集できなくなります。該当する法人が見つからない場合(未入力・0件ヒットを含む)、出力先フィールドと法人番号フィールド(法人名検索の場合)はすべて空でクリアされます。法人名検索は最大50件までの候補を表示し、超過分は取得しません(絞り込んだ法人名で再検索してください)。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>本プラグインは、経済産業省の公開API(gBizINFO)にのみ通信する意図的な例外を除き、外部サーバーへの通信を行わない方針を守っています。外部通信は<code>kintone.plugin.app.proxy()</code>(プラグイン専用のクロスドメイン許可API)経由のみで、生の<code>fetch</code>/<code>XMLHttpRequest</code>は一切使用していません。</li>
+        <li>APIトークンは<code>kintone.plugin.app.setProxyConfig()</code>でプラグインの秘匿領域に保存され、通常のプラグイン設定(<code>getConfig()</code>)には値自体を一切含めません。設定画面を再度開いても、保存済みのトークンは再表示されません。</li>
+        <li>gBizINFOから取得した法人名・所在地等の値は、候補一覧モーダル・設定画面のいずれも<code>innerHTML</code>ではなく<code>textContent</code>のみで描画しており、外部APIレスポンスに含まれる文字列がDOM構造に影響することはありません。</li>
+        <li>法人番号は13桁の数字であることを確認してからAPIを呼び出し、保存前のバリデーションで法人番号・法人名・出力先フィールドの型制約(文字列1行のみ)、ボタン設置スペースの必須・重複禁止、転記項目0件・出力先の重複などの不正な設定を検出して保存させません。</li>
+        <li>該当する法人が見つからない場合や通信エラー時は、レコードへの反映を行わず内容をアラートで利用者に明示します(中途半端な上書きを避けます)。出力先フィールドの編集禁止はJavaScript APIによるUIレベルの制御であり、「不正操作を防ぐ」機能ではなく「通常操作でのミスを防ぐUI上の制約」です。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/biz_code_search/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="法人番号検索プラグインの設定画面。APIトークン入力欄、法人番号・法人名フィールド、転記項目(gBizINFOの項目と出力先フィールドの組み合わせ)、ボタンの設置スペースを設定する画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインは、法人情報の取得のためにgBizINFO REST API v2(<code>kintone.plugin.app.proxy()</code>
+    経由)を実行します。「法人番号から取得」ボタンを押すたびに詳細取得APIが1回、「法人名から検索」
+    ボタンを押すたびに検索APIが1回実行され、候補を選んだ場合はさらに詳細取得APIがもう1回追加実行
+    されます(最大2回)。gBizINFO側のAPI利用回数の上限・制限については、gBizINFOのWeb API利用申請
+    ページの案内に従ってください。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/biz_code_search" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/biz_code_search/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

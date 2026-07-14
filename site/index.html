@@ -289,6 +289,15 @@
   </div>
   <div class="plugin-version">v1</div>
 </a>
+<a class="plugin-card" data-category="データ連携" data-tags="法人情報,自動入力" data-search="法人番号検索プラグイン gBizINFO REST API v2を利用し、法人番号から法人情報を、法人名から法人番号を検索して自動入力するプラグイン。 法人情報 自動入力" href="plugins/biz_code_search/index.html">
+  <div class="plugin-name">法人番号検索プラグイン</div>
+  <div class="plugin-desc">gBizINFO REST API v2を利用し、法人番号から法人情報を、法人名から法人番号を検索して自動入力するプラグイン。</div>
+  <div>
+    <span class="badge badge-category">データ連携</span>
+    <span class="badge badge-tag">#法人情報</span><span class="badge badge-tag">#自動入力</span>
+  </div>
+  <div class="plugin-version">v1</div>
+</a>
 </div>
 <p class="empty-state is-hidden">条件に一致するプラグインが見つかりませんでした。</p>
 
@@ -498,6 +507,13 @@
       description: '文字列フィールドの値から数字(半角・全角・漢数字)の連続を左から順に抽出し、複数の出力先フィールドへ格納するプラグイン。',
       tags: ['数字抽出', '自動入力'],
       text: '数字抽出プラグイン 元の文字列フィールドから、数字(半角・全角・漢数字)の連続した並びを左から順にすべて取り出し、複数の出力先フィールドへ先頭から順に格納する。全角数字を含むか・漢数字を含むかをオプションで切り替えられる。漢数字は位取り表記(十・百・千・万)と読み上げ表記(年号など)の両方に対応する。区切り文字で1回だけ分割するスプリットプラグインとは異なり、数字の連続部分だけを拾い集める。住所文字列から丁目・番地・号を分けて取り出す用途に使える。数字抽出 自動入力'
+    },
+    {
+      key: 'biz_code_search',
+      name: '法人番号検索プラグイン',
+      description: 'gBizINFO REST API v2を利用し、法人番号から法人情報を、法人名から法人番号を検索して自動入力するプラグイン。',
+      tags: ['法人情報', '自動入力'],
+      text: '法人番号検索プラグイン 経済産業省が提供するgBizINFO REST API v2を利用し、法人番号フィールドの値から代表者名・資本金・従業員数・所在地・事業概要などの法人情報を取得して自動入力する「法人番号から取得」ボタンと、法人名の部分一致検索で候補をモーダルから選ぶと法人番号・法人情報を自動入力する「法人名から検索」ボタンをレコード追加・編集画面に設置する。APIトークンはBYOD(利用者が自分で申請・取得)で、kintoneプラグインの秘匿領域(setProxyConfig)に保存され再表示されない。国税庁の法人番号公表サイトAPIを使うプラグインは多いが、gBizINFOを使うものは少なく、資本金・従業員数等のより広い企業情報を取得できる。取引先マスタ・与信管理・企業情報の自動転記に使える。法人情報 自動入力'
     }
   ];
 </script>

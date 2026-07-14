@@ -1,0 +1,88 @@
+<section class="settings">
+  <h2 class="settings-heading">法人番号検索プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    経済産業省が提供するgBizINFO REST API v2を使い、「法人番号→法人情報入力」「法人名→法人番号検索」の
+    2つのボタンをレコード追加・編集画面に設置します。
+  </p>
+
+  <section class="bcs-section">
+    <div class="bcs-section-heading">APIトークン</div>
+    <p class="kintoneplugin-desc">
+      gBizINFOの<a href="https://info.gbiz.go.jp/hojin/various_registration/form" target="_blank" rel="noopener noreferrer">Web API利用申請ページ</a>
+      から取得したAPIトークンを入力してください(申請後、即日〜数時間程度で登録メールアドレスに
+      APIトークンが届きます)。入力したトークンはkintoneプラグインの秘匿領域に保存され、
+      アプリ利用者やこの設定画面からも再表示できません。既にトークンを設定済みの場合、この欄を
+      空欄のまま保存すると既存のトークンを維持します。
+    </p>
+    <p id="js-token-status" class="bcs-token-status"></p>
+    <p class="kintoneplugin-row">
+      <input
+        type="password"
+        id="js-api-token"
+        class="kintoneplugin-input-text"
+        placeholder="APIトークンを入力(未変更の場合は空欄のまま)"
+        autocomplete="off"
+      >
+    </p>
+  </section>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="bcs-errors"></div>
+
+    <div id="js-lookup-list"></div>
+    <button type="button" id="js-lookup-add" class="kintoneplugin-button-normal">+ 設定行を追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-lookup-row-template">
+  <section class="bcs-section js-lookup-row">
+    <div class="bcs-section-heading">
+      設定行
+      <span class="bcs-row-remove js-lookup-remove">削除</span>
+    </div>
+
+    <table class="bcs-table">
+      <tbody>
+        <tr>
+          <th>①法人番号フィールド</th>
+          <td><select class="kintoneplugin-select js-lookup-corporate-number"></select></td>
+        </tr>
+        <tr>
+          <th>②法人名フィールド</th>
+          <td><select class="kintoneplugin-select js-lookup-company-name"></select></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="bcs-section-heading">③転記項目(gBizINFOの項目 → 自レコードのフィールド)</div>
+    <div class="js-mapping-list"></div>
+    <button type="button" class="kintoneplugin-button-normal js-mapping-add">+ 転記項目を追加</button>
+
+    <table class="bcs-table">
+      <tbody>
+        <tr>
+          <th>④「法人番号から取得」ボタンの設置スペース</th>
+          <td><select class="kintoneplugin-select js-lookup-number-button-space"></select></td>
+        </tr>
+        <tr>
+          <th>⑤「法人名から検索」ボタンの設置スペース</th>
+          <td><select class="kintoneplugin-select js-lookup-name-button-space"></select></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</template>
+
+<template id="js-mapping-row-template">
+  <div class="bcs-mapping-row js-mapping-row">
+    <select class="kintoneplugin-select js-mapping-attribute"></select>
+    <span class="bcs-arrow">→</span>
+    <select class="kintoneplugin-select js-mapping-target"></select>
+    <span class="bcs-row-remove js-mapping-remove">削除</span>
+  </div>
+</template>

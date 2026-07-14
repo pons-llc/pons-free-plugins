@@ -143,3 +143,15 @@ configでセーブして必要な項目を自動作成する
 ボタン押下で特定フィールドをモーダルに表示して、入力しやすくする。初期値はkintone.app.record.get()で取得、選択肢はkintone.app.getFormfields（）で取得、OKボタンでkintone.app.record.set()
 コンフィグ画面ではボタン追加ごとにタブが増えていくような形で、選択されたフィールド順に２列で配置していく。切りよく改行するための空白も挿入可。
 ユーザー・組織・グループ(ロール)・ルックアップフィールドは標準では実装が難しそう。RESTは使わない方針で無理やり実装しなくて良い。
+
+## 法人番号検索プラグイン
+gbizAPIの利用により
+- 法人番号→法人情報入力
+- 法人名→法人番号入力
+を可能とするプラグイン
+
+APIキーはBYODとし、アクセストークンの取得方法も案内する。即時発行であることも案内。
+外部へのリクエストのため、kintone.proxyを例外的に許可し、kintone.plugin.setProxyConfigを使って APIキーを秘匿領域へ保存する。
+
+リファレンスは
+https://api.info.gbiz.go.jp/hojin/swagger-ui/index.html?urls.primaryName=v2&_gl=1*1s5fa2n*_ga*NTUxNzE4MzA4LjE3ODIxOTI0ODk.*_ga_8Z3M6L1W1H*czE3ODM5ODY2MTIkbzEkZzEkdDE3ODM5ODgzOTYkajEwJGwwJGgw
