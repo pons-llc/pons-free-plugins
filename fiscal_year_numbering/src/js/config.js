@@ -19,6 +19,9 @@
   const sequenceDigitsEl = document.querySelector('.js-sequence-digits');
   const counterAppIdEl = document.querySelector('.js-counter-app-id');
   const bulkGroupCodeEl = document.querySelector('.js-bulk-group-code');
+  const numberingTimingRadioEls = document.querySelectorAll('.js-numbering-timing');
+  const numberingStatusEl = document.querySelector('.js-numbering-status');
+  const numberingStatusNoteEl = document.querySelector('.js-numbering-status-note');
 
   // kintone.app.getFormFields() は REST APIのレスポンスではなく、
   // その `properties` プロパティと同様の値(フィールドコードをキーにした平坦なオブジェクト)を解決する。
@@ -30,6 +33,19 @@
     ['DROP_DOWN', 'RADIO_BUTTON'].includes(f.type)
   );
   const textFields = Object.values(formFields).filter((f) => f.type === 'SINGLE_LINE_TEXT');
+
+  // kintone.app.getStatus() は「利用できる画面」にプラグイン設定画面が含まれておらず、
+  // ここで呼ぶと "kintone.app.getStatus is not a function" になる(kintoneドキュメントで確認済み)。
+  // そのためプラグイン設定画面ではREST API(kintone.api())で同じ情報を取得する。
+  const processStatus = await kintone.api(kintone.api.url('/k/v1/app/status.json', true), 'GET', {
+    app: kintone.app.getId(),
+  });
+  const statusNames =
+    processStatus && processStatus.enable && processStatus.states
+      ? Object.keys(processStatus.states).sort(
+          (a, b) => Number(processStatus.states[a].index) - Number(processStatus.states[b].index)
+        )
+      : [];
 
   const buildOptions = (selectEl, fields, selectedCode) => {
     selectEl.innerHTML = '';
@@ -158,6 +174,19 @@
   separatorEl.value = config.numberFormat.separator;
   sequenceDigitsEl.value = config.numberFormat.sequenceDigits;
 
+  // --- 採番タイミング ---
+  numberingTimingRadioEls.forEach((el) => {
+    el.checked = el.value === config.numberingTiming;
+  });
+  if (statusNames.length === 0) {
+    numberingStatusEl.innerHTML = '';
+    numberingStatusEl.disabled = true;
+    numberingStatusNoteEl.textContent = 'このアプリはプロセス管理が設定されていません。';
+  } else {
+    buildOptions(numberingStatusEl, statusNames.map((name) => ({ code: name, label: name })), config.numberingStatus);
+    numberingStatusNoteEl.textContent = '';
+  }
+
   // --- カウンター専用アプリ・一括採番 ---
   counterAppIdEl.value = config.counterAppId;
   bulkGroupCodeEl.value = config.bulkNumberingGroupCode;
@@ -170,8 +199,17 @@
     e.preventDefault();
 
     const selectedDateSource = Array.from(dateSourceRadioEls).find((el) => el.checked);
+    const selectedNumberingTiming = Array.from(numberingTimingRadioEls).find((el) => el.checked);
     if (!selectedDateSource || !numberFieldEl.value || !counterAppIdEl.value) {
       alert('必須項目(基準日の種類・採番結果を保存するフィールド・カウンター専用アプリID)を入力してください。');
+      return;
+    }
+    if (
+      selectedNumberingTiming &&
+      selectedNumberingTiming.value === 'status' &&
+      !numberingStatusEl.value
+    ) {
+      alert('採番タイミングで「ステータス変化時」を選んだ場合は、採番トリガーとなるステータスを選択してください。');
       return;
     }
 
@@ -184,6 +222,8 @@
     };
     config.counterAppId = counterAppIdEl.value;
     config.bulkNumberingGroupCode = bulkGroupCodeEl.value;
+    config.numberingTiming = selectedNumberingTiming ? selectedNumberingTiming.value : 'save';
+    config.numberingStatus = numberingStatusEl.value;
 
     kintone.plugin.app.setConfig(NS.ConfigStore.serialize(config), () => {
       alert('プラグインの設定を保存しました。アプリを更新してください。');

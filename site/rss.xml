@@ -7,6 +7,13 @@
     <language>ja</language>
     <lastBuildDate>Mon, 13 Jul 2026 15:00:00 GMT</lastBuildDate>
     <item>
+      <title>年度リセット自動採番プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/fiscal_year_numbering/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/fiscal_year_numbering/</guid>
+      <description>APIキー・APIトークン不要で、会計年度(4月始まり)でリセットされる和暦+セグメント文字列+連番を自動採番するプラグイン。採番タイミングは保存時・ボタン押下時・ステータス変化時から選べる</description>
+      <pubDate>Mon, 13 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
       <title>法人番号検索プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/biz_code_search/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/biz_code_search/</guid>

@@ -12,6 +12,10 @@
     numberFieldCode: '',
     counterAppId: '',
     bulkNumberingGroupCode: '',
+    // 採番タイミング: 'save'(保存時・既定) / 'button'(詳細画面のボタン押下時) / 'status'(プロセス管理のステータス変化時)。
+    numberingTiming: 'save',
+    // numberingTiming === 'status' のときに採番のトリガーとなるステータス名(kintone.app.getStatus()のstatesのキー)。
+    numberingStatus: '',
   };
 
   const parseJsonOr = (raw, fallback) => {
@@ -39,6 +43,8 @@
       counterAppId: saved.counterAppId || DEFAULTS.counterAppId,
       bulkNumberingGroupCode:
         saved.bulkNumberingGroupCode || DEFAULTS.bulkNumberingGroupCode,
+      numberingTiming: saved.numberingTiming || DEFAULTS.numberingTiming,
+      numberingStatus: saved.numberingStatus || DEFAULTS.numberingStatus,
     };
   };
 
@@ -51,6 +57,8 @@
     numberFieldCode: config.numberFieldCode,
     counterAppId: config.counterAppId,
     bulkNumberingGroupCode: config.bulkNumberingGroupCode,
+    numberingTiming: config.numberingTiming,
+    numberingStatus: config.numberingStatus,
   });
 
   const ConfigStore = { DEFAULTS, load, serialize };

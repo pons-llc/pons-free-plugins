@@ -11,6 +11,8 @@ describe('ConfigStore.load', () => {
     expect(config.numberFieldCode).toBe('');
     expect(config.counterAppId).toBe('');
     expect(config.bulkNumberingGroupCode).toBe('');
+    expect(config.numberingTiming).toBe('save');
+    expect(config.numberingStatus).toBe('');
   });
 
   test('null/undefined (getConfig() on an unconfigured app) is treated like an empty object, not an error', () => {
@@ -32,6 +34,8 @@ describe('ConfigStore.load', () => {
       numberFieldCode: 'seiban',
       counterAppId: '581',
       bulkNumberingGroupCode: 'kanri_group',
+      numberingTiming: 'status',
+      numberingStatus: '処理中',
     };
     const serialized = ConfigStore.serialize(original);
     const loaded = ConfigStore.load(serialized);

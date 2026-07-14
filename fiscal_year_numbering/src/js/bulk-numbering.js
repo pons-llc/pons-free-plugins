@@ -22,9 +22,22 @@
 
   // アプリ全体を対象に、未採番レコードすべてに採番する。並列実行はせず逐次処理する
   // (secureCodingGuidelineの「短時間で大量のリクエスト送信を避ける」「並列実行をなるべく避ける」に対応)。
+  //
+  // NOTE: プロセス管理が有効なアプリでは、採番タイミングを「ステータス変化時」に設定していても、
+  // 一括採番はステータスに関わらずアプリ全体の未採番レコードを対象にする(検索クエリ自体は変更しない)。
+  // 意図しないタイミングでの一括採番を避けられるよう、確認ダイアログでその旨を警告する。
   const runFullScan = async (config, appId) => {
+    const status = await kintone.app.getStatus();
+    const processWarning =
+      status && status.enable
+        ? '\n\n※このアプリはプロセス管理が有効です。一括採番はステータスに関わらず未採番のレコードすべてを対象とします。'
+        : '';
     // eslint-disable-next-line no-alert
-    if (!global.confirm('このアプリ内の未採番レコードすべてに番号を採番します。よろしいですか？')) {
+    if (
+      !global.confirm(
+        `このアプリ内の未採番レコードすべてに番号を採番します。よろしいですか？${processWarning}`
+      )
+    ) {
       return;
     }
     let offset = 0;

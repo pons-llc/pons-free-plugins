@@ -64,6 +64,26 @@
     </section>
 
     <section class="fyn-section">
+      <div class="fyn-section-heading">採番タイミング</div>
+      <p class="kintoneplugin-row">
+        <label class="embed-radio-label">
+          <input type="radio" name="js-numbering-timing" value="save" class="js-numbering-timing"> 保存時(レコード作成の保存時に自動採番)
+        </label>
+        <label class="embed-radio-label">
+          <input type="radio" name="js-numbering-timing" value="button" class="js-numbering-timing"> ボタン押下時(詳細画面の「採番する」ボタンを押したとき)
+        </label>
+        <label class="embed-radio-label">
+          <input type="radio" name="js-numbering-timing" value="status" class="js-numbering-timing"> ステータス変化時(プロセス管理で指定したステータスに変わったとき)
+        </label>
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">採番トリガーとなるステータス(「ステータス変化時」の場合)</label><br>
+        <select class="kintoneplugin-select js-numbering-status"></select>
+        <span class="js-numbering-status-note kintoneplugin-desc"></span>
+      </p>
+    </section>
+
+    <section class="fyn-section">
       <div class="fyn-section-heading">カウンター専用アプリ・一括採番</div>
       <p class="kintoneplugin-desc">
         カウンター専用アプリは provisioning/seed-counter-app.js で作成し、一般権限を「閲覧+作成のみ」に設定してください。

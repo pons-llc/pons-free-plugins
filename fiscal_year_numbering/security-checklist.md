@@ -2,7 +2,7 @@
 
 [secureCodingGuideline.md](../secureCodingGuideline.md)の一般項目([box_gdrive_iframe/security-checklist.md](../box_gdrive_iframe/security-checklist.md)参照、UTF-8/BOMなし・名前空間分離・`'use strict'`・外部スクリプト不使用などは同様に満たしている)は重複記載を省略し、本プラグイン固有の項目のみ記載する。
 
-最終確認日: 2026-07-09 / 対象: 初回実装時点
+最終確認日: 2026-07-14 / 対象: 採番タイミング機能(保存時/ボタン押下時/ステータス変化時)追加時点
 
 ## カウンター専用アプリの権限モデル
 
@@ -32,18 +32,29 @@
 - [x] REST API呼び出しはすべて`kintone.api()`経由であり、生の`fetch`/`XHR`は使用していない(`provisioning/seed-counter-app.js`・`scripts/kintone-admin.js`はNode環境からの管理用スクリプトのため例外的にNode標準の`https`モジュールを使用しており、ブラウザで動くプラグイン本体のコードではない)
 - [x] CLAUDE.md方針3(JavaScript API優先)の中で、フィールド発見(`kintone.app.getFormFields()`)はJavaScript APIを使い、採番の実処理(カウンター参照・作成、対象アプリへの書き込み)のみREST APIを使う設計であることをidea.mdに明記している
 
-## 未解決の重大な検証結果: レコード画面での`getConfig()`が`null`を返す事象
+## 解決済み: レコード画面での`getConfig()`が`null`を返す事象
 
-実環境(Puppeteer)での検証で、以下を確認した。
+実環境(Puppeteer)での再検証で原因を特定し、修正した。
 
-- プラグイン設定画面(`config.js`)では`kintone.plugin.app.getConfig(PLUGIN_ID)`が保存済みの設定を正しく返す(保存→リロード→内容保持を確認済み)。
-- 同一の`PLUGIN_ID`・同一アプリにもかかわらず、レコード一覧・詳細・作成画面(`desktop.js`)では`kintone.plugin.app.getConfig(PLUGIN_ID)`が一貫して`null`を返す。
-- `PLUGIN_ID`自体は正しい値が取得できていること、アプリの「アプリを更新」(デプロイ)が完了していること、プラグインが「有効」であることは確認済みで、原因を特定できていない。
+- プラグイン設定画面(`config.js`)では`kintone.plugin.app.getConfig(PLUGIN_ID)`が保存済みの設定を正しく返す。
+- レコード画面(`desktop.js`)では、**画面表示直後の最初の呼び出し**でkintone側の内部準備が間に合わず`null`が
+  返ることがある(プラグインが本当に未設定の場合の`null`と区別がつかない)。同一ページ内で2つ目以降の
+  イベントが発生する頃には正しい値が返ることを実機で確認した(例: 新規作成の保存直後に発生する
+  `create.submit`→`detail.show`の連続イベントで、1回目は`null`・2回目は正しい値、というケースを確認)。
+  デプロイ未完了が原因ではないことも、REST API(`kintoneAdmin.deployApp()`)による確実なデプロイ後も
+  再現することから切り分け済み。
+- 対策として、`desktop.js`/`mobile.js`の`loadConfig()`を非同期化し、`getConfig()`が`null`を返した場合は
+  200ms刻み(最大5回、合計最大3000ms)でリトライしてから「未設定」と判断するようにした。
 
-このままではレコード画面での自動採番が一切発動しない。原因不明の状態で画面全体をクラッシュさせないよう、`js/lib/config-store.js`の`load()`は`saved`が`null`/`undefined`でも例外を投げず既定値を返すようにし、`desktop.js`/`mobile.js`は「採番結果を保存するフィールド」「カウンター専用アプリID」のいずれかが未設定(＝設定不可な状態)なら何もせず抜けるガード(`isConfigured()`)を入れた。
+- [x] レコード画面での`getConfig()`が`null`を返す原因(画面表示直後のタイミング問題)を特定し、リトライにより修正した(`js/desktop.js`/`js/mobile.js`の`loadConfig()`)。「保存時」「ボタン押下時」「ステータス変化時」いずれの採番タイミングも実機(Puppeteer)で実際に番号が保存されることを確認済み
+- [x] 原因不明のまま放置せず、`isConfigured()`ガードにより画面クラッシュは防止されていた(リトライを使い切って`null`のままだった場合の最終防御として引き続き有効)
 
-- [ ] レコード画面での`getConfig()`が`null`を返す原因を特定し、修正する(現状は未解決。CLAUDE.md方針1に基づき、kintoneドキュメントMCPや検証環境の他の要因をさらに調査する必要がある)
-- [x] 原因不明のまま放置せず、`isConfigured()`ガードにより画面クラッシュは防止済み(ただし採番機能そのものが動作しない状態は未解決)
+## 採番タイミング機能(保存時/ボタン押下時/ステータス変化時)
+
+- [x] 「ボタン押下時」の`js/numbering-button.js`は、成功時のみ`kintone.api()`のPUTで永続化してから画面表示を更新する(`kintone.app.record.set()`/`kintone.mobile.app.record.set()`)。この呼び出しはボタンの`click`ハンドラー(`kintone.events.on()`のイベントハンドラーではない)からのみ行っており、公式ドキュメントの「イベントハンドラー内では実行できません」という制限には抵触しない
+- [x] 「ステータス変化時」の`app.record.detail.process.proceed`ハンドラーは、`event.record`を書き換えて`return`する公式にサポートされた方法のみを使い、`record.set()`は使わない。この操作にはレコード/フィールドの編集権限が必要という仕様上、対象アプリの編集権限が広い運用であることが前提になる(idea.md「対象アプリへの書き込み」と同じ前提)
+- [x] プラグイン設定画面での「採番トリガーとなるステータス」選択肢は、`kintone.api()`経由で`/k/v1/app/status.json`(REST API)を取得して作る。`kintone.app.getStatus()`(JavaScript API)は「利用できる画面」にプラグイン設定画面が含まれておらず`is not a function`エラーになることを実機で確認したため使用していない
+- [x] 一括採番実行前に、対象アプリでプロセス管理が有効な場合は`kintone.app.getStatus()`で判定し、「一括採番はステータスに関わらず未採番のレコードすべてを対象とする」旨を確認ダイアログで警告する(`js/bulk-numbering.js`)。検索クエリ自体(`${numberFieldCode} is empty ...`)は変更していない
 
 ## 個別確認事項(利用ユーザーへ委ねる項目)
 

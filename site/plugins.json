@@ -357,5 +357,19 @@
       "法人情報",
       "自動入力"
     ]
+  },
+  {
+    "id": "fiscal_year_numbering",
+    "name": "年度リセット自動採番プラグイン",
+    "description": "APIキー・APIトークン不要で、会計年度(4月始まり)でリセットされる和暦+セグメント文字列+連番を自動採番するプラグイン。採番タイミングは保存時・ボタン押下時・ステータス変化時から選べる",
+    "version": "1",
+    "publishedAt": "2026-07-14",
+    "zip": "plugins/fiscal_year_numbering/plugin.zip",
+    "page": "plugins/fiscal_year_numbering/index.html",
+    "category": "自動採番",
+    "tags": [
+      "自動採番",
+      "APIキー不要"
+    ]
   }
 ]

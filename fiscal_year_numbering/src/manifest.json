@@ -11,10 +11,12 @@
       "js/lib/number-template.js",
       "js/lib/counter-key.js",
       "js/lib/retry.js",
+      "js/lib/numbering-trigger.js",
       "js/lib/config-store.js",
       "js/counter-client.js",
       "js/numbering-service.js",
       "js/bulk-numbering.js",
+      "js/numbering-button.js",
       "js/desktop.js"
     ],
     "css": [
@@ -51,10 +53,12 @@
       "js/lib/number-template.js",
       "js/lib/counter-key.js",
       "js/lib/retry.js",
+      "js/lib/numbering-trigger.js",
       "js/lib/config-store.js",
       "js/counter-client.js",
       "js/numbering-service.js",
       "js/bulk-numbering.js",
+      "js/numbering-button.js",
       "js/mobile.js"
     ],
     "css": [

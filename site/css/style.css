@@ -558,6 +558,30 @@ a {
   margin-bottom: 8px;
 }
 
+.table-scroll {
+  overflow-x: auto;
+  margin: 8px 0 12px;
+}
+
+.fyn-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 480px;
+  font-size: 13px;
+}
+
+.fyn-table th,
+.fyn-table td {
+  border: 1px solid #e3e7e8;
+  padding: 6px 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.fyn-table th {
+  background: #f7f9fa;
+}
+
 .review-checklist {
   list-style: none;
   padding: 0;
