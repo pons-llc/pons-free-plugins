@@ -1,0 +1,46 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/approval-table-spec.js",
+      "js/lib/title-resolver.js",
+      "js/lib/history-row.js",
+      "js/lib/config-store.js",
+      "js/desktop.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/desktop.css"]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/approval-table-spec.js",
+      "js/lib/config-store.js",
+      "js/lib/deploy-poller.js",
+      "js/config.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/config.css"],
+    "required_params": []
+  },
+  "name": {
+    "en": "approval_history plugin",
+    "ja": "決裁者稟議者記録プラグイン"
+  },
+  "description": {
+    "en": "approval_history plugin",
+    "ja": "プロセス管理のアクション実行ごとに、実行前後のステータス・実行ユーザー・役職・実行日時をサブテーブルへ自動記録するプラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/approval-table-spec.js",
+      "js/lib/title-resolver.js",
+      "js/lib/history-row.js",
+      "js/lib/config-store.js",
+      "js/mobile.js"
+    ],
+    "css": ["css/mobile.css"]
+  }
+}

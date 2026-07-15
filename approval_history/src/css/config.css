@@ -1,0 +1,30 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.ahp-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.ahp-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.ahp-warning {
+  color: #e74c3c;
+  margin-bottom: 0.75em;
+}
+
+.ahp-status {
+  color: #333;
+  margin-bottom: 0.75em;
+}
+
+.ahp-field-list {
+  color: #666;
+  font-size: 0.9em;
+}
