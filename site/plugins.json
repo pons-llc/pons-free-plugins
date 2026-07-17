@@ -371,5 +371,19 @@
       "自動採番",
       "APIキー不要"
     ]
+  },
+  {
+    "id": "approval_history",
+    "name": "決裁者稟議者記録プラグイン",
+    "description": "プロセス管理のアクション実行ごとに、実行前後のステータス・実行ユーザー・役職・実行日時をサブテーブルへ自動記録するプラグイン",
+    "version": "1",
+    "publishedAt": "2026-07-17",
+    "zip": "plugins/approval_history/plugin.zip",
+    "page": "plugins/approval_history/index.html",
+    "category": "サブテーブル",
+    "tags": [
+      "決裁履歴",
+      "プロセス管理"
+    ]
   }
 ]

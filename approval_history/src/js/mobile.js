@@ -16,11 +16,11 @@
     return NS.ConfigStore.load(null);
   };
 
+  // SUBTABLEフィールド自体には`disabled`が効かないため、行ごとの内包フィールドを
+  // NS.TableDisabler.disableAllRows()で1つずつdisabledにする(desktop.jsと同じ理由・実装)。
   const disableTable = (record, config) => {
     const table = record[config.fieldCodes.table];
-    if (table) {
-      table.disabled = true;
-    }
+    NS.TableDisabler.disableAllRows(table);
   };
 
   // モバイルには一覧画面のインライン編集(index.edit.show)が存在しないため、
@@ -35,6 +35,27 @@
       return event;
     },
   );
+
+  // テーブルの行追加・削除ボタンをクリックしたときの`change.フィールドコード`イベントで、
+  // 後から手動追加された行も即座にdisabledにする(desktop.jsと同じ理由)。
+  (async () => {
+    const config = await loadConfig();
+    if (!NS.ConfigStore.isConfigured(config)) {
+      return;
+    }
+    const tableCode = config.fieldCodes.table;
+    const onTableChange = (event) => {
+      NS.TableDisabler.disableAllRows(event.record[tableCode]);
+      return event;
+    };
+    kintone.events.on(
+      [
+        `mobile.app.record.create.change.${tableCode}`,
+        `mobile.app.record.edit.change.${tableCode}`,
+      ],
+      onTableChange,
+    );
+  })();
 
   kintone.events.on(
     'mobile.app.record.detail.process.proceed',

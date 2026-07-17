@@ -77,6 +77,12 @@ describe('設定の保存とレコードへの反映(実環境)', () => {
   });
 
   test('作成されたテーブルはレコード作成画面で編集不可(disabled)になる', async () => {
+    // SUBTABLEフィールド自体には`disabled`が効かないため(idea.md「実装上の注意」参照)、
+    // 内包フィールドのdisabled化で検証する。kintoneは空のテーブルでも編集用の空行を1行
+    // 自動的に用意するため、追加操作をしなくても検証対象の行が存在する。
+    // `disabled`はイベントハンドラーからUIへの一方向の描画指示であり、
+    // `kintone.app.record.get()`では返ってこない(実機検証済み)ため、DOM上の<input>に
+    // disabled属性が付与されているかで検証する。
     await page.goto(`https://${env.KINTONE_DOMAIN}/k/${env.TEST_APP_ID_1}/`, {
       waitUntil: 'networkidle0',
     });
@@ -90,11 +96,24 @@ describe('設定の保存とレコードへの反映(実環境)', () => {
     const pageErrors = [];
     page.on('pageerror', (err) => pageErrors.push(err.message));
 
-    const disabled = await page.evaluate((code) => {
-      const record = kintone.app.record.get().record;
-      return record[code] ? record[code].disabled : undefined;
-    }, TABLE_CODE);
-    expect(disabled).toBe(true);
+    const result = await page.evaluate(() => {
+      const label = Array.from(
+        document.querySelectorAll('.subtable-row-label-text-gaia'),
+      ).find((el) => el.textContent.trim() === '決裁履歴');
+      const inputs = label
+        ? label
+            .closest('.subtable-row-gaia')
+            .querySelectorAll('tbody input, tbody textarea')
+        : [];
+      const rowDisabledInDom =
+        inputs.length > 0 &&
+        Array.from(inputs).every((el) => el.disabled === true);
+
+      return { rowDisabledInDom, inputCount: inputs.length };
+    });
+
+    expect(result.inputCount).toBeGreaterThan(0);
+    expect(result.rowDisabledInDom).toBe(true);
 
     expect(pageErrors).toEqual([]);
   });

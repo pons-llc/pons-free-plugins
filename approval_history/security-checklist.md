@@ -2,7 +2,7 @@
 
 [secureCodingGuideline.md](../secureCodingGuideline.md)の一般項目([box_gdrive_iframe/security-checklist.md](../box_gdrive_iframe/security-checklist.md)参照、UTF-8/BOMなし・名前空間分離・`'use strict'`・外部スクリプト不使用などは同様に満たしている)は重複記載を省略し、本プラグイン固有の項目のみ記載する。
 
-最終確認日: 2026-07-16
+最終確認日: 2026-07-17
 
 ## コーディング作法
 
@@ -33,6 +33,7 @@
 
 - [x] 決裁履歴テーブルの`disabled`化(作成画面・編集画面・一覧インライン編集)はJavaScript APIによるUIレベルの制御であり、REST API経由でのフィールド更新やアクセス権による制御ではない。「不正操作を防ぐ」機能ではなく「通常操作でのミスを防ぐUI上の制約」であることをidea.mdに明記した。テーブルの内容を本当に改ざんされたくない場合は、対象アプリのフィールドアクセス権設定(閲覧のみ許可等)を別途行う必要がある
 - [x] `app.record.detail.process.proceed`イベント内での行追記(`event.record`の書き換え)は、`disabled`状態に関わらず反映される(kintoneドキュメント「フィールドの値を書き換える」の仕様どおり)。UIからの手入力のみを塞ぎ、プラグイン自身の自動記録は妨げない設計とした
+- [x] **実機E2Eテストで判明した実装修正**: 当初`table.disabled = true`(SUBTABLEフィールド自体への設定)で実装していたが、実機検証(`config-save-and-field-creation.e2e.test.js`)でレコード作成画面に一切反映されないことが判明した(kintoneの`disabled`はSUBTABLE自体ではなく行内の個々のフィールドにのみ有効なため)。`js/lib/table-disabler.js`を追加し、既存行の内包フィールドを1つずつdisabledにする実装に修正した。行追加・削除ボタン自体を非表示にするAPIはkintoneに存在しないため、手動での空行追加自体は防げないが、追加された行のフィールドは`change.フィールドコード`イベントで即座に編集不可になる(idea.md参照)
 
 ## 設定の妥当性検証・エラー処理
 

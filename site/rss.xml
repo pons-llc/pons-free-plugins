@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着情報</description>
     <language>ja</language>
-    <lastBuildDate>Mon, 13 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 16 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>決裁者稟議者記録プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/approval_history/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/approval_history/</guid>
+      <description>プロセス管理のアクション実行ごとに、実行前後のステータス・実行ユーザー・役職・実行日時をサブテーブルへ自動記録するプラグイン</description>
+      <pubDate>Thu, 16 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>年度リセット自動採番プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/fiscal_year_numbering/</link>

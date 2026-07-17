@@ -9,6 +9,7 @@
       "js/lib/title-resolver.js",
       "js/lib/history-row.js",
       "js/lib/config-store.js",
+      "js/lib/table-disabler.js",
       "js/desktop.js"
     ],
     "css": ["css/51-modern-default.css", "css/desktop.css"]
@@ -39,6 +40,7 @@
       "js/lib/title-resolver.js",
       "js/lib/history-row.js",
       "js/lib/config-store.js",
+      "js/lib/table-disabler.js",
       "js/mobile.js"
     ],
     "css": ["css/mobile.css"]
