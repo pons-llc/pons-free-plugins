@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/config-store.js",
+      "js/lib/form-model.js",
+      "js/lib/analysis-core.js",
+      "js/lib/chart-lite.js",
+      "js/form-ui.js",
+      "js/desktop-request.js",
+      "js/desktop-answer-form.js",
+      "js/desktop-answer-list.js",
+      "js/desktop-answer-analysis.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/desktop.css"]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": ["js/lib/config-store.js", "js/lib/app-schema.js", "js/config.js"],
+    "css": ["css/51-modern-default.css", "css/config.css"],
+    "required_params": ["role"]
+  },
+  "name": {
+    "en": "research_and_answer plugin",
+    "ja": "照会回答パッケージプラグイン"
+  },
+  "description": {
+    "en": "research_and_answer plugin",
+    "ja": "依頼アプリと回答アプリの2つだけで、あらゆる照会業務のフォーム作成・回答収集・集計分析を実現するプラグイン"
+  }
+}

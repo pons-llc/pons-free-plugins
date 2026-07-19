@@ -401,5 +401,19 @@
       "AI検索"
     ],
     "video": "https://vimeo.com/1211134022"
+  },
+  {
+    "id": "research_and_answer",
+    "name": "照会回答パッケージプラグイン",
+    "description": "「依頼アプリ」「回答アプリ」の2つだけで、部署間の照会(調査依頼)・回答業務をノーコードで動的フォーム化できるプラグイン",
+    "version": "1",
+    "publishedAt": "2026-07-20",
+    "zip": "plugins/research_and_answer/plugin.zip",
+    "page": "plugins/research_and_answer/index.html",
+    "category": "データ連携",
+    "tags": [
+      "照会回答",
+      "ノーコードフォーム"
+    ]
   }
 ]

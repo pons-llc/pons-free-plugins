@@ -1,0 +1,806 @@
+@charset "UTF-8";
+
+/* ==============================================
+   照会回答パッケージプラグイン デスクトップ用CSS
+   (旧カスタマイズ original.css / pons-style.css を整理して移植)
+   ============================================== */
+
+/* ---- 仮想フォーム(依頼プレビュー・回答フォーム共通) ---- */
+.ra-virtual-form {
+  background-color: #ffffff;
+  border: 1px solid #e3e7e8;
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 32px;
+  row-gap: 16px;
+  align-items: start;
+  box-sizing: border-box;
+}
+
+.ra-virtual-form .ra-form-row {
+  margin: 0;
+  width: 100%;
+}
+
+.ra-col-full {
+  grid-column: 1 / -1;
+}
+
+.ra-col-half {
+  grid-column: auto;
+}
+
+.ra-form-hr {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 1px;
+  border: none;
+  background-color: #e3e7e8;
+  margin: 0;
+}
+
+.ra-virtual-form .kintoneplugin-label {
+  font-weight: bold;
+}
+
+.ra-static-require,
+.ra-dynamic-require {
+  color: #e74c3c;
+  margin-left: 4px;
+}
+
+.ra-form-desc {
+  margin-bottom: 10px;
+}
+
+.ra-form-desc summary {
+  font-size: 12px;
+  color: #3498db;
+  cursor: pointer;
+}
+
+.ra-form-desc-body {
+  margin-top: 5px;
+  padding: 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  white-space: pre-wrap;
+}
+
+.ra-form-textarea {
+  height: 100px;
+}
+
+.ra-choice-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 8px 0;
+}
+
+.ra-choice-item {
+  display: flex;
+  align-items: center;
+}
+
+.ra-choice-item label {
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+.ra-error-message {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: bold;
+  display: none;
+}
+
+.ra-error-message.is-visible {
+  display: block;
+}
+
+/* ---- 集計リスト(仮想一覧) ---- */
+.ra-list-message {
+  padding: 16px;
+  color: #b91c1c;
+  font-weight: bold;
+}
+
+.ra-list-title {
+  padding: 1rem 0 0.5rem;
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.ra-table-wrap,
+#virtual-table-div {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modern-table {
+  width: 100%;
+  min-width: 800px;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  margin: 12px 0 20px;
+}
+
+.modern-table th {
+  background-color: #f8fafc;
+  white-space: nowrap;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 12px 16px;
+  text-align: left;
+  border: 1px solid #e2e8f0;
+}
+
+.modern-table td {
+  padding: 12px 16px;
+  white-space: nowrap;
+  border-right: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.875rem;
+  color: #1e293b;
+  text-overflow: ellipsis;
+}
+
+.modern-table th:last-child,
+.modern-table td:last-child {
+  border-right: none;
+}
+
+.modern-table tbody tr:nth-child(even) {
+  background-color: #fcfcfd;
+}
+
+.modern-table tr:hover td {
+  background-color: #f1f5f9;
+}
+
+.record-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: #eff6ff;
+  color: #3b82f6;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.record-link:hover {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+/* ---- 分析ダッシュボード ---- */
+.dashboard-container {
+  --ra-primary: #4f46e5;
+  --ra-primary-hover: #4338ca;
+  --ra-bg-white: #ffffff;
+  --ra-bg-input: #f9fafb;
+  --ra-text-main: #111827;
+  --ra-text-light: #6b7280;
+  --ra-text-muted: #9ca3af;
+  --ra-border: #e5e7eb;
+  --ra-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --ra-radius-md: 0.375rem;
+  --ra-radius-lg: 0.5rem;
+
+  font-family: "Inter", "Hiragino Sans", "Meiryo", sans-serif;
+  color: var(--ra-text-main);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  background-color: #f3f4f6;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+.dashboard-container *,
+.dashboard-container *::before,
+.dashboard-container *::after {
+  box-sizing: border-box;
+}
+
+.dashboard-container .hidden {
+  display: none !important;
+}
+
+.ra-dashboard-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 0 4px;
+}
+
+.ra-dashboard-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.ra-record-count {
+  color: var(--ra-text-light);
+  font-size: 0.85rem;
+}
+
+.top-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.toolbar-left,
+.toolbar-right {
+  display: flex;
+  gap: 8px;
+}
+
+.tab-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--ra-text-light);
+  border-radius: var(--ra-radius-md);
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.tab-button:hover {
+  color: var(--ra-text-main);
+  background-color: var(--ra-bg-input);
+}
+
+.tab-button.active {
+  background: var(--ra-bg-white);
+  color: var(--ra-primary);
+  box-shadow: var(--ra-shadow-sm);
+  font-weight: 600;
+  border-color: var(--ra-border);
+}
+
+#view-dashboard {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+#filterList {
+  width: 280px;
+  flex-shrink: 0;
+  background: var(--ra-bg-white);
+  border: 1px solid var(--ra-border);
+  border-radius: var(--ra-radius-md);
+  padding: 1rem;
+  box-shadow: var(--ra-shadow-sm);
+}
+
+.content-right {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+/* KPI */
+#kpiContainer {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.kpi-card {
+  background: var(--ra-bg-white);
+  padding: 1.25rem;
+  border-radius: var(--ra-radius-lg);
+  border: 1px solid var(--ra-border);
+  min-width: 170px;
+  text-align: center;
+  box-shadow: var(--ra-shadow-sm);
+  flex: 1;
+}
+
+.ra-kpi-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.kpi-label {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ra-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ra-kpi-header .kpi-label {
+  margin-bottom: 0;
+}
+
+.kpi-value {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1.2;
+}
+
+.kpi-value.highlight {
+  color: var(--ra-primary);
+}
+
+/* フィルター */
+.filter-item {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: var(--ra-bg-input);
+  border: 1px solid var(--ra-border);
+  border-radius: var(--ra-radius-md);
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.filter-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ra-text-light);
+  text-transform: uppercase;
+}
+
+.logic-toggle {
+  display: flex;
+  gap: 2px;
+  background: #e5e7eb;
+  padding: 2px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logic-switch {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.logic-active {
+  background: white;
+  color: var(--ra-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.filter-select,
+.filter-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--ra-border);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  background: var(--ra-bg-white);
+  color: var(--ra-text-main);
+  box-sizing: border-box;
+  margin-bottom: 0.5rem;
+}
+
+.filter-checkbox-list {
+  max-height: 150px;
+  overflow-y: auto;
+  background: var(--ra-bg-white);
+  border: 1px solid var(--ra-border);
+  border-radius: 4px;
+  padding: 0.25rem;
+}
+
+.filter-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.filter-checkbox-item:hover {
+  background-color: #f3f4f6;
+}
+
+.checkbox-text {
+  font-size: 0.8rem;
+}
+
+.checkbox-text.checked {
+  color: var(--ra-primary);
+  font-weight: 600;
+}
+
+/* グラフ */
+#chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1rem;
+}
+
+.chart-card {
+  background: var(--ra-bg-white);
+  border: 1px solid var(--ra-border);
+  border-radius: var(--ra-radius-lg);
+  padding: 1.25rem;
+  height: 340px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--ra-shadow-sm);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  gap: 8px;
+}
+
+.chart-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.chart-title-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 0.375rem;
+  height: 1rem;
+  background-color: var(--ra-primary);
+  border-radius: 9999px;
+}
+
+.ra-chart-controls {
+  display: flex;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.chart-measure-select {
+  background: var(--ra-bg-input);
+  border: 1px solid var(--ra-border);
+  border-radius: 4px;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.75rem;
+  color: var(--ra-text-light);
+  max-width: 160px;
+}
+
+.chart-canvas-container {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ra-donut-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+}
+
+.ra-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding-top: 4px;
+  font-size: 0.75rem;
+  color: var(--ra-text-light);
+}
+
+.ra-chart-legend-vertical {
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 100%;
+  flex-wrap: nowrap;
+}
+
+.ra-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.ra-legend-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+/* データ一覧テーブル */
+#view-table {
+  overflow-x: auto;
+  background: var(--ra-bg-white);
+  border: 1px solid var(--ra-border);
+  border-radius: var(--ra-radius-md);
+}
+
+#mainTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header-cell {
+  background-color: #f9fafb;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ra-text-light);
+  border-bottom: 1px solid var(--ra-border);
+  white-space: nowrap;
+}
+
+.table-row {
+  border-bottom: 1px solid var(--ra-border);
+}
+
+.table-row:hover {
+  background-color: #f9fafb;
+}
+
+.table-cell {
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.id-cell {
+  font-weight: 600;
+  color: var(--ra-text-light);
+}
+
+.empty-cell {
+  color: #d1d5db;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+/* モーダル(表示設定・エクスポート) */
+#configModal,
+#downloadModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#configModal > div,
+#downloadModal > div {
+  background: #ffffff;
+  width: 640px;
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#configModal > div > div:first-child,
+#downloadModal > div > div:first-child {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+}
+
+#configModal > div > div:nth-child(2),
+#downloadModal > div > div:nth-child(2) {
+  padding: 1rem 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+#configModal > div > div:last-child,
+#downloadModal > div > div:last-child {
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ra-modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#closeConfig,
+#closeDownload {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: #6b7280;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.ra-download-scope {
+  display: flex;
+  gap: 16px;
+  margin-top: 5px;
+}
+
+/* フィールドマネージャー */
+#fieldManager {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.field-manager-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+}
+
+.field-info {
+  flex: 1;
+  min-width: 0;
+  padding-right: 1rem;
+}
+
+.field-label {
+  font-weight: 700;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.field-key {
+  font-size: 0.65rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #9ca3af;
+}
+
+.field-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.control-label,
+.checkbox-label {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: #9ca3af;
+  text-transform: uppercase;
+}
+
+.chart-type-select {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 0.2rem;
+  font-size: 0.75rem;
+  color: var(--ra-primary, #4f46e5);
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+}
+
+.config-checkbox {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: #4f46e5;
+  cursor: pointer;
+}
+
+.primary-btn {
+  background-color: #4f46e5;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.primary-btn:hover {
+  background-color: #4338ca;
+}
+
+/* 印刷(PDF保存) */
+@media print {
+  .chart-card {
+    height: 310px !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 10px !important;
+    border: 1px solid #eee !important;
+  }
+
+  .top-toolbar,
+  #filterList,
+  .kintone-app-header-canvas,
+  .kintone-header-global-navigation {
+    display: none !important;
+  }
+
+  #view-dashboard {
+    display: block;
+  }
+
+  .contents-inner-gaia {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}

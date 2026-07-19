@@ -1,0 +1,109 @@
+<section class="settings">
+  <h2 class="settings-heading">照会回答パッケージプラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    本プラグインは「依頼アプリ」と「回答アプリ」の2つのアプリにインストールして使うパッケージです。
+    このアプリがどちらの役割かを選択してください。フォーム項目のフィールドコード
+    (依頼アプリ: questions テーブル・json・condition_json・related_links・related_rich_text・
+    参照テーブル related / 回答アプリ: json・title・lookup・予備フィールド text_* / multi_text* /
+    number_* / date_* / datetime_* / time_*)は、専用アプリテンプレートの規約に従う固定値です。
+  </p>
+  <p class="kintoneplugin-desc">
+    本プラグインは以下の2点を前提としています。いずれもkintoneの標準機能でアプリ管理者が別途
+    設定してください(プラグインは自動設定しません)。<br />
+    ・回答の追加は、依頼アプリのプロセス管理の「アクション」機能(アクションボタンで回答アプリへ
+    レコードを自動生成)経由で行う想定です。<br />
+    ・回答アプリのレコードのアクセス権は、「回答部署」「依頼元部署」の組織に閲覧・編集権限を
+    付与する設定を想定しています。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="ra-errors"></div>
+
+    <div class="kintoneplugin-row">
+      <label class="kintoneplugin-label" for="js-role">このアプリの役割 <span class="kintoneplugin-require">*</span></label>
+      <div class="kintoneplugin-select-outer">
+        <div class="kintoneplugin-select">
+          <select id="js-role">
+            <option value="">(選択してください)</option>
+            <option value="request">依頼アプリ(照会フォームを設計・管理する)</option>
+            <option value="answer">回答アプリ(回答フォーム・集計リスト・分析を表示する)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div id="js-request-settings" class="ra-role-section">
+      <div class="kintoneplugin-row">
+        <label class="kintoneplugin-label" for="js-answer-app-id">回答アプリのアプリID <span class="kintoneplugin-require">*</span></label>
+        <div class="kintoneplugin-input-outer">
+          <input id="js-answer-app-id" class="kintoneplugin-input-text" type="text" inputmode="numeric" />
+        </div>
+        <p class="kintoneplugin-desc">
+          回答を蓄積するアプリのアプリID(URLの /k/ 直後の数字)。関連レコード一覧の作成と
+          「集計・分析」ボタンの遷移先に使います。
+        </p>
+      </div>
+      <div class="kintoneplugin-row">
+        <label class="kintoneplugin-label" for="js-preview-space">プレビューを表示するスペースの要素ID</label>
+        <div class="kintoneplugin-input-outer">
+          <input id="js-preview-space" class="kintoneplugin-input-text" type="text" />
+        </div>
+        <p class="kintoneplugin-desc">レコード詳細画面でフォームプレビューを描画するスペースフィールドの要素IDです。</p>
+      </div>
+    </div>
+
+    <div id="js-answer-settings" class="ra-role-section">
+      <div class="kintoneplugin-row">
+        <label class="kintoneplugin-label" for="js-request-app-id">依頼アプリのアプリID <span class="kintoneplugin-require">*</span></label>
+        <div class="kintoneplugin-input-outer">
+          <input id="js-request-app-id" class="kintoneplugin-input-text" type="text" inputmode="numeric" />
+        </div>
+        <p class="kintoneplugin-desc">
+          照会フォームを設計するアプリのアプリID。ルックアップ(照会の選択とフォーム定義のコピー)の
+          関連付け先に使います。
+        </p>
+      </div>
+      <div class="kintoneplugin-row">
+        <label class="kintoneplugin-label" for="js-form-space">回答フォームを表示するスペースの要素ID</label>
+        <div class="kintoneplugin-input-outer">
+          <input id="js-form-space" class="kintoneplugin-input-text" type="text" />
+        </div>
+      </div>
+      <div class="kintoneplugin-row">
+        <label class="kintoneplugin-label" for="js-list-view">集計リストを表示する一覧名</label>
+        <div class="kintoneplugin-input-outer">
+          <input id="js-list-view" class="kintoneplugin-input-text" type="text" />
+        </div>
+        <p class="kintoneplugin-desc">
+          カスタマイズ形式(ページネーションあり)の一覧で、HTMLに
+          &lt;div id="virtual-table-div"&gt;&lt;/div&gt; を含めてください。
+        </p>
+      </div>
+      <div class="kintoneplugin-row">
+        <label class="kintoneplugin-label" for="js-analysis-view">分析ダッシュボードを表示する一覧名</label>
+        <div class="kintoneplugin-input-outer">
+          <input id="js-analysis-view" class="kintoneplugin-input-text" type="text" />
+        </div>
+      </div>
+    </div>
+
+    <div class="kintoneplugin-row ra-generate-row">
+      <label class="kintoneplugin-label">必要な項目・一覧の自動作成</label>
+      <p class="kintoneplugin-desc">
+        選択した役割に必要なフィールド・スペース・一覧のうち、不足しているものだけを動作テスト環境に
+        追加します(既存の設定は変更しません)。リレーションは上で入力した相手アプリIDを使って
+        作成します。実行順: ①依頼アプリで実行し「アプリを更新」 → ②回答アプリで実行し
+        「アプリを更新」 → ③回答アプリでもう一度実行(依頼アプリに関連レコード一覧を自動追加)
+        → 依頼アプリを「アプリを更新」。kintoneの参照整合性チェックは相手アプリの運用環境に対して
+        行われるため、この順が必要です(各ステップは画面の案内に従えばOKです)。
+      </p>
+      <button type="button" id="js-generate" class="kintoneplugin-button-normal">必要な項目・一覧を自動作成</button>
+      <pre id="js-generate-log" class="ra-generate-log"></pre>
+    </div>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>

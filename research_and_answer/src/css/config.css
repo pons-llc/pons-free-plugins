@@ -1,0 +1,37 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+.ra-errors {
+  color: #e74c3c;
+  white-space: pre-wrap;
+  margin-bottom: 1em;
+}
+
+.ra-role-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  margin-bottom: 1.5em;
+}
+
+.ra-generate-row {
+  border-top: 1px solid #e3e7e8;
+  padding-top: 1em;
+}
+
+.ra-generate-log {
+  margin-top: 0.75em;
+  padding: 0.75em;
+  background: #f7f9f9;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-size: 0.85em;
+  min-height: 1.5em;
+}
