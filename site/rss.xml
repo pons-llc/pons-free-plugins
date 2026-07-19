@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 16 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>プラグイン利用状況AI検索台帳プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/plugin_catalog_builder/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/plugin_catalog_builder/</guid>
+      <description>kintone環境にインストール済みのプラグインと、それを利用しているアプリの一覧を台帳アプリに自動収集し、簡易AI検索やAI用データダウンロードで探せるようにするプラグイン</description>
+      <pubDate>Sat, 18 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>決裁者稟議者記録プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/approval_history/</link>

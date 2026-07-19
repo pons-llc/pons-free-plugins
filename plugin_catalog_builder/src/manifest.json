@@ -1,0 +1,44 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/field-diff.js",
+      "js/lib/plugin-record-mapper.js",
+      "js/lib/sync-orchestrator.js",
+      "js/lib/api-estimate.js",
+      "js/lib/deploy-poller.js",
+      "js/lib/group-directory.js",
+      "js/lib/config-store.js",
+      "js/lib/records-fetcher.js",
+      "js/lib/catalog-export.js",
+      "js/lib/catalog-search-corpus.js",
+      "js/lib/vector-search.js",
+      "js/desktop.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/desktop.css"]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/field-diff.js",
+      "js/lib/deploy-poller.js",
+      "js/lib/group-directory.js",
+      "js/lib/config-store.js",
+      "js/config.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/config.css"],
+    "required_params": []
+  },
+  "name": {
+    "en": "plugin_catalog_builder plugin",
+    "ja": "プラグイン利用状況AI検索台帳プラグイン"
+  },
+  "description": {
+    "en": "plugin_catalog_builder plugin",
+    "ja": "kintone環境にインストール済みのプラグインと、それを利用しているアプリの一覧を台帳アプリに自動収集し、簡易AI検索やAI用データダウンロードで探せるようにするプラグイン"
+  }
+}

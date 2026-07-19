@@ -1,0 +1,53 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.pcb-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.pcb-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.pcb-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  max-height: 16em;
+  overflow-y: auto;
+  border: 1px solid #e3e7e8;
+  padding: 0.6em;
+  border-radius: 4px;
+}
+
+.pcb-group-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.pcb-errors {
+  color: #e74c3c;
+  white-space: pre-wrap;
+  margin-bottom: 1em;
+}
+
+.pcb-notice {
+  color: #b8860b;
+  background: #fff8e1;
+  border: 1px solid #f0e0a0;
+  border-radius: 4px;
+  padding: 0.8em 1em;
+  margin-bottom: 1em;
+  white-space: pre-wrap;
+}
+
+.pcb-progress {
+  color: #555;
+  margin: 0.5em 0;
+}

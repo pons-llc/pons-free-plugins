@@ -386,5 +386,20 @@
       "プロセス管理"
     ],
     "video": "https://vimeo.com/1210667020"
+  },
+  {
+    "id": "plugin_catalog_builder",
+    "name": "プラグイン利用状況AI検索台帳プラグイン",
+    "description": "kintone環境にインストール済みのプラグインと、それを利用しているアプリの一覧を台帳アプリに自動収集し、簡易AI検索やAI用データダウンロードで探せるようにするプラグイン",
+    "version": "1",
+    "publishedAt": "2026-07-19",
+    "zip": "plugins/plugin_catalog_builder/plugin.zip",
+    "page": "plugins/plugin_catalog_builder/index.html",
+    "category": "プラグイン管理",
+    "tags": [
+      "プラグイン一覧",
+      "AI検索"
+    ],
+    "video": "https://vimeo.com/1211134022"
   }
 ]

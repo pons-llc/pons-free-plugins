@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>プラグイン利用状況AI検索台帳プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="kintone環境にインストール済みのプラグインと、それを利用しているアプリの一覧を台帳アプリに自動収集し、簡易AI検索やAI用データダウンロードで探せるようにする無料kintoneプラグイン。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; プラグイン利用状況AI検索台帳プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>プラグイン利用状況AI検索台帳プラグイン</h2>
+  <p class="plugin-lead">
+    kintone環境にインストール済みのプラグインと、それを利用しているアプリの一覧を専用の「台帳アプリ」に
+    自動収集し、簡易AI検索やAI用データダウンロードで「目的に合ったプラグインを探す」ことができるように
+    するプラグインです。社内にどんなプラグインが増えてきたか把握しづらくなってきた組織向けです。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">プラグイン管理</span>
+    <span class="badge badge-tag">#プラグイン一覧</span>
+    <span class="badge badge-tag">#AI検索</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="plugin_catalog_builder">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>紹介動画</h3>
+  <div class="video-frame">
+    <iframe src="https://player.vimeo.com/video/1211134022" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>社内でどのプラグインがどのアプリに使われているかを横断的に把握する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>「台帳アプリ」の一覧画面に置かれた「プラグイン利用状況を同期」ボタンを押すと、kintone環境全体のインストール済みプラグイン一覧と、各プラグインを実際に追加しているアプリの一覧をREST APIで取得し、プラグイン単位のレコード(利用アプリはサブテーブル)として自動的にUPSERTします。運用が長くなるほど把握しづらくなる「野良プラグイン」の棚卸しに使えます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>「こういうことをしたい」から、既存プラグインを簡易AI検索で探す</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>設定で簡易AI検索を有効にすると、台帳アプリの一覧画面にAI検索ボタンが表示され、「日付を和暦にしたい」のような自然文で台帳内のプラグインをベクトル検索できます(ブラウザ内で完結する軽量モデルによる検索)。新しく業務要件が出たとき、似た機能のプラグインが社内に既にないかをまず探せます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>AI検索を使わず、外部AIツール(NotebookLM・ChatGPT等)にデータを渡して探す</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>簡易AI検索をオフにしている場合でも、「AI用データをダウンロード」ボタンで台帳の全レコードをJSON形式の.txtファイルとして常時ダウンロードできます。社内で使っているNotebookLMやChatGPTなどにそのままアップロードして、対話形式でプラグインを探す用途に使えます(この操作自体は外部通信を伴いません)。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインを「台帳アプリ」として使いたいアプリに追加し、設定画面を開く。</li>
+    <li>必要に応じて「簡易AI検索を有効にする」にチェックを入れ、「プラグイン利用状況を同期」ボタンを表示するグループを選んで保存する(グループ未選択の場合、同期ボタンは表示されません)。</li>
+    <li>保存すると、台帳アプリに必要なフィールド(プラグインID・名称・バージョン・詳細・利用アプリ一覧テーブル)が自動作成され、運用環境への反映まで自動で行われます(手動でのフィールド作成・アプリ更新操作は不要です)。</li>
+    <li>台帳アプリの一覧画面を開き、「プラグイン利用状況を同期」ボタンを押す。実行にはcybozu.com共通管理者権限が必要です(下記セキュリティレビュー参照)。</li>
+  </ol>
+  <p class="download-note">同期ボタンの表示・非表示はあくまで画面上の絞り込みです。実際にプラグイン利用アプリの一覧を取得できるのはcybozu.com共通管理者のみのため、権限を持たないユーザーが実行すると失敗します。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み・1点だけ例外事項あり)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li><strong>【例外事項】簡易AI検索を有効にした場合のみ、外部CDN(cdn.jsdelivr.net)からベクトル検索用ライブラリを読み込みます。</strong>本プラグインに限り「外部通信を行わない」という他プラグイン共通の方針の例外としており、バージョンは完全固定(可変指定はしない)しています。AI検索を無効のままにするか、代わりにAI用データダウンロード機能(外部通信なし)を使うことで、この通信を避けられます。</li>
+        <li>「同期ボタンを表示するグループ」の設定は画面上の絞り込みに過ぎず、真の権限境界ではありません。実際にプラグイン利用アプリの一覧を取得できるのはcybozu.com共通管理者のみで、この権限を持たないユーザーが実行してもAPIが失敗するだけで、意図しないデータ取得は起きません。</li>
+        <li>台帳アプリへのフィールド自動作成は、既存のフィールドコードとの衝突を避けるため一意なコード(<code>pcb_apps_table</code>等)を使用し、2回目以降の設定保存で既存フィールドを再作成しようとしてエラーになることがないよう冪等に実装しています。</li>
+        <li>すべてのkintone操作は<code>kintone.api()</code>(kintone自身への呼び出し専用の内部ラッパー)経由で行い、生の<code>fetch</code>/<code>XMLHttpRequest</code>でURLを直接組み立てていません。APIトークンやパスワード等の認証情報はコード・設定に一切含めていません。</li>
+        <li>簡易AI検索の検索結果・設定画面の描画は<code>innerHTML</code>ではなく<code>textContent</code>や<code>document.createElement()</code>のみで組み立てており、DOMへ構造として解釈されません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/plugin_catalog_builder/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="プラグイン利用状況AI検索台帳プラグインの設定画面。簡易AI検索の有効/無効チェックボックスと、プラグイン利用状況を同期ボタンを表示するグループの選択リストを設定する画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    設定保存時に、台帳アプリのフィールド構成確認・必要に応じたフィールド追加・デプロイ(数回)を実行します。
+    「プラグイン利用状況を同期」ボタンを押すたびに、プラグイン一覧取得(1回以上)・プラグインごとの
+    利用アプリ取得(プラグイン数と同じ回数)・利用アプリ情報取得(100件区切り)・台帳アプリへの書き込み
+    (100件区切り)を実行します。実行前に概算のAPI実行回数を確認ダイアログで表示します。
+    簡易AI検索を有効にした場合、検索ダイアログを開くたびに台帳アプリの全レコードを取得します
+    (kintoneへの通信のみで、外部への通信ではありません)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/plugin_catalog_builder" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/plugin_catalog_builder/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

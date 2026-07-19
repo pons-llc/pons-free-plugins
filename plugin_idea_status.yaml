@@ -139,9 +139,10 @@ plugins:
     in_plugin_idea_md: true
 
   - name: プラグイン利用AI用バックデータ作成アプリプラグイン
-    dir: null
-    status: not_started
+    dir: plugin_catalog_builder
+    status: released
     in_plugin_idea_md: true
+    note: plugin_idea.mdの129行目(初期メモ)と165行目「プラグインAI検索作成プラグイン」(詳細版)を統合してidea.mdを作成。2026-07-19公開。
   
   - name: お祝いプラグイン
     dir: status_celebration

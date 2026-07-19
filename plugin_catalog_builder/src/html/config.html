@@ -1,0 +1,52 @@
+<section class="settings">
+  <h2 class="settings-heading">プラグイン利用状況AI検索台帳プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    このアプリを「プラグイン台帳アプリ」として使うための設定です。保存すると、台帳に必要なフィールド
+    (プラグインID/プラグイン名称/バージョン/詳細/利用アプリ一覧テーブル)をこのアプリへ自動的に
+    作成・運用環境へ反映します(数秒かかることがあります)。
+  </p>
+  <p class="pcb-notice">
+    簡易AI検索をONにすると、レコード一覧を開いたユーザーのブラウザから外部CDN(cdn.jsdelivr.net)へ
+    通信が発生します。これは本プラグインに限りCLAUDE.mdの「外部通信を行わない」方針の例外として
+    認めているものです。詳細はsecurity-checklist.mdを参照してください。ダウンロード機能は
+    AI検索の設定に関わらず常に利用でき、外部通信は発生しません。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="pcb-errors"></div>
+    <div id="js-progress" class="pcb-progress"></div>
+
+    <section class="pcb-section">
+      <div class="pcb-section-heading">簡易AI検索</div>
+      <label>
+        <input type="checkbox" class="js-ai-search-enabled">
+        簡易AI検索(ブラウザ内完結のベクトル検索、外部CDN読み込みを伴う)を有効にする
+      </label>
+    </section>
+
+    <section class="pcb-section">
+      <div class="pcb-section-heading">
+        「プラグイン利用状況を同期」ボタンを表示するグループ
+      </div>
+      <p class="kintoneplugin-desc">
+        ここで選んだグループに所属するユーザーにのみ、レコード一覧の同期ボタンを表示します。
+        ただし実際にプラグイン利用アプリの一覧を取得できるのはcybozu.com共通管理者のみのため、
+        これはボタンの表示・非表示を切り替えるだけのUI上の絞り込みです(真の権限境界では
+        ありません。security-checklist.md参照)。
+      </p>
+      <div id="js-group-list" class="pcb-group-list"></div>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-group-item-template">
+  <label class="pcb-group-item">
+    <input type="checkbox" class="js-group-checkbox">
+    <span class="js-group-label"></span>
+  </label>
+</template>

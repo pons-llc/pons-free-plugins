@@ -1,0 +1,64 @@
+/* レコード一覧のヘッダー領域に設置するボタン群(js/desktop.js参照)。 */
+
+.pcb-sync-button,
+.pcb-download-button,
+.pcb-ai-search-button {
+  margin-left: 0.5em;
+}
+
+/* 簡易AI検索ダイアログ(kintone.createDialog()のbodyとして挿入、js/desktop.js参照)。 */
+
+.pcb-ai-search-body {
+  min-width: 24em;
+}
+
+.pcb-ai-search-progress-track {
+  margin-top: 0.6em;
+  height: 8px;
+  border-radius: 4px;
+  background: #eef1f2;
+  overflow: hidden;
+}
+
+.pcb-ai-search-progress-bar {
+  height: 100%;
+  width: 0;
+  background: #3498db;
+  transition: width 0.2s ease;
+}
+
+.pcb-ai-search-form-row {
+  display: flex;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+
+.pcb-ai-search-input {
+  flex: 1;
+  padding: 0.4em 0.6em;
+}
+
+.pcb-ai-search-results {
+  max-height: 20em;
+  overflow-y: auto;
+}
+
+.pcb-ai-search-result-item {
+  border-bottom: 1px solid #e3e7e8;
+  padding: 0.6em 0;
+}
+
+.pcb-ai-search-result-name {
+  font-weight: bold;
+}
+
+.pcb-ai-search-result-desc {
+  color: #555;
+  white-space: pre-wrap;
+}
+
+.pcb-ai-search-result-apps {
+  color: #888;
+  font-size: 0.9em;
+  margin-top: 0.2em;
+}
