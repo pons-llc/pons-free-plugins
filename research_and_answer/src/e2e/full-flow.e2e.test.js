@@ -42,6 +42,10 @@ describe('通しE2E(依頼→回答→集計リスト→分析)', () => {
   let answerRecordIds = [];
   let pageErrors = [];
 
+  // insert_column(格納フィールドコード)はv2からfield_type+column_numberの自動計算
+  // (expression付きのSINGLE_LINE_TEXT)になったため、REST投入時はcolumn_numberを指定する
+  // (insert_column自体はkintone側が計算するため値を送っても無視される/送らない)。
+  // 想定される計算結果を各行のコメントに記載。
   const questionsRows = [
     {
       value: {
@@ -49,7 +53,7 @@ describe('通しE2E(依頼→回答→集計リスト→分析)', () => {
         question: { value: '担当者名' },
         question_detail: { value: '' },
         field_type: { value: '文字列' },
-        insert_column: { value: 'text_1' },
+        column_number: { value: '1' }, // -> text_1
         choice: { value: '' },
         question_width: { value: '1/2' },
         mondatory: { value: '必須' },
@@ -61,7 +65,7 @@ describe('通しE2E(依頼→回答→集計リスト→分析)', () => {
         question: { value: '対応状況' },
         question_detail: { value: '現在の対応状況を選択してください' },
         field_type: { value: 'ラジオボタン' },
-        insert_column: { value: 'text_2' },
+        column_number: { value: '2' }, // -> text_2(ラジオボタンはtext_プレフィックス)
         choice: { value: '完了,対応中,未着手' },
         question_width: { value: '1/2' },
         mondatory: { value: '必須' },
@@ -73,7 +77,7 @@ describe('通しE2E(依頼→回答→集計リスト→分析)', () => {
         question: { value: '対応件数' },
         question_detail: { value: '' },
         field_type: { value: '数値' },
-        insert_column: { value: 'number_1' },
+        column_number: { value: '1' }, // -> number_1
         choice: { value: '' },
         question_width: { value: '1/1' },
         mondatory: { value: '任意' },
@@ -85,7 +89,7 @@ describe('通しE2E(依頼→回答→集計リスト→分析)', () => {
         question: { value: '回答日' },
         question_detail: { value: '' },
         field_type: { value: '日付' },
-        insert_column: { value: 'date_1' },
+        column_number: { value: '1' }, // -> date_1
         choice: { value: '' },
         question_width: { value: '1/1' },
         mondatory: { value: '任意' },
@@ -212,6 +216,9 @@ describe('通しE2E(依頼→回答→集計リスト→分析)', () => {
     expect(fields.deadline.type).toBe('DATETIME');
     expect(fields.attachment.type).toBe('FILE');
     expect(fields.questions.fields.insert_column).toBeDefined();
+    expect(fields.questions.fields.insert_column.type).toBe('SINGLE_LINE_TEXT');
+    expect(fields.questions.fields.column_number).toBeDefined();
+    expect(fields.questions.fields.column_number.type).toBe('NUMBER');
     if (!answerHadLookup) {
       expect(fields.related).toBeUndefined();
     }
@@ -269,11 +276,16 @@ describe('通しE2E(依頼→回答→集計リスト→分析)', () => {
     );
     [
       'text_1',
-      'text_20',
-      'multi_text_10',
+      'text_30',
+      'multi_text_1',
+      'multi_text_30',
+      'number_1',
       'number_10',
-      'date_5',
-      'datetime_5',
+      'date_1',
+      'date_10',
+      'datetime_1',
+      'datetime_10',
+      'time_1',
       'time_5',
       'answer_department',
       'answer_status',
@@ -324,22 +336,43 @@ describe('通しE2E(依頼→回答→集計リスト→分析)', () => {
   });
 
   test('4. レコード投入(REST)と集計リスト(仮想一覧)の描画', async () => {
-    // 依頼レコード。jsonはプラグインが保存時に生成するものと同じロジック(FormModel)で生成する
-    const settingJson = FormModel.buildSettingJson(
-      FormModel.sortLayoutByOrder(questionsRows),
-      '',
-    );
-    const reqResp = await admin.request(env, '/k/v1/record.json', 'POST', {
+    // 依頼レコードをまず投入する(この時点のquestionsRowsはinsert_columnを含まない。
+    // insert_columnはkintoneサーバー側でfield_type+column_numberから計算されるフィールドのため)。
+    const draftResp = await admin.request(env, '/k/v1/record.json', 'POST', {
       app: requestAppId,
       record: {
         title: { value: '窓口対応状況調査(E2E)' },
         description: { value: 'E2Eテスト用の照会です' },
         deadline: { value: '2026-07-31T08:00:00Z' },
         questions: { value: questionsRows },
+      },
+    });
+
+    // サーバー側で計算されたinsert_columnを含むquestionsを読み戻し、jsonは
+    // プラグインが保存時に生成するものと同じロジック(FormModel)で生成する
+    // (実際のプラグインはブラウザ上でクライアント側にも計算済みの値が入った状態で
+    // submitイベントが発火するため、この読み戻しはRESTでの投入に特有の手順)
+    const draft = await admin.request(env, '/k/v1/record.json', 'GET', {
+      app: requestAppId,
+      id: draftResp.id,
+    });
+    const computedQuestionsRows = draft.record.questions.value;
+    computedQuestionsRows.forEach((row) => {
+      expect(row.value.insert_column.value).toBeTruthy();
+    });
+    const settingJson = FormModel.buildSettingJson(
+      FormModel.sortLayoutByOrder(computedQuestionsRows),
+      '',
+    );
+    // PUTのレスポンスはrevisionのみ(idは含まれない)なのでdraftResp.idを使う
+    await admin.request(env, '/k/v1/record.json', 'PUT', {
+      app: requestAppId,
+      id: draftResp.id,
+      record: {
         json: { value: settingJson },
       },
     });
-    requestRecordId = reqResp.id;
+    requestRecordId = draftResp.id;
 
     // 回答レコード3件。lookupフィールドに依頼レコード番号を指定すると、コピー対象
     // (title/json等)はkintoneサーバー側で自動コピーされる

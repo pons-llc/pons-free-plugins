@@ -7,17 +7,29 @@ describe('buildSpareFieldDefs', () => {
   test('全予備フィールドが分析側の除外パターン(SPARE_FIELD_PATTERN)と一致する', () => {
     const defs = AppSchema.buildSpareFieldDefs();
     const codes = Object.keys(defs);
-    expect(codes).toHaveLength(20 + 10 + 10 + 5 + 5 + 5);
+    expect(codes).toHaveLength(30 + 30 + 10 + 10 + 10 + 5);
     codes.forEach((code) => {
       expect(Core.SPARE_FIELD_PATTERN.test(code)).toBe(true);
       expect(defs[code].code).toBe(code);
     });
     expect(defs.text_1.type).toBe('SINGLE_LINE_TEXT');
+    expect(defs.text_30).toBeDefined();
+    expect(defs.text_31).toBeUndefined();
     expect(defs.multi_text_1.type).toBe('MULTI_LINE_TEXT');
+    expect(defs.multi_text_30).toBeDefined();
+    expect(defs.multi_text_31).toBeUndefined();
     expect(defs.number_1.type).toBe('NUMBER');
+    expect(defs.number_10).toBeDefined();
+    expect(defs.number_11).toBeUndefined();
     expect(defs.date_1.type).toBe('DATE');
+    expect(defs.date_10).toBeDefined();
+    expect(defs.date_11).toBeUndefined();
     expect(defs.datetime_1.type).toBe('DATETIME');
+    expect(defs.datetime_10).toBeDefined();
+    expect(defs.datetime_11).toBeUndefined();
     expect(defs.time_1.type).toBe('TIME');
+    expect(defs.time_5).toBeDefined();
+    expect(defs.time_6).toBeUndefined();
   });
 });
 
@@ -37,6 +49,7 @@ describe('buildRequestFieldDefs', () => {
         'question',
         'question_detail',
         'field_type',
+        'column_number',
         'insert_column',
         'choice',
         'question_width',
@@ -44,6 +57,22 @@ describe('buildRequestFieldDefs', () => {
       ]),
     );
     expect(defs.questions.fields.field_type.options['文字列']).toBeDefined();
+    expect(defs.questions.fields.column_number.type).toBe('NUMBER');
+    // insert_columnはタイプ+番号から自動計算される文字列フィールド(手入力による型の取り違えを防ぐ)。
+    // kintoneのCALC型はformatが数値/日付関連のみで文字列出力に対応しないため、
+    // SINGLE_LINE_TEXT+expressionで実装する(実機REST APIで動作確認済み)。
+    expect(defs.questions.fields.insert_column.type).toBe('SINGLE_LINE_TEXT');
+    expect(defs.questions.fields.insert_column.expression).toContain(
+      '& column_number',
+    );
+    AppSchema.QUESTION_TYPES.forEach((type) => {
+      expect(defs.questions.fields.insert_column.expression).toContain(
+        `field_type = "${type}"`,
+      );
+      expect(defs.questions.fields.insert_column.expression).toContain(
+        `"${AppSchema.FIELD_TYPE_PREFIXES[type]}"`,
+      );
+    });
     expect(defs.related_links.fields.link_link.type).toBe('LINK');
     // 回答アプリの準備ができるまでrelatedは作らない
     expect(defs.related).toBeUndefined();

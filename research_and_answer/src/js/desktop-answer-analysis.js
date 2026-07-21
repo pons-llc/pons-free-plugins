@@ -42,7 +42,11 @@
         element.checked = !!value;
       } else if (key.startsWith('on') && typeof value === 'function') {
         element[key] = value;
-      } else {
+      } else if (value !== undefined && value !== null) {
+        // setAttribute(key, undefined)は値が文字列"undefined"の属性として設定されてしまい、
+        // 例えばdisabled属性では「値に関わらず属性が存在する=無効化」というHTMLの仕様上、
+        // 「無効化しない」つもりのundefinedが常に無効化として効いてしまう
+        // (chart-type-selectが常にdisabledになる不具合として実際に確認)。
         element.setAttribute(key, value);
       }
     }

@@ -53,7 +53,7 @@
     <span class="badge badge-tag">#照会回答</span>
     <span class="badge badge-tag">#ノーコードフォーム</span>
   </div>
-  <a class="download-button" href="download.html" data-dl-plugin="research_and_answer">ダウンロード(v1)</a>
+  <a class="download-button" href="download.html" data-dl-plugin="research_and_answer">ダウンロード(v2)</a>
 </div>
 
 <section class="plugin-section">
@@ -119,12 +119,12 @@
   <h4>してはいけないこと</h4>
   <ul class="donts-list">
     <li>固定のフィールドコード(依頼アプリ: <code>title</code>/<code>description</code>/<code>requester</code>/<code>recipients</code>/<code>deadline</code>/<code>attachment</code>/<code>questions</code>/<code>condition_json</code>/<code>json</code>/<code>related_links</code>/<code>related_rich_text</code>/<code>related</code>、回答アプリ: <code>title</code>/<code>description</code>/<code>requester</code>/<code>deadline</code>/<code>json</code>/<code>answer_department</code>/<code>answer_status</code>/<code>attachment</code>/<code>lookup</code>/予備フィールド<code>text_*</code>等)のフィールドタイプ変更・削除・コードのリネームをすること。JavaScriptカスタマイズがこれらのコードを直接参照しているため、動作しなくなります。</li>
-    <li>予備フィールド(<code>text_1</code>〜<code>text_20</code>等)を、質問項目テーブル経由ではなく直接編集して別用途に転用すること。依頼アプリ側の質問項目テーブルの<code>insert_column</code>が動的にこれらを割り当てるため、直接値を入れると仮想フォームの表示内容と食い違います。</li>
+    <li>予備フィールド(<code>text_1</code>〜<code>text_30</code>等)を、質問項目テーブル経由ではなく直接編集して別用途に転用すること。依頼アプリ側の質問項目テーブルの<code>insert_column</code>(タイプ+番号から自動計算)が動的にこれらを割り当てるため、直接値を入れると仮想フォームの表示内容と食い違います。</li>
     <li><code>json</code>・<code>condition_json</code>・<code>related_rich_text</code>の値を手動で書き換えること。いずれも保存時にプラグインが自動生成する値で、手で編集すると仮想フォーム・関連リンクの描画が壊れます。</li>
     <li>プレビュー用スペース(<code>previewSpaceId</code>)・回答フォーム用スペース(<code>formSpaceId</code>)の要素IDを、プラグイン設定と食い違う値に変更すること。仮想フォームが描画されなくなります。</li>
     <li>集計リスト・分析一覧の名前や、カスタマイズ形式一覧のHTML(<code>&lt;div id="virtual-table-div"&gt;&lt;/div&gt;</code>)を変更すること。集計リストが描画されなくなります。</li>
-    <li>回答が集まり始めたあとに、依頼アプリの質問項目テーブルの<code>insert_column</code>割り当てや型を変更すること。既存の回答データと新しいフォーム定義の対応がずれます(質問の追加は可能ですが、既存行の変更・削除は避けてください)。</li>
-    <li>予備フィールドの上限(文字列20/複数行10/数値10/日付5/日時5/時刻5)を超える質問項目を1件の照会に設定すること。割り当て先のフィールドコードが存在せず、依頼アプリの保存時にエラーになります。</li>
+    <li>回答が集まり始めたあとに、依頼アプリの質問項目テーブルの<code>field_type</code>(タイプ)・<code>column_number</code>(番号)を変更すること。<code>insert_column</code>(格納フィールドコード)が計算し直され、既存の回答データと新しいフォーム定義の対応がずれます(質問の追加は可能ですが、既存行の変更・削除は避けてください)。</li>
+    <li>予備フィールドの上限(文字列30/複数行30/数値10/日付10/日時10/時刻5)を超える<code>column_number</code>を1件の照会に設定すること。計算結果のフィールドコードが存在せず、依頼アプリの保存時にエラーになります。</li>
   </ul>
 </section>
 
@@ -135,7 +135,7 @@
     <li><strong>回答状況が「回答済」になったら編集をロックする。</strong>回答アプリの「アプリの設定」→「レコードのアクセス権」で、条件に「回答状況(<code>answer_status</code>)が 回答済」を追加し、回答部署の編集権限を外して閲覧のみにします。回答状況はプラグイン固定の通常フィールド(ラジオボタン)なので、標準のレコードのアクセス権の「フィールドの値」条件でそのまま指定できます。</li>
     <li><strong>回答アプリのレコードのアクセス権は、回答部署・依頼元部署の組織に閲覧・編集を付与し、それ以外は非公開にする。</strong>関係のない部署から他部署の回答が見えてしまう事故を防げます(セットアップ手順にも記載の前提です)。</li>
     <li><strong>回答の追加はプロセス管理のアクションボタン経由に統一する。</strong>依頼アプリのレコード一覧から回答担当者が自由に回答アプリのレコードを新規作成できる状態にすると、<code>lookup</code>の選択漏れや、依頼内容(タイトル・期限等)の転記漏れが起きやすくなります。</li>
-    <li><strong>依頼アプリの質問項目(<code>questions</code>)の<code>insert_column</code>割り当ては、自動作成される予備フィールドの残数(文字列20/複数行10/数値10/日付5/日時5/時刻5)を意識して設計し、一度回答が始まったら型・割り当てを変更しない。</strong>特に選択肢を後から減らす場合は、既存回答の値が選択肢から外れて表示が崩れないか確認してください。</li>
+    <li><strong>依頼アプリの質問項目(<code>questions</code>)の<code>column_number</code>(格納先の番号)は、自動作成される予備フィールドの残数(文字列30/複数行30/数値10/日付10/日時10/時刻5)を意識して設計し、一度回答が始まったら<code>field_type</code>・<code>column_number</code>を変更しない。</strong><code>insert_column</code>(格納フィールドコード)はこの2項目から自動計算される文字列フィールドのため、選択肢を後から減らす場合も既存回答の値が選択肢から外れて表示が崩れないか確認してください。</li>
     <li><strong>内部用フィールド(<code>json</code>/<code>condition_json</code>/<code>related_rich_text</code>)は、フィールドのアクセス権で管理者以外を閲覧不可にする。</strong>通常ユーザーの目に触れないようにし、誤って値を書き換えられる事故を防げます。</li>
     <li><strong>依頼アプリの「回答期限」に通知条件を設定し、期限前のリマインダーを自動化する。</strong>集計リストで回答状況を横断的に見つつ、未回答の部署にだけ個別に催促する運用と組み合わせると効果的です。</li>
   </ul>

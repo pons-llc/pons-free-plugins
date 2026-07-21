@@ -36,7 +36,9 @@
         }
         seenColumns.add(fieldCode);
       } else {
-        errors.push(`第${rowNum}行: フィールドコードを入力してください。`);
+        errors.push(
+          `第${rowNum}行: タイプと番号(格納先の番号)を入力し、格納フィールドコードを確定してください。`,
+        );
       }
 
       if (CHOICE_REQUIRED_TYPES.includes(fieldType)) {

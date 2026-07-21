@@ -48,6 +48,30 @@
     'チェックボックス',
   ];
 
+  // 「タイプ」ごとの回答アプリの予備フィールド接頭辞(buildSpareFieldDefsの接頭辞と一致させる)。
+  // 選択肢タイプ(ラジオボタン/ドロップダウン)は文字列の予備フィールドへ、チェックボックスは
+  // カンマ区切り文字列として複数行の予備フィールドへ格納する(desktop-answer-form.jsのvalue.join(',')と対応)。
+  const FIELD_TYPE_PREFIXES = {
+    文字列: 'text_',
+    文字列_複数行: 'multi_text_',
+    数値: 'number_',
+    日付: 'date_',
+    日時: 'datetime_',
+    時刻: 'time_',
+    ラジオボタン: 'text_',
+    ドロップダウン: 'text_',
+    チェックボックス: 'multi_text_',
+  };
+
+  // insert_column(格納フィールドコード)を「タイプ」+「番号」から自動計算するkintone計算式。
+  // 手入力による型の取り違え(例: 数値タイプにtext_を指定)を防ぐため、CALCフィールドにする。
+  const buildInsertColumnExpression = () =>
+    `${QUESTION_TYPES.reduce(
+      (elseExpr, type) =>
+        `IF(field_type = "${type}", "${FIELD_TYPE_PREFIXES[type]}", ${elseExpr})`,
+      '""',
+    )} & column_number`;
+
   // 回答アプリの予備フィールド定義(analysis-core.jsのSPARE_FIELD_PATTERNと一致する接頭辞)
   const buildSpareFieldDefs = () => {
     const defs = {};
@@ -57,18 +81,18 @@
         defs[code] = factory(code, `${labelPrefix}${i}`);
       }
     };
-    add('text_', 20, textField, '予備 文字列');
-    add('multi_text_', 10, multiTextField, '予備 複数行');
+    add('text_', 30, textField, '予備 文字列');
+    add('multi_text_', 30, multiTextField, '予備 複数行');
     add('number_', 10, numberField, '予備 数値');
     add(
       'date_',
-      5,
+      10,
       (code, label) => ({ type: 'DATE', code, label, defaultNowValue: false }),
       '予備 日付',
     );
     add(
       'datetime_',
-      5,
+      10,
       (code, label) => ({
         type: 'DATETIME',
         code,
@@ -136,10 +160,22 @@
             QUESTION_TYPES,
             '文字列',
           ),
-          insert_column: textField(
-            'insert_column',
-            '格納フィールドコード(回答アプリの予備フィールド)',
+          column_number: numberField(
+            'column_number',
+            '格納先の番号(同じタイプ内の連番)',
           ),
+          // 計算結果が文字列になる場合、kintoneのCALC型は使えない(format プロパティが
+          // NUMBER/NUMBER_DIGIT/DATE/TIME/DATETIME/HOUR_MINUTE/DAY_HOUR_MINUTEのみで
+          // 文字列出力に対応する値が無く、実機確認では常に空文字になった)。文字列を返す
+          // 自動計算は、通常のSINGLE_LINE_TEXTフィールドにexpressionを設定する方式を使う
+          // (実機REST APIで動作確認済み)。
+          insert_column: {
+            type: 'SINGLE_LINE_TEXT',
+            code: 'insert_column',
+            label: '格納フィールドコード(タイプ+番号から自動計算)',
+            expression: buildInsertColumnExpression(),
+            hideExpression: false,
+          },
           choice: textField('choice', '選択肢(カンマ区切り)'),
           question_width: dropDownField(
             'question_width',
@@ -367,6 +403,8 @@
 
   const AppSchema = {
     QUESTION_TYPES,
+    FIELD_TYPE_PREFIXES,
+    buildInsertColumnExpression,
     buildSpareFieldDefs,
     buildRelatedFieldDef,
     buildRequestFieldDefs,
