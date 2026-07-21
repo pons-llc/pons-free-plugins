@@ -107,10 +107,61 @@
     },
   );
 
-  // --- レコード詳細: プレビュー描画と「集計・分析」ボタン ---
-  kintone.events.on('app.record.detail.show', (event) => {
+  // --- プレビュー描画(保存済みJSONを優先、無ければ画面上のテーブルから) ---
+  // レコード詳細だけでなく、追加・編集画面でも(質問項目を入力しながら)確認できるようにする。
+  const renderPreview = (event) => {
     const record = event.record;
+    const spaceField = kintone.app.record.getSpaceElement(
+      config.previewSpaceId,
+    );
+    if (!spaceField) {
+      return;
+    }
+    let layout = [];
+    let condition = [];
+    if (record.json && record.json.value) {
+      const setting = FormModel.parseSettingJson(record.json.value);
+      layout = setting.layout;
+      condition = setting.condition;
+    } else if (record.questions && record.questions.value.length > 0) {
+      layout = record.questions.value;
+      condition = FormModel.safeParseJson(
+        record.condition_json ? record.condition_json.value : '',
+        [],
+      );
+    }
 
+    if (layout.length === 0) {
+      spaceField.textContent =
+        'プレビューデータがありません。質問項目を入力してください。';
+      return;
+    }
+
+    FormUI.renderForm(
+      spaceField,
+      layout,
+      condition,
+      (fieldCode) => (record[fieldCode] ? record[fieldCode].value : ''),
+      false,
+    );
+  };
+
+  kintone.events.on(
+    [
+      'app.record.detail.show',
+      'app.record.create.show',
+      'app.record.edit.show',
+      'app.record.create.change.json',
+      'app.record.edit.change.json',
+    ],
+    (event) => {
+      renderPreview(event);
+      return event;
+    },
+  );
+
+  // --- レコード詳細: 「集計・分析」ボタン(保存済みレコードのみ) ---
+  kintone.events.on('app.record.detail.show', (event) => {
     // 集計・分析ボタン(回答アプリの一覧へ、この照会レコードで絞り込んで遷移)。
     // レコード詳細画面のメニュー右側の要素は kintone.app.record.getHeaderMenuSpaceElement()
     // (record付き)。kintone.app.getHeaderMenuSpaceElement()はレコード一覧画面用でここではnull
@@ -139,41 +190,6 @@
         space.appendChild(btn);
       }
     });
-
-    // プレビュー描画(保存済みJSONを優先、無ければ画面上のテーブルから)
-    const spaceField = kintone.app.record.getSpaceElement(
-      config.previewSpaceId,
-    );
-    if (!spaceField) {
-      return event;
-    }
-    let layout = [];
-    let condition = [];
-    if (record.json && record.json.value) {
-      const setting = FormModel.parseSettingJson(record.json.value);
-      layout = setting.layout;
-      condition = setting.condition;
-    } else if (record.questions && record.questions.value.length > 0) {
-      layout = record.questions.value;
-      condition = FormModel.safeParseJson(
-        record.condition_json ? record.condition_json.value : '',
-        [],
-      );
-    }
-
-    if (layout.length === 0) {
-      spaceField.textContent =
-        'プレビューデータがありません。質問項目を入力してください。';
-      return event;
-    }
-
-    FormUI.renderForm(
-      spaceField,
-      layout,
-      condition,
-      (fieldCode) => (record[fieldCode] ? record[fieldCode].value : ''),
-      false,
-    );
     return event;
   });
 })(window, kintone);

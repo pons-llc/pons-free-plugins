@@ -406,7 +406,7 @@
     "id": "research_and_answer",
     "name": "照会回答パッケージプラグイン",
     "description": "「依頼アプリ」「回答アプリ」の2つだけで、部署間の照会(調査依頼)・回答業務をノーコードで動的フォーム化できるプラグイン",
-    "version": "2",
+    "version": "3",
     "publishedAt": "2026-07-21",
     "zip": "plugins/research_and_answer/plugin.zip",
     "page": "plugins/research_and_answer/index.html",
