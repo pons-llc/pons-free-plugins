@@ -102,6 +102,46 @@
 </section>
 
 <section class="plugin-section">
+  <h3>アプリ設定でしていいこと・悪いこと</h3>
+  <p>
+    本プラグインは、依頼アプリ・回答アプリ双方に固定のフィールドコード(予備フィールドを含む)を前提に
+    動作します。「必要な項目・一覧を自動作成」で作られたフィールド・一覧まわりを扱う際の注意点です。
+  </p>
+  <h4>していいこと</h4>
+  <ul class="dos-list">
+    <li>依頼アプリ・回答アプリのどちらにも、固定のフィールドコードと重複しない新しいコードで、社内管理用のフィールド(担当者・優先度・内部メモなど)を追加すること。</li>
+    <li>フォーム上のフィールドの並び順やグループ化など、表示上のレイアウトを整理すること(ただしプレビュー用スペース・回答フォーム用スペースは削除しない)。</li>
+    <li><code>json</code>・<code>condition_json</code>・<code>related_rich_text</code>など内部用フィールドに、フィールドのアクセス権で「編集不可」「管理者以外は閲覧不可」を設定すること。</li>
+    <li>依頼アプリの「回答期限」フィールドに通知条件(リマインダー)を追加すること。</li>
+    <li>集計リスト・分析以外に、独自の一覧(絞り込み・並び替え済みのビューなど)を追加すること。</li>
+    <li>回答アプリにプロセス管理を導入し、ステータスに応じたアクセス権制御と組み合わせて使うこと(次項「おすすめ設定」参照)。</li>
+  </ul>
+  <h4>してはいけないこと</h4>
+  <ul class="donts-list">
+    <li>固定のフィールドコード(依頼アプリ: <code>title</code>/<code>description</code>/<code>requester</code>/<code>recipients</code>/<code>deadline</code>/<code>attachment</code>/<code>questions</code>/<code>condition_json</code>/<code>json</code>/<code>related_links</code>/<code>related_rich_text</code>/<code>related</code>、回答アプリ: <code>title</code>/<code>description</code>/<code>requester</code>/<code>deadline</code>/<code>json</code>/<code>answer_department</code>/<code>answer_status</code>/<code>attachment</code>/<code>lookup</code>/予備フィールド<code>text_*</code>等)のフィールドタイプ変更・削除・コードのリネームをすること。JavaScriptカスタマイズがこれらのコードを直接参照しているため、動作しなくなります。</li>
+    <li>予備フィールド(<code>text_1</code>〜<code>text_20</code>等)を、質問項目テーブル経由ではなく直接編集して別用途に転用すること。依頼アプリ側の質問項目テーブルの<code>insert_column</code>が動的にこれらを割り当てるため、直接値を入れると仮想フォームの表示内容と食い違います。</li>
+    <li><code>json</code>・<code>condition_json</code>・<code>related_rich_text</code>の値を手動で書き換えること。いずれも保存時にプラグインが自動生成する値で、手で編集すると仮想フォーム・関連リンクの描画が壊れます。</li>
+    <li>プレビュー用スペース(<code>previewSpaceId</code>)・回答フォーム用スペース(<code>formSpaceId</code>)の要素IDを、プラグイン設定と食い違う値に変更すること。仮想フォームが描画されなくなります。</li>
+    <li>集計リスト・分析一覧の名前や、カスタマイズ形式一覧のHTML(<code>&lt;div id="virtual-table-div"&gt;&lt;/div&gt;</code>)を変更すること。集計リストが描画されなくなります。</li>
+    <li>回答が集まり始めたあとに、依頼アプリの質問項目テーブルの<code>insert_column</code>割り当てや型を変更すること。既存の回答データと新しいフォーム定義の対応がずれます(質問の追加は可能ですが、既存行の変更・削除は避けてください)。</li>
+    <li>予備フィールドの上限(文字列20/複数行10/数値10/日付5/日時5/時刻5)を超える質問項目を1件の照会に設定すること。割り当て先のフィールドコードが存在せず、依頼アプリの保存時にエラーになります。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h3>おすすめ設定</h3>
+  <p>運用を始めるとよく課題になる点への対応例です。特に1点目は、回答済みデータの改ざん・誤操作を防ぐうえで強く推奨します。</p>
+  <ul class="review-checklist">
+    <li><strong>回答状況が「回答済」になったら編集をロックする。</strong>回答アプリの「アプリの設定」→「レコードのアクセス権」で、条件に「回答状況(<code>answer_status</code>)が 回答済」を追加し、回答部署の編集権限を外して閲覧のみにします。回答状況はプラグイン固定の通常フィールド(ラジオボタン)なので、標準のレコードのアクセス権の「フィールドの値」条件でそのまま指定できます。</li>
+    <li><strong>回答アプリのレコードのアクセス権は、回答部署・依頼元部署の組織に閲覧・編集を付与し、それ以外は非公開にする。</strong>関係のない部署から他部署の回答が見えてしまう事故を防げます(セットアップ手順にも記載の前提です)。</li>
+    <li><strong>回答の追加はプロセス管理のアクションボタン経由に統一する。</strong>依頼アプリのレコード一覧から回答担当者が自由に回答アプリのレコードを新規作成できる状態にすると、<code>lookup</code>の選択漏れや、依頼内容(タイトル・期限等)の転記漏れが起きやすくなります。</li>
+    <li><strong>依頼アプリの質問項目(<code>questions</code>)の<code>insert_column</code>割り当ては、自動作成される予備フィールドの残数(文字列20/複数行10/数値10/日付5/日時5/時刻5)を意識して設計し、一度回答が始まったら型・割り当てを変更しない。</strong>特に選択肢を後から減らす場合は、既存回答の値が選択肢から外れて表示が崩れないか確認してください。</li>
+    <li><strong>内部用フィールド(<code>json</code>/<code>condition_json</code>/<code>related_rich_text</code>)は、フィールドのアクセス権で管理者以外を閲覧不可にする。</strong>通常ユーザーの目に触れないようにし、誤って値を書き換えられる事故を防げます。</li>
+    <li><strong>依頼アプリの「回答期限」に通知条件を設定し、期限前のリマインダーを自動化する。</strong>集計リストで回答状況を横断的に見つつ、未回答の部署にだけ個別に催促する運用と組み合わせると効果的です。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
   <h3>セキュリティレビュー結果サマリ</h3>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
