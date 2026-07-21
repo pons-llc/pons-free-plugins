@@ -70,6 +70,66 @@
     }
   };
 
+  // 集計セレクトの隣に置く「?」ヘルプアイコン。クリックで説明ポップアップを開閉する
+  // (ネイティブtitle属性のホバーではなく、クリックで開くポップアップにしてほしいという要望に対応)。
+  const helpIcon = (text) => {
+    const popover = el('div', { className: 'ra-help-popover hidden' }, text);
+    const btn = el(
+      'button',
+      { type: 'button', className: 'ra-help-icon', 'aria-label': '説明' },
+      '?',
+    );
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const willOpen = popover.classList.contains('hidden');
+      document
+        .querySelectorAll('.ra-help-popover')
+        .forEach((p) => p.classList.add('hidden'));
+      if (willOpen) {
+        popover.classList.remove('hidden');
+      }
+    });
+    return el('span', { className: 'ra-help-wrap' }, [btn, popover]);
+  };
+  document.addEventListener('click', () => {
+    document
+      .querySelectorAll('.ra-help-popover')
+      .forEach((p) => p.classList.add('hidden'));
+  });
+
+  // 回答レコードのjson(フォーム定義)はLOOKUPコピーのため、依頼レコードを編集しても既存の
+  // 回答レコード側には反映されない(kintoneのLOOKUP仕様。ルックアップの値を選び直すまでコピー元の
+  // 現在値には自動追従しない)。「依頼フォームを直したのに分析に反映されない」という問い合わせの
+  // 原因になるため、表示のたびに依頼アプリから直接最新のjsonをREST取得し、コピー値より優先する。
+  const fetchLatestJson = async (configRecord, answerProperties) => {
+    const fallback = configRecord.json.value;
+    const lookupField = answerProperties && answerProperties.lookup;
+    const relatedKeyField =
+      lookupField && lookupField.lookup && lookupField.lookup.relatedKeyField;
+    if (!config.requestAppId || !relatedKeyField || !configRecord.lookup) {
+      return fallback;
+    }
+    try {
+      const query = Core.buildRequestRecordQuery(
+        relatedKeyField,
+        configRecord.lookup.value,
+      );
+      const resp = await kintone.api(
+        kintone.api.url('/k/v1/records.json', true),
+        'GET',
+        { app: config.requestAppId, query, fields: ['json'] },
+      );
+      const latest = resp.records && resp.records[0] && resp.records[0].json;
+      return latest ? latest.value : fallback;
+    } catch (e) {
+      console.error(
+        '依頼アプリから最新のフォーム定義を取得できませんでした',
+        e,
+      );
+      return fallback;
+    }
+  };
+
   kintone.events.on('app.record.index.show', async (event) => {
     if (event.viewName !== config.analysisViewName) {
       return event;
@@ -100,22 +160,27 @@
       return event;
     }
 
-    // --- レイアウト: フォーム定義 + 実フィールド(ステータス・作成日時等)のマージ ---
-    const setting = NS.FormModel.parseSettingJson(configRecord.json.value);
-    const baseLayout = NS.FormModel.sortLayoutByOrder(setting.layout);
-    let layout = baseLayout;
+    // --- 実フィールド定義取得(依頼アプリのレコードキー特定にも使う) ---
+    // REST APIレスポンスは {properties: {...}} にラップされている(kintone.app.getFormFields()の
+    // 「ラップされない」仕様とは逆。CLAUDE.mdの既知の落とし穴参照)
+    let answerProperties = {};
     try {
-      // REST APIレスポンスは {properties: {...}} にラップされている(kintone.app.getFormFields()の
-      // 「ラップされない」仕様とは逆。CLAUDE.mdの既知の落とし穴参照)
       const appFieldsResp = await kintone.api(
         kintone.api.url('/k/v1/app/form/fields.json', true),
         'GET',
         { app: kintone.app.getId() },
       );
-      layout = Core.buildMergedLayout(baseLayout, appFieldsResp.properties);
+      answerProperties = appFieldsResp.properties;
     } catch (e) {
       console.error('フィールド情報の取得に失敗しました', e);
     }
+
+    // --- レイアウト: フォーム定義(依頼アプリから最新を直接取得) + 実フィールド(ステータス・
+    // 作成日時等)のマージ ---
+    const latestJson = await fetchLatestJson(configRecord, answerProperties);
+    const setting = NS.FormModel.parseSettingJson(latestJson);
+    const baseLayout = NS.FormModel.sortLayoutByOrder(setting.layout);
+    const layout = Core.buildMergedLayout(baseLayout, answerProperties);
     const configMap = Core.getConfigMap(layout);
     const allKeys = layout.map((i) => i.value.insert_column.value);
     const useFields = ['$id', ...allKeys];
@@ -298,12 +363,17 @@
           (acc, r) => acc + (parseFloat(r[key]) || 0),
           0,
         );
+        const nonBlankCount = data.filter(
+          (r) => !Core.isBlankValue(r[key]),
+        ).length;
         const displayValue =
-          currentAgg === 'sum'
-            ? total
-            : data.length > 0
+          currentAgg === 'avg'
+            ? data.length > 0
               ? total / data.length
-              : 0;
+              : 0
+            : currentAgg === 'count'
+              ? nonBlankCount
+              : total;
         const select = el('select', { className: 'chart-measure-select' }, [
           el(
             'option',
@@ -314,6 +384,11 @@
             'option',
             { value: 'avg', selected: currentAgg === 'avg' },
             '平均',
+          ),
+          el(
+            'option',
+            { value: 'count', selected: currentAgg === 'count' },
+            '件数',
           ),
         ]);
         select.addEventListener('change', (e) => {
@@ -326,6 +401,9 @@
             el('div', { className: 'ra-kpi-header' }, [
               el('span', { className: 'kpi-label' }, info.label),
               select,
+              helpIcon(
+                '合計=値を全部足す、平均=合計÷対象レコード数、件数=この項目に値が入っているレコード数、を表示します。',
+              ),
             ]),
             el(
               'h3',
@@ -530,7 +608,19 @@
           return;
         }
         const chartType = chartTypes[key] || 'bar-h';
-        const measureKey = trendMeasures[key] || '_count';
+        const rawMeasureKey = trendMeasures[key] || '_count';
+        const isCategoricalMeasure = (k) =>
+          !!(
+            configMap[k] &&
+            Core.CATEGORICAL_MEASURE_TYPES.includes(configMap[k].type)
+          );
+        // 選択肢ごとの内訳(項目別)は折れ線グラフでしか系列分割していないため、横棒・円グラフでは
+        // 保存済みの選択が選択肢型フィールドでも「レコード数」扱いにフォールバックする
+        // (見た目上「項目別」を選んだのに何も変わらない、という分かりにくさの原因だった)。
+        const measureKey =
+          chartType !== 'line' && isCategoricalMeasure(rawMeasureKey)
+            ? '_count'
+            : rawMeasureKey;
         const aggType = aggregationTypes[key] || 'sum';
         const isTimeline = Core.TIMELINE_TYPES.includes(info.type);
         const isMeasureNumeric =
@@ -552,16 +642,22 @@
               [
                 el(
                   'option',
-                  { value: '_count', selected: measureKey === '_count' },
+                  { value: '_count', selected: rawMeasureKey === '_count' },
                   'レコード数',
                 ),
                 ...Object.entries(configMap)
                   .filter(([, i]) => !UNCHARTABLE_TYPES.includes(i.type))
+                  .filter(
+                    ([k]) => chartType === 'line' || !isCategoricalMeasure(k),
+                  )
                   .map(([k, i]) =>
                     el(
                       'option',
-                      { value: k, selected: measureKey === k },
-                      i.label + (i.type === '数値' ? '' : ' (項目別)'),
+                      { value: k, selected: rawMeasureKey === k },
+                      i.label +
+                        (Core.CATEGORICAL_MEASURE_TYPES.includes(i.type)
+                          ? ' (項目別)'
+                          : ''),
                     ),
                   ),
               ],
@@ -572,6 +668,11 @@
               updateUI();
             });
             controls.appendChild(measureSelect);
+            controls.appendChild(
+              helpIcon(
+                '集計対象を「レコード数」以外に変えると、その項目の値を集計してグラフの値にします。選択肢型の項目(ラジオボタン等)を選ぶと「(項目別)」と表示されますが、内訳を分けて表示できるのは折れ線グラフのときだけです。横棒・円グラフでは選択肢型の項目は選べません。',
+              ),
+            );
           }
           if (isMeasureNumeric) {
             const aggSelect = el(
@@ -588,6 +689,11 @@
                   { value: 'avg', selected: aggType === 'avg' },
                   '平均',
                 ),
+                el(
+                  'option',
+                  { value: 'count', selected: aggType === 'count' },
+                  '件数',
+                ),
               ],
             );
             aggSelect.addEventListener('change', (e) => {
@@ -596,6 +702,11 @@
               updateUI();
             });
             controls.appendChild(aggSelect);
+            controls.appendChild(
+              helpIcon(
+                '数値項目の集計方法です。合計=値を全部足す、平均=合計÷対象レコード数、件数=その項目に値が入っているレコード数、を表示します。',
+              ),
+            );
           }
           headerChildren.push(controls);
         }

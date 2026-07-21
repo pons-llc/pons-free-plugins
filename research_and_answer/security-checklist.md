@@ -4,7 +4,7 @@
 `https`のみ等)は [box_gdrive_iframe/security-checklist.md](../box_gdrive_iframe/security-checklist.md)
 を参照。ここでは本プラグイン固有の確認項目のみ記載する。
 
-最終確認日: 2026-07-19
+最終確認日: 2026-07-21
 
 ## 1. XSS対策
 
@@ -49,6 +49,7 @@
 | --- | --- |
 | `GET /k/v1/app/form/fields.json`(回答アプリ・自アプリ) | 別アプリのフィールド取得は`kintone.app.getFormFields()`(自アプリ専用)では不可。集計リスト/分析では一覧画面から全フィールド情報が必要 |
 | `POST/GET /k/v1/records/cursor` | 全件取得はJavaScript APIに存在しない |
+| `GET /k/v1/records.json`(依頼アプリ、`fetchLatestJson`) | 回答レコードの`json`はLOOKUPコピーのため依頼レコード編集後に反映が遅れる(kintoneのLOOKUP仕様)。集計リスト/分析の表示のたびに依頼アプリから最新の`json`のみ(`fields`指定)を直接取得する。取得は現在ログイン中のユーザー自身の権限で行われ、回答レコードの`lookup`(=依頼レコードの参照)を既に持つユーザーが読める範囲を超えない(新たな権限昇格はない) |
 | `preview`系(`form/fields`・`form/layout`・`views`) | 設定画面の「必要な項目・一覧の自動作成」。アプリ管理権限を持つ管理者が設定画面から実行し、反映は通常の「アプリを更新」フローに乗せる |
 
 ## 6. 設定値の妥当性検証
@@ -59,6 +60,10 @@
   検証(存在しない場合は保存をブロック)。
 - [x] フォーム定義JSON・動的条件JSONのパースはすべて`safeParseJson`でtry/catchし、不正なJSONでも
   例外で画面を壊さない(空配列扱い)。
+- [x] `fetchLatestJson`が組み立てるkintoneクエリ文字列(`analysis-core.js`の`buildRequestRecordQuery`)は、
+  埋め込む値(依頼レコードのキー値)を`escapeQueryValue`でエスケープ(バックスラッシュ→ダブルクオートの順、
+  kintone公式手順どおり)しており、クエリインジェクションを防いでいる(self_lookupの
+  `query-builder.js`と同じ方針、ユニットテストで担保)。
 
 ## 7. 権限・操作範囲
 

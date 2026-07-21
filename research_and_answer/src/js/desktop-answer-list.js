@@ -42,6 +42,39 @@
     container.appendChild(msg);
   };
 
+  // 回答レコードのjson(フォーム定義)はLOOKUPコピーのため、依頼レコードを編集しても既存の
+  // 回答レコード側には反映されない(kintoneのLOOKUP仕様。desktop-answer-analysis.jsの
+  // fetchLatestJsonと同じ理由)。表示のたびに依頼アプリから直接最新のjsonをREST取得し、
+  // コピー値より優先することで一覧を常に最新のフォーム定義で表示する。
+  const fetchLatestJson = async (configRecord, answerProperties) => {
+    const fallback = configRecord.json.value;
+    const lookupField = answerProperties && answerProperties.lookup;
+    const relatedKeyField =
+      lookupField && lookupField.lookup && lookupField.lookup.relatedKeyField;
+    if (!config.requestAppId || !relatedKeyField || !configRecord.lookup) {
+      return fallback;
+    }
+    try {
+      const query = AnalysisCore.buildRequestRecordQuery(
+        relatedKeyField,
+        configRecord.lookup.value,
+      );
+      const resp = await kintone.api(
+        kintone.api.url('/k/v1/records.json', true),
+        'GET',
+        { app: config.requestAppId, query, fields: ['json'] },
+      );
+      const latest = resp.records && resp.records[0] && resp.records[0].json;
+      return latest ? latest.value : fallback;
+    } catch (e) {
+      console.error(
+        '依頼アプリから最新のフォーム定義を取得できませんでした',
+        e,
+      );
+      return fallback;
+    }
+  };
+
   kintone.events.on('app.record.index.show', async (event) => {
     const params = new URLSearchParams(window.location.search);
 
@@ -84,26 +117,27 @@
       return event;
     }
 
-    const setting = NS.FormModel.parseSettingJson(configRecord.json.value);
-    const formLayout = NS.FormModel.sortLayoutByOrder(setting.layout);
-
     // フォーム定義列+実フィールド列(予備・管理用は除外)。REST APIレスポンスは
     // {properties: {...}} にラップされている(kintone.app.getFormFields()とは違う点に注意)。
-    let targetColumns;
+    let answerProperties = {};
     try {
       const appFieldsResp = await kintone.api(
         kintone.api.url('/k/v1/app/form/fields.json', true),
         'GET',
         { app: kintone.app.getId() },
       );
-      targetColumns = AnalysisCore.buildTargetColumns(
-        formLayout,
-        appFieldsResp.properties,
-      );
+      answerProperties = appFieldsResp.properties;
     } catch (e) {
       console.error('フィールド情報の取得に失敗しました', e);
-      targetColumns = AnalysisCore.buildTargetColumns(formLayout, {});
     }
+
+    const latestJson = await fetchLatestJson(configRecord, answerProperties);
+    const setting = NS.FormModel.parseSettingJson(latestJson);
+    const formLayout = NS.FormModel.sortLayoutByOrder(setting.layout);
+    const targetColumns = AnalysisCore.buildTargetColumns(
+      formLayout,
+      answerProperties,
+    );
 
     // --- ヘッダーメニュー: 分析ビューへの遷移ボタン ---
     const headerMenu = kintone.app.getHeaderMenuSpaceElement();

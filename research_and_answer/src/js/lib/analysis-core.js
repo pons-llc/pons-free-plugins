@@ -182,6 +182,16 @@
   const MULTI_VALUE_TYPES = ['チェックボックス', '複数選択'];
   const DATE_LIKE_TYPES = ['日付', '日時', '作成日時', '更新日時'];
   const TIMELINE_TYPES = ['日時', '日付', '時刻', '作成日時', '更新日時'];
+  // 集計対象(measure)に選ぶと「選択肢ごとの内訳」になるフィールドタイプ。
+  // この内訳表示はaggregateTimeline(折れ線)でしか系列分割していないため、
+  // 横棒・円グラフ(aggregateCategory)ではこれらのタイプを集計対象の選択肢から外す
+  // (desktop-answer-analysis.jsのchart-measure-select参照)。
+  const CATEGORICAL_MEASURE_TYPES = [
+    'チェックボックス',
+    'ドロップダウン',
+    'ラジオボタン',
+    '複数選択',
+  ];
 
   // フィルター定義 filters: {code: {operator, value}} を正規化済み行に適用する
   const applyFilters = (
@@ -281,6 +291,8 @@
     return parseCommaSeparated(row[measureKey]).length;
   };
 
+  const isBlankValue = (v) => v === undefined || v === null || v === '';
+
   // 棒・円グラフ用のカテゴリ集計。戻り値 {labels, values}
   const aggregateCategory = (
     rows,
@@ -307,23 +319,30 @@
       items.forEach((label) => {
         const val = measureOf(row, measureKey, configMap);
         if (!accumulator[label]) {
-          accumulator[label] = { sum: 0, count: 0 };
+          accumulator[label] = { sum: 0, count: 0, nonBlank: 0 };
         }
         accumulator[label].sum += val;
         accumulator[label].count += 1;
+        if (!isBlankValue(row[measureKey])) {
+          accumulator[label].nonBlank += 1;
+        }
       });
     });
 
-    const useAvg =
+    const isNumericMeasure =
       measureKey !== '_count' &&
       configMap[measureKey] &&
-      configMap[measureKey].type === '数値' &&
-      aggType === 'avg';
+      configMap[measureKey].type === '数値';
     const aggregated = Object.entries(accumulator).map(
-      ([label, { sum, count }]) => [
-        label,
-        useAvg ? (count > 0 ? sum / count : 0) : sum,
-      ],
+      ([label, { sum, count, nonBlank }]) => {
+        let value = sum;
+        if (isNumericMeasure && aggType === 'avg') {
+          value = count > 0 ? sum / count : 0;
+        } else if (isNumericMeasure && aggType === 'count') {
+          value = nonBlank;
+        }
+        return [label, value];
+      },
     );
 
     // 時系列はラベル昇順、それ以外は値の大きい順+表示件数制限
@@ -350,13 +369,7 @@
   ) => {
     const mInfo = configMap[measureKey];
     const isCategorical = !!(
-      mInfo &&
-      [
-        'チェックボックス',
-        'ドロップダウン',
-        'ラジオボタン',
-        '複数選択',
-      ].includes(mInfo.type)
+      mInfo && CATEGORICAL_MEASURE_TYPES.includes(mInfo.type)
     );
 
     let categories = ['Value'];
@@ -376,6 +389,7 @@
       const data = buckets.map((bucket) => {
         let sum = 0;
         let count = 0;
+        let nonBlank = 0;
         (rows || [])
           .filter((r) => groupLabel(r[key], info.type) === bucket)
           .forEach((r) => {
@@ -385,6 +399,9 @@
             } else if (mInfo && mInfo.type === '数値') {
               sum += parseFloat(r[measureKey]) || 0;
               count += 1;
+              if (!isBlankValue(r[measureKey])) {
+                nonBlank += 1;
+              }
             } else if (mInfo) {
               if (parseCommaSeparated(r[measureKey]).includes(cat)) {
                 sum += 1;
@@ -392,9 +409,15 @@
               }
             }
           });
-        return aggType === 'avg' && mInfo && mInfo.type === '数値' && count > 0
-          ? sum / count
-          : sum;
+        if (mInfo && mInfo.type === '数値') {
+          if (aggType === 'avg') {
+            return count > 0 ? sum / count : 0;
+          }
+          if (aggType === 'count') {
+            return nonBlank;
+          }
+        }
+        return sum;
       });
       return { label: cat, data };
     });
@@ -425,6 +448,17 @@
     return `${header}\n${lines.join('\n')}`;
   };
 
+  // kintone公式ドキュメント記載の手順通り、バックスラッシュを先にエスケープしてからダブルクオートを
+  // エスケープする(順序を逆にすると二重エスケープになる。self_lookupのquery-builder.jsと同じ方針)。
+  const escapeQueryValue = (value) =>
+    String(value).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+
+  // 依頼レコードから最新のjson(フォーム定義)を直接取得するためのクエリ文字列を組み立てる。
+  // 回答レコードのjsonはLOOKUPコピーのため依頼レコード編集後も反映が遅れる(kintoneのLOOKUP仕様、
+  // desktop-answer-analysis.js/desktop-answer-list.jsのfetchLatestJson参照)。
+  const buildRequestRecordQuery = (relatedKeyField, keyValue) =>
+    `${relatedKeyField} = "${escapeQueryValue(keyValue)}" limit 1`;
+
   const AnalysisCore = {
     TYPE_MAP,
     SPARE_FIELD_PATTERN,
@@ -434,6 +468,7 @@
     MULTI_VALUE_TYPES,
     DATE_LIKE_TYPES,
     TIMELINE_TYPES,
+    CATEGORICAL_MEASURE_TYPES,
     shouldIgnoreField,
     buildMergedLayout,
     buildTargetColumns,
@@ -445,9 +480,12 @@
     applyFilters,
     groupLabel,
     measureOf,
+    isBlankValue,
     aggregateCategory,
     aggregateTimeline,
     buildCsv,
+    escapeQueryValue,
+    buildRequestRecordQuery,
   };
 
   if (typeof module !== 'undefined' && module.exports) {

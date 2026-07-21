@@ -290,6 +290,25 @@ describe('aggregateCategory', () => {
     expect(avg.values[avg.labels.indexOf('東京')]).toBe(15);
   });
 
+  test('数値の件数(空欄でない行数)', () => {
+    const rowsWithBlank = [
+      { pref: '東京', tags: '', amount: '10' },
+      { pref: '東京', tags: '', amount: '' },
+      { pref: '大阪', tags: '', amount: '5' },
+    ];
+    const count = Core.aggregateCategory(
+      rowsWithBlank,
+      'pref',
+      configMap.pref,
+      'amount',
+      'count',
+      configMap,
+      20,
+    );
+    expect(count.values[count.labels.indexOf('東京')]).toBe(1);
+    expect(count.values[count.labels.indexOf('大阪')]).toBe(1);
+  });
+
   test('limitで上位のみに絞る', () => {
     const agg = Core.aggregateCategory(
       rows,
@@ -356,6 +375,46 @@ describe('aggregateTimeline', () => {
       configMap,
     );
     expect(t.datasets[0].data).toEqual([20, 5]);
+  });
+
+  test('数値測定値の件数(空欄でない行数)', () => {
+    const rowsWithBlank = [
+      { day: '2026-07-01', amount: '10' },
+      { day: '2026-07-01', amount: '' },
+      { day: '2026-07-02', amount: '5' },
+    ];
+    const t = Core.aggregateTimeline(
+      rowsWithBlank,
+      'day',
+      configMap.day,
+      'amount',
+      'count',
+      configMap,
+    );
+    expect(t.datasets[0].data).toEqual([1, 1]);
+  });
+});
+
+describe('CATEGORICAL_MEASURE_TYPES', () => {
+  test('選択肢ごとの内訳(項目別)に対応するタイプの一覧', () => {
+    expect(Core.CATEGORICAL_MEASURE_TYPES).toEqual([
+      'チェックボックス',
+      'ドロップダウン',
+      'ラジオボタン',
+      '複数選択',
+    ]);
+  });
+});
+
+describe('escapeQueryValue / buildRequestRecordQuery', () => {
+  test('バックスラッシュ→ダブルクオートの順でエスケープする', () => {
+    expect(Core.escapeQueryValue('a\\b"c')).toBe('a\\\\b\\"c');
+  });
+
+  test('依頼レコード検索用のクエリ文字列を組み立てる', () => {
+    expect(Core.buildRequestRecordQuery('レコード番号', '123')).toBe(
+      'レコード番号 = "123" limit 1',
+    );
   });
 });
 
