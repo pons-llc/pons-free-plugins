@@ -67,9 +67,20 @@
     },
   );
 
-  // ルックアップ取得などでフォーム定義JSONが変わったら描画し直す
+  // ルックアップ取得で仮想フォームを再描画する。
+  // 「取得」ボタン押下によるコピーは、kintoneの仕様上コピー先フィールドごとに
+  // change イベントの発火有無・タイミングがまちまちで(実機Puppeteerで確認: 同じ操作でも
+  // titleは発火・deadlineは発火・description/requester/jsonは発火しない、という結果だった)、
+  // jsonフィールド単体のchangeイベントには頼れない。lookupのfieldMappingsでコピーする
+  // 全フィールド(title/description/requester/deadline/json)を監視し、いずれかが発火した
+  // タイミングでrenderVirtualForm()を呼ぶ(json未取得時は内部でno-opになるため無害)。
   kintone.events.on(
-    ['app.record.create.change.json', 'app.record.edit.change.json'],
+    ['title', 'description', 'requester', 'deadline', 'json'].flatMap(
+      (code) => [
+        `app.record.create.change.${code}`,
+        `app.record.edit.change.${code}`,
+      ],
+    ),
     (event) => {
       renderVirtualForm(event);
       return event;
