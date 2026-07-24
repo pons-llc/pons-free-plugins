@@ -10,6 +10,7 @@
   const toDisplayValues = (series, mode) =>
     (series || []).map((s) => ({
       label: s.label,
+      badges: s.badges || [],
       count: s.count,
       values: s.values,
       displayValues:

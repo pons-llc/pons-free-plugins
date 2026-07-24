@@ -126,7 +126,10 @@
       const labelEl = fragment.querySelector('label');
       const selectEl = fragment.querySelector('.js-axis-select');
       const required = i < ConfigValidation.MIN_AXIS_FIELDS;
+      const selectId = `js-axis-select-${i}`;
       labelEl.textContent = `軸${i + 1}${required ? '(必須)' : ''}`;
+      labelEl.setAttribute('for', selectId);
+      selectEl.id = selectId;
       buildFieldOptions(
         selectEl,
         numberFields,

@@ -32,6 +32,20 @@ const GROUPING_FIELD_CODE = 'ラジオボタン';
 const TITLE = 'E2Eテストチャート';
 const SCALE_DIVISIONS = '4';
 
+// クリックした点の座標を(要素の中心ではなく)明示的に指定して、要素の一部分にしか
+// 反応しない回帰(config画面のlabel/for不整合、選択パネルのボタンがflex-shrinkで
+// 縮んで見た目より狭い範囲しかクリックできない、など)を検知できるようにする。
+const clickAtFraction = async (page, selector, xFraction, yFraction) => {
+  const box = await page.$eval(selector, (el) => {
+    const r = el.getBoundingClientRect();
+    return { x: r.x, y: r.y, width: r.width, height: r.height };
+  });
+  await page.mouse.click(
+    box.x + box.width * xFraction,
+    box.y + box.height * yFraction,
+  );
+};
+
 describe('レーダーチャートプラグイン(実環境, 一気通貫)', () => {
   let browser;
   let page;
@@ -61,7 +75,18 @@ describe('レーダーチャートプラグイン(実環境, 一気通貫)', () 
     }
   });
 
-  test('設定画面: 軸フィールドがNUMBER型のみに絞り込まれ、保存後もリロードで内容が保持される', async () => {
+  // 各テストが開いた生成HTMLのタブ(chartPage)を閉じ忘れる、またはアサーション失敗で
+  // 閉じずに抜けると、次のテストのbrowser.waitForTarget()が古いタブに即座にマッチしてしまい
+  // 別のテストを検知できなくなる(実際にこの取り違えでタイムアウトする不具合が起きた)。
+  // テストごとに、mainの`page`以外の余分なタブを必ず片付ける。
+  afterEach(async () => {
+    const pages = await browser.pages();
+    await Promise.all(
+      pages.filter((p) => p !== page).map((p) => p.close().catch(() => {})),
+    );
+  });
+
+  test('設定画面: label/forが正しく結びつき、離れたラベルのテキストをクリックしても対応する項目に反応する', async () => {
     const pageErrors = [];
     page.on('pageerror', (err) => pageErrors.push(err.message));
 
@@ -72,6 +97,24 @@ describe('レーダーチャートプラグイン(実環境, 一気通貫)', () 
       (el) => el.textContent,
     );
     expect(heading).toContain('レーダーチャートプラグイン');
+
+    // 軸1のラベルのテキスト部分(セレクトボックス自体ではない場所)をクリックしても、
+    // for/id が正しく結びついていればセレクトボックスにフォーカスが移る
+    // (label要素がinputを直接ラップしていないケースでの回帰確認)。
+    const axisLabelSelector = '.rcv-axis-item:nth-of-type(1) label';
+    await clickAtFraction(page, axisLabelSelector, 0.5, 0.5);
+    const axis1Focused = await page.evaluate(
+      () =>
+        document.activeElement === document.getElementById('js-axis-select-0'),
+    );
+    expect(axis1Focused).toBe(true);
+
+    // タイトル欄も同様に、ラベルテキストのクリックで入力欄にフォーカスが移ることを確認する。
+    await page.click('label[for="js-title"]');
+    const titleFocused = await page.evaluate(
+      () => document.activeElement === document.getElementById('js-title'),
+    );
+    expect(titleFocused).toBe(true);
 
     // 軸1のプルダウンの選択肢がNUMBER型のみに絞り込まれていること(config.js冒頭の
     // fieldsOfType()による絞り込みが実際に効いているかの回帰確認)。
@@ -106,6 +149,15 @@ describe('レーダーチャートプラグイン(実環境, 一気通貫)', () 
       (el) => el.hidden,
     );
     expect(groupingFieldRowHiddenAfter).toBe(false);
+
+    // 「グルーピングフィールド」ラベルのテキストクリックでもセレクトボックスにフォーカスが移る。
+    await page.click('label[for="js-grouping-field-select"]');
+    const groupingSelectFocused = await page.evaluate(
+      () =>
+        document.activeElement ===
+        document.getElementById('js-grouping-field-select'),
+    );
+    expect(groupingSelectFocused).toBe(true);
 
     const groupingOptionValues = await page.$eval(
       '.js-grouping-field-select',
@@ -168,7 +220,7 @@ describe('レーダーチャートプラグイン(実環境, 一気通貫)', () 
     await common.screenshot(page, repoRoot, PLUGIN_NAME, 'config-screen');
   });
 
-  test('レコード一覧画面: ボタン押下→「表示中のレコード」選択で別タブにレーダーチャートが生成される', async () => {
+  test('レコード一覧画面: ボタン押下→「表示中のレコード」選択でカード形式のレーダーチャートが別タブに生成される', async () => {
     await page.goto(`https://${env.KINTONE_DOMAIN}/k/${env.TEST_APP_ID_1}/`, {
       waitUntil: 'networkidle0',
     });
@@ -179,45 +231,58 @@ describe('レーダーチャートプラグイン(実環境, 一気通貫)', () 
     const selectionButtons = await page.$$('.rcv-selection-button');
     expect(selectionButtons.length).toBe(2);
 
+    // 選択パネルのボタンは、見た目の幅いっぱい(左端近く〜右端近くまで)クリックに反応する必要がある
+    // (flex-shrinkでボタンの実際のヒット領域がテキストより狭くなる回帰の確認)。この1クリックが
+    // 実際の「表示中のレコードで作成」の操作を兼ねる(2回連続で押すと1回目でパネルが閉じてしまうため)。
     const [newTarget] = await Promise.all([
       browser.waitForTarget((target) => target.opener() === page.target(), {
         timeout: 15000,
       }),
-      selectionButtons[0].click(), // 表示中のレコードで作成
+      clickAtFraction(page, '.rcv-selection-button', 0.9, 0.5), // 表示中のレコードで作成(右寄りをクリック)
     ]);
     const chartPage = await newTarget.page();
     const chartPageErrors = [];
     chartPage.on('pageerror', (err) => chartPageErrors.push(err.message));
 
-    await chartPage.waitForSelector('#radar-chart svg', { timeout: 15000 });
+    await chartPage.waitForSelector('#radar-card-grid .radar-card', {
+      timeout: 15000,
+    });
 
     expect(await chartPage.title()).toBe(TITLE);
 
+    const cardCount = await chartPage.$$eval(
+      '.radar-card',
+      (els) => els.length,
+    );
+    expect(cardCount).toBeGreaterThanOrEqual(1);
+
+    // 1カードにつき、目盛リング(scaleDivisions個)と軸ラベル(軸数個)、系列ポリゴン1枚を持つ。
     const gridRingCount = await chartPage.$$eval(
       '.radar-grid polygon',
       (els) => els.length,
     );
-    expect(gridRingCount).toBe(Number(SCALE_DIVISIONS));
+    expect(gridRingCount).toBe(cardCount * Number(SCALE_DIVISIONS));
 
     const axisLabelCount = await chartPage.$$eval(
       '.radar-axis-label',
       (els) => els.length,
     );
-    expect(axisLabelCount).toBe(AXIS_CODES.length);
-
-    const legendItemCountBefore = await chartPage.$$eval(
-      '#radar-legend .legend-item',
-      (els) => els.length,
-    );
-    expect(legendItemCountBefore).toBeGreaterThanOrEqual(1);
+    expect(axisLabelCount).toBe(cardCount * AXIS_CODES.length);
 
     const polygonCountBefore = await chartPage.$$eval(
       '.radar-series polygon',
       (els) => els.length,
     );
-    expect(polygonCountBefore).toBe(legendItemCountBefore);
+    expect(polygonCountBefore).toBe(cardCount);
 
-    // 公開サイト用のスクリーンショットは、絞り込み前(全系列が見える状態)で撮る。
+    // フィールドごとグルーピングなので、バッジチップは表示されない(グループ値自体が見出し)。
+    const badgeChipCount = await chartPage.$$eval(
+      '.radar-badge-chip',
+      (els) => els.length,
+    );
+    expect(badgeChipCount).toBe(0);
+
+    // 公開サイト用のスクリーンショットは、絞り込み前(全カードが見える状態)で撮る。
     await common.screenshot(
       chartPage,
       repoRoot,
@@ -225,16 +290,33 @@ describe('レーダーチャートプラグイン(実環境, 一気通貫)', () 
       'radar-chart-sample',
     );
 
-    // 凡例のチェックボックスを1つ外すと、対応する系列のポリゴンが1つ減る(絞り込み機能の確認)。
-    if (legendItemCountBefore > 1) {
-      await chartPage.click(
-        '#radar-legend .legend-item input[type="checkbox"]',
+    // カードのチェックボックスを1つ外すと、そのカードはdimmed(is-hidden-series)になるが、
+    // グリッドからは削除されない(ポリゴン数は変わらない、再度チェックすればいつでも戻せる)。
+    if (cardCount > 1) {
+      const firstCheckbox = await chartPage.$(
+        '.radar-card-header input[type="checkbox"]',
       );
+      await firstCheckbox.click();
       const polygonCountAfter = await chartPage.$$eval(
         '.radar-series polygon',
         (els) => els.length,
       );
-      expect(polygonCountAfter).toBe(polygonCountBefore - 1);
+      expect(polygonCountAfter).toBe(polygonCountBefore);
+
+      const firstCardHidden = await chartPage.$eval('.radar-card', (el) =>
+        el.classList.contains('is-hidden-series'),
+      );
+      expect(firstCardHidden).toBe(true);
+
+      // 再度チェックすると元に戻る。
+      const firstCheckboxAgain = await chartPage.$(
+        '.radar-card-header input[type="checkbox"]',
+      );
+      await firstCheckboxAgain.click();
+      const firstCardHiddenAgain = await chartPage.$eval('.radar-card', (el) =>
+        el.classList.contains('is-hidden-series'),
+      );
+      expect(firstCardHiddenAgain).toBe(false);
     }
 
     expect(chartPageErrors).toEqual([]);
@@ -242,7 +324,7 @@ describe('レーダーチャートプラグイン(実環境, 一気通貫)', () 
     await chartPage.close();
   });
 
-  test('レコード一覧画面: 「絞り込み条件の全件」選択でも別タブにレーダーチャートが生成される', async () => {
+  test('レコード一覧画面: 「絞り込み条件の全件」選択でも別タブにカード形式のレーダーチャートが生成される', async () => {
     await page.goto(`https://${env.KINTONE_DOMAIN}/k/${env.TEST_APP_ID_1}/`, {
       waitUntil: 'networkidle0',
     });
@@ -261,7 +343,9 @@ describe('レーダーチャートプラグイン(実環境, 一気通貫)', () 
     const chartPageErrors = [];
     chartPage.on('pageerror', (err) => chartPageErrors.push(err.message));
 
-    await chartPage.waitForSelector('#radar-chart svg', { timeout: 20000 });
+    await chartPage.waitForSelector('#radar-card-grid .radar-card', {
+      timeout: 20000,
+    });
 
     expect(await chartPage.title()).toBe(TITLE);
     const statusText = await chartPage.$eval(
@@ -269,6 +353,70 @@ describe('レーダーチャートプラグイン(実環境, 一気通貫)', () 
       (el) => el.textContent,
     );
     expect(statusText).toContain('絞り込み条件の全件');
+
+    expect(chartPageErrors).toEqual([]);
+
+    await chartPage.close();
+  });
+
+  test('レコードごとグルーピング: バッジフィールドの値がカードのバッジ(チップ)として表示される(頂点ラベルではない)', async () => {
+    await common.openPluginConfig(page, env, env.TEST_APP_ID_1, pluginId);
+    await page.click('.js-grouping-record');
+
+    await page.evaluate(() => {
+      document
+        .querySelectorAll('.js-badge-fields .js-checkbox-item-input')
+        .forEach((el) => {
+          if (el.checked) {
+            el.click();
+          }
+        });
+    });
+    const badgeCheckbox = await page.evaluateHandle((code) => {
+      const inputs = Array.from(
+        document.querySelectorAll('.js-badge-fields .js-checkbox-item-input'),
+      );
+      return inputs.find((el) => el.value === code);
+    }, GROUPING_FIELD_CODE);
+    await badgeCheckbox.asElement().click();
+
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'networkidle0' }),
+      page.click('.kintoneplugin-button-dialog-ok'),
+    ]);
+    await kintoneAdmin.deployApp(env, env.TEST_APP_ID_1);
+
+    await page.goto(`https://${env.KINTONE_DOMAIN}/k/${env.TEST_APP_ID_1}/`, {
+      waitUntil: 'networkidle0',
+    });
+    await page.waitForSelector('.rcv-open-button', { timeout: 15000 });
+    await page.click('.rcv-open-button');
+    const selectionButtons = await page.$$('.rcv-selection-button');
+
+    const [newTarget] = await Promise.all([
+      browser.waitForTarget((target) => target.opener() === page.target(), {
+        timeout: 15000,
+      }),
+      selectionButtons[0].click(),
+    ]);
+    const chartPage = await newTarget.page();
+    const chartPageErrors = [];
+    chartPage.on('pageerror', (err) => chartPageErrors.push(err.message));
+
+    await chartPage.waitForSelector('#radar-card-grid .radar-card', {
+      timeout: 15000,
+    });
+
+    // レコードごとグルーピングでは、カードのタイトル領域にラベル文字列(結合テキスト)を
+    // 詰め込むのではなく、バッジフィールドごとに個別のチップ(.radar-badge-chip)として表示する。
+    const badgeChipTexts = await chartPage.$$eval(
+      '.radar-card-badges .radar-badge-chip',
+      (els) => els.map((el) => el.textContent),
+    );
+    expect(badgeChipTexts.length).toBeGreaterThanOrEqual(1);
+    expect(
+      badgeChipTexts.every((t) => t === 'sample1' || t === 'sample2'),
+    ).toBe(true);
 
     expect(chartPageErrors).toEqual([]);
 

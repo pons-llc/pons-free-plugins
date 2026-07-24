@@ -35,7 +35,7 @@ describe('HtmlTemplate.buildRadarHtmlDocument', () => {
     expect(html).toMatch(/^<!doctype html>/);
     expect(html).toContain('<html lang="ja">');
     expect(html).toContain('id="radar-data"');
-    expect(html).toContain('id="radar-chart"');
+    expect(html).toContain('id="radar-card-grid"');
   });
 
   test('embeds the payload as JSON exactly once, parseable back to the original data', () => {

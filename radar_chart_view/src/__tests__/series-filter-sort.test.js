@@ -6,25 +6,6 @@ const series = () => [
   { label: 'C', displayValues: [5, 5] },
 ];
 
-describe('SeriesFilterSort.filterVisibleSeries', () => {
-  test('removes series whose label is in hiddenLabels', () => {
-    const result = SeriesFilterSort.filterVisibleSeries(series(), ['A']);
-    expect(result.map((s) => s.label)).toEqual(['B', 'C']);
-  });
-
-  test('returns everything when hiddenLabels is empty or undefined', () => {
-    expect(SeriesFilterSort.filterVisibleSeries(series(), []).length).toBe(3);
-    expect(
-      SeriesFilterSort.filterVisibleSeries(series(), undefined).length,
-    ).toBe(3);
-  });
-
-  test('preserves original order', () => {
-    const result = SeriesFilterSort.filterVisibleSeries(series(), []);
-    expect(result.map((s) => s.label)).toEqual(['B', 'A', 'C']);
-  });
-});
-
 describe('SeriesFilterSort.sortSeries', () => {
   test('"original" (or unknown mode) keeps the given order', () => {
     expect(

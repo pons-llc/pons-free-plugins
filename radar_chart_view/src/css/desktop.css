@@ -1,9 +1,11 @@
 .rcv-open-button {
   margin-right: 8px;
+  flex-shrink: 0;
 }
 
 .rcv-selection-panel {
   display: inline-flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-left: 8px;
   padding: 6px 8px;
@@ -11,8 +13,11 @@
   border-radius: 4px;
   background: #fff;
   vertical-align: middle;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .rcv-selection-button {
   white-space: nowrap;
+  flex-shrink: 0;
 }

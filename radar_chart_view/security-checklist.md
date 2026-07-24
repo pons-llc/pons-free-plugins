@@ -2,7 +2,7 @@
 
 [secureCodingGuideline.md](../secureCodingGuideline.md)の一般項目(UTF-8/BOMなし・即時関数によるグローバル汚染防止・`'use strict'`・外部スクリプト不使用など)は`box_gdrive_iframe/security-checklist.md`・`gantt_chart_view/security-checklist.md`と同様に満たしている。本プラグイン固有の項目(特に「別タブに開く自己完結HTMLファイルの生成」という他プラグインにない処理)のみ記載する。
 
-最終確認日: 2026-07-24 / 対象: 初回実装時点(Puppeteerによる実環境テストはこのあと実施。`pnpm run upload`・`.env`の実環境ドメインへの接続はこの確認時点ではまだ)
+最終確認日: 2026-07-25 / 対象: カード形式への表示リニューアル後(Puppeteer E2E実施済み。`pnpm run upload`で検証環境アプリへ反映し、`pnpm run test:e2e`で表示中のレコード/絞り込み条件の全件/バッジ表示/カードの表示・非表示切り替えを実機確認済み)
 
 ## 生成HTML(別タブ)のXSS対策 — 本プラグインで最もリスクが高い箇所
 
@@ -11,7 +11,7 @@
 - [x] 生成HTMLの外殻(`js/lib/html-template.js`の`buildRadarHtmlDocument()`が返す文字列のうち、`<!doctype>`〜`<style>`〜`<body>`の構造・`<script>`タグそのもの)は**完全な固定文字列**で、レコード由来の動的データを一切含まない。動的データの埋め込み箇所は`<script type="application/json" id="radar-data">`の中身1箇所のみ(`__tests__/html-template.test.js`の「returns a full standalone HTML document」で外殻の構造を確認済み)
 - [x] 動的データは`JSON.stringify(payload)`でJSON文字列化してから埋め込んでいる。`JSON.stringify()`は`</`をエスケープしないため、レコード値に`</script><script>...`のような文字列が含まれていた場合に`<script type="application/json">`タグから脱出できてしまう問題があるが、`escapeScriptClose()`で`</`を`<\/`に置換してから埋め込むことでこれを防止している(`__tests__/html-template.test.js`の「neutralizes "</script>" inside record-derived string values」「embeds the payload as JSON exactly once, parseable back to the original data」で、エスケープ後も`JSON.parse()`で元の値を正しく復元できること・`</script`という生の文字列が2箇所(自分たちが書いた2つの`<script>`の閉じタグ)以外に出現しないことをテスト済み)
 - [x] 埋め込んだJSONは、`js/lib/standalone-page-script.js`の静的スクリプト(完全に固定文字列、動的データを含まない)側で`JSON.parse()`した上で、DOM API(`document.createElement`/`textContent`/`createElementNS`+`textContent`/`setAttribute`)のみで描画する。`innerHTML`・`insertAdjacentHTML`・`document.write`(生成ページ側)は一切使用していない(`__tests__/html-template.test.js`の「never uses innerHTML/insertAdjacentHTML」でテスト済み。`js/lib/standalone-page-script.js`のソース自体にも同文字列は含まれない)
-- [x] SVG要素(グリッド線・軸ラベル・系列ポリゴン・凡例)もすべて`document.createElementNS`+属性は`setAttribute`(固定のプロパティ名・数値座標のみ)、テキストは`textContent`で設定しており、SVG内へのHTML注入経路(`foreignObject`等)は使用していない
+- [x] SVG要素(各カードのグリッド線・軸ラベル・系列ポリゴン)もすべて`document.createElementNS`+属性は`setAttribute`(固定のプロパティ名・数値座標のみ)、テキストは`textContent`で設定しており、SVG内へのHTML注入経路(`foreignObject`等)は使用していない。バッジ(チップ)・カードの見出し等の通常DOM要素も同様に`textContent`のみで設定している
 - [x] `<script>`タグ自体は2つのみ(JSONデータ用の`type="application/json"`、および静的な描画ロジック用)で、いずれもこのファイル(`js/lib/html-template.js`)が組み立てる固定の外殻構造の一部としてのみ出現する
 
 ## Blob/window.openの取り扱い
@@ -47,9 +47,11 @@
 - [x] 本プラグインは表示専用(読み取り専用)であり、レコードの作成・更新・削除を一切行わない。全件取得(`GET /k/v1/records.json`)は「アプリのレコード閲覧権限」の範囲でのみ動作し、権限のないレコード・フィールドは応答に含まれない(kintone REST API自体の権限制御に委譲)
 - [x] 生成したHTMLファイルはブラウザのローカルタブ上にのみ存在し(Blob URL)、kintone側にもサーバーにも保存されない。ユーザーがブラウザの「名前を付けて保存」で任意の場所に保存した場合、以降のアクセス制御(閲覧権限)は失われる旨は、そのような操作をするユーザー自身の判断に委ねる(idea.mdに既知の制約として明記)
 
-## 個別確認事項(この後のPuppeteer E2Eで確認する項目)
+## 個別確認事項(Puppeteer E2Eで実機確認済み、`radar_chart_view/src/e2e/full-flow.e2e.test.js`)
 
-- `kintone.app.getHeaderSpaceElement()`への実際のボタン描画結果、`app.record.index.show`の実発火タイミング
-- 実際に生成されたHTMLが新しいタブで正しく開き、コンソールエラーなく描画されること
-- 「表示中のレコード」「絞り込み条件の全件」の両方の生成経路が実環境で動作すること
+- [x] `kintone.app.getHeaderSpaceElement()`への実際のボタン描画結果、`app.record.index.show`の実発火タイミング
+- [x] 実際に生成されたHTMLが新しいタブで正しく開き、コンソールエラーなく描画されること(カード形式のグリッド、バッジチップ、合計/平均切り替え、並べ替え、カードごとの表示/非表示チェックボックス)
+- [x] 「表示中のレコード」「絞り込み条件の全件」の両方の生成経路が実環境で動作すること
+- [x] 設定画面の各ラベル(グルーピングフィールド・軸1〜8・タイトル等)がラベルのテキスト部分をクリックしても対応するフォーム部品にフォーカス/反応すること(`label`の`for`属性と対象の`id`の対応関係の回帰確認)
+- [x] レコード一覧画面の選択パネルのボタンが、見た目の幅いっぱいまでクリックに反応すること(`flex-shrink: 0`の回帰確認)
 - 問題があれば、公開サイトのリポジトリのGitHub Issueで報告してもらい対応する

@@ -31,6 +31,22 @@ describe('RadarStats.toDisplayValues', () => {
     );
     expect(result[0].displayValues).toEqual([10]);
   });
+
+  test('passes badges through unchanged (used as on-card chips, not affected by sum/avg)', () => {
+    const result = RadarStats.toDisplayValues(
+      [{ label: 'A', badges: ['田中', 'A'], values: [1], count: 1 }],
+      'sum',
+    );
+    expect(result[0].badges).toEqual(['田中', 'A']);
+  });
+
+  test('defaults badges to an empty array when the series has none (field grouping)', () => {
+    const result = RadarStats.toDisplayValues(
+      [{ label: 'B', values: [1], count: 2 }],
+      'sum',
+    );
+    expect(result[0].badges).toEqual([]);
+  });
 });
 
 describe('RadarStats.computeMaxValue', () => {

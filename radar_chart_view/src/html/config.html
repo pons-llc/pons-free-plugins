@@ -12,8 +12,8 @@
         <label><input type="radio" name="grouping-type" value="field" class="js-grouping-field"> フィールドごと(ラジオボタン/ドロップダウンの値ごとに集計。1グループ=1頂点)</label>
       </p>
       <p class="kintoneplugin-row rcv-grouping-field-row js-grouping-field-row">
-        <label class="kintoneplugin-label">グルーピングフィールド<span class="kintoneplugin-require">必須</span></label><br>
-        <select class="kintoneplugin-select js-grouping-field-select"></select>
+        <label class="kintoneplugin-label" for="js-grouping-field-select">グルーピングフィールド<span class="kintoneplugin-require">必須</span></label><br>
+        <select id="js-grouping-field-select" class="kintoneplugin-select js-grouping-field-select"></select>
       </p>
     </section>
 
@@ -28,19 +28,20 @@
     <section class="rcv-section">
       <div class="rcv-section-heading">表示設定</div>
       <p class="kintoneplugin-row">
-        <label class="kintoneplugin-label">タイトル</label><br>
-        <input type="text" class="kintoneplugin-input-text js-title">
+        <label class="kintoneplugin-label" for="js-title">タイトル</label><br>
+        <input type="text" id="js-title" class="kintoneplugin-input-text js-title">
       </p>
       <p class="kintoneplugin-row">
-        <label class="kintoneplugin-label">目盛数(2〜10)</label><br>
-        <input type="number" class="kintoneplugin-input-text rcv-inline-number js-scale-divisions" min="2" max="10" step="1">
+        <label class="kintoneplugin-label" for="js-scale-divisions">目盛数(2〜10)</label><br>
+        <input type="number" id="js-scale-divisions" class="kintoneplugin-input-text rcv-inline-number js-scale-divisions" min="2" max="10" step="1">
       </p>
       <p class="kintoneplugin-row">
-        <label class="kintoneplugin-label">
+        <div class="kintoneplugin-label">
           表示するバッジフィールド(複数選択可)<br>
-          グルーピング単位が「レコードごと」のときのみ、選択したフィールドの値を結合して各頂点のラベルにします。
-          「フィールドごと」のときは使用しません(グルーピングフィールドの値自体がラベルになります)。
-        </label>
+          グルーピング単位が「レコードごと」のときのみ、選択したフィールドの値をチャートのカードに
+          バッジとして表示します。「フィールドごと」のときは使用しません(グルーピングフィールドの
+          値自体がカードの見出しになります)。
+        </div>
         <div class="rcv-checkbox-list js-badge-fields"></div>
       </p>
     </section>
@@ -48,8 +49,8 @@
     <section class="rcv-section">
       <div class="rcv-section-heading">絞り込み条件の全件取得</div>
       <p class="kintoneplugin-row">
-        <label class="kintoneplugin-label">取得上限件数</label><br>
-        <input type="number" class="kintoneplugin-input-text rcv-inline-number js-max-records" min="1" step="1">
+        <label class="kintoneplugin-label" for="js-max-records">取得上限件数</label><br>
+        <input type="number" id="js-max-records" class="kintoneplugin-input-text rcv-inline-number js-max-records" min="1" step="1">
       </p>
     </section>
 

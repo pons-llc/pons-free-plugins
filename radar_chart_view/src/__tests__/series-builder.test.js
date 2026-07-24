@@ -40,12 +40,30 @@ describe('SeriesBuilder.buildSeries - grouping: record', () => {
     ];
     const series = SeriesBuilder.buildSeries(records, config);
     expect(series).toEqual([
-      { label: '田中', values: [100, 20, 80], count: 1 },
-      { label: '鈴木', values: [200, 50, 150], count: 1 },
+      { label: '田中', badges: ['田中'], values: [100, 20, 80], count: 1 },
+      { label: '鈴木', badges: ['鈴木'], values: [200, 50, 150], count: 1 },
     ]);
   });
 
-  test('joins multiple badge fields with " / "', () => {
+  test('exposes each selected badge field as a separate entry in badges (for on-card chips, not a joined vertex label)', () => {
+    const records = [
+      record({
+        id: 1,
+        name: '田中',
+        category: 'A',
+        sales: '1',
+        profit: '1',
+        cost: '1',
+      }),
+    ];
+    const series = SeriesBuilder.buildSeries(records, {
+      ...config,
+      badgeFieldCodes: ['name', 'category'],
+    });
+    expect(series[0].badges).toEqual(['田中', 'A']);
+  });
+
+  test('label still joins multiple badge fields with " / " (fallback title when badges are not shown as chips)', () => {
     const records = [
       record({
         id: 1,
@@ -63,7 +81,7 @@ describe('SeriesBuilder.buildSeries - grouping: record', () => {
     expect(series[0].label).toBe('田中 / A');
   });
 
-  test('falls back to "#$id" when no badge fields are configured or all are empty', () => {
+  test('falls back to "#$id" (label) and an empty badges array when no badge fields are configured or all are empty', () => {
     const records = [
       record({
         id: 42,
@@ -79,6 +97,7 @@ describe('SeriesBuilder.buildSeries - grouping: record', () => {
       badgeFieldCodes: ['name'],
     });
     expect(series[0].label).toBe('#42');
+    expect(series[0].badges).toEqual([]);
   });
 
   test('treats non-numeric or empty axis values as 0', () => {
@@ -138,8 +157,8 @@ describe('SeriesBuilder.buildSeries - grouping: field', () => {
     ];
     const series = SeriesBuilder.buildSeries(records, config);
     expect(series).toEqual([
-      { label: 'B', values: [30, 3, 15], count: 2 },
-      { label: 'A', values: [100, 10, 50], count: 1 },
+      { label: 'B', badges: [], values: [30, 3, 15], count: 2 },
+      { label: 'A', badges: [], values: [100, 10, 50], count: 1 },
     ]);
   });
 
@@ -157,5 +176,20 @@ describe('SeriesBuilder.buildSeries - grouping: field', () => {
     const series = SeriesBuilder.buildSeries(records, config);
     expect(series[0].label).toBe(SeriesBuilder.UNSET_GROUP_LABEL);
     expect(series[0].count).toBe(1);
+  });
+
+  test('badges is always empty for field grouping (group value itself is the label, not a badge)', () => {
+    const records = [
+      record({
+        id: 1,
+        name: 'a',
+        category: 'A',
+        sales: '10',
+        profit: '1',
+        cost: '5',
+      }),
+    ];
+    const series = SeriesBuilder.buildSeries(records, config);
+    expect(series[0].badges).toEqual([]);
   });
 });

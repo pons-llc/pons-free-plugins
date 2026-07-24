@@ -10,6 +10,10 @@
   // 生成先の単体HTMLが他プラグインファイルを読み込めない(自己完結ファイルのため)ことから
   // 独立した静的スクリプトとして再実装している(意図的な重複。上記3ファイルはJestで、
   // こちらはPuppeteer E2Eで検証する。idea.md参照)。
+  //
+  // 表示形式: 系列(レコードまたはグループ)ごとに、小さなレーダーチャートを1枚のカードとして
+  // グリッド状に並べる(カード形式)。バッジ(config.badgeFieldCodesの値)は各カードの見出しに
+  // チップとして表示し、頂点や凡例の1行に詰め込んだラベルにはしない。
 
   const STANDALONE_SCRIPT = `(function () {
   'use strict';
@@ -83,6 +87,7 @@
     return series.map(function (s) {
       return {
         label: s.label,
+        badges: s.badges || [],
         count: s.count,
         values: s.values,
         displayValues:
@@ -105,10 +110,11 @@
     return series.some(function (s) { return s.count > 1; });
   }
 
-  // --- filter/sort (js/lib/series-filter-sort.js と同等) ---
-  function filterVisibleSeries(series, hiddenLabels) {
-    return series.filter(function (s) { return !hiddenLabels[s.label]; });
-  }
+  // --- sort (js/lib/series-filter-sort.js と同等) ---
+  // 表示/非表示はカードの絞り込み(is-hidden-seriesクラスでdimmedにする)で行うため、
+  // series-filter-sort.jsのfilterVisibleSeries相当のロジック(配列から取り除く方式)は
+  // ここでは使わない。全カードのスケール(目盛の最大値)も表示/非表示を問わず全系列から
+  // 計算し、チェックのたびにスケールが変動して見た目のサイズ感が不安定にならないようにしている。
   function totalOf(s) {
     return s.displayValues.reduce(function (sum, v) { return sum + v; }, 0);
   }
@@ -147,52 +153,39 @@
     }
   }
 
-  var RADIUS = 240;
-  var CENTER = { x: 300, y: 300 };
-  var LABEL_OFFSET = 26;
+  // カード内の小さいレーダーチャート用のジオメトリ定数。
+  var CARD_RADIUS = 85;
+  var CARD_CENTER = { x: 130, y: 130 };
+  var CARD_LABEL_OFFSET = 25;
+  var CARD_VIEWBOX = '0 0 260 260';
 
-  var chartEl = document.getElementById('radar-chart');
-  var legendEl = document.getElementById('radar-legend');
+  var gridEl = document.getElementById('radar-card-grid');
   var aggregationControlEl = document.getElementById('aggregation-control');
   var sortSelectEl = document.getElementById('sort-select');
   var statusEl = document.getElementById('radar-status');
 
-  function renderChart(axisAngles, gridRings, seriesToDraw) {
-    var svg = svgEl('svg', {
-      viewBox: '0 0 600 600',
-      width: '100%',
-      height: '100%',
-    });
+  function buildCardSvg(s, axisAngles, gridRings, maxValue) {
+    var svg = svgEl('svg', { viewBox: CARD_VIEWBOX });
+    var color = colorByLabel[s.label] || '#3b7ddd';
 
     var gridGroup = svgEl('g', { class: 'radar-grid' });
     gridRings.forEach(function (ring) {
-      var polygon = svgEl('polygon', {
+      gridGroup.appendChild(svgEl('polygon', {
         points: pointsToSvgString(ring.points),
         fill: 'none',
         stroke: '#c9ccd1',
-      });
-      gridGroup.appendChild(polygon);
-
-      var tickPoint = pointAt(axisAngles[0], (RADIUS * ring.ringIndex) / gridRings.length, CENTER);
-      var tickText = svgEl('text', {
-        x: tickPoint.x + 4,
-        y: tickPoint.y - 2,
-        class: 'radar-tick-label',
-      });
-      tickText.textContent = formatNumber(ring.tickValue);
-      gridGroup.appendChild(tickText);
+      }));
     });
     svg.appendChild(gridGroup);
 
     var axisGroup = svgEl('g', { class: 'radar-axes' });
     axisAngles.forEach(function (angle, i) {
-      var outer = pointAt(angle, RADIUS, CENTER);
-      var line = svgEl('line', {
-        x1: CENTER.x, y1: CENTER.y, x2: outer.x, y2: outer.y, stroke: '#c9ccd1',
-      });
-      axisGroup.appendChild(line);
+      var outer = pointAt(angle, CARD_RADIUS, CARD_CENTER);
+      axisGroup.appendChild(svgEl('line', {
+        x1: CARD_CENTER.x, y1: CARD_CENTER.y, x2: outer.x, y2: outer.y, stroke: '#c9ccd1',
+      }));
 
-      var labelPoint = pointAt(angle, RADIUS + LABEL_OFFSET, CENTER);
+      var labelPoint = pointAt(angle, CARD_RADIUS + CARD_LABEL_OFFSET, CARD_CENTER);
       var labelText = svgEl('text', {
         x: labelPoint.x,
         y: labelPoint.y,
@@ -204,73 +197,104 @@
     });
     svg.appendChild(axisGroup);
 
+    var points = computeSeriesPoints(s.displayValues, maxValue, axisAngles, CARD_RADIUS, CARD_CENTER);
     var seriesGroup = svgEl('g', { class: 'radar-series' });
-    seriesToDraw.forEach(function (s) {
-      var points = computeSeriesPoints(s.displayValues, gridRings.maxValueUsed, axisAngles, RADIUS, CENTER);
-      var color = colorByLabel[s.label] || '#3b7ddd';
-      var polygon = svgEl('polygon', {
-        points: pointsToSvgString(points),
-        fill: color,
-        'fill-opacity': '0.15',
-        stroke: color,
-        'stroke-width': '2',
-      });
-      seriesGroup.appendChild(polygon);
-      points.forEach(function (p) {
-        var circle = svgEl('circle', { cx: p.x, cy: p.y, r: 3, fill: color });
-        seriesGroup.appendChild(circle);
-      });
+    seriesGroup.appendChild(svgEl('polygon', {
+      points: pointsToSvgString(points),
+      fill: color,
+      'fill-opacity': '0.2',
+      stroke: color,
+      'stroke-width': '2',
+    }));
+    points.forEach(function (p) {
+      seriesGroup.appendChild(svgEl('circle', { cx: p.x, cy: p.y, r: 2.5, fill: color }));
     });
     svg.appendChild(seriesGroup);
 
-    clear(chartEl);
-    chartEl.appendChild(svg);
+    return svg;
   }
 
-  function renderLegend(allSeriesWithDisplay) {
-    clear(legendEl);
-    allSeriesWithDisplay.forEach(function (s) {
-      var item = document.createElement('label');
-      item.className = 'legend-item';
+  // バッジ(config.badgeFieldCodesの値)はチャート〈カード〉自体に付ける情報であり、
+  // 頂点や凡例の1行に押し込めたラベルではない、というidea.mdの方針をカードのヘッダー
+  // (バッジチップの並び)として実装する。バッジが無いレコード、またはフィールドごと
+  // グルーピング(badgesは常に空)のときは、素のテキスト見出し(s.label)にフォールバックする。
+  function buildCardHeader(s) {
+    var header = document.createElement('div');
+    header.className = 'radar-card-header';
 
-      var checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.checked = !state.hiddenLabels[s.label];
-      checkbox.addEventListener('change', function () {
-        if (checkbox.checked) {
-          delete state.hiddenLabels[s.label];
-        } else {
-          state.hiddenLabels[s.label] = true;
-        }
-        render();
-      });
-      item.appendChild(checkbox);
-
-      var swatch = document.createElement('span');
-      swatch.className = 'legend-swatch';
-      swatch.style.backgroundColor = colorByLabel[s.label] || '#3b7ddd';
-      item.appendChild(swatch);
-
-      var text = document.createElement('span');
-      text.textContent = s.label + '(' + formatNumber(totalOf(s)) + ')';
-      item.appendChild(text);
-
-      legendEl.appendChild(item);
+    var checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = !state.hiddenLabels[s.label];
+    checkbox.addEventListener('change', function () {
+      if (checkbox.checked) {
+        delete state.hiddenLabels[s.label];
+      } else {
+        state.hiddenLabels[s.label] = true;
+      }
+      render();
     });
+    header.appendChild(checkbox);
+
+    var titleArea = document.createElement('div');
+    titleArea.className = 'radar-card-title-area';
+
+    if (s.badges && s.badges.length > 0) {
+      var badgesEl = document.createElement('div');
+      badgesEl.className = 'radar-card-badges';
+      s.badges.forEach(function (badge) {
+        var chip = document.createElement('span');
+        chip.className = 'radar-badge-chip';
+        chip.textContent = badge;
+        badgesEl.appendChild(chip);
+      });
+      titleArea.appendChild(badgesEl);
+    } else {
+      var title = document.createElement('div');
+      title.className = 'radar-card-title';
+      title.textContent = s.label;
+      titleArea.appendChild(title);
+    }
+
+    header.appendChild(titleArea);
+    return header;
   }
 
+  function buildCard(s, axisAngles, gridRings, maxValue) {
+    var card = document.createElement('div');
+    card.className = 'radar-card';
+    if (state.hiddenLabels[s.label]) {
+      card.classList.add('is-hidden-series');
+    }
+
+    card.appendChild(buildCardHeader(s));
+
+    var chartWrap = document.createElement('div');
+    chartWrap.className = 'radar-card-chart';
+    chartWrap.appendChild(buildCardSvg(s, axisAngles, gridRings, maxValue));
+    card.appendChild(chartWrap);
+
+    var total = document.createElement('div');
+    total.className = 'radar-card-total';
+    total.textContent =
+      (state.aggregationMode === 'avg' ? '平均: ' : '合計: ') + formatNumber(totalOf(s));
+    card.appendChild(total);
+
+    return card;
+  }
+
+  // 目盛の最大値(スケール)はチェックボックスでの表示/非表示に関わらず全系列から算出する。
+  // 絞り込みのたびにスケールが変わってカードの見た目のサイズ感が不安定になるのを防ぐため。
   function render() {
     var allWithDisplay = toDisplayValues(data.series, state.aggregationMode);
-    var visible = filterVisibleSeries(allWithDisplay, state.hiddenLabels);
-    var sorted = sortSeries(visible, state.sortMode);
-    var maxValue = computeMaxValue(visible.length ? visible : allWithDisplay);
-
+    var maxValue = computeMaxValue(allWithDisplay);
     var axisAngles = computeAxisAngles(data.axisLabels.length);
-    var gridRings = computeGridRings(data.scaleDivisions, axisAngles, RADIUS, CENTER, maxValue);
-    gridRings.maxValueUsed = maxValue;
+    var gridRings = computeGridRings(data.scaleDivisions, axisAngles, CARD_RADIUS, CARD_CENTER, maxValue);
+    var ordered = sortSeries(allWithDisplay, state.sortMode);
 
-    renderChart(axisAngles, gridRings, sorted);
-    renderLegend(allWithDisplay);
+    clear(gridEl);
+    ordered.forEach(function (s) {
+      gridEl.appendChild(buildCard(s, axisAngles, gridRings, maxValue));
+    });
 
     var statusParts = [data.sourceDescription];
     if (data.truncated) {

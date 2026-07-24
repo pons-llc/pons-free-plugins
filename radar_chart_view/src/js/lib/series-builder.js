@@ -5,9 +5,14 @@
   // 系列データへの変換。グルーピング単位(config.groupingType)により2モードで動作する。
   //
   // - 'record': 1レコード=1系列。値は各軸フィールドの生値(数値でなければ0扱い)。
+  //             badgeFieldCodesで選択した各フィールドの値を`badges`配列として個別に保持する
+  //             (生成HTML側でカードにバッジ〈チップ〉として表示する。頂点のラベルとしてでは
+  //             ない。idea.md参照)。badgesが空の場合、`label`(#$id等のフォールバック)を
+  //             カードの見出しとして使う。
   // - 'field' : config.groupingFieldCode の値ごとにレコードをまとめ、1グループ=1系列。
   //             各軸フィールドの値はグループ内レコードの合計値(件数も併せて保持し、
-  //             合計/平均の切り替えはjs/lib/radar-stats.jsが担う)。
+  //             合計/平均の切り替えはjs/lib/radar-stats.jsが担う)。バッジは使用しない
+  //             (`badges`は常に空配列。グループ化フィールドの値自体が`label`になるため)。
 
   const UNSET_GROUP_LABEL = '(未設定)';
 
@@ -35,9 +40,16 @@
     return id === '' ? '(レコード)' : `#${id}`;
   };
 
+  const buildRecordBadges = (record, badgeFieldCodes) =>
+    (badgeFieldCodes || [])
+      .map((code) => fieldValue(record, code))
+      .filter((value) => value !== '')
+      .map(String);
+
   const buildRecordSeries = (records, config) =>
     records.map((record) => ({
       label: buildRecordLabel(record, config.badgeFieldCodes),
+      badges: buildRecordBadges(record, config.badgeFieldCodes),
       values: (config.axisFieldCodes || []).map((code) =>
         parseNumberOrZero(fieldValue(record, code)),
       ),
@@ -70,7 +82,7 @@
 
     return order.map((label) => {
       const group = groups.get(label);
-      return { label, values: group.sums, count: group.count };
+      return { label, badges: [], values: group.sums, count: group.count };
     });
   };
 
