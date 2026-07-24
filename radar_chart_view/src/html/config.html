@@ -1,0 +1,75 @@
+<section class="settings">
+  <h2 class="settings-heading">レーダーチャートプラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコード一覧画面(表形式)に設置したボタン押下で、3〜8角形のレーダーチャートを別タブの自己完結HTMLとして生成します。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="rcv-section">
+      <div class="rcv-section-heading">グルーピング単位</div>
+      <p class="kintoneplugin-row">
+        <label><input type="radio" name="grouping-type" value="record" class="js-grouping-record"> レコードごと(グルーピングなし。1レコード=1頂点)</label><br>
+        <label><input type="radio" name="grouping-type" value="field" class="js-grouping-field"> フィールドごと(ラジオボタン/ドロップダウンの値ごとに集計。1グループ=1頂点)</label>
+      </p>
+      <p class="kintoneplugin-row rcv-grouping-field-row js-grouping-field-row">
+        <label class="kintoneplugin-label">グルーピングフィールド<span class="kintoneplugin-require">必須</span></label><br>
+        <select class="kintoneplugin-select js-grouping-field-select"></select>
+      </p>
+    </section>
+
+    <section class="rcv-section">
+      <div class="rcv-section-heading">集計用フィールド(軸)<span class="kintoneplugin-require">必須・3〜8個</span></div>
+      <p class="kintoneplugin-desc">
+        数値フィールドを3〜8個選択してください(軸1〜軸3は必須)。選択した順に、レーダーチャートの頂点として時計回りに配置されます。
+      </p>
+      <div class="rcv-axis-list js-axis-list"></div>
+    </section>
+
+    <section class="rcv-section">
+      <div class="rcv-section-heading">表示設定</div>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">タイトル</label><br>
+        <input type="text" class="kintoneplugin-input-text js-title">
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">目盛数(2〜10)</label><br>
+        <input type="number" class="kintoneplugin-input-text rcv-inline-number js-scale-divisions" min="2" max="10" step="1">
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          表示するバッジフィールド(複数選択可)<br>
+          グルーピング単位が「レコードごと」のときのみ、選択したフィールドの値を結合して各頂点のラベルにします。
+          「フィールドごと」のときは使用しません(グルーピングフィールドの値自体がラベルになります)。
+        </label>
+        <div class="rcv-checkbox-list js-badge-fields"></div>
+      </p>
+    </section>
+
+    <section class="rcv-section">
+      <div class="rcv-section-heading">絞り込み条件の全件取得</div>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">取得上限件数</label><br>
+        <input type="number" class="kintoneplugin-input-text rcv-inline-number js-max-records" min="1" step="1">
+      </p>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-axis-item-template">
+  <div class="rcv-axis-item">
+    <label></label>
+    <select class="kintoneplugin-select js-axis-select"></select>
+  </div>
+</template>
+
+<template id="js-checkbox-item-template">
+  <label class="rcv-checkbox-item">
+    <input type="checkbox" class="js-checkbox-item-input">
+    <span class="js-checkbox-item-label"></span>
+  </label>
+</template>
