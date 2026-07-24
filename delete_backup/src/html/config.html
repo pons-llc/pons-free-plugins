@@ -1,0 +1,113 @@
+<section class="settings">
+  <h2 class="settings-heading">削除バックアッププラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコード詳細画面・レコード一覧画面でレコードを削除する直前に、削除されるレコードの内容
+    (添付ファイルを含む)を必ずバックアップしてから削除を許可します。バックアップに失敗した場合
+    (通信エラー・アクセス権不足など)は削除そのものをキャンセルします。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="dback-errors"></div>
+
+    <table class="dback-table">
+      <tbody>
+        <tr>
+          <th>バックアップ方式</th>
+          <td>
+            <label>
+              <input
+                type="radio"
+                name="dback-mode"
+                value="zip"
+                class="js-mode-zip"
+              />
+              zipでダウンロード(ブラウザからダウンロード)
+            </label>
+            <br />
+            <label>
+              <input
+                type="radio"
+                name="dback-mode"
+                value="archive"
+                class="js-mode-archive"
+              />
+              別アプリへアーカイブ
+            </label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <section class="dback-archive-section js-archive-section">
+      <div class="dback-section-heading">アーカイブ先の設定</div>
+      <p class="kintoneplugin-desc">
+        添付ファイルの<code>fileKey</code>はkintoneの仕様上「ダウンロード専用」であり、他アプリの
+        レコードへそのまま貼り付けることはできません。このため、ファイルは一度ダウンロードした上で
+        自動的に再アップロードしてから、指定した添付ファイルフィールドへ保存します(手動での
+        再アップロード操作は不要です)。
+      </p>
+      <p class="kintoneplugin-desc">
+        <strong>アーカイブ先アプリは、このプラグイン専用の空アプリ、または他に必須フィールドの
+        無いアプリを推奨します。</strong>JSON保存先・添付ファイル保存先以外に必須フィールドが
+        存在すると、レコード登録が必ず失敗し削除そのものがキャンセルされます。
+      </p>
+      <table class="dback-table">
+        <tbody>
+          <tr>
+            <th>アーカイブ先アプリID</th>
+            <td>
+              <input
+                type="number"
+                min="1"
+                class="kintoneplugin-input-text js-archive-app-id"
+              />
+              <button
+                type="button"
+                class="kintoneplugin-button-normal js-fetch-fields"
+              >
+                フィールドを取得
+              </button>
+              <div class="js-fetch-status dback-inline-note"></div>
+            </td>
+          </tr>
+          <tr>
+            <th>JSON保存先フィールド</th>
+            <td>
+              <select
+                class="kintoneplugin-select js-json-field"
+                disabled
+              ></select>
+              <p class="dback-inline-note">
+                文字列(1行)・文字列(複数行)から選べます。レコード全体のJSONを保存するため、
+                文字数制限に余裕のある文字列(複数行)を推奨します。
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <th>添付ファイル保存先フィールド</th>
+            <td>
+              <select
+                class="kintoneplugin-select js-attachment-field"
+                disabled
+              ></select>
+              <p class="dback-inline-note">
+                元レコードの添付ファイルフィールドが複数ある場合も、すべてこの1フィールドへ
+                まとめて保存します。
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button
+        type="button"
+        class="js-cancel-button kintoneplugin-button-dialog-cancel"
+      >
+        Cancel
+      </button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>

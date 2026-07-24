@@ -164,6 +164,11 @@ plugins:
     status: in_progress
     in_plugin_idea_md: true
 
+  - name: 削除バックアッププラグイン
+    dir: delete_backup
+    status: in_progress
+    in_plugin_idea_md: true
+
 summary:
   total: 31
   released: 5
