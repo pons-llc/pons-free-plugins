@@ -7,6 +7,13 @@
     <language>ja</language>
     <lastBuildDate>Thu, 23 Jul 2026 15:00:00 GMT</lastBuildDate>
     <item>
+      <title>削除バックアッププラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/delete_backup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/delete_backup/</guid>
+      <description>レコード削除の直前に、削除されるレコードの内容(添付ファイルを含む)をzipダウンロードまたは別アプリへのアーカイブで必ずバックアップしてから削除を許可するプラグイン</description>
+      <pubDate>Thu, 23 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
       <title>追加・編集・コピーボタン非表示プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/record_button_toggle/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/record_button_toggle/</guid>

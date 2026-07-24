@@ -460,5 +460,20 @@
       "照会回答",
       "ノーコードフォーム"
     ]
+  },
+  {
+    "id": "delete_backup",
+    "name": "削除バックアッププラグイン",
+    "description": "レコード削除の直前に、削除されるレコードの内容(添付ファイルを含む)をzipダウンロードまたは別アプリへのアーカイブで必ずバックアップしてから削除を許可するプラグイン",
+    "version": "1",
+    "publishedAt": "2026-07-24",
+    "zip": "plugins/delete_backup/plugin.zip",
+    "page": "plugins/delete_backup/index.html",
+    "category": "データ連携",
+    "tags": [
+      "削除防止",
+      "バックアップ"
+    ],
+    "video": "https://vimeo.com/1212667680"
   }
 ]
