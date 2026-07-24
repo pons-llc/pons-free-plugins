@@ -149,10 +149,25 @@ plugins:
     status: released
     in_plugin_idea_md: true
 
+  - name: サイドバー（コメント欄・履歴）開閉プラグイン
+    dir: sidebar_toggle
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: グループフィールド開閉プラグイン
+    dir: group_field_toggle
+    status: in_progress
+    in_plugin_idea_md: true
+
+  - name: 追加・編集・コピーボタン非表示プラグイン
+    dir: record_button_toggle
+    status: in_progress
+    in_plugin_idea_md: true
+
 summary:
-  total: 28
+  total: 31
   released: 5
-  in_progress: 22
+  in_progress: 25
   not_started: 1
 
 meta:

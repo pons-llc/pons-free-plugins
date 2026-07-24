@@ -1,0 +1,97 @@
+<section class="settings">
+  <h2 class="settings-heading">追加・編集・コピーボタン非表示プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコードの値の条件によって、追加(新規作成)・編集・コピー(再利用)ボタンの表示/非表示を自動的に
+    切り替えます。ルールごとに対象ボタンを1つ選び、同じ対象ボタンを持つルールは設定順に評価して
+    最初に一致したルールの動作を適用します。「常に」を選んだルールは条件を持たず常に一致するため、
+    同じ対象ボタンの他のどの条件にも一致しない場合の既定動作を設定する用途に使えます。
+  </p>
+  <p class="kintoneplugin-desc">
+    注意: 追加ボタンはレコード一覧・グラフ画面にも表示されますが、これらの画面には「今表示している
+    1件のレコード」が無いため、「条件を満たすとき」ルールはレコード詳細画面でのみ効果を持ちます
+    (一覧・グラフ画面では「常に」ルールのみ適用されます)。コピー(再利用)ボタンの制御はPC専用です。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="rbt-errors"></div>
+
+    <div id="js-rule-list"></div>
+    <button type="button" id="js-rule-add" class="kintoneplugin-button-normal">+ ルールを追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-rule-row-template">
+  <section class="rbt-section js-rule-row">
+    <div class="rbt-section-heading">
+      ルール
+      <span class="rbt-row-remove js-rule-remove">削除</span>
+    </div>
+
+    <table class="rbt-table">
+      <tbody>
+        <tr>
+          <th>対象ボタン</th>
+          <td>
+            <select class="kintoneplugin-select js-rule-target">
+              <option value="ADD">追加(新規作成)</option>
+              <option value="EDIT">編集</option>
+              <option value="COPY">コピー(再利用、PC専用)</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>条件モード</th>
+          <td>
+            <select class="kintoneplugin-select js-rule-mode">
+              <option value="MATCH">条件を満たすとき</option>
+              <option value="ALWAYS">常に</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>動作</th>
+          <td>
+            <select class="kintoneplugin-select js-rule-action">
+              <option value="SHOW">表示する</option>
+              <option value="HIDE">非表示にする</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="rbt-condition-area js-condition-area">
+      <table class="rbt-table">
+        <tbody>
+          <tr>
+            <th>条件の結合</th>
+            <td>
+              <select class="kintoneplugin-select js-rule-operator">
+                <option value="AND">すべての条件を満たす(AND)</option>
+                <option value="OR">いずれかの条件を満たす(OR)</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="js-clause-list"></div>
+      <button type="button" class="kintoneplugin-button-normal js-clause-add">+ 条件を追加</button>
+    </div>
+  </section>
+</template>
+
+<template id="js-clause-row-template">
+  <div class="rbt-inline-row js-clause-row">
+    <select class="kintoneplugin-select js-clause-field-type"></select>
+    <select class="kintoneplugin-select js-clause-field"></select>
+    <select class="kintoneplugin-select js-clause-operator"></select>
+    <span class="js-clause-value-container"></span>
+    <span class="rbt-row-remove js-clause-remove">削除</span>
+  </div>
+</template>

@@ -1,0 +1,83 @@
+<section class="settings">
+  <h2 class="settings-heading">サイドバー（コメント欄・履歴）開閉プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコード詳細・編集画面(PC専用)のサイドバー(コメント欄・変更履歴)の表示状態を、レコードの値の
+    条件によって自動的に切り替えます。ルールは設定順に評価し、最初に一致したルールの動作を適用します。
+    「常に」を選んだルールは条件を持たず常に一致するため、他のどの条件にも一致しない場合の既定動作を
+    設定する用途に使えます。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="sbt-errors"></div>
+
+    <div id="js-rule-list"></div>
+    <button type="button" id="js-rule-add" class="kintoneplugin-button-normal">+ ルールを追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-rule-row-template">
+  <section class="sbt-section js-rule-row">
+    <div class="sbt-section-heading">
+      ルール
+      <span class="sbt-row-remove js-rule-remove">削除</span>
+    </div>
+
+    <table class="sbt-table">
+      <tbody>
+        <tr>
+          <th>条件モード</th>
+          <td>
+            <select class="kintoneplugin-select js-rule-mode">
+              <option value="MATCH">条件を満たすとき</option>
+              <option value="ALWAYS">常に</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>サイドバーの動作</th>
+          <td>
+            <select class="kintoneplugin-select js-rule-action">
+              <option value="CLOSED">閉じる(最小化)</option>
+              <option value="OPEN_COMMENTS">開く(コメント欄を表示)</option>
+              <option value="OPEN_HISTORY">開く(変更履歴を表示)</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sbt-condition-area js-condition-area">
+      <table class="sbt-table">
+        <tbody>
+          <tr>
+            <th>条件の結合</th>
+            <td>
+              <select class="kintoneplugin-select js-rule-operator">
+                <option value="AND">すべての条件を満たす(AND)</option>
+                <option value="OR">いずれかの条件を満たす(OR)</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="js-clause-list"></div>
+      <button type="button" class="kintoneplugin-button-normal js-clause-add">+ 条件を追加</button>
+    </div>
+  </section>
+</template>
+
+<template id="js-clause-row-template">
+  <div class="sbt-inline-row js-clause-row">
+    <select class="kintoneplugin-select js-clause-field-type"></select>
+    <select class="kintoneplugin-select js-clause-field"></select>
+    <select class="kintoneplugin-select js-clause-operator"></select>
+    <span class="js-clause-value-container"></span>
+    <span class="sbt-row-remove js-clause-remove">削除</span>
+  </div>
+</template>
