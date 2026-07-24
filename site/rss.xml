@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 23 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 24 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>レーダーチャートプラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/radar_chart_view/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/radar_chart_view/</guid>
+      <description>レコード一覧画面のボタン押下で、3〜8角形のレーダーチャートを別タブの自己完結HTMLとして生成するプラグイン</description>
+      <pubDate>Fri, 24 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>削除バックアッププラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/delete_backup/</link>

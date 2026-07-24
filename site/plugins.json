@@ -475,5 +475,19 @@
       "バックアップ"
     ],
     "video": "https://vimeo.com/1212667680"
+  },
+  {
+    "id": "radar_chart_view",
+    "name": "レーダーチャートプラグイン",
+    "description": "レコード一覧画面のボタン押下で、3〜8角形のレーダーチャートを別タブの自己完結HTMLとして生成するプラグイン",
+    "version": "1",
+    "publishedAt": "2026-07-25",
+    "zip": "plugins/radar_chart_view/plugin.zip",
+    "page": "plugins/radar_chart_view/index.html",
+    "category": "レイアウト・表示",
+    "tags": [
+      "グラフ表示",
+      "集計"
+    ]
   }
 ]
