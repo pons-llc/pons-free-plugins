@@ -403,6 +403,51 @@
     "video": "https://vimeo.com/1211134022"
   },
   {
+    "id": "sidebar_toggle",
+    "name": "サイドバー（コメント欄・履歴）開閉プラグイン",
+    "description": "レコードの値の条件によって、レコード詳細・編集画面のサイドバー(コメント欄・変更履歴)の表示状態を自動的に切り替えるプラグイン(PC専用)",
+    "version": "1",
+    "publishedAt": "2026-07-24",
+    "zip": "plugins/sidebar_toggle/plugin.zip",
+    "page": "plugins/sidebar_toggle/index.html",
+    "category": "レイアウト・表示",
+    "tags": [
+      "サイドバー開閉",
+      "表示制御"
+    ],
+    "video": "https://vimeo.com/1212648887"
+  },
+  {
+    "id": "group_field_toggle",
+    "name": "グループフィールド開閉プラグイン",
+    "description": "レコードの値の条件によって、レコード画面のグループフィールドの開閉状態を自動的に切り替えるプラグイン(PC・モバイル対応)",
+    "version": "1",
+    "publishedAt": "2026-07-24",
+    "zip": "plugins/group_field_toggle/plugin.zip",
+    "page": "plugins/group_field_toggle/index.html",
+    "category": "レイアウト・表示",
+    "tags": [
+      "グループフィールド",
+      "表示制御"
+    ],
+    "video": "https://vimeo.com/1212649870"
+  },
+  {
+    "id": "record_button_toggle",
+    "name": "追加・編集・コピーボタン非表示プラグイン",
+    "description": "レコードの値の条件によって、追加・編集・コピー(再利用)ボタンの表示/非表示を自動的に切り替えるプラグイン(コピーボタンの制御はPC専用)",
+    "version": "1",
+    "publishedAt": "2026-07-24",
+    "zip": "plugins/record_button_toggle/plugin.zip",
+    "page": "plugins/record_button_toggle/index.html",
+    "category": "レイアウト・表示",
+    "tags": [
+      "ボタン非表示",
+      "表示制御"
+    ],
+    "video": "https://vimeo.com/1212650762"
+  },
+  {
     "id": "research_and_answer",
     "name": "照会回答パッケージプラグイン",
     "description": "「依頼アプリ」「回答アプリ」の2つだけで、部署間の照会(調査依頼)・回答業務をノーコードで動的フォーム化できるプラグイン",

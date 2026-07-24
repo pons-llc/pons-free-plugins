@@ -5,7 +5,28 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着情報</description>
     <language>ja</language>
-    <lastBuildDate>Mon, 20 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 23 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>追加・編集・コピーボタン非表示プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/record_button_toggle/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/record_button_toggle/</guid>
+      <description>レコードの値の条件によって、追加・編集・コピー(再利用)ボタンの表示/非表示を自動的に切り替えるプラグイン(コピーボタンの制御はPC専用)</description>
+      <pubDate>Thu, 23 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>グループフィールド開閉プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/group_field_toggle/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/group_field_toggle/</guid>
+      <description>レコードの値の条件によって、レコード画面のグループフィールドの開閉状態を自動的に切り替えるプラグイン(PC・モバイル対応)</description>
+      <pubDate>Thu, 23 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>サイドバー（コメント欄・履歴）開閉プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/sidebar_toggle/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/sidebar_toggle/</guid>
+      <description>レコードの値の条件によって、レコード詳細・編集画面のサイドバー(コメント欄・変更履歴)の表示状態を自動的に切り替えるプラグイン(PC専用)</description>
+      <pubDate>Thu, 23 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>照会回答パッケージプラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/research_and_answer/</link>
