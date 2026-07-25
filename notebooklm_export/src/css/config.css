@@ -1,0 +1,32 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.ne-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.ne-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.ne-radio-label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.ne-errors {
+  color: #e74c3c;
+  white-space: pre-wrap;
+  margin-bottom: 1em;
+}
+
+.ne-progress {
+  color: #555;
+  margin: 0.5em 0;
+  white-space: pre-wrap;
+}

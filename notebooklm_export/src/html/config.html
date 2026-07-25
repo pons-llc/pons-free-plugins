@@ -1,0 +1,48 @@
+<section class="settings">
+  <h2 class="settings-heading">notebookLM用設計ファイルダウンロード 設定</h2>
+  <p class="kintoneplugin-desc">
+    このアプリのフィールド設定・アプリ設定・プロセス管理・カスタマイズ・通知・アクセス権・
+    導入プラグイン一覧を取得し、ルックアップ/関連レコード一覧が参照している関連アプリの分も
+    まとめて、NotebookLMなど外部AIツールに読み込ませやすい形式(.txt/.md)でzipダウンロードします。
+    アプリ利用者向けの機能はありません(この設定画面のみで完結します)。
+  </p>
+  <p class="kintoneplugin-desc">
+    関連アプリの取得には、そのアプリのアプリ管理権限が必要です(権限が無い関連アプリは
+    ファイル内に取得できなかった旨を記載します)。探索する関連アプリの総数には上限(30アプリ)が
+    あります。フィールドのアクセス権のみ、他の項目と異なり動作テスト環境(保存前の設定)ではなく
+    現在の運用環境の内容を取得します(kintoneの仕様上の制約。詳細はsecurity-checklist.md参照)。
+  </p>
+  <p class="kintoneplugin-desc">
+    ダウンロードされるzipには、アクセス権設定・通知先・条件式・カスタマイズのソースコードなど
+    社内的に機微な情報が含まれる場合があります。ダウンロード後のファイルの保管・共有(NotebookLM等
+    外部AIツールへのアップロードを含む)は利用者側の責任で適切に行ってください。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="ne-errors"></div>
+    <div id="js-progress" class="ne-progress"></div>
+
+    <section class="ne-section">
+      <div class="ne-section-heading">出力形式</div>
+      <label class="ne-radio-label">
+        <input type="radio" name="js-output-format" value="txt" class="js-output-format" checked>
+        .txt(NotebookLM向け。既定)
+      </label>
+      <label class="ne-radio-label">
+        <input type="radio" name="js-output-format" value="md" class="js-output-format">
+        .md(Markdown対応の他ツール向け)
+      </label>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-download-button kintoneplugin-button-normal">
+        設計書をダウンロード
+      </button>
+    </p>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>

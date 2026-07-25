@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着情報</description>
     <language>ja</language>
-    <lastBuildDate>Fri, 24 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 25 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>notebookLM用設計ファイルダウンロードプラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/notebooklm_export/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/notebooklm_export/</guid>
+      <description>アプリの設計情報(フィールド・設定・カスタマイズ・アクセス権・通知・導入プラグイン一覧)を、関連アプリの分も含めてNotebookLMなど外部AIツール向けの.txt/.md形式でzipダウンロードするプラグイン</description>
+      <pubDate>Sat, 25 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>レーダーチャートプラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/radar_chart_view/</link>

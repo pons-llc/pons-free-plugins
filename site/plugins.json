@@ -490,5 +490,20 @@
       "集計"
     ],
     "video": "https://vimeo.com/1212801943"
+  },
+  {
+    "id": "notebooklm_export",
+    "name": "notebookLM用設計ファイルダウンロードプラグイン",
+    "description": "アプリの設計情報(フィールド・設定・カスタマイズ・アクセス権・通知・導入プラグイン一覧)を、関連アプリの分も含めてNotebookLMなど外部AIツール向けの.txt/.md形式でzipダウンロードするプラグイン",
+    "version": "1",
+    "publishedAt": "2026-07-26",
+    "zip": "plugins/notebooklm_export/plugin.zip",
+    "page": "plugins/notebooklm_export/index.html",
+    "category": "プラグイン管理",
+    "tags": [
+      "設計書",
+      "引き継ぎ"
+    ],
+    "video": "https://vimeo.com/1212913387"
   }
 ]

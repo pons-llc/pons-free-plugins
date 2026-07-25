@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/crc32.js",
+      "js/lib/build-zip.js",
+      "js/lib/extract-related-app-ids.js",
+      "js/lib/traverse-apps.js",
+      "js/lib/collect-customize-files.js",
+      "js/lib/build-app-result.js",
+      "js/lib/render-app-document.js",
+      "js/lib/render-metadata-document.js",
+      "js/lib/config-store.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "notebooklm_export plugin",
+    "ja": "notebookLM用設計ファイルダウンロードプラグイン"
+  },
+  "description": {
+    "en": "Exports app design info (fields/settings/customization/ACL/plugins) as NotebookLM-friendly .txt/.md files, following related lookup/reference-table apps.",
+    "ja": "アプリの設計情報(フィールド・設定・カスタマイズ・アクセス権・導入プラグイン)と、ルックアップ/関連レコード一覧で参照している関連アプリの情報を、NotebookLMなど外部AIツール向けの.txt/.md形式でダウンロードするプラグイン"
+  }
+}
