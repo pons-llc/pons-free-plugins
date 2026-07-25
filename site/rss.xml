@@ -7,7 +7,7 @@
     <language>ja</language>
     <lastBuildDate>Fri, 24 Jul 2026 15:00:00 GMT</lastBuildDate>
     <item>
-      <title>レーダーチャートプラグイン(準備中)</title>
+      <title>レーダーチャートプラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/radar_chart_view/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/radar_chart_view/</guid>
       <description>レコード一覧画面のボタン押下で、3〜8角形のレーダーチャートを別タブの自己完結HTMLとして生成するプラグイン</description>
