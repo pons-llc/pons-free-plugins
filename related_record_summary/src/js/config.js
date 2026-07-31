@@ -27,8 +27,11 @@
   // 参照先アプリのフィールド一覧はこのアプリのJS APIでは取得できないため、
   // 集計対象フィールド(SUM/AVERAGE用)の候補を出すためだけにREST APIを使う
   // (参照先アプリのフィールド一覧を読むだけであり、レコードの読み書きではない)。
+  // 候補はNUMBERフィールドに加え、表示書式が数値のCALC(計算)フィールドも含める
+  // (js/lib/aggregatable-fields.js参照。日時/時間書式のCALCフィールドはaggregator.jsで
+  // Number()変換がNaNになり黙って集計対象外になるため、ここで除外する)。
   const relatedAppFieldsCache = {};
-  const fetchRelatedAppNumberFields = async (relatedAppId) => {
+  const fetchRelatedAppTargetFields = async (relatedAppId) => {
     if (!relatedAppId) {
       return [];
     }
@@ -43,9 +46,10 @@
       // 同じrelatedAppIdへ連続でawaitが重なった場合、キャッシュへの書き込みが複数回起きることは
       // あり得るが、書き込む値は毎回同じ(冪等)なので実害はない。require-atomic-updatesは誤検知として無効化する。
       // eslint-disable-next-line require-atomic-updates
-      relatedAppFieldsCache[relatedAppId] = Object.values(
-        resp.properties,
-      ).filter((f) => f.type === 'NUMBER');
+      relatedAppFieldsCache[relatedAppId] =
+        NS.AggregatableFields.filterAggregatableFields(
+          Object.values(resp.properties),
+        );
     }
     return relatedAppFieldsCache[relatedAppId];
   };
@@ -93,7 +97,7 @@
 
       const refreshTargetFieldOptions = async () => {
         const relatedAppId = relatedAppIdOf(row);
-        const candidates = await fetchRelatedAppNumberFields(relatedAppId);
+        const candidates = await fetchRelatedAppTargetFields(relatedAppId);
         buildOptions(targetFieldEl, candidates, row.targetFieldCode);
         targetFieldEl.disabled = summaryTypeEl.value === 'COUNT';
       };

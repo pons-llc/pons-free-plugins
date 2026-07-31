@@ -81,6 +81,22 @@ const RELATED_TARGET_FIELD_CODE = '数値'; // 参照先アプリの集計対象
 const WRITE_FIELD_SUM = '数値_1'; // 自アプリの書き込み先(合計)
 const WRITE_FIELD_COUNT = '数値_2'; // 自アプリの書き込み先(件数)
 
+// 集計対象フィールドの候補にCALC(計算)フィールドも出ることを検証するためのフィールド
+// (TEST_APP_ID_2には表示書式が数値のCALCフィールドが存在しないため、新設する。
+// CLAUDE.md開発方針7: 本当に不足しているフィールドのみensureFormFields()で追加する)。
+const RELATED_CALC_TARGET_FIELD_CODE = 'rrs_calc_number';
+
+const ensureCalcField = (env, appId) =>
+  kintoneAdmin.ensureFormFields(env, appId, {
+    [RELATED_CALC_TARGET_FIELD_CODE]: {
+      type: 'CALC',
+      code: RELATED_CALC_TARGET_FIELD_CODE,
+      label: '計算(数値、related_record_summaryテスト用)',
+      expression: RELATED_TARGET_FIELD_CODE,
+      format: 'NUMBER',
+    },
+  });
+
 // TEST_APP_ID_1に、参照先アプリのsample1グループと一致するシードレコードを1件用意する
 // (既にあれば再作成しない)。
 const ensureSeedRecord = async (env, appId) => {
@@ -113,8 +129,10 @@ module.exports = {
   MARKER_VALUE,
   REFERENCE_FIELD_CODE,
   RELATED_TARGET_FIELD_CODE,
+  RELATED_CALC_TARGET_FIELD_CODE,
   WRITE_FIELD_SUM,
   WRITE_FIELD_COUNT,
   ensureSeedRecord,
+  ensureCalcField,
   openRecordDetailViaIndex,
 };

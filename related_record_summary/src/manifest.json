@@ -27,6 +27,7 @@
     "html": "html/config.html",
     "js": [
       "js/lib/config-store.js",
+      "js/lib/aggregatable-fields.js",
       "js/config.js"
     ],
     "css": [

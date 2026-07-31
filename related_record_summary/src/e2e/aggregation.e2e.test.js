@@ -49,6 +49,7 @@ describe('詳細画面ボタンでの実集計(実環境)', () => {
     const repoRoot = common.findRepoRoot(PLUGIN_SRC_DIR);
     env = common.loadEnv(repoRoot);
     const pluginId = common.getPluginId(PLUGIN_SRC_DIR);
+    await kintoneAdmin.ensurePluginAdded(env, env.TEST_APP_ID_1, pluginId);
 
     const seed = await ensureSeedRecord(env, env.TEST_APP_ID_1);
     seedRecordId = seed.recordId;

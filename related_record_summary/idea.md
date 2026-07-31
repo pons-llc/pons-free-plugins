@@ -114,9 +114,15 @@ AND結合して合成する(`js/lib/query-builder.js`、TDD済み)。
 `kintone.plugin.app.setConfig()`にのみ保存する(`setProxyConfig()`は使わない。認証情報を扱わない設計のため)。
 
 - 集計設定の行(複数追加可能): 関連レコード一覧フィールド / 集計種別(件数・合計・平均) /
-  集計対象フィールド(合計・平均時のみ、参照先アプリの数値フィールドから選択。参照先アプリのフィールド一覧は
-  `GET /k/v1/app/form/fields.json`をREST APIで取得して候補を出す。他アプリのフィールド一覧を読むだけの用途で
-  レコードの読み書きではない) / 書き込み先フィールド(自アプリの数値フィールド) / 除外条件(クエリの断片)
+  集計対象フィールド(合計・平均時のみ、参照先アプリの数値フィールド、および表示書式が数値
+  (`NUMBER`)または数値〈カンマ区切り〉(`NUMBER_DIGIT`)の計算フィールドから選択。`js/lib/aggregatable-fields.js`
+  参照。計算フィールドは表示書式が日時/日付/時刻/時間(時分)/時間(日時分)だとREST APIレスポンス上の値が
+  `"2012-01-11"`や`"49:30"`のような非数値文字列になり(kintoneドキュメント「フィールド形式」で確認済み)、
+  `aggregator.js`の`Number()`変換がNaNになって黙って集計対象から除外されてしまうため、候補には含めない。
+  参照先アプリのフィールド一覧は`GET /k/v1/app/form/fields.json`をREST APIで取得して候補を出す。
+  他アプリのフィールド一覧を読むだけの用途でレコードの読み書きではない) /
+  書き込み先フィールド(自アプリの数値フィールド。計算フィールドは値の登録・更新ができないため対象外) /
+  除外条件(クエリの断片)
 - 発動条件: 保存時 ON/OFF、詳細画面ボタン ON/OFF、一覧画面一括集計ボタン ON/OFF
 - 一括集計を許可するグループコード(カンマ区切りで複数指定可)
 
@@ -134,6 +140,8 @@ AND結合して合成する(`js/lib/query-builder.js`、TDD済み)。
   中断時の`deleteCursor`呼び出し)のorchestrationロジック(API呼び出しは依存性注入でテスト可能にしている)。
 - `paged-fetch.js`: 参照先アプリのSUM/AVERAGE集計用の`$id`昇順ページング。
 - `config-store.js`: `kintone.plugin.app.setConfig()`/`getConfig()`のペイロードの読み書きと既定値。
+- `aggregatable-fields.js`: 集計対象フィールドの候補判定(NUMBERフィールド、および表示書式が数値の
+  CALCフィールドのみを対象とする)。
 
 kintone依存のグルーコード(`related-record-client.js`, `summary-service.js`, `bulk-summary.js`,
 `desktop.js`/`mobile.js`, `config.js`)は、Puppeteerによる実環境テスト(CLAUDE.md項目6)で検証する。

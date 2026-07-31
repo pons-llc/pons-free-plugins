@@ -21,9 +21,12 @@
 const path = require('path');
 const puppeteer = require('puppeteer');
 const common = require('../../../scripts/e2e/common');
+const kintoneAdmin = require('../../../scripts/kintone-admin');
 const {
   REFERENCE_FIELD_CODE,
   RELATED_TARGET_FIELD_CODE,
+  RELATED_CALC_TARGET_FIELD_CODE,
+  ensureCalcField,
 } = require('./fixtures');
 
 const PLUGIN_NAME = 'related_record_summary';
@@ -40,6 +43,8 @@ describe('設定画面(実環境)', () => {
     repoRoot = common.findRepoRoot(PLUGIN_SRC_DIR);
     env = common.loadEnv(repoRoot);
     pluginId = common.getPluginId(PLUGIN_SRC_DIR);
+    await kintoneAdmin.ensurePluginAdded(env, env.TEST_APP_ID_1, pluginId);
+    await ensureCalcField(env, env.TEST_APP_ID_2);
 
     browser = await puppeteer.launch({ headless: true });
     page = await browser.newPage();
@@ -101,6 +106,9 @@ describe('設定画面(実環境)', () => {
       (options) => options.map((o) => o.value).filter((v) => v !== ''),
     );
     expect(targetOptionValues).toContain(RELATED_TARGET_FIELD_CODE);
+    // 表示書式が数値のCALC(計算)フィールドも集計対象フィールドの候補に含まれる
+    // (aggregatable-fields.jsの回帰確認。以前はNUMBERフィールドのみだった)。
+    expect(targetOptionValues).toContain(RELATED_CALC_TARGET_FIELD_CODE);
 
     // 集計種別を「合計」に切り替えると、集計対象フィールドが選択可能になる。
     const summaryTypeSelect = await newRow.$('.js-row-summary-type');
