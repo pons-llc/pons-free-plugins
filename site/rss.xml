@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着情報</description>
     <language>ja</language>
-    <lastBuildDate>Sat, 25 Jul 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 02 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>生成AIアプリ共有プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/genai_app_share/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/genai_app_share/</guid>
+      <description>Gemini Canvas等で生成したHTML/CSS/JS(Reactを含む)を文字列複数行フィールドに貼り付けると、レコード詳細画面からsandbox化した別タブで実行できるプラグイン</description>
+      <pubDate>Sun, 02 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>notebookLM用設計ファイルダウンロードプラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/notebooklm_export/</link>

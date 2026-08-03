@@ -1,0 +1,20 @@
+.genai-app-share-container {
+  display: inline-block;
+  margin: 0.6rem 1rem;
+  max-width: 28rem;
+}
+
+.genai-app-share-link {
+  display: inline-block;
+}
+
+.genai-app-share-warning {
+  margin: 0.4rem 0 0;
+  font-size: 0.8em;
+  color: #b8860b;
+}
+
+.genai-app-share-empty {
+  margin: 0;
+  color: #888;
+}

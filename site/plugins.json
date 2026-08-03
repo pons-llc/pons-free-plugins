@@ -505,5 +505,20 @@
       "引き継ぎ"
     ],
     "video": "https://vimeo.com/1212913387"
+  },
+  {
+    "id": "genai_app_share",
+    "name": "生成AIアプリ共有プラグイン",
+    "description": "Gemini Canvas等で生成したHTML/CSS/JS(Reactを含む)を文字列複数行フィールドに貼り付けると、レコード詳細画面からsandbox化した別タブで実行できるプラグイン",
+    "version": "1",
+    "publishedAt": "2026-08-03",
+    "zip": "plugins/genai_app_share/plugin.zip",
+    "page": "plugins/genai_app_share/index.html",
+    "category": "ファイル・埋め込み",
+    "tags": [
+      "生成AI",
+      "アプリ共有"
+    ],
+    "video": "https://vimeo.com/1215058904"
   }
 ]

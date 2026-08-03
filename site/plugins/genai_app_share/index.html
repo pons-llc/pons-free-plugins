@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>生成AIアプリ共有プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="Gemini Canvas等で生成したHTML/CSS/JS(Reactを含む)を文字列複数行フィールドに貼り付けると、レコード詳細画面からsandbox化した別タブで実行できるkintone無料プラグイン。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 生成AIアプリ共有プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>生成AIアプリ共有プラグイン</h2>
+  <p class="plugin-lead">
+    Gemini Canvas等の生成AIツールでその場で作ったHTML/CSS/JS(Reactを使ったコードも含む)を、
+    文字列複数行フィールドにコピペするだけで「動くアプリ」としてレコードから開けるようにする
+    プラグインです。レコード詳細画面では入力フィールドが自動的に隠れ、代わりに別タブで実行する
+    リンクが表示されます。実行は必ずsandbox化した領域の中で行われ、kintoneのクッキー・セッションには
+    一切アクセスできません。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">ファイル・埋め込み</span>
+    <span class="badge badge-tag">#生成AI</span>
+    <span class="badge badge-tag">#アプリ共有</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="genai_app_share">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>紹介動画</h3>
+  <div class="video-frame">
+    <iframe src="https://player.vimeo.com/video/1215058904" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>生成AIでその場で作った簡易ツールを、レコードに紐づけて共有する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>Gemini Canvas等で作った電卓・チェックリスト・簡易シミュレーターなどのHTML/CSS/JSをそのままフィールドに貼り付けるだけで、そのレコードの担当者や関係者が別タブですぐに開いて使えるようになります。ファイルのアップロードや外部サービスへの公開は不要です。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>Reactで作った簡易ダッシュボードやミニアプリを共有する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>設定で「React/JSXサポート」を有効にすると、<code>export default function App() { ... }</code>形式のReactコンポーネント(<code>lucide-react</code>のアイコンや<code>recharts</code>のグラフを使ったコードを含む)をそのまま実行できます。生成AIが出力した「タスク管理」「集計ダッシュボード」のような簡易Webアプリを、レコードに貼り付けるだけで動く形で残せます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>アプリのフォームに、HTML/CSS/JSをそれぞれ貼り付ける文字列複数行フィールドを配置する(このプラグイン自身はフィールドを作成しません。CSS・JSフィールドは省略も可能です)。</li>
+    <li>プラグインをアプリに追加し、設定画面でどのフィールドがHTML/CSS/JS担当かを選ぶ。</li>
+    <li>実行方式(既定はBlob、確実に別タブが開きます)と、React/JSXサポート(既定OFF)を必要に応じて選ぶ。それぞれの仕組みとリスクは設定画面に説明があります。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+    <li>レコードのHTML/CSS/JSフィールドに生成AIツールの出力を貼り付けて保存すると、詳細画面にリンクが表示されます。</li>
+  </ol>
+  <p class="download-note">HTML/CSS/JSフィールドを誰が編集できるかは、フィールドのアクセス権設定でアプリ管理者が別途制限してください(このプラグイン自身はフィールドの編集権限を制御しません)。詳細画面のリンクには、直近の作成者名を含む警告文が常に表示されます。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>このプラグインは「入力されたHTML/CSS/JSを実行する」ことが機能そのものであり、一般的なXSS対策(値をエスケープして表示する)は原理的に適用できません。そのため「実行させないようにする」のではなく「実行させた場合の影響範囲を技術的に限定する」設計にしています。</p>
+      <ul class="review-checklist">
+        <li><code>Blob</code>で作成したURLはkintoneと同じオリジンを引き継ぐ(Web標準の仕様)ため、素朴に別タブで開くとkintoneのクッキー・セッションへ理論上アクセスできてしまいます。これを防ぐため、実際のHTML/CSS/JSは<code>sandbox="allow-scripts allow-modals allow-forms allow-popups"</code>(<code>allow-same-origin</code>を含めない)を指定したiframeの中だけで実行し、kintoneと切り離された一意のオリジンとして扱われるようにしています。</li>
+        <li>別タブへのリンクには<code>target="_blank" rel="noopener noreferrer"</code>を設定し、開いたタブから元のkintoneタブを操作されること(タブナビング)を防いでいます。</li>
+        <li>「Data URL」方式(任意選択、既定はBlob)は仕組みがよりシンプルですが、環境によっては別タブへの遷移がブロックされたり、初回描画が止まったりすることを実機で確認済みで、設定画面にその旨を明記しています。</li>
+        <li>詳細画面のリンク直下には、直近の作成者名を含む警告文を常時表示し、信頼できる相手が入力した内容か確認してから開くよう注意喚起しています。</li>
+        <li>React/JSXサポート(任意、既定OFF)を有効にした場合のみ、生成ページ(kintoneとは別オリジンで実行される領域の中)がReact・Babel・Tailwind CSS等を外部CDNから読み込みます。OFFのままなら外部通信は一切発生しません。</li>
+        <li>HTML/CSS/JSフィールドの編集権限はこのプラグインでは制御しないため、フィールドのアクセス権設定で管理者が制限する運用を前提としています。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/genai_app_share/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="生成AIアプリ共有プラグインの設定画面。HTML/CSS/JSフィールドの選択、実行方式(Blob/Data URL)のラジオボタンとそれぞれのリスク説明、React/JSXサポートのチェックボックスと説明が表示されている。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインはREST APIを一切実行しません。フィールドの表示/非表示や一覧取得は
+    <code>kintone.app.record.setFieldShown()</code>・<code>kintone.app.getFormFields()</code>等の
+    JavaScript APIのみで行い、生成ページの実行は<code>Blob</code>/<code>data:</code>URLとして
+    ブラウザ内で完結します。API実行数制限に影響することはありません(React/JSXサポートを
+    有効にした場合のみ、生成ページを開いたときに外部CDNへの通信が発生しますが、これはkintoneの
+    API実行数とは無関係です)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/genai_app_share" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/genai_app_share/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

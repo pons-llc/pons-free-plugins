@@ -1,0 +1,70 @@
+<section class="settings">
+  <h2 class="settings-heading">生成AIアプリ共有 設定</h2>
+  <p class="kintoneplugin-desc">
+    HTML/CSS/JSを貼り付ける文字列複数行フィールドを、あらかじめアプリのフォームに配置してください
+    (このプラグイン自身はフィールドを作成しません)。ここではそのうちどのフィールドがHTML/CSS/JS
+    担当かを紐付けます。レコード詳細画面では、紐付けたフィールドが非表示になり、代わりに別タブで
+    実行するリンクが表示されます。
+  </p>
+  <p class="genai-notice">
+    ⚠️ このプラグインは、入力されたHTML/CSS/JSをそのままブラウザで実行します(既定の実行方式では
+    sandbox化したiframe内で実行するためkintone自体への影響は防いでいますが、実行自体は行われます)。
+    HTML/CSS/JSフィールドを誰が編集できるかは、フィールドのアクセス権設定で管理者が別途制限して
+    ください。詳細はsecurity-checklist.md参照。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="genai-errors"></div>
+
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">HTMLフィールド<span class="kintoneplugin-require">必須</span></label><br>
+      <select class="kintoneplugin-select js-html-field"></select>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">CSSフィールド(任意)</label><br>
+      <select class="kintoneplugin-select js-css-field"></select>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">JSフィールド(任意)</label><br>
+      <select class="kintoneplugin-select js-js-field"></select>
+    </p>
+
+    <section class="genai-section">
+      <div class="genai-section-heading">実行方式</div>
+      <label class="genai-radio-label">
+        <input type="radio" name="js-execution-mode" value="blob" class="js-execution-mode" checked>
+        <strong>Blob(既定・推奨)</strong> — 別タブが確実に開けます。生成ページはkintoneと同じ
+        オリジンのBlob URLから作られますが、sandbox化したiframe内だけで実行することでkintoneの
+        クッキー・セッションへのアクセスを技術的に遮断します。仕組みはやや複雑です。
+      </label>
+      <label class="genai-radio-label">
+        <input type="radio" name="js-execution-mode" value="data" class="js-execution-mode">
+        <strong>Data URL(シンプル)</strong> — 生成ページ自体が最初から独立したオリジンになるため
+        sandbox化の仕組みが不要になりシンプルです。ただし一部のブラウザは、フィッシング対策として
+        別タブへの直接遷移をブロック・警告することがあり、「別タブで開く」という動作が不安定に
+        なる場合があります。
+      </label>
+    </section>
+
+    <section class="genai-section">
+      <label class="genai-checkbox-label">
+        <input type="checkbox" class="js-enable-react">
+        <strong>React/JSXサポートを有効にする(任意)</strong>
+      </label>
+      <p class="genai-section-desc">
+        ONにすると、生成ページを開いたときだけ(通常時は読み込みません)、
+        React・ReactDOM・Babel(JSX変換用)・Tailwind CSSを外部CDN
+        (esm.sh / unpkg.com / cdn.tailwindcss.com)から読み込みます。よく使われる
+        <code>lucide-react</code>・<code>recharts</code>にも対応しますが、それ以外のパッケージを
+        importした場合はそのパッケージの読み込みだけ失敗します(網羅的ではありません)。
+        JSフィールドには <code>export default function App() { ... }</code>
+        の形式でルートコンポーネントを書いてください(Gemini Canvas等の標準的な出力形式と同じです)。
+      </p>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>

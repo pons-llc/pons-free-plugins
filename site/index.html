@@ -388,6 +388,15 @@
   </div>
   <div class="plugin-version">v1</div>
 </a>
+<a class="plugin-card" data-category="ファイル・埋め込み" data-tags="生成AI,アプリ共有" data-search="生成AIアプリ共有プラグイン Gemini Canvas等で生成したHTML/CSS/JS(Reactを含む)を文字列複数行フィールドに貼り付けると、レコード詳細画面からsandbox化した別タブで実行できるプラグイン。 生成AI アプリ共有" href="plugins/genai_app_share/index.html">
+  <div class="plugin-name">生成AIアプリ共有プラグイン</div>
+  <div class="plugin-desc">Gemini Canvas等で生成したHTML/CSS/JS(Reactを含む)を文字列複数行フィールドに貼り付けると、レコード詳細画面からsandbox化した別タブで実行できるプラグイン</div>
+  <div>
+    <span class="badge badge-category">ファイル・埋め込み</span>
+    <span class="badge badge-tag">#生成AI</span><span class="badge badge-tag">#アプリ共有</span>
+  </div>
+  <div class="plugin-version">v1</div>
+</a>
 </div>
 <p class="empty-state is-hidden">条件に一致するプラグインが見つかりませんでした。</p>
 
@@ -674,6 +683,13 @@
       description: 'アプリの設計情報(フィールド・設定・カスタマイズ・アクセス権・通知・導入プラグイン一覧)を、関連アプリの分も含めてNotebookLMなど外部AIツール向けの.txt/.md形式でzipダウンロードするプラグイン。',
       tags: ['設計書', '引き継ぎ'],
       text: 'notebookLM用設計ファイルダウンロードプラグイン 社内アプリ作成者からの引き継ぎ資料作成を目的に、アプリのフィールド設定・アプリ設定・プロセス管理・カスタマイズ(JS/CSSファイル本体を含む)・条件通知(アプリ全体/レコード条件/リマインダー)・アクセス権(アプリ/レコード/フィールド)・導入プラグイン一覧・アプリ基本情報を取得し、ルックアップ/関連レコード一覧が参照している関連アプリの分も再帰的に辿ってまとめて、NotebookLMなど外部AIツールに読み込ませやすい形式(.txt/.md)でzipダウンロードする。設定画面のみで完結しアプリ利用者向けの機能は無い。訪問済みアプリの管理により循環参照があっても無限ループにならず、探索するアプリ数には上限(30アプリ)がある。関連アプリでアプリ管理権限が無く取得に失敗しても他のアプリ・項目の処理は継続し、取得できなかった旨を出力ファイルに明記する。引き継ぎ資料 設計書 ドキュメント生成 NotebookLM ChatGPT AI活用 棚卸し'
+    },
+    {
+      key: 'genai_app_share',
+      name: '生成AIアプリ共有プラグイン',
+      description: 'Gemini Canvas等で生成したHTML/CSS/JS(Reactを含む)を文字列複数行フィールドに貼り付けると、レコード詳細画面からsandbox化した別タブで実行できるプラグイン。',
+      tags: ['生成AI', 'アプリ共有'],
+      text: '生成AIアプリ共有プラグイン Gemini Canvas等の生成AIツールでその場で作ったHTML/CSS/JSを、あらかじめアプリのフォームに配置した文字列複数行フィールド(HTML/CSS/JS用、CSS・JSは省略可)にコピペするだけで「動くアプリ」としてレコードから開けるようにする。レコード詳細画面では入力フィールドが自動的に非表示になり、代わりに別タブで実行するリンクが表示される。作成・編集画面・印刷画面では入力フィールドが表示される。実行方式は既定のBlob(sandbox化iframeの中だけで実行し、kintoneのクッキー・セッションへのアクセスを技術的に遮断)と、仕組みがシンプルな代わりに環境によって別タブ遷移がブロックされうるData URLから選べ、それぞれのリスクを設定画面に明記する。React/JSXサポート(任意、既定OFF)を有効にすると、export default function App() {...}形式のReactコンポーネント(bareインポート・JSX・lucide-reactのアイコン・rechartsのグラフ・Tailwind CSSのユーティリティクラスを含む、Gemini Canvasの典型的な出力形式)をimport map+Babel standaloneで実際に実行できる。ONにした場合のみ生成ページが外部CDN(esm.sh/unpkg.com/cdn.tailwindcss.com)へ通信し、OFFなら外部通信は一切発生しない。詳細画面のリンク直下には作成者名を含む警告文を常時表示し、信頼できる相手が入力した内容か確認するよう注意喚起する。フィールドの追加はアプリ管理者が自由に行える設計のため、ユーザー選択フィールドやラジオボタン等でHTML/CSS/JSフィールドの編集権限を絞り込む運用を推奨。生成AI Gemini Canvas React JSX 簡易アプリ ダッシュボード 埋め込み実行 sandbox'
     }
   ];
 </script>
