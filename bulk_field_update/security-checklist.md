@@ -58,7 +58,7 @@
 - [x] ラジオボタン・ドロップダウンはAPI経由で明示的に空にする方法が無い(空文字列を指定すると初期値が設定される仕様)ため、フィールドの`required`設定に関わらず常に選択肢から値を選ばせている(`js/lib/execution-validation.js`、確認ダイアログのOK確定時=`beforeClose`で検証)
 - [x] 対象フィールドがkintoneのフォーム設定で必須(`required: true`)の場合、確認ダイアログでの入力も必須にしている。空欄のまま実行しようとするとダイアログを閉じさせずエラーメッセージを表示する(`js/lib/execution-validation.js`の`validateTargetValues`、`execution-validation.test.js`でテスト済み)
 - [x] 値そのものは設定画面(プラグイン設定として`kintone.plugin.app.setConfig()`に永続化される領域)には一切保存しない。実行のたびに確認ダイアログで入力し、その場でPUT APIへ渡すのみで終わる(`js/lib/config-store.js`は対象フィールドコードとグループコードのみを保存)
-- [x] 1つ目のダイアログの「このフィールドを更新する」チェックを外したフィールドはrecordパッチから完全に除外し(`js/bulk-update.js`の`beforeClose`、`includedFields`でフィルタしてから`ExecutionValidation`・`RecordPatchBuilder`に渡す)、空文字列や既存値相当の値を明示的に書き込むような処理は行わない。kintoneのPUT APIはリクエストに含めないフィールドをそのまま変更しない仕様であるため、除外=不変更であることをAPI呼び出しレベルでも保証している
+- [x] 1つ目のダイアログの「更新する」チェックを外したフィールドはrecordパッチから完全に除外し(`js/bulk-update.js`の`beforeClose`、`includedFields`でフィルタしてから`ExecutionValidation`・`RecordPatchBuilder`に渡す)、空文字列や既存値相当の値を明示的に書き込むような処理は行わない。kintoneのPUT APIはリクエストに含めないフィールドをそのまま変更しない仕様であるため、除外=不変更であることをAPI呼び出しレベルでも保証している
 - [x] 実行前に「最終確認」ダイアログをもう1段階挟み、1つ目のダイアログで確定した値(選択肢はラベル表示に変換、`js/lib/value-summary.js`)を一覧で見直してからでないと実際の書き戻し(カーソル列挙・PUT)が始まらないようにしている(`js/bulk-update.js`の`showFinalConfirmDialog`)。最終確認ダイアログでキャンセルした場合は`beforeunload`ガードの有効化やレコードカーソルの列挙(GET)も一切行わない
 
 ## 実行可能グループによる表示制御の限界(重要・idea.mdにも明記)

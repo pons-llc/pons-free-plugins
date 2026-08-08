@@ -26,15 +26,23 @@
   opacity: 0.5;
 }
 
-.bfu-row-include-label {
-  display: block;
-  font-weight: normal;
-  margin-bottom: 0.5em;
+.bfu-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
 }
 
-.bfu-value-label {
-  display: block;
+.bfu-field-name {
   font-weight: bold;
+}
+
+.bfu-row-include-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-weight: normal;
+  white-space: nowrap;
 }
 
 .bfu-value-input {

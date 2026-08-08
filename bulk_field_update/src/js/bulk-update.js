@@ -168,14 +168,22 @@
     return noteEl;
   };
 
-  // 確認ダイアログの1フィールド分の行を組み立てる。「このフィールドを更新する」チェックボックスは
-  // 型を問わず共通で、その下にフィールド種別に応じた本文(値の入力欄、またはルックアップの
+  // 確認ダイアログの1フィールド分の行を組み立てる。「更新する」チェックボックスはフィールド名の
+  // 横に置き、型を問わず共通。その下にフィールド種別に応じた本文(値の入力欄、またはルックアップの
   // 再取得を示す注記)を配置する。チェックを外したフィールドはrecordパッチに含めない
   // (kintoneのPUT APIはリクエストに含めたフィールドのみを更新するため、含めない=既存の値のまま
   // 変更しない、という挙動になる。idea.md「対象フィールドの一部を今回の実行から除外する」参照)。
   const buildConfirmRow = (field, readers) => {
     const rowEl = document.createElement('div');
     rowEl.className = 'bfu-confirm-row';
+
+    const headerEl = document.createElement('div');
+    headerEl.className = 'bfu-row-header';
+
+    const nameEl = document.createElement('span');
+    nameEl.className = 'bfu-field-name';
+    nameEl.textContent = field.required ? `${field.label}(必須)` : field.label;
+    headerEl.appendChild(nameEl);
 
     const includeLabelEl = document.createElement('label');
     includeLabelEl.className = 'bfu-row-include-label';
@@ -184,32 +192,21 @@
     includeCheckboxEl.className = 'bfu-row-include';
     includeCheckboxEl.checked = true;
     includeLabelEl.appendChild(includeCheckboxEl);
-    includeLabelEl.appendChild(
-      document.createTextNode('このフィールドを更新する'),
-    );
-    rowEl.appendChild(includeLabelEl);
+    includeLabelEl.appendChild(document.createTextNode('更新する'));
+    headerEl.appendChild(includeLabelEl);
+
+    rowEl.appendChild(headerEl);
 
     if (isLookupRefreshField(field)) {
-      const labelEl = document.createElement('p');
-      labelEl.className = 'bfu-value-label';
-      labelEl.textContent = field.label;
-      rowEl.appendChild(labelEl);
       rowEl.appendChild(buildLookupRefreshNote());
 
       includeCheckboxEl.addEventListener('change', () => {
         rowEl.classList.toggle('is-excluded', !includeCheckboxEl.checked);
       });
     } else {
-      const labelEl = document.createElement('label');
-      labelEl.className = 'bfu-value-label';
-      labelEl.textContent = field.required
-        ? `${field.label}(必須)`
-        : field.label;
-
       const { el, read } = buildValueControl(field);
-      labelEl.appendChild(el);
       readers[field.code] = read;
-      rowEl.appendChild(labelEl);
+      rowEl.appendChild(el);
 
       includeCheckboxEl.addEventListener('change', () => {
         const disabled = !includeCheckboxEl.checked;
