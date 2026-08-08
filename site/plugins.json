@@ -520,5 +520,19 @@
       "アプリ共有"
     ],
     "video": "https://vimeo.com/1215058904"
+  },
+  {
+    "id": "age_grade_field_update",
+    "name": "年齢・学年フィールド計算用フィールド更新プラグイン",
+    "description": "レコード一覧画面のボタン押下で、設定した条件に一致する全レコードのDATE/DATETIMEフィールドへ現在の日付・日時を一括書き込みするプラグイン",
+    "version": "1",
+    "publishedAt": "2026-08-08",
+    "zip": "plugins/age_grade_field_update/plugin.zip",
+    "page": "plugins/age_grade_field_update/index.html",
+    "category": "日付・書式",
+    "tags": [
+      "基準日更新",
+      "一括更新"
+    ]
   }
 ]

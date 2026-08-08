@@ -397,6 +397,15 @@
   </div>
   <div class="plugin-version">v1</div>
 </a>
+<a class="plugin-card" data-category="日付・書式" data-tags="基準日更新,一括更新" data-search="年齢・学年フィールド計算用フィールド更新プラグイン レコード一覧画面のボタン押下で、設定した条件に一致する全レコードのDATE/DATETIMEフィールドへ現在の日付・日時を一括書き込みするプラグイン。 基準日更新 一括更新" href="plugins/age_grade_field_update/index.html">
+  <div class="plugin-name">年齢・学年フィールド計算用フィールド更新プラグイン</div>
+  <div class="plugin-desc">レコード一覧画面のボタン押下で、設定した条件に一致する全レコードのDATE/DATETIMEフィールドへ現在の日付・日時を一括書き込みするプラグイン</div>
+  <div>
+    <span class="badge badge-category">日付・書式</span>
+    <span class="badge badge-tag">#基準日更新</span><span class="badge badge-tag">#一括更新</span>
+  </div>
+  <div class="plugin-version">v1</div>
+</a>
 </div>
 <p class="empty-state is-hidden">条件に一致するプラグインが見つかりませんでした。</p>
 
@@ -690,6 +699,13 @@
       description: 'Gemini Canvas等で生成したHTML/CSS/JS(Reactを含む)を文字列複数行フィールドに貼り付けると、レコード詳細画面からsandbox化した別タブで実行できるプラグイン。',
       tags: ['生成AI', 'アプリ共有'],
       text: '生成AIアプリ共有プラグイン Gemini Canvas等の生成AIツールでその場で作ったHTML/CSS/JSを、あらかじめアプリのフォームに配置した文字列複数行フィールド(HTML/CSS/JS用、CSS・JSは省略可)にコピペするだけで「動くアプリ」としてレコードから開けるようにする。レコード詳細画面では入力フィールドが自動的に非表示になり、代わりに別タブで実行するリンクが表示される。作成・編集画面・印刷画面では入力フィールドが表示される。実行方式は既定のBlob(sandbox化iframeの中だけで実行し、kintoneのクッキー・セッションへのアクセスを技術的に遮断)と、仕組みがシンプルな代わりに環境によって別タブ遷移がブロックされうるData URLから選べ、それぞれのリスクを設定画面に明記する。React/JSXサポート(任意、既定OFF)を有効にすると、export default function App() {...}形式のReactコンポーネント(bareインポート・JSX・lucide-reactのアイコン・rechartsのグラフ・Tailwind CSSのユーティリティクラスを含む、Gemini Canvasの典型的な出力形式)をimport map+Babel standaloneで実際に実行できる。ONにした場合のみ生成ページが外部CDN(esm.sh/unpkg.com/cdn.tailwindcss.com)へ通信し、OFFなら外部通信は一切発生しない。詳細画面のリンク直下には作成者名を含む警告文を常時表示し、信頼できる相手が入力した内容か確認するよう注意喚起する。フィールドの追加はアプリ管理者が自由に行える設計のため、ユーザー選択フィールドやラジオボタン等でHTML/CSS/JSフィールドの編集権限を絞り込む運用を推奨。生成AI Gemini Canvas React JSX 簡易アプリ ダッシュボード 埋め込み実行 sandbox'
+    },
+    {
+      key: 'age_grade_field_update',
+      name: '年齢・学年フィールド計算用フィールド更新プラグイン',
+      description: 'レコード一覧画面のボタン押下で、設定した条件に一致する全レコードのDATE/DATETIMEフィールドへ現在の日付・日時を一括書き込みするプラグイン。',
+      tags: ['基準日更新', '一括更新'],
+      text: '年齢・学年フィールド計算用フィールド更新プラグイン DATEDIF(生年月日, 基準日, "Y")のように年齢・学年をCALCフィールドで計算する場合、基準日をDATE/DATETIMEフィールド(固定値として保存)にしていると時間の経過で古い基準日のままになり計算結果が更新されなくなる問題を解消する。レコード一覧画面(PC・モバイル両対応)に設置したボタンを押すと、設定画面で指定したクエリ条件(一覧画面の絞り込み状態とは無関係な固定条件)に一致する全レコードの対象DATE/DATETIMEフィールドへ、実行時点の現在の値(DATE型は今日の日付、DATETIME型は現在日時)を一括で書き込む。ボタン押下時は対象レコード数・書き込み先フィールド名・書き込む値のプレビューを示す確認ダイアログ(PC: kintone.showConfirmDialog、モバイル: kintone.mobile.showConfirmBottomSheet)で実行確認し、対象レコード0件の場合は確認ダイアログを出さずその旨を通知する。対象レコードの列挙はレコードカーソルAPI、書き戻しはPUT /k/v1/records.jsonを100件バッチで行い、リビジョン競合(他ユーザーの同時編集)が起きたレコードだけをスキップして個別送信にフォールバックする。設定画面では対象フィールド(DATE/DATETIME型のみ選択可、必須)・クエリ条件(任意)・実行可能グループ(kintone.user.getGroupsによる一覧画面ボタンの表示制御、1つ以上必須)を設定する。基準日更新 年齢計算 学年計算 一括更新 定期更新 DATEDIF CALC'
     }
   ];
 </script>

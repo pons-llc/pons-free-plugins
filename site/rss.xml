@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着情報</description>
     <language>ja</language>
-    <lastBuildDate>Sun, 02 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 07 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>年齢・学年フィールド計算用フィールド更新プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/age_grade_field_update/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/age_grade_field_update/</guid>
+      <description>レコード一覧画面のボタン押下で、設定した条件に一致する全レコードのDATE/DATETIMEフィールドへ現在の日付・日時を一括書き込みするプラグイン</description>
+      <pubDate>Fri, 07 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>生成AIアプリ共有プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/genai_app_share/</link>

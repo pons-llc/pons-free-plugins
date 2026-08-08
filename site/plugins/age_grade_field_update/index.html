@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>年齢・学年フィールド計算用フィールド更新プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="レコード一覧画面のボタン押下で、設定した条件に一致する全レコードのDATE/DATETIMEフィールドへ現在の日付・日時を一括書き込みするkintone無料プラグイン。年齢・学年をDATEDIF等で計算するCALCフィールドの基準日更新に使えます。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 年齢・学年フィールド計算用フィールド更新プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>年齢・学年フィールド計算用フィールド更新プラグイン</h2>
+  <p class="plugin-lead">
+    レコード一覧画面(PC・モバイル)のボタン押下で、設定したクエリ条件に一致する全レコードの
+    DATE(日付)またはDATETIME(日時)フィールドへ、実行時点の現在の値を一括で書き込むプラグインです。
+    <code>DATEDIF(生年月日, 基準日, "Y")</code>のように年齢・学年を計算するCALCフィールドの「基準日」を
+    定期的に「今日の日付」へ更新したい場合に使えます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">日付・書式</span>
+    <span class="badge badge-tag">#基準日更新</span>
+    <span class="badge badge-tag">#一括更新</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="age_grade_field_update">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>DATEDIFで年齢・学年を計算するCALCフィールドの基準日を、定期的に最新化する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>生年月日から年齢・学年を計算するCALCフィールドは、基準日をDATE/DATETIMEフィールド(固定値として保存)にしていると、時間の経過とともに古い基準日のままになり、計算結果が更新されなくなります。このプラグインで基準日フィールドを一覧画面のボタン1つで対象レコードすべて「今日の日付」に更新できるため、定期的な一括更新作業を簡単にできます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>クエリ条件で対象を絞り込み、特定グループのメンバーだけが実行できるようにする</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>設定画面でクエリ条件(任意)を指定すると、一覧画面の現在の絞り込み状態とは関係なく、常に同じ対象レコード集合を一括更新できます。また、実行可能グループを指定することで、一覧画面のボタン自体を特定グループのメンバーにだけ表示できます(ただし表示・非表示の切り替えに過ぎず、実際の書き込み可否はアプリ・フィールドのアクセス権設定に依存します)。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「対象フィールド」で、現在の日付・日時に更新したいDATE(日付)またはDATETIME(日時)フィールドを選択する(必須)。</li>
+    <li>必要に応じて「クエリ条件」で更新対象を絞り込む(空欄なら全レコードが対象)。</li>
+    <li>「実行可能グループ」に、一覧画面のボタンを表示するグループコードをカンマ区切りで1つ以上入力し、保存する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めて一覧画面にボタンが表示されます)。</li>
+  </ol>
+  <p class="download-note">一覧画面のボタンを押すと、対象レコード数・書き込み先フィールド名・書き込む値のプレビューを示す確認ダイアログが表示されます。実行すると、対象レコードへ現在の日付・日時が一括で書き込まれ、完了後に対象件数・成功件数・(リビジョン競合による)スキップ件数が表示されます。対象レコードが0件の場合は確認ダイアログを出さず、その旨だけを通知します。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>対象レコードの列挙にはレコードカーソルAPI(<code>POST</code>/<code>GET</code> <code>/k/v1/records/cursor.json</code>)を使い、書き戻しは<code>PUT /k/v1/records.json</code>を100件ずつのバッチで送信します。バッチ全体が失敗した場合のみ1件ずつの個別送信にフォールバックし、リビジョン競合(他ユーザーによる同時編集)が起きたレコードだけをスキップして他のレコードの処理は継続します。REST API呼び出しはすべて<code>kintone.api()</code>(kintone自身への呼び出し専用の内部ラッパー)経由で、外部サーバーへの通信は一切行いません。</li>
+        <li>確認ダイアログの表示に必要な対象件数は、カーソル作成時のレスポンス(<code>totalCount</code>)から取得し、確認前にレコード本体を取得することはありません。</li>
+        <li>実行可能グループによる一覧画面ボタンの表示制御(<code>kintone.user.getGroups()</code>)は、あくまでUI上の表示・非表示を切り替える機能であり、真の権限境界ではありません。実際に書き込みできるかどうかは、対象アプリ・対象フィールド自体のkintone標準のアクセス権設定に委ねられます(設定画面にも明記しています)。</li>
+        <li>DATE型フィールドへの書き込み値はローカルタイムゾーンの暦日から組み立てており、UTC変換による日付のずれ(タイムゾーンによっては夜間実行時に前日の日付になってしまう典型的な誤り)が起きないようユニットテストで検証しています。</li>
+        <li>設定画面での表示・入力はいずれも<code>innerHTML</code>ではなく<code>textContent</code>を使用しており、ユーザー入力(クエリ条件・グループコード)をHTML要素として出力することはありません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/age_grade_field_update/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="年齢・学年フィールド計算用フィールド更新プラグインの設定画面。対象フィールド(DATE/DATETIME型のみ選択可)・クエリ条件・実行可能グループを設定する画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインは、一覧画面のボタンを押すたびに、対象レコードを列挙するレコードカーソルAPI
+    (<code>POST</code>/<code>GET</code>/<code>DELETE</code> <code>/k/v1/records/cursor.json</code>)を実行し、
+    続けて対象フィールドへの書き戻し(<code>PUT /k/v1/records.json</code>、100件を超える場合は複数回、
+    リビジョン競合時は個別送信<code>PUT /k/v1/record.json</code>へフォールバック)を実行します。
+    確認ダイアログの表示のみで実行をキャンセルした場合は、カーソル作成(件数確認用)の1回のみで
+    レコード本体の取得・書き戻しは行われません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/age_grade_field_update" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/age_grade_field_update/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>
