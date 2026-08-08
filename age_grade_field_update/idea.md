@@ -51,15 +51,25 @@ kintoneのCALCフィールドで`DATEDIF(生年月日, 基準日, "Y")`のよう
   `.replace(/\.\d{3}Z$/, 'Z')`する(`field_input_panel/src/js/lib/field-value-codec.js`の
   `encodeDatetimeLocal`と同じ手法、ミリ秒なしの形式に揃える)。
 
-## 確認ダイアログ・実行(確定)
+## 確認ダイアログ・実行(確定・2026-08-08改訂: 値を編集可能にした)
 
 - 対象レコード数はカーソルAPI作成時のレスポンス`totalCount`から得る(列挙前に確認ダイアログへ
   表示するため、レコード本体を取得する前に件数だけ知りたい。カーソルは作成した時点でカーソルIDと
   `totalCount`が返るため、ここでは列挙〈GET〉はまだ行わず、確認後に列挙を始める)。
-- ダイアログの本文には、対象レコード数・書き込み先フィールド名・書き込む値のプレビュー
-  (例:「2026-08-05」)を表示する(`js/lib/build-confirm-message.js`)。
-- 対象レコード0件の場合は確認ダイアログを出さず、その旨をalert(PC)/`kintone.mobile.showConfirmBottomSheet`
-  を使わない同等の通知で伝える(0件時はOK/キャンセルの選択自体が無意味なため)。
+- 書き込む値は「今日」(DATE型は今日の日付、DATETIME型は現在日時)を既定値としつつ、確定前に
+  ユーザーが変更できる入力欄(DATE型は`<input type="date">`、DATETIME型は
+  `<input type="datetime-local">`)としてダイアログに表示する。テキストのみの
+  `kintone.showConfirmDialog()`/`kintone.mobile.showConfirmBottomSheet()`では本文の
+  カスタマイズができないため、本文をElementとして自由に組み立てられる`kintone.createDialog()`
+  (PC)/`kintone.mobile.createBottomSheet()`(モバイル)を使う(戻り値の`{show, close}`・
+  `beforeClose`・OK/CANCEL/CLOSE/FUNCTIONの4値を含め、両APIは同一シグネチャであることを
+  kintoneドキュメントMCPで確認済み)。入力欄が空のままOKを押した場合は`beforeClose`で
+  ダイアログを閉じさせず、エラー文言を表示する。
+- ダイアログの本文(テキスト部分)には対象レコード数・書き込み先フィールド名を表示する
+  (`js/lib/build-confirm-message.js`)。書き込む値そのものは上記の編集可能な入力欄で示すため、
+  テキストには含めない。
+- 対象レコード0件の場合は確認ダイアログを出さず、その旨をalertで伝える(0件時はOK/キャンセルの
+  選択自体が無意味なため)。
 - 実行中は`kintone.showLoading()`/`kintone.mobile.showLoading()`相当のローディング表示と、
   `beforeunload`でのページ離脱防止を行う(`related_record_summary`と同じ、secureCodingGuideline.md
   「短時間で大量のリクエスト送信を避ける」への配慮)。
@@ -124,8 +134,11 @@ REST呼び出し)は`src/e2e/*.e2e.test.js`(Puppeteer)で実環境テストす�
 
 kintoneドキュメントMCPを参照しながら実装した。確認済み事項:
 
-- `kintone.showConfirmDialog()`(PC専用)/`kintone.mobile.showConfirmBottomSheet()`(モバイル専用)
-  は同じ`config`引数の形・同じ戻り値(`'OK'`/`'CANCEL'`/`'CLOSE'`)であること。
+- `kintone.createDialog()`(PC専用)/`kintone.mobile.createBottomSheet()`(モバイル専用)は
+  同じ`config`引数の形(`body`はElement、`beforeClose`で閉じる前の値検証が可能)・同じ戻り値
+  (`show()`が解決する`'OK'`/`'CANCEL'`/`'CLOSE'`/`'FUNCTION'`)であること。テキストのみの
+  `kintone.showConfirmDialog()`/`kintone.mobile.showConfirmBottomSheet()`では書き込む値を
+  編集可能な入力欄として表示できないため、こちらを採用した。
 - 一覧画面のボタン設置先: PCは`kintone.app.getHeaderMenuSpaceElement()`(集計アイコンの右側、
   レコード一覧画面のみで利用可能)、モバイルは`kintone.mobile.app.getHeaderSpaceElement()`
   (一覧を切り替えるメニューの下、レコード一覧・詳細・追加・編集画面で利用可能)。

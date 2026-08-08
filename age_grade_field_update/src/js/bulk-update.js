@@ -60,9 +60,45 @@
     }
   };
 
+  // 確認ダイアログの本文Elementを組み立てる。書き込む値は編集可能な入力欄
+  // (DATE型は<input type="date">、DATETIME型は<input type="datetime-local">)として表示し、
+  // 既定値は「今日」(defaultValue)だが確定前に変更できる(idea.md「確認ダイアログ・実行」参照)。
+  // createDialog/createBottomSheetのconfig.bodyはそのままダイアログへ組み込まれる仕様のため、
+  // ユーザー入力をHTML文字列として組み立てず、createElement/textContentのみで構築する
+  // (secureCodingGuideline「外部からの入力値を使用した要素の生成を避ける」)。
+  const buildConfirmDialogBody = (message, inputType, defaultValue) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'agfu-confirm-body';
+
+    const messageEl = document.createElement('p');
+    messageEl.className = 'agfu-confirm-message';
+    messageEl.textContent = message;
+    wrapper.appendChild(messageEl);
+
+    const labelEl = document.createElement('label');
+    labelEl.className = 'agfu-value-label';
+    labelEl.textContent = '書き込む値';
+
+    const inputEl = document.createElement('input');
+    inputEl.type = inputType;
+    inputEl.className = 'agfu-value-input';
+    inputEl.value = defaultValue;
+    labelEl.appendChild(inputEl);
+    wrapper.appendChild(labelEl);
+
+    const errorEl = document.createElement('p');
+    errorEl.className = 'agfu-value-error';
+    errorEl.textContent = '値を入力してください。';
+    errorEl.hidden = true;
+    wrapper.appendChild(errorEl);
+
+    return { wrapper, inputEl, errorEl };
+  };
+
   // config: { targetFieldCode, query, groupCodes }
   // targetField: kintone.app.getFormFields()の対象フィールド定義({type, label, ...})
-  // platform: { confirm(config): Promise<'OK'|'CANCEL'|'CLOSE'>, showLoading(): void, hideLoading(): void }
+  // platform: { createDialog(config): Promise<{show, close}>(kintone.createDialog/
+  //   kintone.mobile.createBottomSheetと同一シグネチャ), showLoading(): void, hideLoading(): void }
   const runBulk = async (config, appId, targetField, platform) => {
     const formFields = await kintone.app.getFormFields();
     const recordNumberFieldCode = findRecordNumberFieldCode(formFields);
@@ -96,26 +132,49 @@
       return;
     }
 
-    const currentValue = NS.CurrentValueFormatter.formatCurrentValue(
+    const inputType = targetField.type === 'DATE' ? 'date' : 'datetime-local';
+    const defaultValue = NS.CurrentValueFormatter.defaultInputValue(
       new Date(),
       targetField.type,
     );
     const message = NS.BuildConfirmMessage.buildConfirmMessage({
       targetCount: totalCount,
       fieldLabel: targetField.label,
-      valuePreview: currentValue,
     });
+    const { wrapper, inputEl, errorEl } = buildConfirmDialogBody(
+      message,
+      inputType,
+      defaultValue,
+    );
 
-    const dialogResult = await platform.confirm({
+    const dialog = await platform.createDialog({
       title: `${targetField.label}を更新`,
-      body: message,
+      body: wrapper,
       showOkButton: true,
       okButtonText: '実行',
       showCancelButton: true,
       cancelButtonText: 'キャンセル',
       showCloseButton: true,
+      beforeClose: (action) => {
+        if (action === 'OK' && !inputEl.value) {
+          errorEl.hidden = false;
+          return false;
+        }
+        return true;
+      },
     });
+    const dialogResult = await dialog.show();
     if (dialogResult !== 'OK') {
+      return;
+    }
+
+    // beforeCloseでOK確定時の未入力は弾いているため、finalValueがnullになることは
+    // 通常ないが、呼び出し順序への依存を減らすため念のためガードする。
+    const finalValue = NS.CurrentValueFormatter.valueFromInput(
+      inputEl.value,
+      targetField.type,
+    );
+    if (finalValue === null) {
       return;
     }
 
@@ -136,7 +195,7 @@
           ? record[recordNumberFieldCode].value
           : record.$id.value,
         revision: record.$revision.value,
-        record: { [config.targetFieldCode]: { value: currentValue } },
+        record: { [config.targetFieldCode]: { value: finalValue } },
       }));
 
       const writeResult = await NS.BatchWriter.runAll(writeRecords, {

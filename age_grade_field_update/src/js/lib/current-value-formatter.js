@@ -26,10 +26,48 @@
     throw new Error(`未対応のフィールド型です: ${fieldType}`);
   };
 
+  // <input type="datetime-local">のvalue形式(ローカル、秒なし)を組み立てる。
+  // <input type="date">はformatDate()の"YYYY-MM-DD"がそのまま流用できるため専用関数は不要。
+  const toDatetimeLocalInputValue = (date) =>
+    `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}T${pad2(date.getHours())}:${pad2(date.getMinutes())}`;
+
+  // 確認ダイアログの入力欄(<input type="date"|"datetime-local">)に表示する初期値
+  // (既定は「今日」だが、確定前にユーザーが編集できる。idea.md「確認ダイアログ・実行」参照)。
+  const defaultInputValue = (date, fieldType) => {
+    if (fieldType === 'DATE') {
+      return formatDate(date);
+    }
+    if (fieldType === 'DATETIME') {
+      return toDatetimeLocalInputValue(date);
+    }
+    throw new Error(`未対応のフィールド型です: ${fieldType}`);
+  };
+
+  // 確認ダイアログの入力欄の値(ユーザーが編集した可能性がある)を、実際に書き込む
+  // kintoneのフィールド値形式へ変換する。空文字列(未入力)はnullを返し、呼び出し側で
+  // 「値が確定していない」ことを判定できるようにする。
+  const valueFromInput = (inputValue, fieldType) => {
+    if (!inputValue) {
+      return null;
+    }
+    if (fieldType === 'DATE') {
+      return inputValue;
+    }
+    if (fieldType === 'DATETIME') {
+      // <input type="datetime-local">の値("YYYY-MM-DDTHH:mm"、タイムゾーンオフセットなし)は
+      // Dateコンストラクターに渡すとローカル時刻として解釈される(ECMA-262の日時文字列仕様)。
+      return formatDatetime(new Date(inputValue));
+    }
+    throw new Error(`未対応のフィールド型です: ${fieldType}`);
+  };
+
   const CurrentValueFormatter = {
     formatDate,
     formatDatetime,
     formatCurrentValue,
+    toDatetimeLocalInputValue,
+    defaultInputValue,
+    valueFromInput,
   };
 
   if (typeof module !== 'undefined' && module.exports) {

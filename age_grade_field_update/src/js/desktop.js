@@ -8,7 +8,9 @@
     NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
 
   const platform = {
-    confirm: (dialogConfig) => kintone.showConfirmDialog(dialogConfig),
+    // 書き込む値を編集可能な入力欄として表示するため、テキストのみのkintone.showConfirmDialog()
+    // ではなく、本文を自由に組み立てられるkintone.createDialog()を使う。
+    createDialog: (dialogConfig) => kintone.createDialog(dialogConfig),
     showLoading: () => kintone.showLoading('VISIBLE'),
     hideLoading: () => kintone.showLoading('HIDDEN'),
   };

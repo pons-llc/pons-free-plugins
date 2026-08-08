@@ -76,8 +76,12 @@ describe('設定画面(実環境)', () => {
     expect(optionValues).not.toContain('文字列__1行_');
 
     await page.select('.js-target-field', TARGET_DATE_FIELD_CODE);
-    await page.type('.js-query', 'ステータス = "未処理"');
-    await page.type('.js-group-codes', 'Administrators');
+    // 保存済みの設定が既にある状態で開くと入力欄に既存値が入っているため、page.type()
+    // (既存値の末尾に追記される)ではなく値を直接上書きする。
+    await page.evaluate(() => {
+      document.querySelector('.js-query').value = '$id > 0';
+      document.querySelector('.js-group-codes').value = 'Administrators';
+    });
 
     expect(pageErrors).toEqual([]);
 
@@ -104,7 +108,7 @@ describe('設定画面(実環境)', () => {
       (el) => el.value,
     );
     expect(reloadedTargetField).toBe(TARGET_DATE_FIELD_CODE);
-    expect(reloadedQuery).toBe('ステータス = "未処理"');
+    expect(reloadedQuery).toBe('$id > 0');
     expect(reloadedGroupCodes).toBe('Administrators');
   });
 });

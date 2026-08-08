@@ -3,8 +3,10 @@
 [secureCodingGuideline.md](../secureCodingGuideline.md)の一般項目([related_record_summary/security-checklist.md](../related_record_summary/security-checklist.md)等の他プラグインと共通の内容、UTF-8/BOMなし・`'use strict'`・外部スクリプト不使用など)は
 重複記載を省略し、本プラグイン固有の項目のみ記載する。
 
-最終確認日: 2026-08-08 / 対象: 実装レビューとJestユニットテスト(43件)。Puppeteerによる実環境テストは未実施
-(下記「個別確認事項」参照)。
+最終確認日: 2026-08-08 / 対象: 実装レビューとJestユニットテスト(51件)。Puppeteerによる実環境テスト
+(`src/e2e/config-screen.e2e.test.js`で設定画面の疎通・保存確認、`src/e2e/bulk-update-flow.e2e.test.js`で
+一覧画面ボタン→確認ダイアログでの値編集→実行→実際のレコード書き込みまでの一連の流れをPCで確認)を
+実施済み。モバイル側(`kintone.mobile.createBottomSheet()`)は未実施(下記「個別確認事項」参照)。
 
 ## コーディング作法
 
@@ -63,6 +65,7 @@
 ## クロスサイトスクリプティング(XSS)・CSSインジェクション対策
 
 - [x] `document.write`/`innerHTML`によるユーザー入力の動的HTML生成を行っていない。ラベル等の表示はすべて`textContent`(`js/config.js`の`buildTargetFieldOptions`、`js/bulk-update.js`のボタンラベル)を使用。`innerHTML = ''`は既存要素のクリア用途のみ
+- [x] 確認ダイアログ(`kintone.createDialog()`/`kintone.mobile.createBottomSheet()`)の`config.body`は、ドキュメントに「そのままダイアログ本文の要素として組み込まれるため必要に応じてサニタイズ処理を行うこと」と明記されている。本プラグインの`js/bulk-update.js`の`buildConfirmDialogBody`は`document.createElement`/`textContent`のみでDOMを組み立てており、ユーザー入力(クエリ条件・グループコード等)を`body`に含めていないため、サニタイズが必要な外部入力の混入経路は無い
 - [x] クエリ条件・グループコード等のユーザー入力は、kintoneのクエリ文字列またはグループコード比較としてkintone REST API/JS APIに渡されるのみで、HTML要素として出力していない
 - [x] 外部サイトのJavaScript/CSSを読み込んでいない(`manifest.json`はローカルファイルのみを参照)
 - [x] プラグインの実行コード(js/css)に外部パッケージ・外部ライブラリを一切使用しない方針(vanilla JSのみ)。ビルド用の`@kintone/cli` / `eslint` / `@cybozu/eslint-config` / `jest` / `puppeteer`はローカル開発用のdevDependencyでありプラグイン本体には含まれない
@@ -83,7 +86,7 @@
 GitHub Issue報告で対応する。
 
 - revision競合時の実際のエラーレスポンス(`code`/`message`)を実環境で確認し、`isRevisionConflictError`の判定条件が正しいか検証する
-- 一覧画面ボタンのクリックから確認ダイアログ表示・実行・結果表示までの一連の流れの実環境動作(PC・モバイル両方)
+- 一覧画面ボタンのクリックから確認ダイアログ表示・値の編集・実行・結果表示・実際の書き込みまでの一連の流れは、PCについてはPuppeteerで実環境確認済み(`src/e2e/bulk-update-flow.e2e.test.js`)。モバイル(`kintone.mobile.createBottomSheet()`経由)は未確認
 - クエリ条件に`like`/`not like`を含むキーワード検索が設定されていた場合の、カーソルAPIの10万件打ち切り・`X-Cybozu-Warning`ヘッダーの実際の挙動(現状は警告の明示的な検知・表示までは実装していない)
 - 対象フィールドの編集権限が無いユーザーが実行した場合の、PUT APIの実際のエラーメッセージとユーザー体験
 

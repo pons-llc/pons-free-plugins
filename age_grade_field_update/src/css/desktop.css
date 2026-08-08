@@ -1,3 +1,23 @@
 .agfu-bulk-button {
   margin: 8px;
 }
+
+.agfu-confirm-message {
+  white-space: pre-line;
+  margin-bottom: 1em;
+}
+
+.agfu-value-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.agfu-value-input {
+  display: block;
+  margin-top: 0.5em;
+}
+
+.agfu-value-error {
+  color: #c0392b;
+}

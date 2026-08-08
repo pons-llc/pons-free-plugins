@@ -8,8 +8,11 @@
     NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
 
   const platform = {
-    confirm: (dialogConfig) =>
-      kintone.mobile.showConfirmBottomSheet(dialogConfig),
+    // 書き込む値を編集可能な入力欄として表示するため、テキストのみの
+    // kintone.mobile.showConfirmBottomSheet()ではなく、本文を自由に組み立てられる
+    // kintone.mobile.createBottomSheet()を使う(kintone.createDialog()のモバイル版)。
+    createDialog: (dialogConfig) =>
+      kintone.mobile.createBottomSheet(dialogConfig),
     showLoading: () => kintone.mobile.showLoading('VISIBLE'),
     hideLoading: () => kintone.mobile.showLoading('HIDDEN'),
   };
