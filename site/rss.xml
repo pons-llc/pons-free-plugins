@@ -7,6 +7,13 @@
     <language>ja</language>
     <lastBuildDate>Fri, 07 Aug 2026 15:00:00 GMT</lastBuildDate>
     <item>
+      <title>特定フィールド一括更新プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/bulk_field_update/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/bulk_field_update/</guid>
+      <description>レコード一覧画面のボタン押下で、対象フィールドの値を確認ダイアログでその都度入力し、一覧画面の現在の絞り込み条件に一致する全レコードへ一括で書き込むプラグイン</description>
+      <pubDate>Fri, 07 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
       <title>年齢・学年フィールド計算用フィールド更新プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/age_grade_field_update/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/age_grade_field_update/</guid>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>特定フィールド一括更新プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="レコード一覧画面のボタン押下で、対象フィールドの値を確認ダイアログでその都度入力し、一覧画面の現在の絞り込み条件に一致する全レコードへ一括で書き込むkintone無料プラグイン。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; 特定フィールド一括更新プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="../../index.html">トップ</a>
+    <a href="../../about.html">About</a>
+    <a href="../../faq.html">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>特定フィールド一括更新プラグイン</h2>
+  <p class="plugin-lead">
+    レコード一覧画面(PC・モバイル)のボタン押下で、設定画面でON(対象)にしたフィールドへ、
+    書き込む値を確認ダイアログでその都度入力し、一覧画面の<strong>現在の絞り込み条件</strong>に
+    一致する全レコードへ一括で書き込むプラグインです。複数フィールドをまとめて対象にでき、
+    フォームで必須に設定されているフィールドは確認ダイアログでの入力も必須になります。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">一括更新</span>
+    <span class="badge badge-tag">#一括編集</span>
+    <span class="badge badge-tag">#絞り込み条件</span>
+  </div>
+  <a class="download-button" href="download.html" data-dl-plugin="bulk_field_update">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>一覧画面で絞り込んだレコードだけを対象に、複数フィールドをまとめて書き換える</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>一覧画面で条件を絞り込んだ状態でボタンを押すと、その絞り込み条件に一致するレコードだけが更新対象になります。確認ダイアログには絞り込み条件と対象件数が表示されるため、意図した範囲であることを確認してから実行できます。ステータスの一括変更、キャンペーン対象レコードへのフラグ一括付与など、条件に応じた一括編集作業に使えます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>特定グループのメンバーだけが実行できるようにし、必須フィールドの入力漏れを防ぐ</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>設定画面で実行可能グループを指定すると、一覧画面のボタン自体を特定グループのメンバーにだけ表示できます(ただし表示・非表示の切り替えに過ぎず、実際の書き込み可否はアプリ・フィールドのアクセス権設定に依存します)。また、対象フィールドがフォームで必須に設定されている場合、確認ダイアログでの入力も必須になるため、必須項目を空欄のまま一括更新してしまうミスを防げます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「対象フィールド」の一覧から、一括更新の対象にしたいフィールドにチェックを入れる(テーブル・組織選択・ユーザー選択・グループ選択・添付ファイル・ルックアップフィールドは対象にできません)。</li>
+    <li>「実行可能グループ」に、一覧画面のボタンを表示するグループコードをカンマ区切りで1つ以上入力し、保存する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めて一覧画面にボタンが表示されます)。</li>
+  </ol>
+  <p class="download-note">一覧画面で絞り込みたい条件を設定してからボタンを押すと、対象レコード数・現在の絞り込み条件・対象フィールドごとの入力欄を示す確認ダイアログが表示されます。値を入力して実行すると、対象レコードへ一括で書き込まれ、完了後に対象件数・成功件数・(リビジョン競合による)スキップ件数が表示されます。対象レコードが0件の場合は確認ダイアログを出さず、その旨だけを通知します。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>対象レコードの列挙にはレコードカーソルAPI(<code>POST</code>/<code>GET</code> <code>/k/v1/records/cursor.json</code>)を使い、書き戻しは<code>PUT /k/v1/records.json</code>を100件ずつのバッチで送信します。バッチ全体が失敗した場合のみ1件ずつの個別送信にフォールバックし、リビジョン競合(他ユーザーによる同時編集)が起きたレコードだけをスキップして他のレコードの処理は継続します。REST API呼び出しはすべて<code>kintone.api()</code>(kintone自身への呼び出し専用の内部ラッパー)経由で、外部サーバーへの通信は一切行いません。</li>
+        <li>対象フィールドの一覧取得・絞り込み条件の取得は、いずれもREST APIではなく<code>kintone.app.getFormFields()</code>/<code>kintone.app.getQueryCondition()</code>のJavaScript APIを使用しています。</li>
+        <li>書き込む値は設定画面には一切保存されません。実行のたびに確認ダイアログへ入力し、その場でPUT APIへ渡すだけで完結します。</li>
+        <li>選択肢系フィールド(ラジオボタン・ドロップダウン)はkintoneのREST API仕様上、空文字列を指定しても明示的に空にはできない(初期値が設定されてしまう)ため、常に選択肢の中から値を選ばせる仕様にしています。対象フィールドがフォームで必須の場合は、確認ダイアログでの入力も必須にし、空欄のまま実行しようとするとダイアログを閉じさせずエラー表示します。</li>
+        <li>実行可能グループによる一覧画面ボタンの表示制御(<code>kintone.user.getGroups()</code>)は、あくまでUI上の表示・非表示を切り替える機能であり、真の権限境界ではありません。実際に書き込みできるかどうかは、対象アプリ・対象フィールド自体のkintone標準のアクセス権設定に委ねられます(設定画面にも明記しています)。</li>
+        <li>確認ダイアログの本文・入力欄はすべて<code>textContent</code>/<code>createElement</code>のみで組み立てており、ユーザー入力(絞り込み条件・書き込む値)をHTML要素として出力することはありません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/bulk_field_update/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="特定フィールド一括更新プラグインの設定画面。対象フィールドのON/OFF一覧(必須フィールドにはバッジ表示)と実行可能グループを設定する画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインは、一覧画面のボタンを押すたびに、対象レコードを列挙するレコードカーソルAPI
+    (<code>POST</code>/<code>GET</code>/<code>DELETE</code> <code>/k/v1/records/cursor.json</code>)を実行し、
+    確認ダイアログで実行を確定すると、続けて対象フィールドへの書き戻し(<code>PUT /k/v1/records.json</code>、
+    100件を超える場合は複数回、リビジョン競合時は個別送信<code>PUT /k/v1/record.json</code>へ
+    フォールバック)を実行します。確認ダイアログの表示のみで実行をキャンセルした場合は、
+    カーソル作成(件数確認用)の1回のみでレコード本体の取得・書き戻しは行われません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/bulk_field_update" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/bulk_field_update/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+.bfu-bulk-button {
+  margin: 8px;
+}
+
+.bfu-confirm-message {
+  white-space: pre-line;
+  margin-bottom: 1em;
+}
+
+.bfu-confirm-row {
+  margin-bottom: 1em;
+}
+
+.bfu-value-label {
+  display: block;
+  font-weight: bold;
+}
+
+.bfu-value-input {
+  display: block;
+  margin-top: 0.5em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bfu-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em 1em;
+  margin-top: 0.5em;
+}
+
+.bfu-checkbox-label {
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+.bfu-value-error {
+  color: #c0392b;
+}

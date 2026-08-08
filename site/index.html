@@ -73,7 +73,7 @@
   </div>
   <div class="filter-group">
     <div class="filter-group-label">カテゴリ</div>
-    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span><span class="chip" data-category="文字列処理">文字列処理</span><span class="chip" data-category="サブテーブル">サブテーブル</span><span class="chip" data-category="入力制御">入力制御</span><span class="chip" data-category="レイアウト・表示">レイアウト・表示</span><span class="chip" data-category="データ連携">データ連携</span><span class="chip" data-category="自動採番">自動採番</span><span class="chip" data-category="プラグイン管理">プラグイン管理</span>
+    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span><span class="chip" data-category="文字列処理">文字列処理</span><span class="chip" data-category="サブテーブル">サブテーブル</span><span class="chip" data-category="入力制御">入力制御</span><span class="chip" data-category="レイアウト・表示">レイアウト・表示</span><span class="chip" data-category="データ連携">データ連携</span><span class="chip" data-category="自動採番">自動採番</span><span class="chip" data-category="プラグイン管理">プラグイン管理</span><span class="chip" data-category="一括更新">一括更新</span>
   </div>
   <div class="filter-group">
     <div class="filter-group-label">タグ</div>
@@ -406,6 +406,15 @@
   </div>
   <div class="plugin-version">v1</div>
 </a>
+<a class="plugin-card" data-category="一括更新" data-tags="一括編集,絞り込み条件" data-search="特定フィールド一括更新プラグイン レコード一覧画面のボタン押下で、対象フィールドの値を確認ダイアログでその都度入力し、一覧画面の現在の絞り込み条件に一致する全レコードへ一括で書き込むプラグイン。 一括編集 絞り込み条件" href="plugins/bulk_field_update/index.html">
+  <div class="plugin-name">特定フィールド一括更新プラグイン</div>
+  <div class="plugin-desc">レコード一覧画面のボタン押下で、対象フィールドの値を確認ダイアログでその都度入力し、一覧画面の現在の絞り込み条件に一致する全レコードへ一括で書き込むプラグイン</div>
+  <div>
+    <span class="badge badge-category">一括更新</span>
+    <span class="badge badge-tag">#一括編集</span><span class="badge badge-tag">#絞り込み条件</span>
+  </div>
+  <div class="plugin-version">v1</div>
+</a>
 </div>
 <p class="empty-state is-hidden">条件に一致するプラグインが見つかりませんでした。</p>
 
@@ -706,6 +715,13 @@
       description: 'レコード一覧画面のボタン押下で、設定した条件に一致する全レコードのDATE/DATETIMEフィールドへ現在の日付・日時を一括書き込みするプラグイン。',
       tags: ['基準日更新', '一括更新'],
       text: '年齢・学年フィールド計算用フィールド更新プラグイン DATEDIF(生年月日, 基準日, "Y")のように年齢・学年をCALCフィールドで計算する場合、基準日をDATE/DATETIMEフィールド(固定値として保存)にしていると時間の経過で古い基準日のままになり計算結果が更新されなくなる問題を解消する。レコード一覧画面(PC・モバイル両対応)に設置したボタンを押すと、設定画面で指定したクエリ条件(一覧画面の絞り込み状態とは無関係な固定条件)に一致する全レコードの対象DATE/DATETIMEフィールドへ値を一括で書き込む。ボタン押下時は対象レコード数・書き込み先フィールド名を示す確認ダイアログ(PC: kintone.createDialog、モバイル: kintone.mobile.createBottomSheet)が表示され、書き込む値は「今日」(DATE型は今日の日付、DATETIME型は現在日時)を初期値とした編集可能な入力欄(date/datetime-local)として示され、必要なら実行前に別の日付・日時へ変更できる。対象レコード0件の場合は確認ダイアログを出さずその旨を通知する。対象レコードの列挙はレコードカーソルAPI、書き戻しはPUT /k/v1/records.jsonを100件バッチで行い、リビジョン競合(他ユーザーの同時編集)が起きたレコードだけをスキップして個別送信にフォールバックする。設定画面では対象フィールド(DATE/DATETIME型のみ選択可、必須)・クエリ条件(任意)・実行可能グループ(kintone.user.getGroupsによる一覧画面ボタンの表示制御、1つ以上必須)を設定する。基準日更新 年齢計算 学年計算 一括更新 定期更新 DATEDIF CALC 日付変更 日時変更'
+    },
+    {
+      key: 'bulk_field_update',
+      name: '特定フィールド一括更新プラグイン',
+      description: 'レコード一覧画面のボタン押下で、対象フィールドの値を確認ダイアログでその都度入力し、一覧画面の現在の絞り込み条件に一致する全レコードへ一括で書き込むプラグイン。',
+      tags: ['一括編集', '絞り込み条件'],
+      text: '特定フィールド一括更新プラグイン 任意の複数フィールドを対象に、一覧画面の現在の絞り込み条件(kintone.app.getQueryCondition/kintone.mobile.app.getQueryCondition)に一致する全レコードへ、一覧画面ボタン押下時に確認ダイアログで都度入力した値を一括で書き込む。設定画面ではkintone.app.getFormFields()で取得したフィールド一覧から対象フィールドをON/OFFで選ぶだけで、値そのものは設定画面には保存しない(実行のたびに確認ダイアログで入力する)。対象外にできないフィールドはテーブル・組織選択・ユーザー選択・グループ選択・添付ファイル・ルックアップ・レコード番号や作成者・作成日時等の自動採番/システム管理フィールド。ボタン押下時の確認ダイアログ(PC: kintone.createDialog、モバイル: kintone.mobile.createBottomSheet)には対象レコード数・現在の絞り込み条件クエリ・対象フィールドごとの入力欄(ラジオボタン/ドロップダウンは選択肢からの選択必須、チェックボックス/複数選択はチェック欄、日付/時刻/日時はdate・time・datetime-local入力)が表示される。対象フィールドがフォームで必須(required)に設定されている場合は確認ダイアログでの入力も必須になり、空欄のまま実行しようとするとダイアログを閉じさせずエラー表示する。対象レコードの列挙はレコードカーソルAPI、書き戻しはPUT /k/v1/records.jsonを100件バッチで行い、リビジョン競合(他ユーザーの同時編集)が起きたレコードだけをスキップして個別送信にフォールバックする。実行可能グループ(kintone.user.getGroupsによる一覧画面ボタンの表示制御、1つ以上必須)も設定できる。一括編集 一括更新 絞り込み条件 フィールド一括変更 必須バリデーション'
     }
   ];
 </script>

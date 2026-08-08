@@ -1,0 +1,50 @@
+<section class="settings">
+  <h2 class="settings-heading">特定フィールド一括更新プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコード一覧画面(PC・モバイル)に一括更新ボタンを設置します。ボタン押下時は、一覧画面の
+    現在の絞り込み条件に一致する全レコードに対して、下記でON(対象)にしたフィールドへ、
+    書き込む値を確認ダイアログでその都度入力してから一括で書き込みます。<br>
+    テーブル・組織選択・ユーザー選択・グループ選択のフィールドは対象にできません。
+    フォームで必須に設定されているフィールドは、確認ダイアログでの入力も必須になります。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="bfu-section">
+      <div class="bfu-section-heading">対象フィールド</div>
+      <p class="kintoneplugin-desc">
+        一括更新の対象にしたいフィールドにチェックを入れてください。書き込む値はここでは設定せず、
+        一覧画面のボタンを押したときに表示される確認ダイアログで、実行のたびに入力します。
+      </p>
+      <p id="js-no-fields-warning" class="kintoneplugin-alert" style="display:none;">
+        このアプリには一括更新の対象にできるフィールドがありません。
+      </p>
+      <table class="bfu-table">
+        <thead>
+          <tr>
+            <th>対象</th>
+            <th>フィールド</th>
+            <th>種類</th>
+          </tr>
+        </thead>
+        <tbody id="js-field-body"></tbody>
+      </table>
+    </section>
+
+    <section class="bfu-section">
+      <div class="bfu-section-heading">実行可能グループ<span class="kintoneplugin-require">必須</span></div>
+      <p class="kintoneplugin-desc">
+        一覧画面の一括更新ボタンを表示するグループコードをカンマ区切りで入力してください(1つ以上必須)。<br>
+        <strong>注意:</strong> これはボタンの表示・非表示を切り替えるだけの制御であり、真の権限制御ではありません。
+        実際にフィールドを書き換えられるかどうかは、このアプリ・対象フィールド自体のkintoneのアクセス権設定に依存します。
+      </p>
+      <p class="kintoneplugin-row">
+        <input type="text" class="kintoneplugin-input-text js-group-codes" placeholder="例）kanri_group, admins">
+      </p>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>

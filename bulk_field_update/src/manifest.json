@@ -1,0 +1,64 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/field-eligibility.js",
+      "js/lib/cursor-enumerator.js",
+      "js/lib/batch-writer.js",
+      "js/lib/config-store.js",
+      "js/lib/datetime-local-codec.js",
+      "js/lib/execution-validation.js",
+      "js/lib/record-patch-builder.js",
+      "js/lib/build-confirm-message.js",
+      "js/bulk-update.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/field-eligibility.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "bulk_field_update plugin",
+    "ja": "特定フィールド一括更新プラグイン"
+  },
+  "description": {
+    "en": "Adds a list-screen button that, after a confirmation dialog where you type the values and see the query and count, writes them into chosen fields for every record matching the current view's filter.",
+    "ja": "レコード一覧画面(PC・モバイル)のボタン押下で、対象フィールドの値を確認ダイアログでその都度入力し、一覧画面の現在の絞り込み条件に一致する全レコードへ一括で書き込むプラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/field-eligibility.js",
+      "js/lib/cursor-enumerator.js",
+      "js/lib/batch-writer.js",
+      "js/lib/config-store.js",
+      "js/lib/datetime-local-codec.js",
+      "js/lib/execution-validation.js",
+      "js/lib/record-patch-builder.js",
+      "js/lib/build-confirm-message.js",
+      "js/bulk-update.js",
+      "js/mobile.js"
+    ],
+    "css": [
+      "css/mobile.css"
+    ]
+  }
+}
