@@ -2,13 +2,34 @@
   margin: 8px;
 }
 
+.bfu-confirm-body {
+  padding: 1.25em 1.5em;
+  box-sizing: border-box;
+}
+
 .bfu-confirm-message {
   white-space: pre-line;
   margin-bottom: 1em;
 }
 
 .bfu-confirm-row {
-  margin-bottom: 1em;
+  margin-bottom: 1.25em;
+  padding-bottom: 1.25em;
+  border-bottom: 1px solid #e3e7e8;
+}
+
+.bfu-confirm-row:last-of-type {
+  border-bottom: none;
+}
+
+.bfu-confirm-row.is-excluded {
+  opacity: 0.5;
+}
+
+.bfu-row-include-label {
+  display: block;
+  font-weight: normal;
+  margin-bottom: 0.5em;
 }
 
 .bfu-value-label {
@@ -37,4 +58,13 @@
 
 .bfu-value-error {
   color: #c0392b;
+}
+
+.bfu-final-summary-list {
+  margin: 0;
+  padding-left: 1.25em;
+}
+
+.bfu-final-summary-list li {
+  margin-bottom: 0.5em;
 }

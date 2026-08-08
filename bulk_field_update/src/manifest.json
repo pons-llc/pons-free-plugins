@@ -12,6 +12,7 @@
       "js/lib/datetime-local-codec.js",
       "js/lib/execution-validation.js",
       "js/lib/record-patch-builder.js",
+      "js/lib/value-summary.js",
       "js/lib/build-confirm-message.js",
       "js/bulk-update.js",
       "js/desktop.js"
@@ -53,6 +54,7 @@
       "js/lib/datetime-local-codec.js",
       "js/lib/execution-validation.js",
       "js/lib/record-patch-builder.js",
+      "js/lib/value-summary.js",
       "js/lib/build-confirm-message.js",
       "js/bulk-update.js",
       "js/mobile.js"

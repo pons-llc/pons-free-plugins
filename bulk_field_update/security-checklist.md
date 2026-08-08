@@ -3,10 +3,11 @@
 [secureCodingGuideline.md](../secureCodingGuideline.md)の一般項目([age_grade_field_update/security-checklist.md](../age_grade_field_update/security-checklist.md)等の他プラグインと共通の内容、UTF-8/BOMなし・`'use strict'`・外部スクリプト不使用など)は
 重複記載を省略し、本プラグイン固有の項目のみ記載する。
 
-最終確認日: 2026-08-08 / 対象: 実装レビューとJestユニットテスト(83件)。Puppeteerによる実環境テスト
+最終確認日: 2026-08-09 / 対象: 実装レビューとJestユニットテスト(96件)。Puppeteerによる実環境テスト
 (`src/e2e/config-screen.e2e.test.js`で設定画面の対象外フィールド除外・必須バッジ・ON/OFF保存確認、
-`src/e2e/bulk-update-flow.e2e.test.js`で一覧画面ボタン→確認ダイアログでの絞り込み条件表示・必須
-バリデーション・実行→実際のレコード書き込みまでの一連の流れをPCで確認)を実施済み。モバイル側
+`src/e2e/bulk-update-flow.e2e.test.js`で一覧画面ボタン→1つ目のダイアログでの絞り込み条件表示・
+必須バリデーション・「更新する」チェックを外したフィールドが変更されないこと→最終確認ダイアログでの
+確定値の表示→実行→実際のレコード書き込みまでの一連の流れをPCで確認)を実施済み。モバイル側
 (`kintone.mobile.createBottomSheet()`)は未実施(下記「個別確認事項」参照)。
 
 ## コーディング作法
@@ -47,12 +48,15 @@
 ## 対象フィールドの絞り込み・値の正規化・バリデーション
 
 - [x] `kintone.app.getFormFields()`のレスポンスを基に、値の登録・更新ができないフィールド(レコード番号・作成者・作成日時・更新者・更新日時・計算・カテゴリー・ステータス・作業者・関連レコード一覧)、装飾用のグループ、テーブル、組織選択・ユーザー選択・グループ選択、添付ファイルを対象外にしている(`js/lib/field-eligibility.js`、kintoneドキュメントMCP「フィールド形式」で登録・更新可否を確認済み)
-- [x] `field.lookup`が設定されているフィールド(ルックアップ)も対象外にしている。コピー先フィールドへ直接書き込むとコピー元アプリとの整合性が崩れ得るため(idea.md参照)
+- [x] `field.lookup`が設定されているフィールド(ルックアップ自体)も対象外にしている。コピー先フィールドへ直接書き込むとコピー元アプリとの整合性が崩れ得るため(idea.md参照)
+- [x] **(2026-08-09バグ修正)** ルックアップの「ほかのフィールドのコピー」設定で**コピー先**に指定されているフィールド(`lookup.fieldMappings[].field`、コピー先フィールド自体は`.lookup`を持たないため上記の判定だけでは除外できていなかった)も対象外にしている。`js/lib/field-eligibility.js`の`collectLookupCopyDestinationCodes()`で全フィールドのlookup設定を走査してコピー先フィールドコードを集め、`listEligibleFields()`で追加除外する(`field-eligibility.test.js`でテスト済み)。設定画面(`js/config.js`)・実行時(`js/bulk-update.js`の`resolveTargetFields`)のいずれも同じ`listEligibleFields()`を使うため判定基準が一致している
 - [x] 選択肢系フィールド(ラジオボタン・ドロップダウン)の値には、`options`オブジェクトの**キー**(表示ラベルではなくAPIでの登録・更新に使う識別子)を使っている(`js/bulk-update.js`の確認ダイアログ入力欄構築)。表示ラベルが変更されてもキー自体は変わらないため、選択肢の名称変更で書き込み内容が変わってしまうことを防ぐ
 - [x] 型ごとの空値の表現(日付/時刻はnull、チェックボックス/複数選択は`[]`、それ以外は`''`)をkintoneドキュメントMCP「フィールドの値を空に設定する場合」で確認し、`js/lib/record-patch-builder.js`の`normalizeValue`で正規化している(`record-patch-builder.test.js`でテスト済み)
 - [x] ラジオボタン・ドロップダウンはAPI経由で明示的に空にする方法が無い(空文字列を指定すると初期値が設定される仕様)ため、フィールドの`required`設定に関わらず常に選択肢から値を選ばせている(`js/lib/execution-validation.js`、確認ダイアログのOK確定時=`beforeClose`で検証)
 - [x] 対象フィールドがkintoneのフォーム設定で必須(`required: true`)の場合、確認ダイアログでの入力も必須にしている。空欄のまま実行しようとするとダイアログを閉じさせずエラーメッセージを表示する(`js/lib/execution-validation.js`の`validateTargetValues`、`execution-validation.test.js`でテスト済み)
 - [x] 値そのものは設定画面(プラグイン設定として`kintone.plugin.app.setConfig()`に永続化される領域)には一切保存しない。実行のたびに確認ダイアログで入力し、その場でPUT APIへ渡すのみで終わる(`js/lib/config-store.js`は対象フィールドコードとグループコードのみを保存)
+- [x] 1つ目のダイアログの「このフィールドを更新する」チェックを外したフィールドはrecordパッチから完全に除外し(`js/bulk-update.js`の`beforeClose`、`includedFields`でフィルタしてから`ExecutionValidation`・`RecordPatchBuilder`に渡す)、空文字列や既存値相当の値を明示的に書き込むような処理は行わない。kintoneのPUT APIはリクエストに含めないフィールドをそのまま変更しない仕様であるため、除外=不変更であることをAPI呼び出しレベルでも保証している
+- [x] 実行前に「最終確認」ダイアログをもう1段階挟み、1つ目のダイアログで確定した値(選択肢はラベル表示に変換、`js/lib/value-summary.js`)を一覧で見直してからでないと実際の書き戻し(カーソル列挙・PUT)が始まらないようにしている(`js/bulk-update.js`の`showFinalConfirmDialog`)。最終確認ダイアログでキャンセルした場合は`beforeunload`ガードの有効化やレコードカーソルの列挙(GET)も一切行わない
 
 ## 実行可能グループによる表示制御の限界(重要・idea.mdにも明記)
 
@@ -63,7 +67,7 @@
 
 ## エッジケースの扱い
 
-- [x] 対象フィールドがフォームから削除された、または対象外の型に変更された場合、そのフィールドは確認ダイアログの入力欄自体を表示しない(`js/bulk-update.js`の`runBulk`が`kintone.app.getFormFields()`の最新値と`FieldEligibility.isEligibleField()`で都度突き合わせて判定)。対象フィールドが全滅した場合はエラーメッセージを表示して実行を中止する
+- [x] 対象フィールドがフォームから削除された、対象外の型に変更された、または新たにルックアップのコピー先に指定された場合、そのフィールドは確認ダイアログの入力欄自体を表示しない(`js/bulk-update.js`の`resolveTargetFields`が`kintone.app.getFormFields()`の最新値と`FieldEligibility.listEligibleFields()`で都度突き合わせて判定)。対象フィールドが全滅した場合はエラーメッセージを表示して実行を中止する
 - [x] 一覧画面の絞り込み条件(`kintone.app.getQueryCondition()`)が削除済みのユーザー/組織/グループ/選択肢/ステータスを含みエラーになる場合、そのままエラーメッセージを表示して処理を中止する(推測でクエリを補正しない)
 - [x] 対象レコード0件の場合は確認ダイアログを出さず、`alert()`で「対象レコードがありません。」と通知して終了する
 - [x] 実行中は`beforeunload`でのページ離脱防止を行う(secureCodingGuideline「短時間で大量のリクエスト送信を避ける」への配慮)

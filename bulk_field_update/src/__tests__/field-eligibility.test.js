@@ -2,6 +2,7 @@
 
 const {
   isEligibleField,
+  collectLookupCopyDestinationCodes,
   listEligibleFields,
   inputKindOf,
 } = require('../js/lib/field-eligibility');
@@ -63,9 +64,73 @@ describe('listEligibleFields', () => {
     expect(result.map((f) => f.code)).toEqual(['text1']);
   });
 
+  test('ルックアップフィールドの「ほかのフィールドのコピー」のコピー先フィールドも対象外にする', () => {
+    const formFields = {
+      lookup1: {
+        type: 'SINGLE_LINE_TEXT',
+        code: 'lookup1',
+        lookup: {
+          relatedApp: { app: '1' },
+          fieldMappings: [
+            { field: 'copyDest1', relatedField: 'sourceField1' },
+            { field: 'copyDest2', relatedField: 'sourceField2' },
+          ],
+        },
+      },
+      copyDest1: { type: 'SINGLE_LINE_TEXT', code: 'copyDest1' },
+      copyDest2: { type: 'NUMBER', code: 'copyDest2' },
+      unrelated1: { type: 'SINGLE_LINE_TEXT', code: 'unrelated1' },
+    };
+    const result = listEligibleFields(formFields);
+    expect(result.map((f) => f.code)).toEqual(['unrelated1']);
+  });
+
   test('formFieldsが無い場合は空配列', () => {
     expect(listEligibleFields(null)).toEqual([]);
     expect(listEligibleFields(undefined)).toEqual([]);
+  });
+});
+
+describe('collectLookupCopyDestinationCodes', () => {
+  test('ルックアップフィールドのfieldMappingsからコピー先フィールドコードを集める', () => {
+    const formFields = {
+      lookup1: {
+        type: 'SINGLE_LINE_TEXT',
+        code: 'lookup1',
+        lookup: {
+          fieldMappings: [
+            { field: 'copyDest1', relatedField: 'sourceField1' },
+            { field: 'copyDest2', relatedField: 'sourceField2' },
+          ],
+        },
+      },
+      normal1: { type: 'SINGLE_LINE_TEXT', code: 'normal1' },
+    };
+    const codes = collectLookupCopyDestinationCodes(formFields);
+    expect(codes).toEqual(new Set(['copyDest1', 'copyDest2']));
+  });
+
+  test('ルックアップフィールドが無い場合は空集合', () => {
+    const formFields = {
+      normal1: { type: 'SINGLE_LINE_TEXT', code: 'normal1' },
+    };
+    expect(collectLookupCopyDestinationCodes(formFields)).toEqual(new Set());
+  });
+
+  test('fieldMappingsが未設定のルックアップフィールドがあっても例外を投げない', () => {
+    const formFields = {
+      lookup1: {
+        type: 'SINGLE_LINE_TEXT',
+        code: 'lookup1',
+        lookup: { relatedApp: { app: '1' } },
+      },
+    };
+    expect(collectLookupCopyDestinationCodes(formFields)).toEqual(new Set());
+  });
+
+  test('formFieldsが無い場合は空集合', () => {
+    expect(collectLookupCopyDestinationCodes(null)).toEqual(new Set());
+    expect(collectLookupCopyDestinationCodes(undefined)).toEqual(new Set());
   });
 });
 

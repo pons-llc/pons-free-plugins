@@ -72,10 +72,36 @@
     return true;
   };
 
+  // ルックアップフィールドの「ほかのフィールドのコピー」設定で**コピー先**に指定されている
+  // フィールドのコード一覧を集める。これらのフィールドはルックアップフィールドの値が確定する
+  // たびに自動上書きされるため(コピー先フィールド自体は`field.lookup`を持たず、ルックアップ
+  // フィールド側の`lookup.fieldMappings[].field`にコピー先として列挙される)、一括更新の対象に
+  // すると次回のルックアップ実行時に上書きされてしまい、コピー元との整合性が壊れる
+  // (idea.md「ルックアップのコピー先フィールドの除外」参照)。
+  const collectLookupCopyDestinationCodes = (formFields) => {
+    const codes = new Set();
+    Object.values(formFields || {}).forEach((field) => {
+      if (field && field.lookup && Array.isArray(field.lookup.fieldMappings)) {
+        field.lookup.fieldMappings.forEach((mapping) => {
+          if (mapping && mapping.field) {
+            codes.add(mapping.field);
+          }
+        });
+      }
+    });
+    return codes;
+  };
+
   // formFields(kintone.app.getFormFields()の戻り値、フィールドコードをキーとするオブジェクト)から
-  // 対象として選択可能なフィールドの配列を返す。
-  const listEligibleFields = (formFields) =>
-    Object.values(formFields || {}).filter(isEligibleField);
+  // 対象として選択可能なフィールドの配列を返す。isEligibleField()単体では判定できない
+  // 「ルックアップのコピー先フィールド」もここで除外する。
+  const listEligibleFields = (formFields) => {
+    const copyDestinationCodes = collectLookupCopyDestinationCodes(formFields);
+    return Object.values(formFields || {}).filter(
+      (field) =>
+        isEligibleField(field) && !copyDestinationCodes.has(field.code),
+    );
+  };
 
   // フィールド型に応じた設定画面での入力欄の種類を返す。config.js側のUI分岐に使う。
   const inputKindOf = (fieldType) => {
@@ -114,6 +140,7 @@
     MULTI_CHOICE_TYPES,
     DATE_LIKE_TYPES,
     isEligibleField,
+    collectLookupCopyDestinationCodes,
     listEligibleFields,
     inputKindOf,
   };

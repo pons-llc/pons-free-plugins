@@ -152,7 +152,11 @@
     return builder(field);
   };
 
-  // 確認ダイアログの本文Elementを組み立てる。対象フィールドごとに値の入力欄を1行ずつ配置する。
+  // 確認ダイアログの本文Elementを組み立てる。対象フィールドごとに、このフィールドを今回の
+  // 実行対象に含めるかどうかのチェックボックスと、値の入力欄を1行ずつ配置する。
+  // チェックを外したフィールドはrecordパッチに含めない(kintoneのPUT APIはリクエストに
+  // 含めたフィールドのみを更新するため、含めない=既存の値のまま変更しない、という挙動になる。
+  // idea.md「対象フィールドの一部を今回の実行から除外する」参照)。
   // createDialog/createBottomSheetのconfig.bodyはそのままダイアログへ組み込まれる仕様のため、
   // ユーザー入力をHTML文字列として組み立てず、createElement/textContentのみで構築する
   // (secureCodingGuideline「外部からの入力値を使用した要素の生成を避ける」)。
@@ -166,9 +170,23 @@
     wrapper.appendChild(messageEl);
 
     const readers = {};
+    const includeCheckboxes = {};
     targetFields.forEach((field) => {
       const rowEl = document.createElement('div');
       rowEl.className = 'bfu-confirm-row';
+
+      const includeLabelEl = document.createElement('label');
+      includeLabelEl.className = 'bfu-row-include-label';
+      const includeCheckboxEl = document.createElement('input');
+      includeCheckboxEl.type = 'checkbox';
+      includeCheckboxEl.className = 'bfu-row-include';
+      includeCheckboxEl.checked = true;
+      includeCheckboxes[field.code] = includeCheckboxEl;
+      includeLabelEl.appendChild(includeCheckboxEl);
+      includeLabelEl.appendChild(
+        document.createTextNode('このフィールドを更新する'),
+      );
+      rowEl.appendChild(includeLabelEl);
 
       const labelEl = document.createElement('label');
       labelEl.className = 'bfu-value-label';
@@ -179,8 +197,18 @@
       const { el, read } = buildValueControl(field);
       labelEl.appendChild(el);
       readers[field.code] = read;
-
       rowEl.appendChild(labelEl);
+
+      includeCheckboxEl.addEventListener('change', () => {
+        const disabled = !includeCheckboxEl.checked;
+        rowEl
+          .querySelectorAll('.bfu-value-input, .bfu-checkbox-group input')
+          .forEach((inputEl) => {
+            inputEl.disabled = disabled;
+          });
+        rowEl.classList.toggle('is-excluded', disabled);
+      });
+
       wrapper.appendChild(rowEl);
     });
 
@@ -189,7 +217,127 @@
     errorEl.hidden = true;
     wrapper.appendChild(errorEl);
 
-    return { wrapper, readers, errorEl };
+    return { wrapper, readers, includeCheckboxes, errorEl };
+  };
+
+  // 最終確認ダイアログの本文Elementを組み立てる。1つ目のダイアログで確定した値をあらためて
+  // 一覧表示し、対象件数・絞り込み条件とあわせて実行前に見直せるようにする(ユーザーからの
+  // 要望: 最終確認のモーダルを追加してほしい)。
+  const buildFinalConfirmBody = (message, summaries) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'bfu-confirm-body';
+
+    const messageEl = document.createElement('p');
+    messageEl.className = 'bfu-confirm-message';
+    messageEl.textContent = message;
+    wrapper.appendChild(messageEl);
+
+    const listEl = document.createElement('ul');
+    listEl.className = 'bfu-final-summary-list';
+    summaries.forEach((summary) => {
+      const itemEl = document.createElement('li');
+      itemEl.textContent = `${summary.label}: ${summary.valueLabel}`;
+      listEl.appendChild(itemEl);
+    });
+    wrapper.appendChild(listEl);
+
+    return wrapper;
+  };
+
+  // 1つ目のダイアログ(値の入力・対象フィールドの絞り込み)を表示し、OK確定時の値
+  // (フィールド未選択・必須未入力等のバリデーション込み)を返す。キャンセル/クローズ、
+  // または未確定の場合はnullを返す。
+  const showValueInputDialog = async (
+    platform,
+    message,
+    targetFields,
+    formFields,
+  ) => {
+    const { wrapper, readers, includeCheckboxes, errorEl } =
+      buildConfirmDialogBody(message, targetFields);
+
+    let pendingTargets = null;
+    const dialog = await platform.createDialog({
+      title: '一括更新の実行確認',
+      body: wrapper,
+      showOkButton: true,
+      okButtonText: '次へ',
+      showCancelButton: true,
+      cancelButtonText: 'キャンセル',
+      showCloseButton: true,
+      beforeClose: (action) => {
+        if (action !== 'OK') {
+          return true;
+        }
+        // チェックを外したフィールドは今回の実行対象から除外する(recordパッチに含めない
+        // = 既存の値のまま変更しない。idea.md参照)。
+        const includedFields = targetFields.filter(
+          (field) => includeCheckboxes[field.code].checked,
+        );
+        if (includedFields.length === 0) {
+          errorEl.textContent = '更新するフィールドを1つ以上選択してください。';
+          errorEl.hidden = false;
+          return false;
+        }
+        const targets = includedFields.map((field) => ({
+          fieldCode: field.code,
+          value: readers[field.code](),
+        }));
+        const { valid, errors } = NS.ExecutionValidation.validateTargetValues(
+          targets,
+          formFields,
+        );
+        if (!valid) {
+          errorEl.textContent = errors.join('\n');
+          errorEl.hidden = false;
+          return false;
+        }
+        pendingTargets = targets;
+        return true;
+      },
+    });
+    const dialogResult = await dialog.show();
+    return dialogResult === 'OK' ? pendingTargets : null;
+  };
+
+  // 最終確認ダイアログ(1つ目のダイアログで確定した値の見直し)を表示し、
+  // 実行が確定したかどうかを返す。
+  const showFinalConfirmDialog = async (
+    platform,
+    message,
+    targets,
+    formFields,
+  ) => {
+    const { summaries } = NS.ValueSummary.buildTargetSummaries(
+      targets,
+      formFields,
+    );
+    const finalDialog = await platform.createDialog({
+      title: '最終確認',
+      body: buildFinalConfirmBody(message, summaries),
+      showOkButton: true,
+      okButtonText: '実行',
+      showCancelButton: true,
+      cancelButtonText: 'キャンセル',
+      showCloseButton: true,
+    });
+    const finalDialogResult = await finalDialog.show();
+    return finalDialogResult === 'OK';
+  };
+
+  // 対象フィールドがフォームから削除された、対象外の型に変更された、または新たに
+  // ルックアップフィールドのコピー先に指定された場合は除外する(idea.md「エッジケース」参照)。
+  // listEligibleFields()は設定画面と同じ基準(isEligibleField()に加えてルックアップの
+  // コピー先フィールドの除外)で判定するため、config.targetFieldCodesの保存後にフォームが
+  // 変更されていても実行時点の最新の状態で再判定できる。
+  const resolveTargetFields = (config, formFields) => {
+    const eligibleFieldsByCode = {};
+    NS.FieldEligibility.listEligibleFields(formFields).forEach((field) => {
+      eligibleFieldsByCode[field.code] = field;
+    });
+    return config.targetFieldCodes
+      .map((code) => eligibleFieldsByCode[code])
+      .filter(Boolean);
   };
 
   // config: { targetFieldCodes: [fieldCode], groupCodes }
@@ -201,12 +349,7 @@
   // }
   const runBulk = async (config, appId, platform) => {
     const formFields = await kintone.app.getFormFields();
-
-    // 対象フィールドがフォームから削除された、または対象外の型に変更された場合は除外する
-    // (idea.md「エッジケース」参照)。
-    const targetFields = config.targetFieldCodes
-      .map((code) => formFields[code])
-      .filter((field) => field && NS.FieldEligibility.isEligibleField(field));
+    const targetFields = resolveTargetFields(config, formFields);
 
     if (targetFields.length === 0) {
       global.alert(
@@ -252,43 +395,26 @@
       targetCount: totalCount,
       query,
     });
-    const { wrapper, readers, errorEl } = buildConfirmDialogBody(
+
+    const pendingTargets = await showValueInputDialog(
+      platform,
       message,
       targetFields,
+      formFields,
     );
+    if (!pendingTargets) {
+      return;
+    }
 
-    let pendingTargets = null;
-    const dialog = await platform.createDialog({
-      title: '一括更新の実行確認',
-      body: wrapper,
-      showOkButton: true,
-      okButtonText: '実行',
-      showCancelButton: true,
-      cancelButtonText: 'キャンセル',
-      showCloseButton: true,
-      beforeClose: (action) => {
-        if (action !== 'OK') {
-          return true;
-        }
-        const targets = targetFields.map((field) => ({
-          fieldCode: field.code,
-          value: readers[field.code](),
-        }));
-        const { valid, errors } = NS.ExecutionValidation.validateTargetValues(
-          targets,
-          formFields,
-        );
-        if (!valid) {
-          errorEl.textContent = errors.join('\n');
-          errorEl.hidden = false;
-          return false;
-        }
-        pendingTargets = targets;
-        return true;
-      },
-    });
-    const dialogResult = await dialog.show();
-    if (dialogResult !== 'OK' || !pendingTargets) {
+    // 最終確認ダイアログ: 確定した値を一覧であらためて見直してから実行できるようにする
+    // (ユーザーからの要望: 最終確認のモーダルを追加してほしい)。
+    const confirmed = await showFinalConfirmDialog(
+      platform,
+      message,
+      pendingTargets,
+      formFields,
+    );
+    if (!confirmed) {
       return;
     }
 
