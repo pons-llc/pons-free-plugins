@@ -60,6 +60,12 @@
   color: #c0392b;
 }
 
+.bfu-lookup-note {
+  margin-top: 0.5em;
+  font-size: 0.9em;
+  color: #666;
+}
+
 .bfu-final-summary-list {
   margin: 0;
   padding-left: 1.25em;

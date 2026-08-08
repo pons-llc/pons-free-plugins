@@ -76,7 +76,14 @@
       rowEl.appendChild(labelCellEl);
 
       const typeCellEl = document.createElement('td');
-      typeCellEl.textContent = TYPE_LABELS[field.type] || field.type;
+      const baseTypeLabel = TYPE_LABELS[field.type] || field.type;
+      // ルックアップフィールドはfield.typeがコピー元フィールドの型(文字列1行/数値/リンク)に
+      // なっており、種類欄だけでは通常のフィールドと見分けが付かない。一括更新の対象にすると
+      // 値の入力欄が出ず「現在の値のまま更新(関連レコードを再取得)」という特別な動作になるため、
+      // 「ルックアップ」であることが分かるように表示する(idea.md「ルックアップフィールドの再取得」)。
+      typeCellEl.textContent = field.lookup
+        ? `ルックアップ・${baseTypeLabel}`
+        : baseTypeLabel;
       rowEl.appendChild(typeCellEl);
 
       fieldBodyEl.appendChild(rowEl);

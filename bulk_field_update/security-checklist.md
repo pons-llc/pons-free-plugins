@@ -3,11 +3,14 @@
 [secureCodingGuideline.md](../secureCodingGuideline.md)の一般項目([age_grade_field_update/security-checklist.md](../age_grade_field_update/security-checklist.md)等の他プラグインと共通の内容、UTF-8/BOMなし・`'use strict'`・外部スクリプト不使用など)は
 重複記載を省略し、本プラグイン固有の項目のみ記載する。
 
-最終確認日: 2026-08-09 / 対象: 実装レビューとJestユニットテスト(96件)。Puppeteerによる実環境テスト
-(`src/e2e/config-screen.e2e.test.js`で設定画面の対象外フィールド除外・必須バッジ・ON/OFF保存確認、
+最終確認日: 2026-08-09 / 対象: 実装レビューとJestユニットテスト(99件)。Puppeteerによる実環境テスト
+(`src/e2e/config-screen.e2e.test.js`で設定画面の対象外フィールド除外・ルックアップフィールドが
+種類欄で見分けられる形で対象に含まれること・必須バッジ・ON/OFF保存確認、
 `src/e2e/bulk-update-flow.e2e.test.js`で一覧画面ボタン→1つ目のダイアログでの絞り込み条件表示・
 必須バリデーション・「更新する」チェックを外したフィールドが変更されないこと→最終確認ダイアログでの
-確定値の表示→実行→実際のレコード書き込みまでの一連の流れをPCで確認)を実施済み。モバイル側
+確定値の表示→実行→実際のレコード書き込みまでの一連の流れ、`src/e2e/lookup-refresh-flow.e2e.test.js`で
+ルックアップフィールドを対象にした場合に確認ダイアログへ値の入力欄が出ないこと・実行後にコピー先
+フィールドが関連レコードの最新値へ実際に更新されることをPCで確認)を実施済み。モバイル側
 (`kintone.mobile.createBottomSheet()`)は未実施(下記「個別確認事項」参照)。
 
 ## コーディング作法
@@ -48,8 +51,8 @@
 ## 対象フィールドの絞り込み・値の正規化・バリデーション
 
 - [x] `kintone.app.getFormFields()`のレスポンスを基に、値の登録・更新ができないフィールド(レコード番号・作成者・作成日時・更新者・更新日時・計算・カテゴリー・ステータス・作業者・関連レコード一覧)、装飾用のグループ、テーブル、組織選択・ユーザー選択・グループ選択、添付ファイルを対象外にしている(`js/lib/field-eligibility.js`、kintoneドキュメントMCP「フィールド形式」で登録・更新可否を確認済み)
-- [x] `field.lookup`が設定されているフィールド(ルックアップ自体)も対象外にしている。コピー先フィールドへ直接書き込むとコピー元アプリとの整合性が崩れ得るため(idea.md参照)
-- [x] **(2026-08-09バグ修正)** ルックアップの「ほかのフィールドのコピー」設定で**コピー先**に指定されているフィールド(`lookup.fieldMappings[].field`、コピー先フィールド自体は`.lookup`を持たないため上記の判定だけでは除外できていなかった)も対象外にしている。`js/lib/field-eligibility.js`の`collectLookupCopyDestinationCodes()`で全フィールドのlookup設定を走査してコピー先フィールドコードを集め、`listEligibleFields()`で追加除外する(`field-eligibility.test.js`でテスト済み)。設定画面(`js/config.js`)・実行時(`js/bulk-update.js`の`resolveTargetFields`)のいずれも同じ`listEligibleFields()`を使うため判定基準が一致している
+- [x] ルックアップの「ほかのフィールドのコピー」設定で**コピー先**に指定されているフィールド(`lookup.fieldMappings[].field`、コピー先フィールド自体は`.lookup`を持たないため型による判定だけでは除外できない)は対象外にしている。`js/lib/field-eligibility.js`の`collectLookupCopyDestinationCodes()`で全フィールドのlookup設定を走査してコピー先フィールドコードを集め、`listEligibleFields()`で除外する(`field-eligibility.test.js`でテスト済み)。設定画面(`js/config.js`)・実行時(`js/bulk-update.js`の`resolveTargetFields`)のいずれも同じ`listEligibleFields()`を使うため判定基準が一致している。REST APIドキュメント「1件のレコードを更新する」の制限事項でも、ルックアップ元からコピーされるフィールドは更新不可と明記されている
+- [x] **(2026-08-09仕様変更)** ルックアップフィールド自体(`field.lookup`が設定されているフィールド)は対象フィールドに含めている。ただし通常のフィールドと異なり、確認ダイアログには値の入力欄を出さず(`FieldEligibility.inputKindOf()`が`'LOOKUP_REFRESH'`を返す)、書き戻し時は共有の固定パッチ値ではなく**レコードごとに、そのレコード自身が現在持っている値**をそのまま書き戻す(`js/bulk-update.js`の`runBulk`、カーソルで取得した`record[コード].value`を使用)。この挙動はkintone公式Tips「ルックアップの更新を自動で行う」で確認した「ルックアップフィールドへの書き込みがコピー先フィールドの自動転記を再実行させる」性質を利用したものであり、任意の値を書き込めるわけではない(常に自分自身の現在値のみ)ため、コピー元アプリとの整合性を壊すリスクは無い。`src/e2e/lookup-refresh-flow.e2e.test.js`で、コピー先フィールドが古い値のレコードに対して実行すると実際に関連レコードの最新値へ更新されることを実環境で確認済み
 - [x] 選択肢系フィールド(ラジオボタン・ドロップダウン)の値には、`options`オブジェクトの**キー**(表示ラベルではなくAPIでの登録・更新に使う識別子)を使っている(`js/bulk-update.js`の確認ダイアログ入力欄構築)。表示ラベルが変更されてもキー自体は変わらないため、選択肢の名称変更で書き込み内容が変わってしまうことを防ぐ
 - [x] 型ごとの空値の表現(日付/時刻はnull、チェックボックス/複数選択は`[]`、それ以外は`''`)をkintoneドキュメントMCP「フィールドの値を空に設定する場合」で確認し、`js/lib/record-patch-builder.js`の`normalizeValue`で正規化している(`record-patch-builder.test.js`でテスト済み)
 - [x] ラジオボタン・ドロップダウンはAPI経由で明示的に空にする方法が無い(空文字列を指定すると初期値が設定される仕様)ため、フィールドの`required`設定に関わらず常に選択肢から値を選ばせている(`js/lib/execution-validation.js`、確認ダイアログのOK確定時=`beforeClose`で検証)

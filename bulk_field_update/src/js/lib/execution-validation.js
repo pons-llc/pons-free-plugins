@@ -31,7 +31,7 @@
         return;
       }
       const blank = isBlank(target.value);
-      const kind = FieldEligibility.inputKindOf(field.type);
+      const kind = FieldEligibility.inputKindOf(field);
 
       if (kind === 'SINGLE_CHOICE' && blank) {
         errors.push(`「${field.label}」は選択肢の中から値を選択してください。`);

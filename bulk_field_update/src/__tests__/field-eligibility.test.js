@@ -35,14 +35,14 @@ describe('isEligibleField', () => {
     expect(isEligibleField({ type, code: 'f' })).toBe(false);
   });
 
-  test('lookupが設定されているフィールド(ルックアップフィールド自体)は対象外', () => {
+  test('lookupが設定されているフィールド(ルックアップフィールド自体)は対象(現在の値のまま再取得する用途で使う)', () => {
     expect(
       isEligibleField({
         type: 'SINGLE_LINE_TEXT',
         code: 'lookup1',
         lookup: { relatedApp: { app: '1' } },
       }),
-    ).toBe(false);
+    ).toBe(true);
   });
 
   test('フィールド定義が無い/コード無しの場合は対象外', () => {
@@ -64,7 +64,7 @@ describe('listEligibleFields', () => {
     expect(result.map((f) => f.code)).toEqual(['text1']);
   });
 
-  test('ルックアップフィールドの「ほかのフィールドのコピー」のコピー先フィールドも対象外にする', () => {
+  test('ルックアップフィールド自体は対象に含み、そのコピー先フィールドは対象外にする', () => {
     const formFields = {
       lookup1: {
         type: 'SINGLE_LINE_TEXT',
@@ -82,7 +82,7 @@ describe('listEligibleFields', () => {
       unrelated1: { type: 'SINGLE_LINE_TEXT', code: 'unrelated1' },
     };
     const result = listEligibleFields(formFields);
-    expect(result.map((f) => f.code)).toEqual(['unrelated1']);
+    expect(result.map((f) => f.code).sort()).toEqual(['lookup1', 'unrelated1']);
   });
 
   test('formFieldsが無い場合は空配列', () => {
@@ -163,5 +163,26 @@ describe('inputKindOf', () => {
   test('それ以外(文字列1行・リンク等)はTEXT', () => {
     expect(inputKindOf('SINGLE_LINE_TEXT')).toBe('TEXT');
     expect(inputKindOf('LINK')).toBe('TEXT');
+  });
+
+  test('フィールドオブジェクトを渡した場合、型だけで通常どおり判定する', () => {
+    expect(inputKindOf({ type: 'SINGLE_LINE_TEXT' })).toBe('TEXT');
+    expect(inputKindOf({ type: 'RADIO_BUTTON' })).toBe('SINGLE_CHOICE');
+  });
+
+  test('lookupが設定されているフィールドオブジェクトはLOOKUP_REFRESH(型に関わらず)', () => {
+    expect(
+      inputKindOf({
+        type: 'SINGLE_LINE_TEXT',
+        lookup: { relatedApp: { app: '1' } },
+      }),
+    ).toBe('LOOKUP_REFRESH');
+    expect(
+      inputKindOf({ type: 'NUMBER', lookup: { relatedApp: { app: '1' } } }),
+    ).toBe('LOOKUP_REFRESH');
+  });
+
+  test('型文字列だけを渡した場合はLOOKUP_REFRESHにならない(lookupの有無を判定できないため)', () => {
+    expect(inputKindOf('SINGLE_LINE_TEXT')).not.toBe('LOOKUP_REFRESH');
   });
 });

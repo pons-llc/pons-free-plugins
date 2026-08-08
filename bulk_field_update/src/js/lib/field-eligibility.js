@@ -57,18 +57,17 @@
   const DATE_LIKE_TYPES = ['DATE', 'TIME', 'DATETIME'];
 
   // フィールドが一括更新の対象として選択可能かどうか。
-  // ルックアップフィールド(field.lookupが設定されている)は対象外とする(確定・idea.md
-  // 「ルックアップフィールドの除外」参照)。kintone公式Tips「ルックアップの更新を自動で行う」の
-  // 通り、ルックアップフィールドの値をPUTで指定するとコピー先フィールドが自動的に最新化される
-  // ため技術的には書き込み可能だが、本プラグインでは一括更新の対象から一貫して除外する方針とした。
+  // ルックアップフィールド(field.lookupが設定されている)は対象に含める(2026-08-09再訂正・
+  // idea.md「ルックアップフィールドの再取得」参照)。kintone公式Tips「ルックアップの更新を
+  // 自動で行う」の通り、ルックアップフィールドの値をPUTで指定するとそのルックアップの
+  // 「ほかのフィールドのコピー」設定に従いコピー先フィールドが自動的に最新化されるため、
+  // 「現在の値をそのまま書き戻して関連レコードを再取得する」という一括更新の使い道がある
+  // (`inputKindOf()`が'LOOKUP_REFRESH'として分類し、確認ダイアログでは値の入力欄を出さない)。
   const isEligibleField = (field) => {
     if (!field || !field.type || !field.code) {
       return false;
     }
     if (EXCLUDED_TYPES.includes(field.type)) {
-      return false;
-    }
-    if (field.lookup) {
       return false;
     }
     return true;
@@ -105,8 +104,20 @@
     );
   };
 
-  // フィールド型に応じた設定画面での入力欄の種類を返す。config.js側のUI分岐に使う。
-  const inputKindOf = (fieldType) => {
+  // フィールド(またはフィールド型文字列)に応じた確認ダイアログでの入力欄の種類を返す。
+  // フィールドオブジェクト({ type, lookup })を渡した場合のみ、lookupの有無を判定できる。
+  // 型文字列だけを渡した場合(record-patch-builder.jsの`normalizeValue`等、値の型別正規化のみが
+  // 必要でlookupの有無を問わない箇所)はLOOKUP_REFRESHにはならず、型だけで判定する。
+  // ルックアップフィールド(field.lookupが設定されている)は'LOOKUP_REFRESH'を返す。値の入力欄を
+  // 出さず、現在の値をそのまま書き戻して関連レコードを再取得する専用の扱いにするため
+  // (bulk-update.jsのbuildConfirmDialogBody参照、idea.md「ルックアップフィールドの再取得」)。
+  const inputKindOf = (fieldOrType) => {
+    const isFieldObject =
+      fieldOrType !== null && typeof fieldOrType === 'object';
+    if (isFieldObject && fieldOrType.lookup) {
+      return 'LOOKUP_REFRESH';
+    }
+    const fieldType = isFieldObject ? fieldOrType.type : fieldOrType;
     if (SINGLE_CHOICE_TYPES.includes(fieldType)) {
       return 'SINGLE_CHOICE';
     }

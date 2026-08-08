@@ -147,47 +147,59 @@
   };
 
   const buildValueControl = (field) => {
-    const kind = NS.FieldEligibility.inputKindOf(field.type);
+    const kind = NS.FieldEligibility.inputKindOf(field);
     const builder = CONTROL_BUILDERS[kind] || buildTextControl;
     return builder(field);
   };
 
-  // 確認ダイアログの本文Elementを組み立てる。対象フィールドごとに、このフィールドを今回の
-  // 実行対象に含めるかどうかのチェックボックスと、値の入力欄を1行ずつ配置する。
-  // チェックを外したフィールドはrecordパッチに含めない(kintoneのPUT APIはリクエストに
-  // 含めたフィールドのみを更新するため、含めない=既存の値のまま変更しない、という挙動になる。
-  // idea.md「対象フィールドの一部を今回の実行から除外する」参照)。
-  // createDialog/createBottomSheetのconfig.bodyはそのままダイアログへ組み込まれる仕様のため、
-  // ユーザー入力をHTML文字列として組み立てず、createElement/textContentのみで構築する
-  // (secureCodingGuideline「外部からの入力値を使用した要素の生成を避ける」)。
-  const buildConfirmDialogBody = (message, targetFields) => {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'bfu-confirm-body';
+  const isLookupRefreshField = (field) =>
+    NS.FieldEligibility.inputKindOf(field) === 'LOOKUP_REFRESH';
 
-    const messageEl = document.createElement('p');
-    messageEl.className = 'bfu-confirm-message';
-    messageEl.textContent = message;
-    wrapper.appendChild(messageEl);
+  // ルックアップフィールドの行には値の入力欄を出さない。現在の値をそのまま書き戻すことで
+  // kintone側の自動転記(ルックアップの「ほかのフィールドのコピー」)が再実行され、関連レコードの
+  // 最新情報にコピー先フィールドが更新される(idea.md「ルックアップフィールドの再取得」参照。
+  // kintone公式Tips「ルックアップの更新を自動で行う」で、値を書き戻すだけで最新の関連情報が
+  // 反映されることを確認済み)。
+  const buildLookupRefreshNote = () => {
+    const noteEl = document.createElement('p');
+    noteEl.className = 'bfu-lookup-note';
+    noteEl.textContent =
+      '現在の値のまま更新します(値の入力はありません。関連レコードの情報を再取得します)。';
+    return noteEl;
+  };
 
-    const readers = {};
-    const includeCheckboxes = {};
-    targetFields.forEach((field) => {
-      const rowEl = document.createElement('div');
-      rowEl.className = 'bfu-confirm-row';
+  // 確認ダイアログの1フィールド分の行を組み立てる。「このフィールドを更新する」チェックボックスは
+  // 型を問わず共通で、その下にフィールド種別に応じた本文(値の入力欄、またはルックアップの
+  // 再取得を示す注記)を配置する。チェックを外したフィールドはrecordパッチに含めない
+  // (kintoneのPUT APIはリクエストに含めたフィールドのみを更新するため、含めない=既存の値のまま
+  // 変更しない、という挙動になる。idea.md「対象フィールドの一部を今回の実行から除外する」参照)。
+  const buildConfirmRow = (field, readers) => {
+    const rowEl = document.createElement('div');
+    rowEl.className = 'bfu-confirm-row';
 
-      const includeLabelEl = document.createElement('label');
-      includeLabelEl.className = 'bfu-row-include-label';
-      const includeCheckboxEl = document.createElement('input');
-      includeCheckboxEl.type = 'checkbox';
-      includeCheckboxEl.className = 'bfu-row-include';
-      includeCheckboxEl.checked = true;
-      includeCheckboxes[field.code] = includeCheckboxEl;
-      includeLabelEl.appendChild(includeCheckboxEl);
-      includeLabelEl.appendChild(
-        document.createTextNode('このフィールドを更新する'),
-      );
-      rowEl.appendChild(includeLabelEl);
+    const includeLabelEl = document.createElement('label');
+    includeLabelEl.className = 'bfu-row-include-label';
+    const includeCheckboxEl = document.createElement('input');
+    includeCheckboxEl.type = 'checkbox';
+    includeCheckboxEl.className = 'bfu-row-include';
+    includeCheckboxEl.checked = true;
+    includeLabelEl.appendChild(includeCheckboxEl);
+    includeLabelEl.appendChild(
+      document.createTextNode('このフィールドを更新する'),
+    );
+    rowEl.appendChild(includeLabelEl);
 
+    if (isLookupRefreshField(field)) {
+      const labelEl = document.createElement('p');
+      labelEl.className = 'bfu-value-label';
+      labelEl.textContent = field.label;
+      rowEl.appendChild(labelEl);
+      rowEl.appendChild(buildLookupRefreshNote());
+
+      includeCheckboxEl.addEventListener('change', () => {
+        rowEl.classList.toggle('is-excluded', !includeCheckboxEl.checked);
+      });
+    } else {
       const labelEl = document.createElement('label');
       labelEl.className = 'bfu-value-label';
       labelEl.textContent = field.required
@@ -208,7 +220,29 @@
           });
         rowEl.classList.toggle('is-excluded', disabled);
       });
+    }
 
+    return { rowEl, includeCheckboxEl };
+  };
+
+  // 確認ダイアログの本文Elementを組み立てる。createDialog/createBottomSheetのconfig.bodyは
+  // そのままダイアログへ組み込まれる仕様のため、ユーザー入力をHTML文字列として組み立てず、
+  // createElement/textContentのみで構築する(secureCodingGuideline「外部からの入力値を使用した
+  // 要素の生成を避ける」)。
+  const buildConfirmDialogBody = (message, targetFields) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'bfu-confirm-body';
+
+    const messageEl = document.createElement('p');
+    messageEl.className = 'bfu-confirm-message';
+    messageEl.textContent = message;
+    wrapper.appendChild(messageEl);
+
+    const readers = {};
+    const includeCheckboxes = {};
+    targetFields.forEach((field) => {
+      const { rowEl, includeCheckboxEl } = buildConfirmRow(field, readers);
+      includeCheckboxes[field.code] = includeCheckboxEl;
       wrapper.appendChild(rowEl);
     });
 
@@ -244,9 +278,11 @@
     return wrapper;
   };
 
-  // 1つ目のダイアログ(値の入力・対象フィールドの絞り込み)を表示し、OK確定時の値
-  // (フィールド未選択・必須未入力等のバリデーション込み)を返す。キャンセル/クローズ、
-  // または未確定の場合はnullを返す。
+  // 1つ目のダイアログ(値の入力・対象フィールドの絞り込み)を表示し、OK確定時の内容
+  // (フィールド未選択・必須未入力等のバリデーション込み)を返す。値を入力するフィールドは
+  // { fieldCode, value }の配列(targets)、ルックアップフィールド(値の入力欄が無く、現在の値を
+  // そのまま書き戻す)はフィールドコードの配列(lookupRefreshFieldCodes)として分けて返す。
+  // キャンセル/クローズ、または未確定の場合はnullを返す。
   const showValueInputDialog = async (
     platform,
     message,
@@ -256,7 +292,7 @@
     const { wrapper, readers, includeCheckboxes, errorEl } =
       buildConfirmDialogBody(message, targetFields);
 
-    let pendingTargets = null;
+    let pendingResult = null;
     const dialog = await platform.createDialog({
       title: '一括更新の実行確認',
       body: wrapper,
@@ -279,7 +315,13 @@
           errorEl.hidden = false;
           return false;
         }
-        const targets = includedFields.map((field) => ({
+        const valueFields = includedFields.filter(
+          (field) => !isLookupRefreshField(field),
+        );
+        const lookupRefreshFieldCodes = includedFields
+          .filter(isLookupRefreshField)
+          .map((field) => field.code);
+        const targets = valueFields.map((field) => ({
           fieldCode: field.code,
           value: readers[field.code](),
         }));
@@ -292,12 +334,12 @@
           errorEl.hidden = false;
           return false;
         }
-        pendingTargets = targets;
+        pendingResult = { targets, lookupRefreshFieldCodes };
         return true;
       },
     });
     const dialogResult = await dialog.show();
-    return dialogResult === 'OK' ? pendingTargets : null;
+    return dialogResult === 'OK' ? pendingResult : null;
   };
 
   // 最終確認ダイアログ(1つ目のダイアログで確定した値の見直し)を表示し、
@@ -306,15 +348,21 @@
     platform,
     message,
     targets,
+    lookupRefreshFieldCodes,
     formFields,
   ) => {
     const { summaries } = NS.ValueSummary.buildTargetSummaries(
       targets,
       formFields,
     );
+    const lookupSummaries = lookupRefreshFieldCodes.map((code) => ({
+      fieldCode: code,
+      label: (formFields[code] || {}).label || code,
+      valueLabel: '現在の値のまま更新(関連レコードを再取得)',
+    }));
     const finalDialog = await platform.createDialog({
       title: '最終確認',
-      body: buildFinalConfirmBody(message, summaries),
+      body: buildFinalConfirmBody(message, [...summaries, ...lookupSummaries]),
       showOkButton: true,
       okButtonText: '実行',
       showCancelButton: true,
@@ -347,6 +395,22 @@
   //   showLoading(): void, hideLoading(): void,
   //   getQueryCondition(): string,
   // }
+  // カーソルのfieldsパラメーターを組み立てる。書き戻す値はダイアログで都度入力するため、
+  // カーソルのfieldsには対象フィールド自体の現在値は基本不要だが、ルックアップフィールド
+  // (現在の値のままレコードごとに書き戻して再取得する)だけは例外的に現在値が必要になる。
+  // ダイアログでどのフィールドを含めるかはこの時点ではまだ確定していない(カーソルはダイアログ
+  // より前に作成する)ため、ルックアップの対象候補すべての現在値をあらかじめ取得しておく。
+  const buildCursorFields = (targetFields, recordNumberFieldCode) => {
+    const lookupRefreshCandidateCodes = targetFields
+      .filter(isLookupRefreshField)
+      .map((field) => field.code);
+    const fields = ['$id', '$revision', ...lookupRefreshCandidateCodes];
+    if (recordNumberFieldCode) {
+      fields.push(recordNumberFieldCode);
+    }
+    return fields;
+  };
+
   const runBulk = async (config, appId, platform) => {
     const formFields = await kintone.app.getFormFields();
     const targetFields = resolveTargetFields(config, formFields);
@@ -360,12 +424,7 @@
 
     const query = platform.getQueryCondition();
     const recordNumberFieldCode = findRecordNumberFieldCode(formFields);
-    // 書き戻す値はダイアログで都度入力するため、カーソルのfieldsには$id・$revision・
-    // (あれば)レコード番号フィールドのみ指定し、対象フィールド自体の現在値は取得しない。
-    const fields = ['$id', '$revision'];
-    if (recordNumberFieldCode) {
-      fields.push(recordNumberFieldCode);
-    }
+    const fields = buildCursorFields(targetFields, recordNumberFieldCode);
 
     // カーソル作成(POST)はここで1回だけ行う。totalCountは作成時点のレスポンスで
     // 得られるため、確認ダイアログの表示にはこれで十分で、レコード本体の列挙(GET)は
@@ -396,15 +455,16 @@
       query,
     });
 
-    const pendingTargets = await showValueInputDialog(
+    const inputResult = await showValueInputDialog(
       platform,
       message,
       targetFields,
       formFields,
     );
-    if (!pendingTargets) {
+    if (!inputResult) {
       return;
     }
+    const { targets: pendingTargets, lookupRefreshFieldCodes } = inputResult;
 
     // 最終確認ダイアログ: 確定した値を一覧であらためて見直してから実行できるようにする
     // (ユーザーからの要望: 最終確認のモーダルを追加してほしい)。
@@ -412,6 +472,7 @@
       platform,
       message,
       pendingTargets,
+      lookupRefreshFieldCodes,
       formFields,
     );
     if (!confirmed) {
@@ -434,14 +495,22 @@
         },
       );
 
-      const writeRecords = targetRecords.map((record) => ({
-        id: record.$id.value,
-        recordNumber: recordNumberFieldCode
-          ? record[recordNumberFieldCode].value
-          : record.$id.value,
-        revision: record.$revision.value,
-        record: patch,
-      }));
+      // ルックアップフィールドはレコードごとに現在の値をそのまま書き戻す(全レコード共通の
+      // patchとは異なり、レコードごとに異なる値になり得るため個別に組み立てる)。
+      const writeRecords = targetRecords.map((record) => {
+        const recordPatch = { ...patch };
+        lookupRefreshFieldCodes.forEach((code) => {
+          recordPatch[code] = { value: record[code] ? record[code].value : '' };
+        });
+        return {
+          id: record.$id.value,
+          recordNumber: recordNumberFieldCode
+            ? record[recordNumberFieldCode].value
+            : record.$id.value,
+          revision: record.$revision.value,
+          record: recordPatch,
+        };
+      });
 
       const writeResult = await NS.BatchWriter.runAll(writeRecords, {
         putBatch: (chunk) => putBatch(appId, chunk),

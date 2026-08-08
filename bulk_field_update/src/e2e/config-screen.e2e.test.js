@@ -10,10 +10,11 @@
 // 実行: pnpm run test:e2e
 //
 // このテストの主眼は、対象フィールド一覧が「値の登録・更新ができない/テーブル/組織選択・
-// ユーザー選択・グループ選択/添付ファイル/ルックアップ」を正しく除外していること
-// (静的HTML・単体テストでは検知できない。CLAUDE.mdの開発方針1参照)、必須フィールドに
-// 「必須」バッジが表示されること、対象フィールドのON/OFFが保存後も読み直せることの確認。
-// 値そのものはこの設定画面では扱わない(実行のたびに確認ダイアログで入力する設計、idea.md参照)。
+// ユーザー選択・グループ選択/添付ファイル/ルックアップのコピー先」を正しく除外していること、
+// ルックアップフィールド自体は対象に含まれ種類欄で見分けが付くこと(静的HTML・単体テストでは
+// 検知できない。CLAUDE.mdの開発方針1参照)、必須フィールドに「必須」バッジが表示されること、
+// 対象フィールドのON/OFFが保存後も読み直せることの確認。値そのものはこの設定画面では扱わない
+// (実行のたびに確認ダイアログで入力する設計、idea.md参照)。
 
 const path = require('path');
 const puppeteer = require('puppeteer');
@@ -60,6 +61,12 @@ describe('設定画面(実環境)', () => {
     throw new Error(`row not found: ${fieldCodeFragment}`);
   };
 
+  const expectTypeColumnContains = async (fieldCodeFragment, substring) => {
+    const row = await findRow(fieldCodeFragment);
+    const text = await row.$eval(':nth-child(3)', (el) => el.textContent);
+    expect(text).toContain(substring);
+  };
+
   test('対象外フィールドが除外され、必須フィールドにはバッジが付き、ON/OFFが保存後も読み直せる', async () => {
     const pageErrors = [];
     page.on('pageerror', (err) => pageErrors.push(err.message));
@@ -76,16 +83,20 @@ describe('設定画面(実環境)', () => {
     const rowLabels = await page.$$eval('.js-row', (rows) =>
       rows.map((row) => row.children[1].textContent),
     );
-    // テーブル・組織選択・ユーザー選択・グループ選択・ルックアップ・自動採番系は含まれない。
+    // テーブル・組織選択・ユーザー選択・グループ選択・ルックアップのコピー先・自動採番系は
+    // 含まれない。
     expect(rowLabels.some((l) => l.includes('テーブル'))).toBe(false);
     expect(rowLabels.some((l) => l.includes('組織選択'))).toBe(false);
     expect(rowLabels.some((l) => l.includes('ユーザー選択'))).toBe(false);
     expect(rowLabels.some((l) => l.includes('グループ選択'))).toBe(false);
-    expect(rowLabels.some((l) => l.includes('(ne_lookup)'))).toBe(false);
+    expect(rowLabels.some((l) => l.includes('(ne_lookup_out)'))).toBe(false);
     expect(rowLabels.some((l) => l.includes('レコード番号'))).toBe(false);
     // 対象にできる通常フィールドは含まれる。
     expect(rowLabels.some((l) => l.includes('(文字列__1行__0)'))).toBe(true);
     expect(rowLabels.some((l) => l.includes('(チェックボックス)'))).toBe(true);
+    // ルックアップフィールド自体は対象に含まれる(現在の値のまま更新して関連レコードを
+    // 再取得する用途、idea.md「ルックアップフィールドの再取得」参照)。
+    expect(rowLabels.some((l) => l.includes('(ne_lookup)'))).toBe(true);
 
     // ラジオボタン(このアプリではrequired:trueに設定済み)の行に「必須」バッジが付く。
     const radioRow = await findRow('(ラジオボタン)');
@@ -94,6 +105,9 @@ describe('設定画面(実環境)', () => {
       (el) => el.innerHTML,
     );
     expect(radioLabelHtml).toContain('必須');
+
+    // ルックアップフィールドの種類欄は「ルックアップ」を含み、通常の文字列(1行)と見分けが付く。
+    await expectTypeColumnContains('(ne_lookup)', 'ルックアップ');
 
     // 文字列(1行)・チェックボックスフィールドをONにする。他のテストの実行順序によって
     // 既にON/OFFの状態が残っていることがあるため、.click()(トグル)ではなく
