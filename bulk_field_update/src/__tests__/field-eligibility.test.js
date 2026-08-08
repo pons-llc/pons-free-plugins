@@ -35,7 +35,7 @@ describe('isEligibleField', () => {
     expect(isEligibleField({ type, code: 'f' })).toBe(false);
   });
 
-  test('lookupが設定されているフィールドは対象外', () => {
+  test('lookupが設定されているフィールド(ルックアップフィールド自体)は対象外', () => {
     expect(
       isEligibleField({
         type: 'SINGLE_LINE_TEXT',

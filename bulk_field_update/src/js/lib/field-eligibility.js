@@ -57,8 +57,10 @@
   const DATE_LIKE_TYPES = ['DATE', 'TIME', 'DATETIME'];
 
   // フィールドが一括更新の対象として選択可能かどうか。
-  // ルックアップフィールド(field.lookupが設定されている)は、コピー元アプリからの
-  // 自動転記と競合し得るため対象外とする(idea.md「ルックアップフィールドの除外」参照)。
+  // ルックアップフィールド(field.lookupが設定されている)は対象外とする(確定・idea.md
+  // 「ルックアップフィールドの除外」参照)。kintone公式Tips「ルックアップの更新を自動で行う」の
+  // 通り、ルックアップフィールドの値をPUTで指定するとコピー先フィールドが自動的に最新化される
+  // ため技術的には書き込み可能だが、本プラグインでは一括更新の対象から一貫して除外する方針とした。
   const isEligibleField = (field) => {
     if (!field || !field.type || !field.code) {
       return false;
