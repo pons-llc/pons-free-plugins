@@ -10,16 +10,17 @@
 
 ## 対象イベント(4種類、確定)
 
-| 対象イベント | 内部名 | イベントタイプ | キャンセル方法 |
-| :-- | :-- | :-- | :-- |
-| レコード追加の保存 | `CREATE_SUBMIT` | `app.record.create.submit` | ハンドラーで`false`をreturn |
-| レコード編集の保存 | `EDIT_SUBMIT` | `app.record.edit.submit` | ハンドラーで`false`をreturn |
-| レコード一覧からの削除 | `INDEX_DELETE_SUBMIT` | `app.record.index.delete.submit` | ハンドラーで`false`をreturn |
-| プロセス管理のアクション実行 | `PROCESS_PROCEED` | `app.record.detail.process.proceed` | ハンドラーで`false`をreturn |
+| 対象イベント | 内部名 | PCイベントタイプ | モバイルイベントタイプ | キャンセル方法 |
+| :-- | :-- | :-- | :-- | :-- |
+| レコード追加の保存 | `CREATE_SUBMIT` | `app.record.create.submit` | `mobile.app.record.create.submit` | ハンドラーで`false`をreturn |
+| レコード編集の保存 | `EDIT_SUBMIT` | `app.record.edit.submit` | `mobile.app.record.edit.submit` | ハンドラーで`false`をreturn |
+| レコード一覧からの削除 | `INDEX_DELETE_SUBMIT` | `app.record.index.delete.submit` | なし(モバイル版イベント自体が存在しない) | ハンドラーで`false`をreturn |
+| プロセス管理のアクション実行 | `PROCESS_PROCEED` | `app.record.detail.process.proceed` | `mobile.app.record.detail.process.proceed` | ハンドラーで`false`をreturn |
 
 いずれのイベントも「ハンドラーで`false`をreturnすると処理をキャンセルできる」という共通の仕様であることを
-kintoneドキュメントMCPで確認済み。本プラグインは`kintone.showConfirmDialog()`の結果が`'OK'`以外
-(`'CANCEL'`または`'CLOSE'`)のとき`false`をreturnする。
+kintoneドキュメントMCPで確認済み。本プラグインは`kintone.showConfirmDialog()`(モバイルは
+`kintone.mobile.showConfirmBottomSheet()`)の結果が`'OK'`以外(`'CANCEL'`または`'CLOSE'`)のとき
+`false`をreturnする。
 
 ## プロセス管理アクションのプレースホルダー(元メモ「アクションの名前やネクストステータス…」への対応、確定)
 
@@ -32,10 +33,16 @@ kintoneドキュメントMCPで確認済み。本プラグインは`kintone.show
 確認ダイアログの表示のためだけに毎回追加のAPI呼び出しを行うコストと、プレースホルダーとしての実用性を
 天秤にかけ、今回のスコープでは見送った(`判断記録.md`参照)。
 
-## PC専用(確定・スコープ限定)
+## PC・モバイル対応(確定)
 
-`kintone.showConfirmDialog()`はPC専用のJavaScript APIであり、モバイルには`kintone.showConfirmBottomSheet()`
-という別のAPI(設定項目がやや異なる)が必要になる。本プラグインはPC専用とした(`判断記録.md`参照)。
+PCでは`kintone.showConfirmDialog()`、モバイルでは`kintone.mobile.showConfirmBottomSheet()`を使う。
+両APIとも引数(`title`/`body`/`showOkButton`/`okButtonText`/`showCancelButton`/`cancelButtonText`/
+`showCloseButton`)・戻り値(`'OK'`/`'CANCEL'`/`'CLOSE'`)の形が同じであることをkintoneドキュメントMCPで
+確認済みのため、`js/mobile.js`は`js/desktop.js`と同じルール参照・プレースホルダー置換ロジックを共有し、
+呼び出すAPIとイベントタイプのみがモバイル向けに異なる。
+
+`INDEX_DELETE_SUBMIT`(レコード一覧からの削除)のみ、kintoneドキュメントMCPで確認した通りモバイル版の
+イベントが存在しないため、モバイルでは対象外(PC専用)。設定画面のプルダウンにもその旨を明記している。
 
 ## 設定画面
 
@@ -62,9 +69,9 @@ kintoneドキュメントMCPで確認済み。本プラグインは`kintone.show
 - `config-store.js` — `kintone.plugin.app.getConfig()`/`setConfig()`のペイロードの読み書きとデフォルト値
 - `config-validation.js` — 設定(ルールの配列)のバリデーション
 
-kintone依存のグルーコード(`desktop.js`/`config.js`、`kintone.showConfirmDialog()`呼び出しを含む。
-モバイル非対応のため`mobile.js`は作成しない)は今回のタスクスコープでは実環境テスト(Puppeteer)を
-行わない(別タスク、e2eは後回し)。
+kintone依存のグルーコード(`desktop.js`/`mobile.js`/`config.js`、`kintone.showConfirmDialog()`/
+`kintone.mobile.showConfirmBottomSheet()`呼び出しを含む)は今回のタスクスコープでは実環境テスト
+(Puppeteer)を行わない(別タスク、e2eは後回し)。
 
 ## 実装
 

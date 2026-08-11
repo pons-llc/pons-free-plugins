@@ -1,0 +1,3 @@
+/* このプラグインはレコード画面にDOM要素を追加せず、kintone.mobile.showConfirmBottomSheet()の
+   標準UIのみを使うため、現時点でmobile固有のスタイルはない。
+   将来UI要素を追加する場合に備えてファイルを用意している(group_field_toggleの構成に合わせる)。 */

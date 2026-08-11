@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>モーダル確認プラグイン | GovAppsプラグイン</title>
-<meta name="description" content="レコードの保存・削除・プロセス管理のアクション実行時に確認ダイアログを表示し、キャンセルを選ぶと処理を中止できるkintone無料プラグイン(PC専用)。">
+<meta name="description" content="レコードの保存・削除・プロセス管理のアクション実行時に確認ダイアログ(モバイルは確認ボトムシート)を表示し、キャンセルを選ぶと処理を中止できるkintone無料プラグイン。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -21,7 +21,7 @@
 <header class="site-header">
   <div class="site-header-top">
     <p class="site-title">
-      <a class="site-logo" href="../../index.html"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
       <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
     </p>
     <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
@@ -30,11 +30,11 @@
       <span class="header-menu-toggle-bar"></span>
     </button>
   </div>
-  <p class="breadcrumb"><a href="../../index.html">トップ</a> &gt; モーダル確認プラグイン</p>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; モーダル確認プラグイン</p>
   <nav class="header-menu" id="header-menu" hidden>
-    <a href="../../index.html">トップ</a>
-    <a href="../../about.html">About</a>
-    <a href="../../faq.html">FAQ</a>
+    <a href="/">トップ</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
   </nav>
 </header>
 <div class="container">
@@ -43,15 +43,16 @@
   <h2>モーダル確認プラグイン</h2>
   <p class="plugin-lead">
     レコード追加・編集の保存、レコード一覧からの削除、プロセス管理のアクション実行のいずれかが行われる
-    ときに確認ダイアログを表示し、キャンセルを選ぶとその処理を中止します(PC専用)。ダイアログのタイトル・
-    本文・OK/キャンセルボタンのテキストをルールごとに設定できます。
+    ときに確認ダイアログ(モバイルでは確認ボトムシート)を表示し、キャンセルを選ぶとその処理を中止します。
+    「レコード一覧からの削除」のみkintoneにモバイル版のイベントが存在しないためPC専用です。ダイアログの
+    タイトル・本文・OK/キャンセルボタンのテキストをルールごとに設定できます。
   </p>
   <div class="plugin-hero-badges">
     <span class="badge badge-category">入力制御</span>
     <span class="badge badge-tag">#確認ダイアログ</span>
     <span class="badge badge-tag">#誤操作防止</span>
   </div>
-  <a class="download-button" href="download.html" data-dl-plugin="confirm_modal">ダウンロード(v1)</a>
+  <a class="download-button" href="download" data-dl-plugin="confirm_modal">ダウンロード(v2)</a>
 </div>
 
 <section class="plugin-section">
@@ -100,7 +101,7 @@
     <li>ダイアログのタイトル(省略可)・本文(必須)・OKボタンのテキスト(省略可)・キャンセルボタンのテキスト(省略可)を入力して保存する。</li>
     <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
   </ol>
-  <p class="download-note">同じ対象イベントに複数のルールを設定した場合、設定順で最初のルールのみが使われます。本プラグインはPC専用で、モバイル画面では動作しません。REST API経由でのレコード保存・削除・ステータス更新はこの確認ダイアログを経由しません。</p>
+  <p class="download-note">同じ対象イベントに複数のルールを設定した場合、設定順で最初のルールのみが使われます。「レコード一覧からの削除」のみkintoneにモバイル版のイベントが存在しないためPC専用で、それ以外はPC・モバイルどちらでも動作します。REST API経由でのレコード保存・削除・ステータス更新はこの確認ダイアログを経由しません。</p>
 </section>
 
 <section class="plugin-section">
@@ -113,7 +114,7 @@
     <div class="accordion-panel" id="security-summary" hidden>
       <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
       <ul class="review-checklist">
-        <li>確認ダイアログはkintone標準のJavaScript API(<code>kintone.showConfirmDialog()</code>)のみで表示しており、外部サーバーへの通信・外部ライブラリは一切使用していません。</li>
+        <li>確認ダイアログ/確認ボトムシートはkintone標準のJavaScript API(<code>kintone.showConfirmDialog()</code>/<code>kintone.mobile.showConfirmBottomSheet()</code>)のみで表示しており、外部サーバーへの通信・外部ライブラリは一切使用していません。</li>
         <li>ダイアログ本文のプレースホルダー置換(<code>{action}</code>/<code>{nextStatus}</code>)は文字列の置換のみで、DOM操作や<code>eval</code>等コード実行を伴いません。置換元の値はkintone自身が生成するプロセス管理のアクション名・ステータス名であり、レコード編集者の自由入力ではありません。</li>
         <li>設定画面でのエラーメッセージ・ルール一覧の描画は、すべて<code>textContent</code>または<code>&lt;template&gt;</code>要素の<code>cloneNode</code>で行っており、<code>innerHTML</code>への外部由来文字列の埋め込みはありません。</li>
         <li>保存前のバリデーションで、対象イベント未選択・本文未入力などの不正な設定を検出して保存させません。</li>
@@ -165,7 +166,7 @@
 </div>
 <footer class="site-footer">
   <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
-  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="../../about.html">About</a> ／ <a href="../../faq.html">FAQ</a> ／ <a href="../../terms.html">利用規約</a> ／ <a href="../../privacypolicy.html">プライバシーポリシー</a></p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
 </footer>
 
 <script src="../../js/site.js"></script>

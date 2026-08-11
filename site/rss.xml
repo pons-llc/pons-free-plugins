@@ -129,7 +129,7 @@
       <title>モーダル確認プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/confirm_modal/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/confirm_modal/</guid>
-      <description>レコードの保存・削除・プロセス管理のアクション実行時に確認ダイアログを表示し、キャンセルを選ぶと処理を中止できるプラグイン(PC専用)</description>
+      <description>レコードの保存・削除・プロセス管理のアクション実行時に確認ダイアログを表示し、キャンセルを選ぶと処理を中止できるプラグイン(レコード一覧からの削除の確認のみPC専用)</description>
       <pubDate>Sun, 12 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>

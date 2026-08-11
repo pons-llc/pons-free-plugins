@@ -287,8 +287,8 @@
   {
     "id": "confirm_modal",
     "name": "モーダル確認プラグイン",
-    "description": "レコードの保存・削除・プロセス管理のアクション実行時に確認ダイアログを表示し、キャンセルを選ぶと処理を中止できるプラグイン(PC専用)",
-    "version": "1",
+    "description": "レコードの保存・削除・プロセス管理のアクション実行時に確認ダイアログを表示し、キャンセルを選ぶと処理を中止できるプラグイン(レコード一覧からの削除の確認のみPC専用)",
+    "version": "2",
     "publishedAt": "2026-07-13",
     "zip": "plugins/confirm_modal/plugin.zip",
     "page": "plugins/confirm_modal/index.html",
