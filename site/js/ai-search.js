@@ -99,7 +99,7 @@
     }
     const items = plugins
       .map(
-        (p) => `<a class="ai-search-result-item" href="plugins/${esc(p.key)}/index.html">
+        (p) => `<a class="ai-search-result-item" href="plugins/${esc(p.key)}/">
       <div class="plugin-name">${esc(p.name)}</div>
       <div class="plugin-desc">${esc(p.description)}</div>
       <div>${(p.tags || []).map((t) => `<span class="badge badge-tag">#${esc(t)}</span>`).join("")}</div>
