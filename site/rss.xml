@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着情報</description>
     <language>ja</language>
-    <lastBuildDate>Fri, 07 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>フィールド暗号化プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/field_encryption/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/field_encryption/</guid>
+      <description>文字列(1行)・文字列(複数行)フィールドの値を、ブラウザ内でパスフレーズによりAES-256-GCM暗号化してから保存するプラグイン。パスフレーズはどこにも保存されません。</description>
+      <pubDate>Tue, 11 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>特定フィールド一括更新プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/bulk_field_update/</link>

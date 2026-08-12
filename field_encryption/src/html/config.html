@@ -1,0 +1,44 @@
+<section class="settings">
+  <h2 class="settings-heading">フィールド暗号化プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    文字列(1行)・文字列(複数行)フィールドの値を、レコード保存時にブラウザ内(Web Crypto API)で
+    暗号化してから保存します。復号には、詳細画面・編集画面で「復号」ボタンを押してパスフレーズを
+    入力する必要があります。
+  </p>
+  <ol class="kintoneplugin-desc fe-flow-list">
+    <li>①暗号化対象フィールド: 暗号化する文字列(1行)・文字列(複数行)フィールド。</li>
+    <li>②復号ボタンを設置するスペースフィールド: パスフレーズの入力欄・復号ボタンを表示する場所。</li>
+    <li>③パスフレーズの最小文字数: 新規作成時に設定するパスフレーズの最小文字数。</li>
+  </ol>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="fe-errors"></div>
+
+    <table class="fe-table">
+      <tbody>
+        <tr>
+          <th>①暗号化対象フィールド</th>
+          <td><div id="js-target-fields" class="fe-checkbox-list"></div></td>
+        </tr>
+        <tr>
+          <th>②復号ボタンを設置するスペースフィールド</th>
+          <td><select id="js-space-element" class="kintoneplugin-select"></select></td>
+        </tr>
+        <tr>
+          <th>③パスフレーズの最小文字数</th>
+          <td><input type="number" id="js-min-length" class="kintoneplugin-input-text" min="1" step="1"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="kintoneplugin-desc fe-warning">
+      ⚠️ パスフレーズはどこにも保存されません(プラグイン設定にも保存しません)。
+      パスフレーズを紛失した場合、暗号化されたデータは永久に復号できなくなります。
+    </p>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>

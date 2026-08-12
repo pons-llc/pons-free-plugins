@@ -73,7 +73,7 @@
   </div>
   <div class="filter-group">
     <div class="filter-group-label">カテゴリ</div>
-    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span><span class="chip" data-category="文字列処理">文字列処理</span><span class="chip" data-category="サブテーブル">サブテーブル</span><span class="chip" data-category="入力制御">入力制御</span><span class="chip" data-category="レイアウト・表示">レイアウト・表示</span><span class="chip" data-category="データ連携">データ連携</span><span class="chip" data-category="自動採番">自動採番</span><span class="chip" data-category="プラグイン管理">プラグイン管理</span><span class="chip" data-category="一括更新">一括更新</span>
+    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span><span class="chip" data-category="文字列処理">文字列処理</span><span class="chip" data-category="サブテーブル">サブテーブル</span><span class="chip" data-category="入力制御">入力制御</span><span class="chip" data-category="レイアウト・表示">レイアウト・表示</span><span class="chip" data-category="データ連携">データ連携</span><span class="chip" data-category="自動採番">自動採番</span><span class="chip" data-category="プラグイン管理">プラグイン管理</span><span class="chip" data-category="一括更新">一括更新</span><span class="chip" data-category="セキュリティ">セキュリティ</span>
   </div>
   <div class="filter-group">
     <div class="filter-group-label">タグ</div>
@@ -415,6 +415,15 @@
   </div>
   <div class="plugin-version">v1</div>
 </a>
+<a class="plugin-card" data-category="セキュリティ" data-tags="暗号化,機密情報保護" data-search="フィールド暗号化プラグイン 文字列(1行)・文字列(複数行)フィールドの値を、ブラウザ内でパスフレーズによりaes-256-gcm暗号化してから保存するプラグイン。パスフレーズはどこにも保存されません。 暗号化 機密情報保護" href="plugins/field_encryption/">
+  <div class="plugin-name">フィールド暗号化プラグイン</div>
+  <div class="plugin-desc">文字列(1行)・文字列(複数行)フィールドの値を、ブラウザ内でパスフレーズによりAES-256-GCM暗号化してから保存するプラグイン。パスフレーズはどこにも保存されません。</div>
+  <div>
+    <span class="badge badge-category">セキュリティ</span>
+    <span class="badge badge-tag">#暗号化</span><span class="badge badge-tag">#機密情報保護</span>
+  </div>
+  <div class="plugin-version">v1</div>
+</a>
 </div>
 <p class="empty-state is-hidden">条件に一致するプラグインが見つかりませんでした。</p>
 
@@ -722,6 +731,13 @@
       description: 'レコード一覧画面のボタン押下で、対象フィールドの値を確認ダイアログでその都度入力し、一覧画面の現在の絞り込み条件に一致する全レコードへ一括で書き込むプラグイン。',
       tags: ['一括編集', '絞り込み条件', 'ルックアップ'],
       text: '特定フィールド一括更新プラグイン 任意の複数フィールドを対象に、一覧画面の現在の絞り込み条件(kintone.app.getQueryCondition/kintone.mobile.app.getQueryCondition)に一致する全レコードへ、一覧画面ボタン押下時に確認ダイアログで都度入力した値を一括で書き込む。設定画面ではkintone.app.getFormFields()で取得したフィールド一覧から対象フィールドをON/OFFで選ぶだけで、値そのものは設定画面には保存しない(実行のたびに確認ダイアログで入力する)。対象外にできないフィールドはテーブル・組織選択・ユーザー選択・グループ選択・添付ファイル・ルックアップの「ほかのフィールドのコピー」設定でコピー先に指定されているフィールド・レコード番号や作成者・作成日時等の自動採番/システム管理フィールド。ルックアップフィールド自体は対象にでき、設定画面の種類欄に「ルックアップ・◯◯」と表示されて通常フィールドと区別できる。ルックアップフィールドを対象にした場合、確認ダイアログには値の入力欄が表示されず「現在の値のまま更新します」という注記のみが表示され、実行するとレコードごとに自分自身の現在値をそのまま書き戻すことでkintoneのルックアップ自動転記が再実行され、コピー先フィールドが参照先アプリの最新情報へ一括で更新される(ルックアップの再取得・関連レコードの最新化)。実行は2段階のダイアログ(PC: kintone.createDialog、モバイル: kintone.mobile.createBottomSheet)で構成され、1つ目のダイアログには対象レコード数・現在の絞り込み条件クエリ・対象フィールドごとの「更新する」チェックボックスと入力欄(ラジオボタン/ドロップダウンは選択肢からの選択必須、チェックボックス/複数選択はチェック欄、日付/時刻/日時はdate・time・datetime-local入力)が表示され、チェックを外したフィールドは書き戻し対象から除外され既存の値のまま変更されない。対象フィールドがフォームで必須(required)に設定されている場合は入力も必須になり、空欄のまま次へ進もうとするとダイアログを閉じさせずエラー表示する。1つ目のダイアログで確定した値は2つ目の「最終確認」ダイアログで一覧表示され、そこで実行を確定して初めて実際の書き戻しが始まる。対象レコードの列挙はレコードカーソルAPI、書き戻しはPUT /k/v1/records.jsonを100件バッチで行い、リビジョン競合(他ユーザーの同時編集)が起きたレコードだけをスキップして個別送信にフォールバックする。実行可能グループ(kintone.user.getGroupsによる一覧画面ボタンの表示制御、1つ以上必須)も設定できる。一括編集 一括更新 絞り込み条件 フィールド一括変更 必須バリデーション 最終確認 二段階確認 ルックアップ再取得 関連レコード最新化'
+    },
+    {
+      key: 'field_encryption',
+      name: 'フィールド暗号化プラグイン',
+      description: '文字列(1行)・文字列(複数行)フィールドの値を、ブラウザ内でパスフレーズによりAES-256-GCM暗号化してから保存するプラグイン。パスフレーズはどこにも保存されません。',
+      tags: ['暗号化', '機密情報保護'],
+      text: 'フィールド暗号化プラグイン 文字列(1行)・文字列(複数行)フィールドの値を、レコード保存時にブラウザ内蔵のWeb Crypto APIでAES-256-GCM暗号化してから保存する。kintoneのREST APIは保存されている生の値をそのまま返すため、画面表示を隠すだけの表示マスキングではAPI越しに値が読めてしまうが、このプラグインは値そのものを暗号文に変換して保存するためREST API経由でも平文を読み取れない。鍵導出はPBKDF2-HMAC-SHA256(反復回数600,000回、OWASPの推奨値)、暗号化のたびに新しいIV・saltを生成する。パスフレーズは1レコードにつき1つで、新規作成画面で設定したパスフレーズがそのレコードの唯一の正しいパスフレーズになり、変更する機能は無い。パスフレーズはプラグイン設定・localStorage・Cookie等どこにも保存されず、画面を開くたびに入力する。詳細画面・編集画面では暗号化済みフィールドが「🔒 暗号化されています」というマスク表示になり、正しいパスフレーズを入力した場合のみその場で復号して内容を確認・編集できる。編集画面で復号せずに保存した場合は暗号文がそのまま保持され、復号して編集した場合のみ同じパスフレーズで新しいIV・saltを使って再暗号化される。PC画面ではスペースフィールドに設置したフォーム、モバイル画面では画面下から迫り上がるボトムシート形式のUIでパスフレーズを入力する。マイナンバー・口座番号・機微な個人情報等、REST API経由でも保護したいフィールドの用途を想定。パスフレーズを紛失した場合、暗号化されたデータは永久に復号できなくなる(仕様として明記)。暗号化 復号 AES-256-GCM PBKDF2 Web Crypto API 機密情報保護 マイナンバー 個人情報保護'
     }
   ];
 </script>

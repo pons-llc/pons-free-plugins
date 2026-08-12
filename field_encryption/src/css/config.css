@@ -1,0 +1,62 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+.fe-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75em;
+}
+
+.fe-table th,
+.fe-table td {
+  border: 1px solid #e3e7e8;
+  padding: 0.4em 0.6em;
+  text-align: left;
+  vertical-align: top;
+}
+
+.fe-table th {
+  width: 18em;
+  background: #f7f9f9;
+}
+
+.fe-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+}
+
+.fe-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.fe-errors {
+  color: #e74c3c;
+  white-space: pre-wrap;
+  margin-bottom: 1em;
+}
+
+.fe-flow-list {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.fe-flow-list li {
+  margin-bottom: 0.4em;
+}
+
+.fe-warning {
+  color: #b7791f;
+  font-weight: bold;
+  border: 1px solid #f0d58c;
+  background: #fff8e6;
+  padding: 0.6em 0.8em;
+  border-radius: 4px;
+}

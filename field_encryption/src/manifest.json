@@ -1,0 +1,49 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/blob-codec.js",
+      "js/lib/crypto-codec.js",
+      "js/lib/passphrase-validator.js",
+      "js/lib/session-store.js",
+      "js/lib/config-store.js",
+      "js/ui.js",
+      "js/desktop.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/desktop.css"]
+  },
+  "icon": "image/icon.png",
+  "mobile": {
+    "js": [
+      "js/lib/blob-codec.js",
+      "js/lib/crypto-codec.js",
+      "js/lib/passphrase-validator.js",
+      "js/lib/session-store.js",
+      "js/lib/config-store.js",
+      "js/ui.js",
+      "js/mobile.js"
+    ],
+    "css": ["css/mobile.css"]
+  },
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/field-selection.js",
+      "js/lib/config-store.js",
+      "js/config.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/config.css"],
+    "required_params": []
+  },
+  "name": {
+    "en": "field_encryption plugin",
+    "ja": "フィールド暗号化プラグイン"
+  },
+  "description": {
+    "en": "field_encryption plugin",
+    "ja": "文字列(1行)・文字列(複数行)フィールドの値を、ブラウザ内でパスフレーズによりAES-256-GCM暗号化してから保存するプラグイン。パスフレーズはどこにも保存されません。"
+  }
+}

@@ -551,5 +551,19 @@
       "絞り込み条件",
       "ルックアップ"
     ]
+  },
+  {
+    "id": "field_encryption",
+    "name": "フィールド暗号化プラグイン",
+    "description": "文字列(1行)・文字列(複数行)フィールドの値を、ブラウザ内でパスフレーズによりAES-256-GCM暗号化してから保存するプラグイン。パスフレーズはどこにも保存されません。",
+    "version": "1",
+    "publishedAt": "2026-08-12",
+    "zip": "plugins/field_encryption/plugin.zip",
+    "page": "plugins/field_encryption/index.html",
+    "category": "セキュリティ",
+    "tags": [
+      "暗号化",
+      "機密情報保護"
+    ]
   }
 ]
