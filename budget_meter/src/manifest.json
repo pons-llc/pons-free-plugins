@@ -1,0 +1,45 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/aggregator.js",
+      "js/lib/paged-fetch.js",
+      "js/lib/config-store.js",
+      "js/lib/view-matcher.js",
+      "js/lib/meter.js",
+      "js/lib/group-authorization.js",
+      "js/lib/view-filter-index.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/config-store.js",
+      "js/lib/aggregatable-fields.js",
+      "js/lib/row-validator.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "budget_meter plugin",
+    "ja": "予算管理プラグイン"
+  },
+  "description": {
+    "en": "budget_meter plugin",
+    "ja": "一覧(View)ごとに予算とその集計対象フィールドを設定し、現在の絞り込み条件に該当するレコードの合計値を予算に対する使用率メーターで表示するプラグイン"
+  }
+}

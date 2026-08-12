@@ -1,0 +1,64 @@
+<section class="settings">
+  <h2 class="settings-heading">予算管理プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    一覧(View)ごとに予算額と集計対象フィールドを設定します。一覧画面に「予算を確認」ボタンが表示され、
+    クリックすると、その一覧に現在表示されている絞り込み条件に該当する全レコードの集計対象フィールドを合計し、
+    予算に対する使用率をメーターで表示します。対象の一覧は表形式(LIST)のみ選択できます。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="bm-section">
+      <div class="bm-section-heading">予算設定</div>
+      <p class="kintoneplugin-desc">
+        予算を確認したい一覧ごとに行を追加してください。同じ一覧に複数の行(異なる集計対象フィールド)を
+        追加することもできます。
+      </p>
+      <table class="bm-table">
+        <thead>
+          <tr>
+            <th>対象の一覧</th>
+            <th>集計対象フィールド</th>
+            <th>予算額</th>
+            <th>警告しきい値(%)</th>
+            <th>危険しきい値(%)</th>
+            <th>ラベル(任意)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="js-row-body"></tbody>
+      </table>
+      <button type="button" id="js-row-add" class="kintoneplugin-button-normal">+ 予算設定を追加</button>
+    </section>
+
+    <section class="bm-section">
+      <div class="bm-section-heading">すべての予算を一括表示</div>
+      <p class="kintoneplugin-desc">
+        設定した全ての予算をまとめて1つのダイアログで確認できる「すべての予算を確認」ボタンを、
+        一覧画面のヘッダーに表示します。表示を許可するグループコードをカンマ区切りで入力してください
+        (複数可)。<br>
+        <strong>注意:</strong> これはボタンの表示・非表示を切り替えるだけの制御であり、真の権限制御では
+        ありません。空欄のままにすると、このボタンは誰にも表示されません。
+      </p>
+      <p class="kintoneplugin-row">
+        <input type="text" class="kintoneplugin-input-text js-all-views-group-codes" placeholder="例）kanri_group, admins">
+      </p>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-row-template">
+  <tr class="js-row">
+    <td><select class="kintoneplugin-select js-row-view"></select></td>
+    <td><select class="kintoneplugin-select js-row-field"></select></td>
+    <td><input type="number" min="1" step="any" class="kintoneplugin-input-text js-row-budget" placeholder="例）1000000"></td>
+    <td><input type="number" min="0" step="any" class="kintoneplugin-input-text js-row-warning" placeholder="80"></td>
+    <td><input type="number" min="0" step="any" class="kintoneplugin-input-text js-row-danger" placeholder="100"></td>
+    <td><input type="text" class="kintoneplugin-input-text js-row-label" placeholder="例）今年度予算"></td>
+    <td><span class="bm-row-remove js-row-remove">削除</span></td>
+  </tr>
+</template>

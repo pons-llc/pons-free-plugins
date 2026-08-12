@@ -597,5 +597,21 @@
       "色分け"
     ],
     "video": "https://vimeo.com/1217561401"
+  },
+  {
+    "id": "budget_meter",
+    "name": "予算管理プラグイン",
+    "description": "一覧(View)ごとに予算額と集計対象フィールドを設定し、絞り込み条件に該当するレコードの合計値を予算に対する使用率メーターで表示するプラグイン。許可グループ限定の「すべての予算を確認」ボタンで複数の一覧の予算をまとめて確認することもできます。",
+    "version": "1",
+    "publishedAt": "2026-08-13",
+    "zip": "plugins/budget_meter/plugin.zip",
+    "page": "plugins/budget_meter/index.html",
+    "category": "レイアウト・表示",
+    "tags": [
+      "予算管理",
+      "進捗メーター",
+      "一覧集計"
+    ],
+    "video": "https://vimeo.com/1217778527"
   }
 ]

@@ -1,0 +1,45 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+.bm-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.bm-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.bm-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75em;
+}
+
+.bm-table th,
+.bm-table td {
+  border: 1px solid #e3e7e8;
+  padding: 0.4em 0.6em;
+  text-align: left;
+  vertical-align: top;
+}
+
+.bm-table .kintoneplugin-input-text,
+.bm-table .kintoneplugin-select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bm-row-remove {
+  color: #e74c3c;
+  cursor: pointer;
+  white-space: nowrap;
+}

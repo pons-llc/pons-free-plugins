@@ -77,6 +77,13 @@
       <pubDate>Wed, 12 Aug 2026 15:11:14 GMT</pubDate>
     </item>
     <item>
+      <title>予算管理プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/budget_meter/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/budget_meter/</guid>
+      <description>一覧(View)ごとに予算額と集計対象フィールドを設定し、絞り込み条件に該当するレコードの合計値を予算に対する使用率メーターで表示するプラグイン。許可グループ限定の「すべての予算を確認」ボタンで複数の一覧の予算をまとめて確認することもできます。</description>
+      <pubDate>Wed, 12 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
       <title>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法</title>
       <link>https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</guid>

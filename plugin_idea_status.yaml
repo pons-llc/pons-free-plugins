@@ -175,10 +175,16 @@ plugins:
     in_plugin_idea_md: true
     note: "/goalコマンドでの追加依頼。一覧ごとにカレンダー設定を切り替え可能(ide_selection補足)。REST API不使用というユーザー指示を徹底するため、対象一覧の指定もgantt_chart_view(REST列挙+ドロップダウン)と異なりview ID手入力方式にした(idea.md参照)。"
 
+  - name: 予算管理プラグイン
+    dir: budget_meter
+    status: in_progress
+    in_plugin_idea_md: false
+    note: "/goalコマンドでの追加依頼。一覧(View)ごとに予算と集計対象フィールドを設定し、現在の絞り込み条件に該当するレコードの合計値を予算に対する使用率メーターで表示する。加えて、許可グループに限定した「すべての予算を確認」一括表示ボタンも追加依頼あり(単一一覧の確認はkintone.app.getQueryCondition()のライブな絞り込みを使うのに対し、一括表示は各一覧の運用環境filterCondを使う点が異なる。idea.md参照)。TDD・E2E・security-checklist.md作成済み、公開(publish-site)は未実施。"
+
 summary:
-  total: 32
+  total: 33
   released: 6
-  in_progress: 25
+  in_progress: 26
   not_started: 1
 
 meta:

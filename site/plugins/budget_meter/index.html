@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>予算管理プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="一覧(View)ごとに予算額と集計対象フィールドを設定し、絞り込み条件に該当するレコードの合計値を予算に対する使用率メーターで表示するkintone無料プラグイン。許可グループ限定の「すべての予算を確認」ボタンで複数の一覧の予算をまとめて確認できます。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; 予算管理プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>予算管理プラグイン</h2>
+  <p class="plugin-lead">
+    アプリの「一覧(View)」ごとに予算額と集計対象フィールド(数値)を設定できるプラグインです。予算を設定した一覧を開くと
+    一覧画面のヘッダーに「予算を確認」ボタンが表示され、押すと<strong>今まさにその一覧に表示されている絞り込み条件</strong>
+    (一覧に保存された条件に加え、画面上で追加・変更した絞り込みも含む)に該当する全レコードの集計対象フィールドを合計し、
+    予算に対する使用率をメーター(進捗バー)で表示します。警告・危険しきい値(%、行ごとに設定可能)を境にメーターの色が
+    緑→黄→赤に変わり、色だけに頼らずパーセンテージの数値も必ず併記します。同じ一覧に複数の予算(例: 費目ごと)を
+    割り当てることもできます。これとは別に、許可されたグループ(ロール)に所属するユーザーにだけ「すべての予算を確認」
+    ボタンを表示でき、押すと設定されている全ての予算を、それぞれの一覧に保存された絞り込み条件で横断集計し、
+    1つのダイアログにまとめて表示します(部署ごと・プロジェクトごとの予算を経営層がまとめて確認する、といった用途)。
+    予算の集計・アプリの一覧設定の取得はいずれも自アプリに対するkintone REST APIの呼び出しに限られ、外部サーバーへの
+    通信は一切行いません。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">レイアウト・表示</span>
+    <span class="badge badge-tag">#予算管理</span>
+    <span class="badge badge-tag">#進捗メーター</span>
+    <span class="badge badge-tag">#一覧集計</span>
+  </div>
+  <a class="download-button" href="download" data-dl-plugin="budget_meter">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>紹介動画</h3>
+  <div class="video-frame">
+    <iframe src="https://player.vimeo.com/video/1217778527" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>こんな方におすすめ</h3>
+  <ul class="recommend-list">
+    <li>kintoneで予算・目標の進捗管理をしたい</li>
+    <li>「kintone 予算管理」「kintone 進捗メーター」を探している</li>
+    <li>部署ごと・案件ごとの予算消化率をひと目で確認したい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>部署ごとの経費一覧に予算を設定し、消化率をひと目で確認する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>部署ごとに絞り込んだ一覧(View)を作成し、それぞれに予算額と集計対象フィールド(経費金額)を設定します。一覧画面の「予算を確認」ボタンを押すだけで、その部署の現在の絞り込み条件(今月分・特定の費目のみ、など画面上で追加した絞り込みも含む)に該当する経費の合計と予算消化率がメーターで表示されます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>案件ごとの工数集計に上限時間を設定し、警告色で早めに気づく</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>案件別の一覧に、工数(数値フィールド)の合計に対する上限時間を予算として設定します。警告しきい値(例: 80%)を超えるとメーターが黄色に、危険しきい値(例: 100%)を超えると赤色に変わるため、予算超過に至る前に気づけます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>複数の部署・プロジェクトの予算をまとめて一括確認する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>管理職やグループ(ロール)を許可グループとして設定しておくと、一覧画面に「すべての予算を確認」ボタンが表示されます。押すと、設定されている全ての予算をそれぞれの一覧に保存された絞り込み条件で横断集計し、1つのダイアログにまとめて表示するため、各一覧を個別に開かずに全体の状況を把握できます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ 予算設定を追加」で行を追加し、対象の一覧(表形式〈LIST〉のみ選択可)・集計対象フィールド(数値、または表示書式が数値の計算フィールド)・予算額・警告しきい値(%、既定80)・危険しきい値(%、既定100)・ラベル(任意)を設定する。同じ一覧に複数行を追加することもできる。</li>
+    <li>必要に応じて「すべての予算を確認」ボタンを表示するグループコードをカンマ区切りで入力する(空欄のままだと、このボタンは誰にも表示されない)。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード一覧画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">対象の一覧は表形式(LIST)のみです。カレンダー形式・カスタマイズ形式の一覧は選択肢に出ません。集計対象フィールドの合計(SUM)のみに対応しており、件数・平均は対象外です。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>ダイアログ本文(合計額・一覧名・ラベル等)は<code>document.createElement()</code> + <code>textContent</code>のみで組み立てており、<code>innerHTML</code>へ動的な値を差し込む箇所はありません。</li>
+        <li>REST APIの利用は「自アプリのレコード集計」「自アプリの一覧設定の取得」に限られ、いずれも<code>kintone.api()</code>(kintone自身への呼び出し専用の内部ラッパー)経由です。生の<code>fetch</code>/<code>XMLHttpRequest</code>は使用していません。設定画面は動作テスト環境の一覧設定(<code>preview</code>、アプリ管理権限が必要)を、「すべての予算を確認」ボタンは運用環境の一覧設定(一般利用者のレコード閲覧権限で足りる)を、それぞれ用途に応じて正しく使い分けています。</li>
+        <li>「すべての予算を確認」ボタンのグループ制限(<code>kintone.user.getGroups()</code>による表示切り替え)は、クライアント側の表示ゲートに過ぎず真の権限制御ではないことを明記し、許可グループコードが未設定の場合は誰にも表示しない安全側の既定値にしています。</li>
+        <li>外部サーバーへの通信・外部ライブラリの利用は一切ありません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/budget_meter/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="予算管理プラグインの設定画面。対象の一覧・集計対象フィールド・予算額・警告しきい値(%)・危険しきい値(%)・ラベル(任意)を行ごとに設定する予算設定テーブルと、「すべての予算を一括表示」を許可するグループコードの入力欄が表示されている。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    「予算を確認」「すべての予算を確認」ボタンを押すたびに、対象レコードを<code>$id</code>昇順で500件ずつページングしながら取得するため、対象レコード数が多いほどAPI実行回数が増えます(500件ごとに1回)。「すべての予算を確認」ボタンはさらに、運用環境の一覧設定を取得するAPIを1回追加で実行します。設定画面での保存・読み込み自体はkintoneのプラグイン設定機能を使うため、追加のAPI実行はありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/budget_meter" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/budget_meter/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>
