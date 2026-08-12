@@ -7,6 +7,13 @@
     <language>ja</language>
     <lastBuildDate>Tue, 11 Aug 2026 15:00:00 GMT</lastBuildDate>
     <item>
+      <title>詳細カレンダープラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/calendar_view/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/calendar_view/</guid>
+      <description>レコード一覧画面に、グループ分け・週表示/日表示・ドラッグ&amp;ドロップでの日時変更に対応した詳細なカレンダーを表示するプラグイン。REST APIを使わずJavaScript APIのみで実現しているため、表示は一覧の現在ページから最大100件までです。</description>
+      <pubDate>Tue, 11 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
       <title>レコード一括作成プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/bulk_record_creation/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/bulk_record_creation/</guid>

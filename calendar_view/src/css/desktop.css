@@ -1,0 +1,228 @@
+.cv-root {
+  margin: 8px 0;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 12px;
+}
+
+.cv-warning {
+  padding: 6px 12px;
+  background: #fff8e1;
+  color: #8a6d00;
+  border-bottom: 1px solid #e3e7e8;
+}
+
+.cv-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #e3e7e8;
+}
+
+.cv-toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cv-day-group-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fff;
+}
+
+.cv-nav-button,
+.cv-unit-button {
+  border: 1px solid #e3e7e8;
+  background: #fff;
+  color: #3498db;
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.cv-unit-button-active {
+  background: #3498db;
+  color: #fff;
+}
+
+.cv-period-label {
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.cv-status-text {
+  color: #888;
+  margin-left: auto;
+}
+
+.cv-scroll {
+  overflow: auto;
+  max-height: 560px;
+}
+
+/* 週表示: CSS Gridで7カラム(縦デザイン)/7ロウ(横デザイン) */
+.cv-week-grid {
+  display: grid;
+  min-width: 700px;
+}
+
+.cv-week-grid-vertical {
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.cv-week-grid-horizontal {
+  grid-template-columns: 120px 1fr;
+}
+
+.cv-week-day-header {
+  padding: 4px 6px;
+  font-weight: bold;
+  background: #f7f9fa;
+  border-bottom: 1px solid #e3e7e8;
+  border-right: 1px solid #eef1f2;
+  text-align: center;
+}
+
+.cv-week-day-cell {
+  min-height: 100px;
+  padding: 4px;
+  border-right: 1px solid #eef1f2;
+  border-bottom: 1px solid #eef1f2;
+  box-sizing: border-box;
+}
+
+.cv-week-grid-horizontal .cv-week-day-cell {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 4px;
+  min-height: 40px;
+}
+
+.cv-week-day-cell-dragover {
+  background: #eaf4fd;
+}
+
+.cv-event-chip {
+  display: block;
+  padding: 2px 6px;
+  margin-bottom: 3px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1.4;
+  cursor: grab;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 日表示: グループ軸(縦=列/横=行) x 時刻軸(縦=行/横=列) */
+.cv-day-grid {
+  display: flex;
+}
+
+.cv-day-timeaxis {
+  flex: 0 0 48px;
+  border-right: 1px solid #e3e7e8;
+  position: relative;
+}
+
+.cv-day-timeaxis-horizontal {
+  flex: none;
+  height: 20px;
+  border-right: none;
+  border-bottom: 1px solid #e3e7e8;
+  position: relative;
+}
+
+.cv-hour-label {
+  position: absolute;
+  font-size: 10px;
+  color: #888;
+  transform: translateY(-50%);
+  right: 4px;
+}
+
+.cv-day-body {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+}
+
+.cv-day-body-horizontal {
+  flex-direction: column;
+}
+
+.cv-day-group-col {
+  position: relative;
+  flex: 1 1 0;
+  border-right: 1px solid #eef1f2;
+  box-sizing: border-box;
+}
+
+.cv-day-group-row {
+  position: relative;
+  border-bottom: 1px solid #eef1f2;
+  box-sizing: border-box;
+}
+
+.cv-day-group-col-dragover,
+.cv-day-group-row-dragover {
+  background: #eaf4fd;
+}
+
+.cv-group-header-cell {
+  padding: 4px 6px;
+  font-weight: bold;
+  background: #f7f9fa;
+  border-bottom: 1px solid #e3e7e8;
+  border-right: 1px solid #eef1f2;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.cv-group-row-label {
+  padding: 4px 6px;
+  font-weight: bold;
+  background: #f7f9fa;
+  border-bottom: 1px solid #eef1f2;
+  box-sizing: border-box;
+  flex: 0 0 100px;
+}
+
+.cv-hour-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #f5f5f5;
+}
+
+.cv-hour-line-vertical {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid #f5f5f5;
+}
+
+.cv-event-block {
+  position: absolute;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1.3;
+  padding: 2px 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.cv-event-block-dragging,
+.cv-event-chip-dragging {
+  opacity: 0.4;
+}

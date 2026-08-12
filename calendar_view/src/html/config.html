@@ -1,0 +1,85 @@
+<section class="settings">
+  <h2 class="settings-heading">詳細カレンダープラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    表形式の一覧(レコード一覧画面)に、日付/日時フィールドを軸にした週表示・日表示のカレンダーを表示します。一覧ごとに表示設定を切り替えられます。
+    本プラグインはレコード取得にREST APIを使わず、JavaScript APIのみで実現しているため、対象一覧の指定は「一覧ID」の直接入力で行います(REST APIによる一覧の一覧取得は行いません)。
+  </p>
+  <p class="kintoneplugin-desc">
+    対象の一覧(表形式)を開いたときのブラウザのURLに含まれる<code>view=</code>の数値が一覧IDです(例: <code>.../k/1/?view=5</code>なら<code>5</code>)。空欄のまま追加すると、ビルトインの「すべて」一覧向けの設定になります。
+  </p>
+  <p class="kintoneplugin-desc">
+    ⚠ カレンダーに表示できるレコードは、一覧の現在ページから最大100件までです(REST APIを使わない方針のため)。100件を超える一覧では、kintone側の一覧設定(絞り込み条件・ページ件数)を調整してください。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="cv-section">
+      <div class="cv-section-heading">対象一覧を追加</div>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">対象一覧のID</label><br>
+        <input type="text" class="kintoneplugin-input-text js-view-id-input" placeholder="空欄で「すべて(デフォルト)」">
+        <button type="button" id="js-view-add" class="kintoneplugin-button-normal">+ この一覧の設定を追加</button>
+      </p>
+    </section>
+
+    <div id="js-view-config-list"></div>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-view-config-template">
+  <section class="cv-section js-view-config-block">
+    <div class="cv-section-heading js-view-title"></div>
+    <button type="button" class="cv-row-remove js-view-remove">この一覧の設定を削除</button>
+
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">タイトルフィールド<span class="kintoneplugin-require">必須</span></label><br>
+      <select class="kintoneplugin-select js-title-field"></select>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">開始日時フィールド<span class="kintoneplugin-require">必須</span></label><br>
+      <select class="kintoneplugin-select js-start-field"></select>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">終了日時フィールド(未設定の行は開始日時から既定幅で表示)</label><br>
+      <select class="kintoneplugin-select js-end-field"></select>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">グループ分けフィールド(日表示の軸に使用。週表示では色分けのみに使用)</label><br>
+      <select class="kintoneplugin-select js-group-field"></select>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">ホバー項目(複数選択可)</label><br>
+      <div class="cv-checkbox-list js-hover-fields"></div>
+    </p>
+
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">既定の表示単位</label><br>
+      <label class="embed-checkbox-label"><input type="radio" name="" class="js-view-unit" value="week"> 週表示</label>
+      <label class="embed-checkbox-label"><input type="radio" name="" class="js-view-unit" value="day"> 日表示</label>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">デザイン</label><br>
+      <label class="embed-checkbox-label"><input type="radio" name="" class="js-layout-direction" value="vertical"> 縦(時刻/曜日を縦軸)</label>
+      <label class="embed-checkbox-label"><input type="radio" name="" class="js-layout-direction" value="horizontal"> 横(時刻/曜日を横軸)</label>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="embed-checkbox-label">
+        <input type="checkbox" class="js-enable-drag-drop"> ドラッグ&ドロップでの日時変更を有効にする(既定は無効)
+      </label>
+      <p class="kintoneplugin-desc">
+        有効にすると、カレンダー上でイベントをドラッグした際に、REST API(<code>kintone.api()</code>経由の<code>PUT /k/v1/record.json</code>)でレコードを即時更新します。任意のレコードを更新するJavaScript APIが存在しないための、唯一の例外的なREST API利用です。
+      </p>
+    </p>
+  </section>
+</template>
+
+<template id="js-checkbox-item-template">
+  <label class="cv-checkbox-item">
+    <input type="checkbox" class="js-checkbox-item-input">
+    <span class="js-checkbox-item-label"></span>
+  </label>
+</template>

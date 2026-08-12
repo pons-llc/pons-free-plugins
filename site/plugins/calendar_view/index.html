@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>詳細カレンダープラグイン | GovAppsプラグイン</title>
+<meta name="description" content="レコード一覧画面に、グループ分け・週表示/日表示・ドラッグ&ドロップでの日時変更に対応した詳細なカレンダーを表示するkintone無料プラグイン。REST APIを使わずJavaScript APIのみで実現しています。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; 詳細カレンダープラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>詳細カレンダープラグイン</h2>
+  <p class="plugin-lead">
+    レコード一覧画面(表形式)に、日付/日時フィールドを軸にした週表示・日表示のカレンダーを表示するプラグインです。
+    グループ分けフィールドを指定して担当者・組織・ステータスなどの列(または行)に分けて表示でき、
+    縦/横のデザインを選べます。イベントをクリックするとレコード詳細画面へ遷移し、ドラッグ&ドロップで
+    日時を変更することもできます(設定で有効化した場合)。レコードの取得にREST APIを一切使わず
+    JavaScript APIのみで実現しているため、表示できるのは一覧の現在ページから最大100件までです
+    (この制限はカレンダーのヘッダーに常時表示されます)。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">レイアウト・表示</span>
+    <span class="badge badge-tag">#カレンダー表示</span>
+    <span class="badge badge-tag">#ドラッグ&ドロップ</span>
+    <span class="badge badge-tag">#グループ分け</span>
+  </div>
+  <a class="download-button" href="download" data-dl-plugin="calendar_view">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>担当者ごとの予定を日表示のカレンダーで一覧する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>グループ分けフィールドに担当者(ユーザー選択)を指定すると、日表示で担当者ごとの列(または行)に予定が並びます。誰が何時にどの予定を持っているかを一目で確認できます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>週表示でその週全体の予定を俯瞰する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>週表示に切り替えると、日曜〜土曜の7日分の予定がグループごとに色分けされたチップとして並びます。今週・来週の予定の偏りを俯瞰したい場合に便利です。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>ドラッグ&ドロップで予定の日時をその場で調整する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>設定でドラッグ&ドロップ編集を有効にすると、イベントを別の時間帯・別のグループへドラッグするだけで、開始/終了日時(グループ分けフィールドが対応型の場合はその値も)を更新できます。予定の微調整をレコード詳細画面を開かずに行えます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>対象一覧のIDを入力して「+ この一覧の設定を追加」を押す(空欄のままなら、ビルトインの「すべて(デフォルト)」一覧向けの設定になる)。対象の一覧を開いたときのブラウザURLに含まれる<code>view=</code>の数字が一覧IDです。</li>
+    <li>タイトルフィールド(必須)・開始日時フィールド(必須)・終了日時フィールド(任意)・グループ分けフィールド(任意)・ホバー項目(任意、複数選択可)を選ぶ。</li>
+    <li>既定の表示単位(週/日)・デザイン(縦/横)を選び、必要であればドラッグ&ドロップ編集を有効化する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード一覧画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">対象は通常の一覧(表形式)・PC画面のみです。カレンダーは一覧本体(表)の上にあわせて表示され、一覧本体自体は非表示になりません。表示できるレコードは一覧の現在ページから最大100件までで、この制限はカレンダーのヘッダーに常時表示されます。100件を超える一覧では、kintone側の一覧設定(絞り込み条件・ページ件数)を調整してください。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>レコードの<strong>取得</strong>にはREST APIを一切使用していません。<code>app.record.index.show</code>イベントの<code>event.records</code>(JavaScript APIの一部)のみを使い、対象一覧の指定もREST APIでの一覧列挙を避け一覧IDの直接入力方式にしています。</li>
+        <li>唯一のREST API利用は、ドラッグ&ドロップでの日時変更(<code>PUT /k/v1/record.json</code>、<code>kintone.api()</code>経由)のみです。任意のレコードを更新するJavaScript APIが存在しないための例外的な利用で、既定では無効になっています。更新時はレコードのリビジョン番号を指定し、他ユーザーとの同時編集による競合を検出します。</li>
+        <li>イベントのタイトル・ホバー項目・グループラベルなど、レコード値に由来する文字列はすべて<code>textContent</code>への代入、またはツールチップ用の<code>title</code>プロパティ代入で挿入しており、<code>innerHTML</code>は一切使用していません。</li>
+        <li>色分けに使う値は固定パレットのインデックス選択にのみ使用し、CSSやHTMLへ値そのものを埋め込むことはありません。</li>
+        <li>外部サーバーへの通信・外部ライブラリの利用は一切ありません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/calendar_view/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>カレンダー表示イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/calendar-day-view.png" alt="詳細カレンダープラグインの日表示。sample1・sample2の2グループに列分けされ、各グループの色で色分けされたイベントブロックが時間軸上に表示されている。ツールバーには「表示中: 2件 / 最大100件(REST API不使用のため)」という制限の説明が常時表示されている。" loading="lazy">
+  </div>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="詳細カレンダープラグインの設定画面。対象一覧IDの入力欄、タイトル/開始日時/終了日時/グループ分けフィールドの選択、ホバー項目の複数選択、表示単位・デザインの選択、ドラッグ&ドロップ編集の有効/無効を設定する画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインは、レコードの取得にはREST APIを使いません(<code>app.record.index.show</code>イベントの<code>event.records</code>のみ)。唯一のREST API実行は、ドラッグ&ドロップでイベントを移動したときの<code>PUT /k/v1/record.json</code>(1件更新)で、ドラッグ操作のたびに1回だけ実行されます。ドラッグ&ドロップを有効化していない場合、このプラグインはREST APIを一切実行しません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/calendar_view" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/calendar_view/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

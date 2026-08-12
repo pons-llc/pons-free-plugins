@@ -169,9 +169,15 @@ plugins:
     status: in_progress
     in_plugin_idea_md: true
 
+  - name: 詳細カレンダープラグイン
+    dir: calendar_view
+    status: released
+    in_plugin_idea_md: true
+    note: "/goalコマンドでの追加依頼。一覧ごとにカレンダー設定を切り替え可能(ide_selection補足)。REST API不使用というユーザー指示を徹底するため、対象一覧の指定もgantt_chart_view(REST列挙+ドロップダウン)と異なりview ID手入力方式にした(idea.md参照)。"
+
 summary:
-  total: 31
-  released: 5
+  total: 32
+  released: 6
   in_progress: 25
   not_started: 1
 

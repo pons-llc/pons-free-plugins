@@ -1,0 +1,52 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/format-field-value.js",
+      "js/lib/kintone-date-format.js",
+      "js/lib/color-assignment.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/lib/day-grid.js",
+      "js/lib/week-grid.js",
+      "js/lib/grouping.js",
+      "js/lib/record-cap.js",
+      "js/lib/view-resolution.js",
+      "js/lib/event-model.js",
+      "js/lib/drag-update.js",
+      "js/calendar-render.js",
+      "js/record-update.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/lib/grouping.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "calendar_view plugin",
+    "ja": "詳細カレンダープラグイン"
+  },
+  "description": {
+    "en": "calendar_view plugin",
+    "ja": "レコード一覧(表形式)に、グループ分け・週/日表示・ドラッグ&ドロップ編集に対応した詳細なカレンダーを表示するプラグイン"
+  }
+}
