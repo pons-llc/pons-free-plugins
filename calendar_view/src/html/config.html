@@ -48,8 +48,16 @@
       <select class="kintoneplugin-select js-end-field"></select>
     </p>
     <p class="kintoneplugin-row">
-      <label class="kintoneplugin-label">グループ分けフィールド(日表示の軸に使用。週表示では色分けのみに使用)</label><br>
+      <label class="kintoneplugin-label">グループ分けフィールド(日表示の列/行の軸に使用)</label><br>
       <select class="kintoneplugin-select js-group-field"></select>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">色分けフィールド(未設定ならグループ分けフィールドで色分け)</label><br>
+      <select class="kintoneplugin-select js-color-field"></select>
+    </p>
+    <p class="kintoneplugin-row js-color-overrides-row" hidden>
+      <label class="kintoneplugin-label">値ごとの色(未指定の値は自動で色を割り当てます)</label><br>
+      <div class="cv-color-overrides js-color-overrides"></div>
     </p>
     <p class="kintoneplugin-row">
       <label class="kintoneplugin-label">ホバー項目(複数選択可)</label><br>
@@ -66,14 +74,6 @@
       <label class="embed-checkbox-label"><input type="radio" name="" class="js-layout-direction" value="vertical"> 縦(時刻/曜日を縦軸)</label>
       <label class="embed-checkbox-label"><input type="radio" name="" class="js-layout-direction" value="horizontal"> 横(時刻/曜日を横軸)</label>
     </p>
-    <p class="kintoneplugin-row">
-      <label class="embed-checkbox-label">
-        <input type="checkbox" class="js-enable-drag-drop"> ドラッグ&ドロップでの日時変更を有効にする(既定は無効)
-      </label>
-      <p class="kintoneplugin-desc">
-        有効にすると、カレンダー上でイベントをドラッグした際に、REST API(<code>kintone.api()</code>経由の<code>PUT /k/v1/record.json</code>)でレコードを即時更新します。任意のレコードを更新するJavaScript APIが存在しないための、唯一の例外的なREST API利用です。
-      </p>
-    </p>
   </section>
 </template>
 
@@ -81,5 +81,12 @@
   <label class="cv-checkbox-item">
     <input type="checkbox" class="js-checkbox-item-input">
     <span class="js-checkbox-item-label"></span>
+  </label>
+</template>
+
+<template id="js-color-override-template">
+  <label class="cv-color-override-item">
+    <span class="js-color-override-label"></span>
+    <select class="kintoneplugin-select js-color-override-input"></select>
   </label>
 </template>

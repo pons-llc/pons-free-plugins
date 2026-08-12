@@ -6,7 +6,7 @@
   // のときのみ対象。ネイティブの一覧本体は非表示にせずそのまま残す(判断記録.md参照)。
   //
   // レコード取得は event.records(REST不使用)のみを使い、先頭100件に打ち切る(idea.md参照)。
-  // ドラッグ&ドロップでの更新のみ、唯一の例外として kintone.api() 経由の REST を使う。
+  // 表示専用プラグインであり、REST APIは一切使用しない。
 
   const NS = global.CalendarView;
   const PLUGIN_ID = kintone.$PLUGIN_ID;
@@ -55,96 +55,22 @@
   };
 
   // ctx: { container, appId, config, formFields } … 一覧が変わらない限り一定
-  // events: EventModel.buildEvents() の戻り値(ミュータブルに更新して再描画する)
+  // events: EventModel.buildEvents() の戻り値
   const renderCalendar = (ctx, events, capInfo) => {
-    const { container, appId, config, formFields } = ctx;
+    const { container, appId, config } = ctx;
     if (runtimeState.unit === null) {
       runtimeState.unit = config.defaultViewUnit;
     }
-
-    const groupField = config.groupFieldCode
-      ? formFields[config.groupFieldCode]
-      : null;
-    const groupDragUpdatable = Boolean(
-      config.enableDragDrop &&
-      groupField &&
-      NS.Grouping.isGroupDragUpdatable(groupField),
-    );
-
-    let draggingEvent = null;
-
-    const handleDrop = async (evt, dragResult, newGroupKey) => {
-      const computed =
-        dragResult.kind === 'week'
-          ? NS.DragUpdate.applyWeekDrag(evt, dragResult.deltaDays)
-          : NS.DragUpdate.applyDayDrag(
-              evt,
-              dragResult.deltaMinutes,
-              newGroupKey,
-            );
-
-      let newGroupValue;
-      if (newGroupKey !== undefined && config.groupFieldCode) {
-        newGroupValue = NS.DragUpdate.formatGroupValue(
-          newGroupKey,
-          groupField.type,
-        );
-      }
-      const record = NS.DragUpdate.buildUpdateRecord(
-        config,
-        formFields,
-        computed,
-        newGroupValue,
-      );
-
-      kintone.showLoading('VISIBLE');
-      try {
-        const result = await NS.RecordUpdate.updateRecord(
-          appId,
-          evt.recordId,
-          evt.revision,
-          record,
-        );
-        Object.assign(evt, {
-          start: computed.start,
-          end: computed.end,
-          revision: result.revision,
-          ...(newGroupKey !== undefined
-            ? {
-                groupKey: newGroupKey,
-                groupLabel: newGroupKey ? evt.groupLabel : '',
-              }
-            : {}),
-        });
-        renderCalendar(ctx, events, capInfo);
-      } catch (err) {
-        console.error(
-          '[calendar_view] ドラッグ&ドロップによる更新に失敗しました',
-          err,
-        );
-        kintone.showNotification(
-          'ERROR',
-          '更新に失敗しました(他のユーザーが同時に編集した可能性があります)。カレンダーを再読み込みしてください。',
-        );
-      } finally {
-        kintone.showLoading('HIDDEN');
-      }
-    };
 
     NS.CalendarRender.render(container, {
       events,
       currentUnit: runtimeState.unit,
       currentDate: runtimeState.currentDate,
       layoutDirection: config.layoutDirection,
-      dragEnabled: Boolean(config.enableDragDrop),
-      groupDragUpdatable,
+      colorOverrides: config.colorOverrides,
       totalRecords: capInfo.total,
       truncated: capInfo.truncated,
       maxRecords: capInfo.max,
-      setDraggingEvent: (evt) => {
-        draggingEvent = evt;
-      },
-      getDraggingEvent: () => draggingEvent,
       onUnitChange: (unit) => {
         runtimeState.unit = unit;
         renderCalendar(ctx, events, capInfo);
@@ -157,8 +83,11 @@
         );
         renderCalendar(ctx, events, capInfo);
       },
+      onJumpToDate: (date) => {
+        runtimeState.currentDate = date;
+        renderCalendar(ctx, events, capInfo);
+      },
       onEventClick: (recordId) => openRecordDetail(appId, recordId),
-      onEventDrop: handleDrop,
     });
   };
 

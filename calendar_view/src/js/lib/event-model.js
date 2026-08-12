@@ -63,6 +63,19 @@
       const groupField = config.groupFieldCode
         ? record[config.groupFieldCode]
         : null;
+      const groupKey = groupField ? groupKeyOf(groupField) : '';
+      const groupLabel = groupField ? deps.formatFieldValue(groupField) : '';
+
+      // 色分けフィールド(STATUS/DROP_DOWN/RADIO_BUTTON、いずれもスカラー値)が設定されて
+      // いればそれを色分けキーとして使う。未設定ならグループ分けキーにフォールバックする
+      // (従来どおり、週表示でもグループごとに色分けされる)。
+      const colorField = config.colorFieldCode
+        ? record[config.colorFieldCode]
+        : null;
+      const colorKey = colorField ? groupKeyOf(colorField) : groupKey;
+      const colorLabel = colorField
+        ? deps.formatFieldValue(colorField)
+        : groupLabel;
 
       events.push({
         recordId: record.$id ? record.$id.value : null,
@@ -72,8 +85,10 @@
           const label = formFields[code] ? formFields[code].label : code;
           return `${label}: ${deps.formatFieldValue(record[code])}`;
         }),
-        groupKey: groupField ? groupKeyOf(groupField) : '',
-        groupLabel: groupField ? deps.formatFieldValue(groupField) : '',
+        groupKey,
+        groupLabel,
+        colorKey,
+        colorLabel,
         start,
         end,
         allDay: Boolean(allDay),

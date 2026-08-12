@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>詳細カレンダープラグイン | GovAppsプラグイン</title>
-<meta name="description" content="レコード一覧画面に、グループ分け・週表示/日表示・ドラッグ&ドロップでの日時変更に対応した詳細なカレンダーを表示するkintone無料プラグイン。REST APIを使わずJavaScript APIのみで実現しています。">
+<meta name="description" content="レコード一覧画面に、グループ分け・色分け(凡例付き)・週表示/日表示に対応した詳細なカレンダーを表示するkintone無料プラグイン。REST APIを一切使わずJavaScript APIのみで実現しています。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -43,17 +43,19 @@
   <h2>詳細カレンダープラグイン</h2>
   <p class="plugin-lead">
     レコード一覧画面(表形式)に、日付/日時フィールドを軸にした週表示・日表示のカレンダーを表示するプラグインです。
-    グループ分けフィールドを指定して担当者・組織・ステータスなどの列(または行)に分けて表示でき、
-    縦/横のデザインを選べます。イベントをクリックするとレコード詳細画面へ遷移し、ドラッグ&ドロップで
-    日時を変更することもできます(設定で有効化した場合)。レコードの取得にREST APIを一切使わず
+    グループ分けフィールドを指定して担当者・組織・ステータスなどの列(または行)に分けて表示でき、日表示だけでなく
+    週表示でもグループ×曜日の2軸で表示できます。色分けはグループ分けとは別のフィールド(ステータス/ドロップダウン/
+    ラジオボタン)を指定でき、固定8色から選ぶシンプルな方式で値ごとに色を指定でき、常時表示の凡例で色の意味を確認できます。
+    縦/横のデザインを選べ、任意の日付へワンクリックで移動できる日付ジャンプも備えています。イベントをクリックすると
+    レコード詳細画面へ遷移します(表示専用、レコードの更新は行いません)。レコードの取得にREST APIを一切使わず
     JavaScript APIのみで実現しているため、表示できるのは一覧の現在ページから最大100件までです
-    (この制限はカレンダーのヘッダーに常時表示されます)。
+    (この制限はカレンダーのツールバーに常時表示されます)。
   </p>
   <div class="plugin-hero-badges">
     <span class="badge badge-category">レイアウト・表示</span>
     <span class="badge badge-tag">#カレンダー表示</span>
-    <span class="badge badge-tag">#ドラッグ&ドロップ</span>
     <span class="badge badge-tag">#グループ分け</span>
+    <span class="badge badge-tag">#色分け</span>
   </div>
   <a class="download-button" href="download" data-dl-plugin="calendar_view">ダウンロード(v1)</a>
 </div>
@@ -71,20 +73,20 @@
   </div>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
-      <span>週表示でその週全体の予定を俯瞰する</span>
+      <span>週表示でグループ×曜日を俯瞰し、担当者ごとの偏りを見つける</span>
       <span class="accordion-icon">▶</span>
     </button>
     <div class="accordion-panel" id="usecase-2" hidden>
-      <p>週表示に切り替えると、日曜〜土曜の7日分の予定がグループごとに色分けされたチップとして並びます。今週・来週の予定の偏りを俯瞰したい場合に便利です。</p>
+      <p>週表示でグループ分けフィールドを設定すると、日曜〜土曜の7日間とグループの2軸グリッドで表示されます。誰の予定が特定の曜日に偏っているか、来週の負荷分散を検討したい場合などに便利です(グループが1種類しかない場合は、従来どおりのシンプルな7セル表示になります)。</p>
     </div>
   </div>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
-      <span>ドラッグ&ドロップで予定の日時をその場で調整する</span>
+      <span>グループ分けとは別の観点(ステータス等)で色分けし、凡例で確認する</span>
       <span class="accordion-icon">▶</span>
     </button>
     <div class="accordion-panel" id="usecase-3" hidden>
-      <p>設定でドラッグ&ドロップ編集を有効にすると、イベントを別の時間帯・別のグループへドラッグするだけで、開始/終了日時(グループ分けフィールドが対応型の場合はその値も)を更新できます。予定の微調整をレコード詳細画面を開かずに行えます。</p>
+      <p>グループ分け(例: 担当者)とは別に、色分けフィールド(例: ステータス)を指定すると、色は色分けフィールドの値で決まります。固定8色から値ごとに任意の色を選ぶこともでき、カレンダーの上部には常に色の凡例(スウォッチ+ラベル)が表示されるため、色の意味を都度確認できます。</p>
     </div>
   </div>
 </section>
@@ -94,8 +96,8 @@
   <ol class="setup-steps">
     <li>プラグインをアプリに追加し、設定画面を開く。</li>
     <li>対象一覧のIDを入力して「+ この一覧の設定を追加」を押す(空欄のままなら、ビルトインの「すべて(デフォルト)」一覧向けの設定になる)。対象の一覧を開いたときのブラウザURLに含まれる<code>view=</code>の数字が一覧IDです。</li>
-    <li>タイトルフィールド(必須)・開始日時フィールド(必須)・終了日時フィールド(任意)・グループ分けフィールド(任意)・ホバー項目(任意、複数選択可)を選ぶ。</li>
-    <li>既定の表示単位(週/日)・デザイン(縦/横)を選び、必要であればドラッグ&ドロップ編集を有効化する。</li>
+    <li>タイトルフィールド(必須)・開始日時フィールド(必須)・終了日時フィールド(任意)・グループ分けフィールド(任意)・色分けフィールド(任意、未設定ならグループ分けフィールドで色分け)・ホバー項目(任意、複数選択可)を選ぶ。色分けフィールドにドロップダウン/ラジオボタンを選ぶと、値ごとに色を選べる欄が表示される。</li>
+    <li>既定の表示単位(週/日)・デザイン(縦/横)を選ぶ。</li>
     <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード一覧画面に反映されます)。</li>
   </ol>
   <p class="download-note">対象は通常の一覧(表形式)・PC画面のみです。カレンダーは一覧本体(表)の上にあわせて表示され、一覧本体自体は非表示になりません。表示できるレコードは一覧の現在ページから最大100件までで、この制限はカレンダーのヘッダーに常時表示されます。100件を超える一覧では、kintone側の一覧設定(絞り込み条件・ページ件数)を調整してください。</p>
@@ -111,10 +113,9 @@
     <div class="accordion-panel" id="security-summary" hidden>
       <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
       <ul class="review-checklist">
-        <li>レコードの<strong>取得</strong>にはREST APIを一切使用していません。<code>app.record.index.show</code>イベントの<code>event.records</code>(JavaScript APIの一部)のみを使い、対象一覧の指定もREST APIでの一覧列挙を避け一覧IDの直接入力方式にしています。</li>
-        <li>唯一のREST API利用は、ドラッグ&ドロップでの日時変更(<code>PUT /k/v1/record.json</code>、<code>kintone.api()</code>経由)のみです。任意のレコードを更新するJavaScript APIが存在しないための例外的な利用で、既定では無効になっています。更新時はレコードのリビジョン番号を指定し、他ユーザーとの同時編集による競合を検出します。</li>
-        <li>イベントのタイトル・ホバー項目・グループラベルなど、レコード値に由来する文字列はすべて<code>textContent</code>への代入、またはツールチップ用の<code>title</code>プロパティ代入で挿入しており、<code>innerHTML</code>は一切使用していません。</li>
-        <li>色分けに使う値は固定パレットのインデックス選択にのみ使用し、CSSやHTMLへ値そのものを埋め込むことはありません。</li>
+        <li>本プラグインは<strong>REST APIを一切使用しません</strong>(表示専用)。<code>app.record.index.show</code>イベントの<code>event.records</code>(JavaScript APIの一部)のみを使い、対象一覧の指定もREST APIでの一覧列挙を避け一覧IDの直接入力方式にしています。</li>
+        <li>イベントのタイトル・ホバー項目・グループラベル・凡例のラベルなど、レコード値に由来する文字列はすべて<code>textContent</code>への代入、またはツールチップ用の<code>title</code>プロパティ代入で挿入しており、<code>innerHTML</code>は一切使用していません。</li>
+        <li>色分けは固定8色のパレットからの自動割り当て、または管理者が選択式(<code>&lt;select&gt;</code>、自由入力不可)で指定した色のみを使用し、CSSやHTMLへレコードの値そのものを埋め込むことはありません。設定データが直接改ざんされた場合に備え、色の値の形式を検証してから描画に使う多層防御も行っています。</li>
         <li>外部サーバーへの通信・外部ライブラリの利用は一切ありません。</li>
       </ul>
       <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
@@ -126,17 +127,20 @@
 <section class="plugin-section">
   <h3>カレンダー表示イメージ</h3>
   <div class="screenshot-frame">
-    <img src="screenshots/calendar-day-view.png" alt="詳細カレンダープラグインの日表示。sample1・sample2の2グループに列分けされ、各グループの色で色分けされたイベントブロックが時間軸上に表示されている。ツールバーには「表示中: 2件 / 最大100件(REST API不使用のため)」という制限の説明が常時表示されている。" loading="lazy">
+    <img src="screenshots/calendar-day-view.png" alt="詳細カレンダープラグインの日表示。上部に色分けの凡例(sample2・sample1)、sample1・sample2の2グループに列分けされ、各グループの色で色分けされたイベントブロックが時間軸上に表示されている。ツールバーには日付ジャンプ入力と「表示中: 2件 / 最大100件(REST API不使用のため)」という制限の説明が常時表示されている。" loading="lazy">
   </div>
   <div class="screenshot-frame">
-    <img src="screenshots/config-screen.png" alt="詳細カレンダープラグインの設定画面。対象一覧IDの入力欄、タイトル/開始日時/終了日時/グループ分けフィールドの選択、ホバー項目の複数選択、表示単位・デザインの選択、ドラッグ&ドロップ編集の有効/無効を設定する画面のスクリーンショット。" loading="lazy">
+    <img src="screenshots/calendar-week-view.png" alt="詳細カレンダープラグインの週表示。グループ分けフィールドが設定されているため、sample1・sample2のグループ列と曜日(8/9〜8/15)の行による2軸グリッドで表示されている。" loading="lazy">
+  </div>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="詳細カレンダープラグインの設定画面。対象一覧IDの入力欄、タイトル/開始日時/終了日時/グループ分け/色分けフィールドの選択、値ごとの色を選ぶ選択式UI、ホバー項目の複数選択、表示単位・デザインの選択を行う画面のスクリーンショット。" loading="lazy">
   </div>
 </section>
 
 <section class="plugin-section">
   <h3>API実行数について</h3>
   <p class="api-usage-note">
-    このプラグインは、レコードの取得にはREST APIを使いません(<code>app.record.index.show</code>イベントの<code>event.records</code>のみ)。唯一のREST API実行は、ドラッグ&ドロップでイベントを移動したときの<code>PUT /k/v1/record.json</code>(1件更新)で、ドラッグ操作のたびに1回だけ実行されます。ドラッグ&ドロップを有効化していない場合、このプラグインはREST APIを一切実行しません。
+    このプラグインは表示専用であり、REST APIを一切実行しません。レコードの取得は<code>app.record.index.show</code>イベントの<code>event.records</code>(JavaScript APIの一部)のみを使用します。
   </p>
 </section>
 

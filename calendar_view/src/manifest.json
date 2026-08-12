@@ -6,7 +6,6 @@
   "desktop": {
     "js": [
       "js/lib/format-field-value.js",
-      "js/lib/kintone-date-format.js",
       "js/lib/color-assignment.js",
       "js/lib/config-store.js",
       "js/lib/config-validation.js",
@@ -16,9 +15,7 @@
       "js/lib/record-cap.js",
       "js/lib/view-resolution.js",
       "js/lib/event-model.js",
-      "js/lib/drag-update.js",
       "js/calendar-render.js",
-      "js/record-update.js",
       "js/desktop.js"
     ],
     "css": [
@@ -30,6 +27,7 @@
   "config": {
     "html": "html/config.html",
     "js": [
+      "js/lib/color-assignment.js",
       "js/lib/config-store.js",
       "js/lib/config-validation.js",
       "js/lib/grouping.js",
@@ -47,6 +45,6 @@
   },
   "description": {
     "en": "calendar_view plugin",
-    "ja": "レコード一覧(表形式)に、グループ分け・週/日表示・ドラッグ&ドロップ編集に対応した詳細なカレンダーを表示するプラグイン"
+    "ja": "レコード一覧(表形式)に、グループ分け・色分け・週/日表示に対応した詳細なカレンダーを表示するプラグイン"
   }
 }

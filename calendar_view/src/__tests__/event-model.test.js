@@ -7,6 +7,7 @@ const formFields = {
   start_date: { type: 'DATE', label: '開始日' },
   assignee: { type: 'USER_SELECT', label: '担当者' },
   memo: { type: 'SINGLE_LINE_TEXT', label: 'メモ' },
+  status: { type: 'STATUS', label: 'ステータス' },
 };
 
 const record = (overrides) => ({
@@ -18,6 +19,7 @@ const record = (overrides) => ({
   start_date: { type: 'DATE', value: '2026-08-10' },
   assignee: { type: 'USER_SELECT', value: [{ code: 'alice', name: 'Alice' }] },
   memo: { type: 'SINGLE_LINE_TEXT', value: 'note' },
+  status: { type: 'STATUS', value: '未着手' },
   ...overrides,
 });
 
@@ -93,5 +95,36 @@ describe('buildEvents', () => {
     const events = buildEvents([record()], config, formFields);
     expect(events[0].groupKey).toBe('');
     expect(events[0].groupLabel).toBe('');
+  });
+
+  test('colorKey/colorLabel fall back to the group when no colorFieldCode is configured', () => {
+    const config = {
+      titleFieldCode: 'title',
+      startFieldCode: 'start',
+      groupFieldCode: 'assignee',
+    };
+    const events = buildEvents([record()], config, formFields);
+    expect(events[0].colorKey).toBe('alice');
+    expect(events[0].colorLabel).toBe('Alice');
+  });
+
+  test('colorKey/colorLabel use a dedicated colorFieldCode independently of grouping', () => {
+    const config = {
+      titleFieldCode: 'title',
+      startFieldCode: 'start',
+      groupFieldCode: 'assignee',
+      colorFieldCode: 'status',
+    };
+    const events = buildEvents([record()], config, formFields);
+    expect(events[0].groupKey).toBe('alice');
+    expect(events[0].colorKey).toBe('未着手');
+    expect(events[0].colorLabel).toBe('未着手');
+  });
+
+  test('colorKey is empty when neither colorFieldCode nor groupFieldCode is configured', () => {
+    const config = { titleFieldCode: 'title', startFieldCode: 'start' };
+    const events = buildEvents([record()], config, formFields);
+    expect(events[0].colorKey).toBe('');
+    expect(events[0].colorLabel).toBe('');
   });
 });

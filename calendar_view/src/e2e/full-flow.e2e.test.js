@@ -98,6 +98,15 @@ describe('詳細カレンダープラグイン(実環境, 一気通貫)', () => 
     expect(groupOptionValues).toContain(fixtures.GROUP_FIELD_CODE);
     expect(groupOptionValues).not.toContain(fixtures.TITLE_FIELD_CODE);
 
+    // 色分けフィールドの選択肢はSTATUS/DROP_DOWN/RADIO_BUTTONのみ(グループ分けフィールドより
+    // 狭い、ユーザー選択は含まれない)。
+    const colorOptionValues = await block.$$eval(
+      '.js-color-field option',
+      (options) => options.map((o) => o.value).filter((v) => v !== ''),
+    );
+    expect(colorOptionValues).toContain(fixtures.GROUP_FIELD_CODE);
+    expect(colorOptionValues).not.toContain('ユーザー選択');
+
     await block.$eval(
       '.js-title-field',
       (el, value) => {
@@ -122,19 +131,35 @@ describe('詳細カレンダープラグイン(実環境, 一気通貫)', () => 
       },
       fixtures.GROUP_FIELD_CODE,
     );
+    await block.$eval(
+      '.js-color-field',
+      (el, value) => {
+        el.value = value;
+        el.dispatchEvent(new Event('change'));
+      },
+      fixtures.GROUP_FIELD_CODE,
+    );
 
-    // 既定の表示単位: 日表示、デザイン: 縦。ドラッグ&ドロップは有効化する。
+    // 色選択は自由入力のカラーピッカーではなく、固定パレットからの選択式(select)。
+    const colorOverrideTag = await block.$eval(
+      '.js-color-override-input',
+      (el) => el.tagName,
+    );
+    expect(colorOverrideTag).toBe('SELECT');
+    const colorOverrideOptionTexts = await block.$eval(
+      '.js-color-override-input',
+      (el) => Array.from(el.options).map((o) => o.textContent),
+    );
+    expect(colorOverrideOptionTexts).toContain('(自動)');
+    expect(colorOverrideOptionTexts.length).toBeGreaterThan(1);
+
+    // 既定の表示単位: 日表示、デザイン: 縦。
     const dayUnitRadio = await block.$('.js-view-unit[value="day"]');
     await dayUnitRadio.click();
     const verticalRadio = await block.$(
       '.js-layout-direction[value="vertical"]',
     );
     await verticalRadio.click();
-    const dragDropCheckbox = await block.$('.js-enable-drag-drop');
-    const dragDropChecked = await dragDropCheckbox.evaluate((el) => el.checked);
-    if (!dragDropChecked) {
-      await dragDropCheckbox.click();
-    }
 
     await Promise.all([
       page.waitForNavigation({ waitUntil: 'networkidle0' }),
@@ -157,14 +182,14 @@ describe('詳細カレンダープラグイン(実環境, 一気通貫)', () => 
     expect(await reloadedBlock.$eval('.js-group-field', (el) => el.value)).toBe(
       fixtures.GROUP_FIELD_CODE,
     );
+    expect(await reloadedBlock.$eval('.js-color-field', (el) => el.value)).toBe(
+      fixtures.GROUP_FIELD_CODE,
+    );
     expect(
       await reloadedBlock.$eval(
         '.js-view-unit[value="day"]',
         (el) => el.checked,
       ),
-    ).toBe(true);
-    expect(
-      await reloadedBlock.$eval('.js-enable-drag-drop', (el) => el.checked),
     ).toBe(true);
 
     expect(pageErrors).toEqual([]);
@@ -224,16 +249,35 @@ describe('詳細カレンダープラグイン(実環境, 一気通貫)', () => 
       expect.arrayContaining(['CVイベントA', 'CVイベントB']),
     );
 
+    // 色分けの凡例が、グループ分けフィールドの値(sample1/sample2)で表示されている
+    // (色分けフィールド未設定時はグループ分けフィールドにフォールバックする仕様の確認)。
+    const legendLabels = await page.$$eval('.cv-legend-label', (els) =>
+      els.map((el) => el.textContent),
+    );
+    expect(legendLabels).toEqual(
+      expect.arrayContaining(['sample1', 'sample2']),
+    );
+
     await common.screenshot(page, repoRoot, PLUGIN_NAME, 'calendar-day-view');
 
-    // 週表示への切り替えも正常に動作する。
+    // 週表示への切り替えも正常に動作する。グループ分けフィールドが設定されており
+    // 2種類以上のグループが存在するため、日付×グループの2軸グリッドで描画される。
     await page.click('.cv-unit-button:not(.cv-unit-button-active)');
-    await page.waitForSelector('.cv-week-grid', { timeout: 10000 });
+    await page.waitForSelector('.cv-week-grouped-grid', { timeout: 10000 });
+    const weekGroupHeaderTexts = await page.$$eval(
+      '.cv-week-grouped-grid .cv-group-header-cell',
+      (els) => els.map((el) => el.textContent),
+    );
+    expect(weekGroupHeaderTexts).toEqual(
+      expect.arrayContaining(['sample1', 'sample2']),
+    );
     const weekChipTexts = await page.$$eval('.cv-event-chip', (els) =>
       els.map((el) => el.textContent),
     );
     expect(weekChipTexts.some((t) => t.includes('CVイベントA'))).toBe(true);
     expect(weekChipTexts.some((t) => t.includes('CVイベントB'))).toBe(true);
+
+    await common.screenshot(page, repoRoot, PLUGIN_NAME, 'calendar-week-view');
 
     expect(pageErrors).toEqual([]);
   });

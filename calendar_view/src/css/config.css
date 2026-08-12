@@ -48,3 +48,19 @@
   gap: 4px;
   font-weight: normal;
 }
+
+.cv-color-overrides {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 0.5em;
+  border: 1px solid #eef1f2;
+  border-radius: 4px;
+}
+
+.cv-color-override-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: normal;
+}

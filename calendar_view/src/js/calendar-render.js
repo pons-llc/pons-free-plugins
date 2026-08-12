@@ -3,6 +3,8 @@
 
   // カレンダーのDOM描画を担当する。レコード値に由来する文字列は必ずtextContent/title
   // プロパティ代入で挿入し、innerHTML/insertAdjacentHTMLは使用しない(security-checklist.md参照)。
+  // 表示専用(クリックでレコード詳細へ遷移するのみ)で、ドラッグ&ドロップでの編集は行わない
+  // (判断記録.md参照。当初はドラッグ&ドロップ対応も実装したが、スコープから外した)。
 
   const NS = global.CalendarView;
   const { DayGrid, WeekGrid, Grouping, ColorAssignment } = NS;
@@ -23,6 +25,11 @@
       node.removeChild(node.firstChild);
     }
   };
+
+  const pad2 = (n) => String(n).padStart(2, '0');
+
+  const formatDateInputValue = (date) =>
+    `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
 
   const formatPeriodLabel = (unit, currentDate) => {
     if (unit === 'day') {
@@ -54,10 +61,23 @@
       opts.currentUnit,
       opts.currentDate,
     );
+    // 前へ/次へだけだと日表示で1日ずつしか移動できず遠くの日付へ辿り着きにくいため、
+    // 任意の日付へ直接ジャンプできる日付入力を用意する(週表示ではその日を含む週へ移動する)。
+    const dateInput = el('input', 'cv-date-input');
+    dateInput.type = 'date';
+    dateInput.value = formatDateInputValue(opts.currentDate);
+    dateInput.addEventListener('change', () => {
+      if (!dateInput.value) {
+        return;
+      }
+      const [y, m, d] = dateInput.value.split('-').map(Number);
+      opts.onJumpToDate(new Date(y, m - 1, d));
+    });
     navGroup.appendChild(prevBtn);
     navGroup.appendChild(todayBtn);
     navGroup.appendChild(nextBtn);
     navGroup.appendChild(periodLabel);
+    navGroup.appendChild(dateInput);
 
     const unitGroup = el('div', 'cv-toolbar-group');
     ['week', 'day'].forEach((unit) => {
@@ -86,31 +106,11 @@
     blockEl.title = [evt.title].concat(evt.hoverLines).join('\n');
   };
 
-  const attachClickAndDrag = (blockEl, evt, opts) => {
+  const attachClick = (blockEl, evt, opts) => {
     blockEl.addEventListener('click', () => opts.onEventClick(evt.recordId));
-    if (!opts.dragEnabled) {
-      return;
-    }
-    blockEl.draggable = true;
-    blockEl.addEventListener('dragstart', (e) => {
-      opts.setDraggingEvent(evt);
-      blockEl.classList.add(
-        'cv-event-block-dragging',
-        'cv-event-chip-dragging',
-      );
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', String(evt.recordId));
-    });
-    blockEl.addEventListener('dragend', () => {
-      blockEl.classList.remove(
-        'cv-event-block-dragging',
-        'cv-event-chip-dragging',
-      );
-      opts.setDraggingEvent(null);
-    });
   };
 
-  // ---- 週表示(曜日を軸、グループは色分けのみ) ----
+  // ---- 週表示(曜日を軸。グループ分けフィールド設定時はグループも軸として使う) ----
 
   const buildWeekDayCell = (dayEvents, dayIndex, colorMap, opts) => {
     const cell = el('div', 'cv-week-day-cell');
@@ -118,54 +118,32 @@
 
     dayEvents.forEach((evt) => {
       const chip = el('div', 'cv-event-chip');
-      chip.style.backgroundColor = colorMap[evt.groupKey] || '#3498db';
+      chip.style.backgroundColor = colorMap[evt.colorKey] || '#3498db';
       const hh = String(evt.start.getHours()).padStart(2, '0');
       const mm = String(evt.start.getMinutes()).padStart(2, '0');
       chip.textContent = evt.allDay ? evt.title : `${hh}:${mm} ${evt.title}`;
       applyHover(chip, evt);
-      attachClickAndDrag(chip, evt, opts);
+      attachClick(chip, evt, opts);
       cell.appendChild(chip);
     });
-
-    if (opts.dragEnabled) {
-      cell.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        cell.classList.add('cv-week-day-cell-dragover');
-      });
-      cell.addEventListener('dragleave', () =>
-        cell.classList.remove('cv-week-day-cell-dragover'),
-      );
-      cell.addEventListener('drop', (e) => {
-        e.preventDefault();
-        cell.classList.remove('cv-week-day-cell-dragover');
-        const draggingEvent = opts.getDraggingEvent();
-        if (!draggingEvent) {
-          return;
-        }
-        const weekStart = WeekGrid.startOfWeek(opts.currentDate);
-        const originalIndex = WeekGrid.dayIndexInWeek(
-          draggingEvent.start,
-          weekStart,
-        );
-        const deltaDays = dayIndex - originalIndex;
-        if (deltaDays === 0) {
-          return;
-        }
-        opts.onEventDrop(draggingEvent, { kind: 'week', deltaDays });
-      });
-    }
 
     return cell;
   };
 
-  const renderWeekView = (scroll, events, opts) => {
-    const weekStart = WeekGrid.startOfWeek(opts.currentDate);
-    const buckets = WeekGrid.bucketEventsByDay(events, weekStart);
-    const groupKeys = Array.from(new Set(events.map((e) => e.groupKey)));
-    const colorMap = ColorAssignment.assignColors(groupKeys);
-    const horizontal = opts.layoutDirection === 'horizontal';
+  const dayHeaderText = (date, dayIndex) =>
+    `${date.getMonth() + 1}/${date.getDate()}(${DAY_LABELS[dayIndex]})`;
 
+  // グループ分けフィールドが未設定(またはデータが単一グループのみ)の場合は、従来どおり
+  // 曜日だけを軸にしたシンプルな7セル表示にする。
+  const renderWeekViewSimple = (
+    scroll,
+    events,
+    weekStart,
+    horizontal,
+    colorMap,
+    opts,
+  ) => {
+    const buckets = WeekGrid.bucketEventsByDay(events, weekStart);
     const grid = el(
       'div',
       horizontal
@@ -177,7 +155,7 @@
     for (let i = 0; i < 7; i += 1) {
       const dayDate = new Date(weekStart.getTime() + i * 24 * 60 * 60 * 1000);
       const header = el('div', 'cv-week-day-header');
-      header.textContent = `${dayDate.getMonth() + 1}/${dayDate.getDate()}(${DAY_LABELS[i]})`;
+      header.textContent = dayHeaderText(dayDate, i);
       grid.appendChild(header);
       if (horizontal) {
         grid.appendChild(buildWeekDayCell(buckets[i], i, colorMap, opts));
@@ -190,9 +168,114 @@
     }
   };
 
+  // グループ分けフィールドが設定されている場合は、曜日(7日分)とグループの2軸グリッドにする。
+  // 縦デザイン: グループ=列、曜日=行。横デザイン: 曜日=列、グループ=行(日表示のグループ軸の
+  // 向きの決め方〈縦=列/横=行〉と揃える。ユーザー指示により追加)。
+  const renderWeekViewGrouped = (
+    scroll,
+    groups,
+    weekStart,
+    horizontal,
+    colorMap,
+    opts,
+  ) => {
+    const dayDates = Array.from(
+      { length: 7 },
+      (_, i) => new Date(weekStart.getTime() + i * 24 * 60 * 60 * 1000),
+    );
+    const perGroupBuckets = groups.map((group) =>
+      WeekGrid.bucketEventsByDay(group.events, weekStart),
+    );
+
+    const grid = el('div', 'cv-week-grouped-grid');
+    scroll.appendChild(grid);
+
+    if (!horizontal) {
+      // 縦: 1列目=曜日ラベル、以降はグループごとの列。
+      grid.style.gridTemplateColumns = `80px repeat(${groups.length}, minmax(120px, 1fr))`;
+      grid.appendChild(el('div', 'cv-week-grouped-corner'));
+      groups.forEach((group) => {
+        const headerEl = el('div', 'cv-group-header-cell');
+        headerEl.textContent = group.label;
+        grid.appendChild(headerEl);
+      });
+      dayDates.forEach((dayDate, dayIndex) => {
+        const dayLabelEl = el('div', 'cv-week-day-header');
+        dayLabelEl.textContent = dayHeaderText(dayDate, dayIndex);
+        grid.appendChild(dayLabelEl);
+        groups.forEach((group, groupIndex) => {
+          grid.appendChild(
+            buildWeekDayCell(
+              perGroupBuckets[groupIndex][dayIndex],
+              dayIndex,
+              colorMap,
+              opts,
+            ),
+          );
+        });
+      });
+    } else {
+      // 横: 1行目=曜日ラベル、以降はグループごとの行。
+      grid.style.gridTemplateColumns = '80px repeat(7, minmax(120px, 1fr))';
+      grid.appendChild(el('div', 'cv-week-grouped-corner'));
+      dayDates.forEach((dayDate, dayIndex) => {
+        const dayLabelEl = el('div', 'cv-week-day-header');
+        dayLabelEl.textContent = dayHeaderText(dayDate, dayIndex);
+        grid.appendChild(dayLabelEl);
+      });
+      groups.forEach((group, groupIndex) => {
+        const groupLabelEl = el('div', 'cv-group-row-label');
+        groupLabelEl.textContent = group.label;
+        grid.appendChild(groupLabelEl);
+        dayDates.forEach((dayDate, dayIndex) => {
+          grid.appendChild(
+            buildWeekDayCell(
+              perGroupBuckets[groupIndex][dayIndex],
+              dayIndex,
+              colorMap,
+              opts,
+            ),
+          );
+        });
+      });
+    }
+  };
+
+  const renderWeekView = (scroll, events, opts) => {
+    const weekStart = WeekGrid.startOfWeek(opts.currentDate);
+    const colorKeys = Array.from(new Set(events.map((e) => e.colorKey)));
+    const colorMap = ColorAssignment.assignColors(
+      colorKeys,
+      undefined,
+      opts.colorOverrides,
+    );
+    const horizontal = opts.layoutDirection === 'horizontal';
+    const groups = Grouping.buildDayGroups(events);
+
+    if (groups.length > 1) {
+      renderWeekViewGrouped(
+        scroll,
+        groups,
+        weekStart,
+        horizontal,
+        colorMap,
+        opts,
+      );
+    } else {
+      renderWeekViewSimple(
+        scroll,
+        events,
+        weekStart,
+        horizontal,
+        colorMap,
+        opts,
+      );
+    }
+  };
+
   // ---- 日表示(グループを軸に使用) ----
 
-  const buildEventBlock = (evt, group, colorMap, horizontal, opts) => {
+  const buildEventBlock = (evt, colorMap, horizontal, opts) => {
     const startMin = DayGrid.minutesSinceMidnight(evt.start);
     const rawEndMin = DayGrid.minutesSinceMidnight(evt.end);
     const endMin =
@@ -202,7 +285,7 @@
     const durationMin = Math.max(15, endMin - startMin);
 
     const block = el('div', 'cv-event-block');
-    block.style.backgroundColor = colorMap[group.key] || '#3498db';
+    block.style.backgroundColor = colorMap[evt.colorKey] || '#3498db';
     if (horizontal) {
       block.style.left = `${DayGrid.minutesToPixels(startMin, PX_PER_MINUTE)}px`;
       block.style.width = `${DayGrid.minutesToPixels(durationMin, PX_PER_MINUTE)}px`;
@@ -216,7 +299,7 @@
     }
     block.textContent = evt.title;
     applyHover(block, evt);
-    attachClickAndDrag(block, evt, opts);
+    attachClick(block, evt, opts);
     return block;
   };
 
@@ -227,7 +310,6 @@
       'div',
       horizontal ? 'cv-day-group-row' : 'cv-day-group-col',
     );
-    lane.dataset.groupKey = group.key;
     lane.style.position = 'relative';
     if (horizontal) {
       lane.style.minWidth = `${totalPx}px`;
@@ -238,50 +320,8 @@
     }
 
     group.events.forEach((evt) => {
-      lane.appendChild(buildEventBlock(evt, group, colorMap, horizontal, opts));
+      lane.appendChild(buildEventBlock(evt, colorMap, horizontal, opts));
     });
-
-    if (opts.dragEnabled) {
-      const dragoverClass = horizontal
-        ? 'cv-day-group-row-dragover'
-        : 'cv-day-group-col-dragover';
-      lane.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        lane.classList.add(dragoverClass);
-      });
-      lane.addEventListener('dragleave', () =>
-        lane.classList.remove(dragoverClass),
-      );
-      lane.addEventListener('drop', (e) => {
-        e.preventDefault();
-        lane.classList.remove(dragoverClass);
-        const draggingEvent = opts.getDraggingEvent();
-        if (!draggingEvent) {
-          return;
-        }
-        const rect = lane.getBoundingClientRect();
-        const offsetPx = horizontal
-          ? e.clientX - rect.left
-          : e.clientY - rect.top;
-        const newMinutes = DayGrid.pixelsToMinutes(offsetPx, PX_PER_MINUTE);
-        const originalMinutes = DayGrid.minutesSinceMidnight(
-          draggingEvent.start,
-        );
-        const deltaMinutes = newMinutes - originalMinutes;
-        const newGroupKey = opts.groupDragUpdatable ? group.key : undefined;
-        const groupChanged =
-          newGroupKey !== undefined && newGroupKey !== draggingEvent.groupKey;
-        if (deltaMinutes === 0 && !groupChanged) {
-          return;
-        }
-        opts.onEventDrop(
-          draggingEvent,
-          { kind: 'day', deltaMinutes },
-          newGroupKey,
-        );
-      });
-    }
 
     if (!horizontal) {
       return lane;
@@ -296,46 +336,12 @@
     return row;
   };
 
-  const renderDayView = (scroll, events, opts) => {
-    const dayStart = WeekGrid.startOfDay(opts.currentDate);
-    const dayEvents = events.filter(
-      (evt) => WeekGrid.startOfDay(evt.start).getTime() === dayStart.getTime(),
-    );
-    const groups = Grouping.buildDayGroups(dayEvents);
-    const colorMap = ColorAssignment.assignColors(groups.map((g) => g.key));
-    const totalPx = DayGrid.MINUTES_PER_DAY * PX_PER_MINUTE;
-    const horizontal = opts.layoutDirection === 'horizontal';
+  // 横デザインの「グループ名ラベル」列の幅(desktop.cssの.cv-group-row-labelと一致させる)。
+  const GROUP_LABEL_WIDTH = 100;
+  // 縦デザインの時刻軸(左側の余白)の幅(desktop.cssの.cv-day-timeaxisと一致させる)。
+  const TIME_AXIS_WIDTH = 48;
 
-    if (!horizontal) {
-      // 列ヘッダー行(時刻軸の余白48px + グループ名を等分)。縦スクロールしてもグループ名が
-      // 見えるよう、cv-scroll内で上端に固定する(sticky)。
-      const headerRow = el('div', 'cv-day-group-header-row');
-      headerRow.style.display = 'flex';
-      const spacer = el('div', 'cv-day-timeaxis');
-      spacer.style.flex = '0 0 48px';
-      spacer.style.height = 'auto';
-      headerRow.appendChild(spacer);
-      groups.forEach((group) => {
-        const cell = el('div', 'cv-group-header-cell');
-        cell.style.flex = '1 1 0';
-        cell.textContent = group.label;
-        headerRow.appendChild(cell);
-      });
-      scroll.appendChild(headerRow);
-    }
-
-    const dayGridEl = el('div', 'cv-day-grid');
-    scroll.appendChild(dayGridEl);
-
-    const timeAxis = el(
-      'div',
-      horizontal ? 'cv-day-timeaxis-horizontal' : 'cv-day-timeaxis',
-    );
-    if (horizontal) {
-      timeAxis.style.width = `${totalPx}px`;
-    } else {
-      timeAxis.style.height = `${totalPx}px`;
-    }
+  const buildHourLabels = (timeAxis, horizontal) => {
     for (let hour = 0; hour <= 24; hour += 2) {
       const label = el('div', 'cv-hour-label');
       label.textContent = `${String(hour).padStart(2, '0')}:00`;
@@ -346,28 +352,91 @@
       }
       timeAxis.appendChild(label);
     }
+  };
 
-    const body = el(
-      'div',
-      horizontal ? 'cv-day-body cv-day-body-horizontal' : 'cv-day-body',
-    );
+  // 横デザイン: ヘッダー行は「グループ名ラベル分の余白(100px) + 時刻軸(1440px)」。
+  // レーン側もグループ名ラベル(100px)+タイムライン(1440px)なので、両者の合計幅を
+  // 明示的なwidthとしてすべての祖先に持たせることで、cv-scrollのoverflow:autoが
+  // 正しく横スクロールバーを出す(明示しないと、途中の要素がflexの伸縮既定値で
+  // 親幅に収まるよう縮んでしまい、はみ出した部分が見切れる)。
+  const renderDayViewHorizontal = (scroll, groups, colorMap, totalPx, opts) => {
+    const contentWidth = GROUP_LABEL_WIDTH + totalPx;
+
+    const headerRow = el('div', 'cv-day-group-header-row');
+    headerRow.style.display = 'flex';
+    headerRow.style.width = `${contentWidth}px`;
+    const spacer = el('div', 'cv-group-row-label');
+    spacer.style.flex = `0 0 ${GROUP_LABEL_WIDTH}px`;
+    const timeAxis = el('div', 'cv-day-timeaxis-horizontal');
+    timeAxis.style.flex = `0 0 ${totalPx}px`;
+    buildHourLabels(timeAxis, true);
+    headerRow.appendChild(spacer);
+    headerRow.appendChild(timeAxis);
+    scroll.appendChild(headerRow);
+
+    const body = el('div', 'cv-day-body cv-day-body-horizontal');
+    body.style.width = `${contentWidth}px`;
     groups.forEach((group) => {
-      body.appendChild(
-        buildGroupLane(group, colorMap, totalPx, horizontal, opts),
-      );
+      body.appendChild(buildGroupLane(group, colorMap, totalPx, true, opts));
+    });
+    scroll.appendChild(body);
+  };
+
+  // 縦デザイン: 列ヘッダー行(時刻軸の余白48px + グループ名を等分)。縦スクロールしても
+  // グループ名が見えるよう、cv-scroll内で上端に固定する(sticky、desktop.cssで指定)。
+  const renderDayViewVertical = (scroll, groups, colorMap, totalPx, opts) => {
+    const headerRow = el('div', 'cv-day-group-header-row');
+    headerRow.style.display = 'flex';
+    const headerSpacer = el('div', 'cv-day-timeaxis');
+    headerSpacer.style.flex = `0 0 ${TIME_AXIS_WIDTH}px`;
+    headerSpacer.style.height = 'auto';
+    headerRow.appendChild(headerSpacer);
+    groups.forEach((group) => {
+      const cell = el('div', 'cv-group-header-cell');
+      cell.style.flex = '1 1 0';
+      cell.textContent = group.label;
+      headerRow.appendChild(cell);
+    });
+    scroll.appendChild(headerRow);
+
+    const dayGridEl = el('div', 'cv-day-grid');
+    scroll.appendChild(dayGridEl);
+
+    const timeAxis = el('div', 'cv-day-timeaxis');
+    timeAxis.style.height = `${totalPx}px`;
+    buildHourLabels(timeAxis, false);
+
+    const body = el('div', 'cv-day-body');
+    groups.forEach((group) => {
+      body.appendChild(buildGroupLane(group, colorMap, totalPx, false, opts));
     });
 
+    dayGridEl.appendChild(timeAxis);
+    dayGridEl.appendChild(body);
+  };
+
+  const renderDayView = (scroll, events, opts) => {
+    const dayStart = WeekGrid.startOfDay(opts.currentDate);
+    const dayEvents = events.filter(
+      (evt) => WeekGrid.startOfDay(evt.start).getTime() === dayStart.getTime(),
+    );
+    const groups = Grouping.buildDayGroups(dayEvents);
+    const colorMap = ColorAssignment.assignColors(
+      dayEvents.map((evt) => evt.colorKey),
+      undefined,
+      opts.colorOverrides,
+    );
+    const totalPx = DayGrid.MINUTES_PER_DAY * PX_PER_MINUTE;
+    const horizontal = opts.layoutDirection === 'horizontal';
+
     if (horizontal) {
-      dayGridEl.style.flexDirection = 'column';
-      dayGridEl.appendChild(timeAxis);
-      dayGridEl.appendChild(body);
+      renderDayViewHorizontal(scroll, groups, colorMap, totalPx, opts);
     } else {
-      dayGridEl.appendChild(timeAxis);
-      dayGridEl.appendChild(body);
+      renderDayViewVertical(scroll, groups, colorMap, totalPx, opts);
     }
 
     // 初期表示位置: 最も早いイベントの1時間前(なければ現在時刻の1時間前)へスクロールする。
-    // 24時間分のグリッドは cv-scroll の可視領域より高いため、何も調整しないと常に0:00から
+    // 24時間分のグリッドは cv-scroll の可視領域より高い/広いため、何も調整しないと常に0:00から
     // 表示されてしまい、日中〜夜のイベントが見えない(スクロールしないと存在に気づけない)。
     const earliestMinutes = dayEvents.length
       ? Math.min(
@@ -385,6 +454,41 @@
     }
   };
 
+  // 色分けの凡例。表示中の日/週に関わらず、取得済みレコード全体(最大100件)に含まれる値を
+  // 対象にする(日/週を切り替えるたびに凡例の項目が増減して見づらくならないようにするため)。
+  // assignColors()は色分けキー単体のハッシュのみで色を決めるため、ここで計算した色は
+  // 実際に描画されるイベントの色と常に一致する(渡すキー集合の違いによる不一致は起きない)。
+  const buildLegend = (events, opts) => {
+    const labelByKey = new Map();
+    events.forEach((evt) => {
+      if (evt.colorKey !== '' && !labelByKey.has(evt.colorKey)) {
+        labelByKey.set(evt.colorKey, evt.colorLabel || evt.colorKey);
+      }
+    });
+    if (labelByKey.size === 0) {
+      return null;
+    }
+    const keys = Array.from(labelByKey.keys());
+    const colorMap = ColorAssignment.assignColors(
+      keys,
+      undefined,
+      opts.colorOverrides,
+    );
+
+    const legend = el('div', 'cv-legend');
+    keys.forEach((key) => {
+      const item = el('span', 'cv-legend-item');
+      const swatch = el('span', 'cv-legend-swatch');
+      swatch.style.backgroundColor = colorMap[key];
+      const label = el('span', 'cv-legend-label');
+      label.textContent = labelByKey.get(key);
+      item.appendChild(swatch);
+      item.appendChild(label);
+      legend.appendChild(item);
+    });
+    return legend;
+  };
+
   const render = (container, opts) => {
     clearElement(container);
     const root = el('div', 'cv-root');
@@ -396,6 +500,11 @@
     }
 
     root.appendChild(buildToolbar(opts));
+
+    const legend = buildLegend(opts.events, opts);
+    if (legend) {
+      root.appendChild(legend);
+    }
 
     const scroll = el('div', 'cv-scroll');
     root.appendChild(scroll);

@@ -27,8 +27,8 @@ describe('ConfigStore.load', () => {
       startFieldCode: '',
       defaultViewUnit: 'week',
       layoutDirection: 'vertical',
-      enableDragDrop: false,
       hoverFieldCodes: [],
+      colorOverrides: {},
     });
   });
 
@@ -37,6 +37,18 @@ describe('ConfigStore.load', () => {
     const result = ConfigStore.load(saved);
     expect(result.viewConfigs[0].viewId).toBe('ALL');
     expect(result.viewConfigs[1].viewId).toBe('ALL');
+  });
+
+  test('defaults colorOverrides to an empty object when missing or malformed', () => {
+    const saved = {
+      viewConfigs: JSON.stringify([
+        {},
+        { colorOverrides: ['not', 'an', 'object'] },
+      ]),
+    };
+    const result = ConfigStore.load(saved);
+    expect(result.viewConfigs[0].colorOverrides).toEqual({});
+    expect(result.viewConfigs[1].colorOverrides).toEqual({});
   });
 });
 
@@ -51,10 +63,11 @@ describe('ConfigStore.serialize', () => {
           startFieldCode: 'start',
           endFieldCode: '',
           groupFieldCode: '',
+          colorFieldCode: 'status',
+          colorOverrides: { todo: '#ff0000' },
           hoverFieldCodes: ['memo'],
           defaultViewUnit: 'day',
           layoutDirection: 'horizontal',
-          enableDragDrop: true,
         },
       ],
     };

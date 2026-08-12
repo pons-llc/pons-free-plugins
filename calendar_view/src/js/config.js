@@ -8,6 +8,25 @@
 
   const DATE_TYPES = ['DATE', 'DATETIME'];
   const GROUPABLE_TYPES = Grouping.GROUPABLE_FIELD_TYPES;
+  const COLOR_TYPES = ['STATUS', 'DROP_DOWN', 'RADIO_BUTTON'];
+  // 色選択は自由入力(カラーピッカー)にせず、固定パレットからの選択式にする(シンプルさ優先)。
+  // NS.ColorAssignment.DEFAULT_PALETTEと同じ配列・同じ順序に日本語ラベルを対応させる。
+  const PALETTE_LABELS = [
+    '青',
+    'オレンジ',
+    '緑',
+    '紫',
+    '赤',
+    '緑青',
+    '黄',
+    '紺',
+  ];
+  const PALETTE_OPTIONS = NS.ColorAssignment.DEFAULT_PALETTE.map(
+    (value, i) => ({
+      value,
+      label: PALETTE_LABELS[i] || value,
+    }),
+  );
 
   const viewIdInputEl = document.querySelector('.js-view-id-input');
   const viewAddButtonEl = document.getElementById('js-view-add');
@@ -17,6 +36,9 @@
   );
   const checkboxItemTemplateEl = document.getElementById(
     'js-checkbox-item-template',
+  );
+  const colorOverrideTemplateEl = document.getElementById(
+    'js-color-override-template',
   );
   const formEl = document.querySelector('.js-submit-settings');
   const cancelButtonEl = document.querySelector('.js-cancel-button');
@@ -31,6 +53,7 @@
 
   const dateFields = fieldsOfType(DATE_TYPES);
   const groupableFields = fieldsOfType(GROUPABLE_TYPES);
+  const colorFields = fieldsOfType(COLOR_TYPES);
   const allFields = Object.values(formFields).filter(
     (field) => field.type !== 'SUBTABLE',
   );
@@ -81,6 +104,67 @@
       .filter((inputEl) => inputEl.checked)
       .map((inputEl) => inputEl.value);
 
+  // DROP_DOWN/RADIO_BUTTONはformFieldsに選択肢(options)が含まれるため列挙できるが、
+  // STATUSの選択肢(プロセス管理のステータス名)はJavaScript APIから列挙する手段がなく、
+  // REST APIでの列挙は方針上避けるため、値ごとの色指定UIはDROP_DOWN/RADIO_BUTTONのみ対応する
+  // (判断記録.md参照)。
+  const optionsOf = (field) => {
+    if (!field || !field.options) {
+      return [];
+    }
+    return Object.keys(field.options)
+      .map((code) => ({ code, label: field.options[code].label || code }))
+      .sort(
+        (a, b) =>
+          Number(field.options[a.code].index) -
+          Number(field.options[b.code].index),
+      );
+  };
+
+  // 値ごとの色は、固定パレットからの選択式にする(自由なカラーピッカーは複雑なので使わない)。
+  // 「(自動)」を選ぶとcolorOverridesから該当キーを削除し、自動割り当てにフォールバックする。
+  const renderColorOverrides = (rowEl, containerEl, viewConfig, index) => {
+    const field = formFields[viewConfig.colorFieldCode];
+    const options = optionsOf(field);
+    rowEl.hidden = options.length === 0;
+    containerEl.textContent = '';
+    if (options.length === 0) {
+      return;
+    }
+    options.forEach((opt) => {
+      const fragment = colorOverrideTemplateEl.content.cloneNode(true);
+      const selectEl = fragment.querySelector('.js-color-override-input');
+      const labelEl = fragment.querySelector('.js-color-override-label');
+      labelEl.textContent = opt.label;
+
+      const autoOptionEl = document.createElement('option');
+      autoOptionEl.value = '';
+      autoOptionEl.textContent = '(自動)';
+      selectEl.appendChild(autoOptionEl);
+      PALETTE_OPTIONS.forEach((paletteOption) => {
+        const optionEl = document.createElement('option');
+        optionEl.value = paletteOption.value;
+        optionEl.textContent = `■ ${paletteOption.label}`;
+        optionEl.style.color = paletteOption.value;
+        selectEl.appendChild(optionEl);
+      });
+
+      const currentOverride = viewConfig.colorOverrides[opt.code];
+      selectEl.value = PALETTE_OPTIONS.some((p) => p.value === currentOverride)
+        ? currentOverride
+        : '';
+
+      selectEl.addEventListener('change', () => {
+        if (selectEl.value === '') {
+          delete config.viewConfigs[index].colorOverrides[opt.code];
+        } else {
+          config.viewConfigs[index].colorOverrides[opt.code] = selectEl.value;
+        }
+      });
+      containerEl.appendChild(fragment);
+    });
+  };
+
   const viewLabelFor = (viewId) =>
     viewId === 'ALL' ? 'すべて(デフォルト)' : `一覧ID: ${viewId}`;
 
@@ -92,12 +176,16 @@
     const startFieldEl = fragment.querySelector('.js-start-field');
     const endFieldEl = fragment.querySelector('.js-end-field');
     const groupFieldEl = fragment.querySelector('.js-group-field');
+    const colorFieldEl = fragment.querySelector('.js-color-field');
+    const colorOverridesRowEl = fragment.querySelector(
+      '.js-color-overrides-row',
+    );
+    const colorOverridesEl = fragment.querySelector('.js-color-overrides');
     const hoverFieldsEl = fragment.querySelector('.js-hover-fields');
     const viewUnitEls = fragment.querySelectorAll('.js-view-unit');
     const layoutDirectionEls = fragment.querySelectorAll(
       '.js-layout-direction',
     );
-    const enableDragDropEl = fragment.querySelector('.js-enable-drag-drop');
     const removeButtonEl = fragment.querySelector('.js-view-remove');
 
     titleEl.textContent = viewLabelFor(viewConfig.viewId);
@@ -144,6 +232,29 @@
       config.viewConfigs[index].groupFieldCode = groupFieldEl.value;
     });
 
+    buildFieldOptions(
+      colorFieldEl,
+      colorFields,
+      viewConfig.colorFieldCode,
+      true,
+      '(なし・グループ分けフィールドで色分け)',
+    );
+    colorFieldEl.addEventListener('change', () => {
+      config.viewConfigs[index].colorFieldCode = colorFieldEl.value;
+      renderColorOverrides(
+        colorOverridesRowEl,
+        colorOverridesEl,
+        config.viewConfigs[index],
+        index,
+      );
+    });
+    renderColorOverrides(
+      colorOverridesRowEl,
+      colorOverridesEl,
+      viewConfig,
+      index,
+    );
+
     buildCheckboxList(
       hoverFieldsEl,
       allFields,
@@ -172,11 +283,6 @@
           config.viewConfigs[index].layoutDirection = inputEl.value;
         }
       });
-    });
-
-    enableDragDropEl.checked = Boolean(viewConfig.enableDragDrop);
-    enableDragDropEl.addEventListener('change', () => {
-      config.viewConfigs[index].enableDragDrop = enableDragDropEl.checked;
     });
 
     removeButtonEl.addEventListener('click', () => {

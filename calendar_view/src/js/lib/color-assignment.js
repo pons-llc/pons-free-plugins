@@ -24,11 +24,23 @@
     return hash;
   };
 
+  // #rgb/#rrggbbのみ許可する(CSSインジェクション対策。管理者操作でのみ設定される値だが、
+  // 保存済みJSONを直接書き換えられた場合の多層防御として、値をそのままCSSへ渡す前に検証する)。
+  const HEX_COLOR_PATTERN = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
+  const isValidHexColor = (value) =>
+    typeof value === 'string' && HEX_COLOR_PATTERN.test(value);
+
   // groupKeys: 出現順のグループキー配列(''は「未設定」を表す)
-  const assignColors = (groupKeys, palette) => {
+  // overrides: { キー: '#rrggbb' } の管理者による値ごとの色指定(任意)
+  const assignColors = (groupKeys, palette, overrides) => {
     const usedPalette = palette && palette.length ? palette : DEFAULT_PALETTE;
+    const usedOverrides = overrides || {};
     const map = {};
     groupKeys.forEach((key) => {
+      if (isValidHexColor(usedOverrides[key])) {
+        map[key] = usedOverrides[key];
+        return;
+      }
       if (key === '') {
         map[key] = '#bbbbbb';
         return;

@@ -15,10 +15,11 @@
     startFieldCode: '',
     endFieldCode: '',
     groupFieldCode: '',
+    colorFieldCode: '',
+    colorOverrides: {},
     hoverFieldCodes: [],
     defaultViewUnit: DEFAULT_VIEW_UNIT,
     layoutDirection: DEFAULT_LAYOUT_DIRECTION,
-    enableDragDrop: false,
   };
 
   const parseJsonOr = (raw, fallback) => {
@@ -43,13 +44,18 @@
     merged.hoverFieldCodes = Array.isArray(merged.hoverFieldCodes)
       ? merged.hoverFieldCodes
       : [];
+    merged.colorOverrides =
+      merged.colorOverrides &&
+      typeof merged.colorOverrides === 'object' &&
+      !Array.isArray(merged.colorOverrides)
+        ? merged.colorOverrides
+        : {};
     merged.defaultViewUnit =
       merged.defaultViewUnit === 'day' ? 'day' : DEFAULT_VIEW_UNIT;
     merged.layoutDirection =
       merged.layoutDirection === 'horizontal'
         ? 'horizontal'
         : DEFAULT_LAYOUT_DIRECTION;
-    merged.enableDragDrop = Boolean(merged.enableDragDrop);
     return merged;
   };
 

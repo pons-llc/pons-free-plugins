@@ -13,21 +13,8 @@
     'STATUS',
   ];
 
-  // ドラッグ&ドロップでグループ軸の移動をレコード更新に反映できるフィールド型
-  // (ステータスは更新APIで直接変更できないため対象外。idea.md参照)。
-  const GROUP_FIELD_DRAG_UPDATABLE_TYPES = [
-    'USER_SELECT',
-    'ORGANIZATION_SELECT',
-    'GROUP_SELECT',
-    'DROP_DOWN',
-    'RADIO_BUTTON',
-  ];
-
   const isGroupableField = (field) =>
     Boolean(field && GROUPABLE_FIELD_TYPES.includes(field.type));
-
-  const isGroupDragUpdatable = (field) =>
-    Boolean(field && GROUP_FIELD_DRAG_UPDATABLE_TYPES.includes(field.type));
 
   const buildDayGroups = (events) => {
     const map = new Map();
@@ -55,9 +42,7 @@
 
   const Grouping = {
     GROUPABLE_FIELD_TYPES,
-    GROUP_FIELD_DRAG_UPDATABLE_TYPES,
     isGroupableField,
-    isGroupDragUpdatable,
     buildDayGroups,
   };
 

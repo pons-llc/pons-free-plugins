@@ -21,18 +21,6 @@ describe('isGroupableField', () => {
   });
 });
 
-describe('isGroupDragUpdatable', () => {
-  test('STATUS is groupable for display but not drag-updatable', () => {
-    expect(Grouping.isGroupableField({ type: 'STATUS' })).toBe(true);
-    expect(Grouping.isGroupDragUpdatable({ type: 'STATUS' })).toBe(false);
-  });
-
-  test('DROP_DOWN/USER_SELECT etc. are drag-updatable', () => {
-    expect(Grouping.isGroupDragUpdatable({ type: 'DROP_DOWN' })).toBe(true);
-    expect(Grouping.isGroupDragUpdatable({ type: 'USER_SELECT' })).toBe(true);
-  });
-});
-
 describe('buildDayGroups', () => {
   const evt = (groupKey, groupLabel) => ({
     groupKey,
