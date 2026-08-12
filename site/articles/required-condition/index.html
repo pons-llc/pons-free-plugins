@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kintoneで条件によって入力項目を必須にする方法 | GovAppsプラグイン</title>
+<meta name="description" content="kintoneで特定の選択肢を選んだときだけ別のフィールドを必須にしたい方向けに、無料プラグインで実現する方法を、実際のバリデーションエラー画面つきで解説します。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/articles">記事一覧</a> &gt; kintoneで条件によって入力項目を必須にする方法</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>kintoneで条件によって入力項目を必須にする方法</h2>
+  <p class="plugin-lead">
+    「種別で『特別』を選んだときだけ、理由の入力を必須にしたい」というように、ある項目の値に
+    応じて別の項目を必須にしたい場面はよくあります。この記事では、無料プラグインで条件付き必須を
+    実現する方法を、実際のバリデーションエラー画面つきで解説します。
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h3>こんな方におすすめ</h3>
+  <ul class="recommend-list">
+    <li>kintoneで条件によって入力項目を必須にしたい</li>
+    <li>特定の選択肢を選んだときだけ理由欄を必須にしたい</li>
+    <li>入力漏れを防ぎたい</li>
+    <li>JavaScriptカスタマイズなしで入力チェックを実現したい</li>
+    <li>「kintone 条件付き必須」を探している</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h3>kintone標準機能ではどこまでできるか</h3>
+  <p>
+    kintone標準のフィールド設定では、「必須にする」はフィールドごとの固定設定で、
+    「常に必須」か「常に任意」のどちらかしか選べません。「ある選択肢を選んだときだけ必須」
+    という条件付きの制御は、標準機能だけでは実現できません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h3>
+  <div class="table-scroll">
+  <table class="fyn-table">
+    <thead>
+      <tr><th>方法</th><th>向いている場合</th><th>注意点</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>JavaScriptを自作する</td><td>社内に開発者がいて、複雑な条件を組みたい場合</td><td>保存イベントでのバリデーション処理・エラー表示のロジックを自前で実装・保守する必要がある</td></tr>
+      <tr><td>有料の他社プラグイン</td><td>予算があり、サポートを重視する場合</td><td>月額課金が発生する。ソースコードが非公開で処理内容を確認しにくい</td></tr>
+      <tr><td><strong>GovAppsプラグイン(このプラグイン)</strong></td><td>無料で、条件付き必須をすぐに試したい場合</td><td>条件フィールドはドロップダウン・ラジオボタンに対応(それ以外の型は対象外)</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>
+    <a href="/plugins/requiredCondition/">条件つき必須プラグイン</a>は<strong>無料・広告なし</strong>で、
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/requiredCondition" target="_blank" rel="noopener">ソースコードをGitHubで全公開</a>
+    しています。バリデーション処理はブラウザ内のJavaScriptだけで完結し、外部サーバーへの通信は
+    一切ありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>プラグインでの実現方法</h3>
+  <p>
+    <a href="/plugins/requiredCondition/">条件つき必須プラグイン</a>は、条件となるフィールド・
+    条件値・必須にする対象フィールドを設定するだけで使えます。
+  </p>
+  <ol class="setup-steps">
+    <li>
+      <strong>「条件フィールド追加」ボタンで条件となるフィールドを選ぶ</strong><br>
+      今回は「種別」(ドロップダウン: 通常/特別)を選びました。
+    </li>
+    <li>
+      <strong>「条件値を追加」ボタンで、条件となる値と必須対象のフィールドを選ぶ</strong><br>
+      条件値には「特別」、必須対象フィールドには「特別理由」を選びました。必須対象フィールドは
+      複数選択できます。
+    </li>
+    <li>
+      <strong>「設定を保存」を押し、アプリを更新する</strong><br>
+      保存しただけではプレビュー状態のため、必ず「アプリを更新」まで行います。
+    </li>
+  </ol>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="条件つき必須プラグインの設定画面。条件フィールドに「種別」、条件値に「特別」、必須対象フィールドに「特別理由」を設定した状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>実行結果: 条件に一致すると保存がブロックされる</h3>
+  <p>
+    種別で「特別」を選び、特別理由を空欄のまま保存しようとすると、
+    <strong>「未入力項目があります」というエラーが表示され、保存がブロックされます。</strong>
+    対象フィールドの下にも「未入力です」という具体的なメッセージが表示されるため、
+    利用者はどの項目を埋めればよいかすぐに分かります。
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/validation-error.png" alt="レコード追加画面。種別に「特別」を選択し、特別理由を空欄のまま保存しようとした結果、「未入力項目があります」というエラーと、特別理由フィールド下に「未入力です」というメッセージが表示された状態のスクリーンショット。" loading="lazy">
+  </div>
+  <p>
+    種別を「通常」に戻すか、特別理由に何か入力すれば、通常どおり保存できます。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて確認したいポイント</h3>
+  <ul class="review-checklist">
+    <li>バリデーション処理はすべてブラウザ内のJavaScriptで完結し、外部サーバーへの通信は一切ありません。</li>
+    <li>条件フィールドとして使えるのはドロップダウン・ラジオボタン型のみです。</li>
+    <li>必須対象フィールドは複数選択でき、1つの条件で複数の項目をまとめて必須にできます。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h3>対応するプラグイン</h3>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="/plugins/requiredCondition/">条件つき必須プラグイン ― あるフィールドが特定の値のとき、指定した別のフィールドを必須項目にする</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて見たい記事・解決策ページ</h3>
+  <div class="related-services">
+    <a class="related-service-card" href="/solutions/input-control/">kintoneの入力を制御する方法(解決策ページ)</a>
+    <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
+    <a class="related-service-card" href="/articles/">記事一覧に戻る</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

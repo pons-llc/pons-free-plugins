@@ -75,6 +75,34 @@
 </section>
 
 <section class="plugin-section">
+  <h3>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h3>
+  <p>
+    「組織の数だけレコードを増やす」機能を用意する方法は、大きく4つあります。それぞれの
+    向き不向きをまとめました。
+  </p>
+  <div class="table-scroll">
+  <table class="fyn-table">
+    <thead>
+      <tr><th>方法</th><th>向いている場合</th><th>注意点</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>kintone標準機能のみ</td><td>組織が数件程度で、手作業の複製でも十分な場合</td><td>組織数が増えるほど手作業のコピー&amp;ペーストが負担になる</td></tr>
+      <tr><td>JavaScriptを自作する</td><td>社内に開発者がいて、独自要件が多い場合</td><td>User APIの実装・保守が必要。担当者の異動時に引き継ぎコストがかかる</td></tr>
+      <tr><td>有料の他社プラグイン</td><td>予算があり、手厚いサポートを求める場合</td><td>月額課金が発生する。ソースコードが非公開で、外部通信の有無を利用者側で確認しにくいことが多い</td></tr>
+      <tr><td><strong>GovAppsプラグイン(このプラグイン)</strong></td><td>無料で試したい、社内・庁内でセキュリティを確認してから導入したい場合</td><td>機能追加の要望はGitHub Issueベース(個別カスタマイズの請負は行っていない)</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>
+    GovAppsのプラグインは<strong>すべて無料・広告なし</strong>で、追加課金なしで使い続けられます。
+    ソースコードは<a href="https://github.com/pons-llc/pons-free-plugins" target="_blank" rel="noopener">GitHubで全公開</a>しているオープンソースなので、
+    「本当に外部と通信していないか」「入力値をどう扱っているか」を自治体・企業のセキュリティ担当者
+    自身の目で確認できます(このプラグインも<a href="/plugins/bulk_record_creation/">個別ページ</a>にセキュリティレビュー結果を掲載しています)。
+    無料プラグイン配布サイトの中でも、ここまで確認可能性を重視しているのはGovAppsの特徴です。
+  </p>
+</section>
+
+<section class="plugin-section">
   <h3>レコード一括作成プラグインでの実現方法</h3>
   <p>
     <a href="/plugins/bulk_record_creation/">レコード一括作成プラグイン</a>には、対象者フィールドに

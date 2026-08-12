@@ -1,16 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>GovAppsプラグイン - 新着プラグイン</title>
+    <title>GovAppsプラグイン - 新着情報</title>
     <link>https://govapps-plugin.pons-llc.com/</link>
-    <description>安全性を確認できる無料kintoneプラグイン集の新着情報</description>
+    <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Tue, 11 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 12 Aug 2026 15:23:24 GMT</lastBuildDate>
     <item>
-      <title>詳細カレンダープラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/calendar_view/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/calendar_view/</guid>
-      <description>レコード一覧画面に、グループ分け・色分け(凡例付き)・週表示/日表示に対応した詳細なカレンダーを表示するプラグイン。REST APIを一切使わずJavaScript APIのみで実現しているため、表示は一覧の現在ページから最大100件までです。</description>
+      <title>kintoneで会議室予約・タスク管理を自動化する方法｜一括作成・カレンダー表示の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/scheduling/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/scheduling/</guid>
+      <description>kintoneで会議室の予約枠や定例タスクを一括作成したい、作った予定をカレンダーで確認したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 15:23:24 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで決裁・承認プロセスを管理する方法｜決裁履歴記録の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/approval/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/approval/</guid>
+      <description>kintoneのプロセス管理で決裁履歴を記録したい、承認の進捗を見える化したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 15:23:03 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneのルックアップを自動化・拡張する方法｜ユーザー・組織・自動更新の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/lookup/</guid>
+      <description>kintoneでルックアップ先の情報を自動更新したい、ユーザーコードから氏名を、組織コードから組織名を自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 15:22:52 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの入力を制御する方法｜条件付き必須・非表示・絞込の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/input-control/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/input-control/</guid>
+      <description>kintoneで条件によって入力項目を必須にしたい、非表示にしたい、選択肢を絞り込みたい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 15:22:42 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneのサブテーブルを使いこなす方法｜並び替え・ルックアップの無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/subtable/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/subtable/</guid>
+      <description>kintoneのサブテーブルの行を並び替えたい、サブテーブル内の値を検索して自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 15:22:30 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで法人番号を自動取得する方法｜gBizINFO連携の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/biz-code-search/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/biz-code-search/</guid>
+      <description>kintoneで法人番号から会社情報を、法人名から法人番号を自動入力したい方向けに、gBizINFO REST APIを使った無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 15:22:20 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで自動採番する方法｜無料プラグインで連番・年度リセット</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</guid>
+      <description>kintoneで連番を自動採番したい、年度が変わったら番号をリセットしたい、和暦の文書番号を使いたい方向けに、APIキー不要の無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 15:22:09 GMT</pubDate>
+    </item>
+    <item>
+      <title>自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</guid>
+      <description>自治体・企業でkintoneの無料プラグインを導入する前に確認したいセキュリティチェックポイントを6つにまとめました。外部通信先・認証情報の保存場所・XSS対策・ソース公開の有無などを解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 15:19:21 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</guid>
+      <description>kintoneで会議室の予約枠を、平日9-17時を1時間ごとに一括で作成したい方向けに、無料プラグインで実現する方法を、実際に24件のレコードを作成した結果つきで解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 15:17:54 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで決裁履歴を自動で記録する方法</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/approval-history/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/approval-history/</guid>
+      <description>kintoneのプロセス管理で、誰がいつ承認したかの履歴を自動で記録したい方向けに、無料プラグインで実現する方法を、実際の承認操作と記録結果つきで解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 15:11:14 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</guid>
+      <description>kintoneでユーザーコードを入力するだけで氏名・メールアドレス・所属を自動入力したい方向けに、無料プラグインで実現する方法を、実際のUser API実行結果つきで解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 14:55:13 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでルックアップ先の情報を自動更新する方法</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/auto-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/auto-lookup/</guid>
+      <description>kintoneでルックアップ先のマスタ情報が変わったとき、既存レコード側の値も自動で最新化したい方向けに、無料プラグインで実現する方法を、実際の自動反映結果つきで解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 14:48:49 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで条件によって入力項目を必須にする方法</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/required-condition/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/required-condition/</guid>
+      <description>kintoneで特定の選択肢を選んだときだけ別のフィールドを必須にしたい方向けに、無料プラグインで実現する方法を、実際のバリデーションエラー画面つきで解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 14:26:32 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneのサブテーブルを金額順に並び替える方法</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/subtable-sort/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/subtable-sort/</guid>
+      <description>kintoneのサブテーブルの行を保存するたびに自動で金額順・日付順に並び替えたい方向けに、無料プラグインで実現する方法を、実際の並び替え結果つきで解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 14:22:06 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで年度が変わったら番号をリセットして自動採番する方法</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</guid>
+      <description>kintoneで会計年度が変わったら連番を1にリセットしたい、和暦の文書番号を自動で振りたい方向けに、APIキー不要の無料プラグインで実現する方法を、実際に採番した結果つきで解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 14:17:41 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで法人番号から会社情報を自動入力する方法｜gBizINFO連携</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</guid>
+      <description>kintoneで法人番号や法人名から、正式名称・代表者名などの会社情報を自動入力したい方向けに、経済産業省gBizINFOと連携する無料プラグインで実現する方法を、実際のAPIリクエスト結果つきで解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 13:56:25 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで全部署に一斉に調査照会を作成する方法｜レコード一括作成プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</guid>
+      <description>kintoneで、総務課などの1部署から社内のすべての組織(部署)に対して一斉に調査照会レコードを作成したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
+      <pubDate>Wed, 12 Aug 2026 13:47:44 GMT</pubDate>
+    </item>
+    <item>
+      <title>フィールド暗号化プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/field_encryption/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/field_encryption/</guid>
+      <description>文字列(1行)・文字列(複数行)フィールドの値を、ブラウザ内でパスフレーズによりAES-256-GCM暗号化してから保存するプラグイン。パスフレーズはどこにも保存されません。</description>
       <pubDate>Tue, 11 Aug 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
@@ -21,24 +140,24 @@
       <pubDate>Tue, 11 Aug 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>フィールド暗号化プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/field_encryption/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/field_encryption/</guid>
-      <description>文字列(1行)・文字列(複数行)フィールドの値を、ブラウザ内でパスフレーズによりAES-256-GCM暗号化してから保存するプラグイン。パスフレーズはどこにも保存されません。</description>
+      <title>詳細カレンダープラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/calendar_view/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/calendar_view/</guid>
+      <description>レコード一覧画面に、グループ分け・色分け(凡例付き)・週表示/日表示に対応した詳細なカレンダーを表示するプラグイン。REST APIを一切使わずJavaScript APIのみで実現しているため、表示は一覧の現在ページから最大100件までです。</description>
       <pubDate>Tue, 11 Aug 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>特定フィールド一括更新プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/bulk_field_update/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/bulk_field_update/</guid>
-      <description>レコード一覧画面のボタン押下で、対象フィールドの値を確認ダイアログでその都度入力し、一覧画面の現在の絞り込み条件に一致する全レコードへ一括で書き込むプラグイン</description>
-      <pubDate>Fri, 07 Aug 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
       <title>年齢・学年フィールド計算用フィールド更新プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/age_grade_field_update/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/age_grade_field_update/</guid>
       <description>レコード一覧画面のボタン押下で、設定した条件に一致する全レコードのDATE/DATETIMEフィールドへ現在の日付・日時を一括書き込みするプラグイン</description>
+      <pubDate>Fri, 07 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>特定フィールド一括更新プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/bulk_field_update/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/bulk_field_update/</guid>
+      <description>レコード一覧画面のボタン押下で、対象フィールドの値を確認ダイアログでその都度入力し、一覧画面の現在の絞り込み条件に一致する全レコードへ一括で書き込むプラグイン</description>
       <pubDate>Fri, 07 Aug 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
@@ -63,17 +182,10 @@
       <pubDate>Fri, 24 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>削除バックアッププラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/delete_backup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/delete_backup/</guid>
-      <description>レコード削除の直前に、削除されるレコードの内容(添付ファイルを含む)をzipダウンロードまたは別アプリへのアーカイブで必ずバックアップしてから削除を許可するプラグイン</description>
-      <pubDate>Thu, 23 Jul 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>追加・編集・コピーボタン非表示プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/record_button_toggle/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/record_button_toggle/</guid>
-      <description>レコードの値の条件によって、追加・編集・コピー(再利用)ボタンの表示/非表示を自動的に切り替えるプラグイン(コピーボタンの制御はPC専用)</description>
+      <title>サイドバー（コメント欄・履歴）開閉プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/sidebar_toggle/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/sidebar_toggle/</guid>
+      <description>レコードの値の条件によって、レコード詳細・編集画面のサイドバー(コメント欄・変更履歴)の表示状態を自動的に切り替えるプラグイン(PC専用)</description>
       <pubDate>Thu, 23 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
@@ -84,10 +196,17 @@
       <pubDate>Thu, 23 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>サイドバー（コメント欄・履歴）開閉プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/sidebar_toggle/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/sidebar_toggle/</guid>
-      <description>レコードの値の条件によって、レコード詳細・編集画面のサイドバー(コメント欄・変更履歴)の表示状態を自動的に切り替えるプラグイン(PC専用)</description>
+      <title>追加・編集・コピーボタン非表示プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/record_button_toggle/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/record_button_toggle/</guid>
+      <description>レコードの値の条件によって、追加・編集・コピー(再利用)ボタンの表示/非表示を自動的に切り替えるプラグイン(コピーボタンの制御はPC専用)</description>
+      <pubDate>Thu, 23 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>削除バックアッププラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/delete_backup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/delete_backup/</guid>
+      <description>レコード削除の直前に、削除されるレコードの内容(添付ファイルを含む)をzipダウンロードまたは別アプリへのアーカイブで必ずバックアップしてから削除を許可するプラグイン</description>
       <pubDate>Thu, 23 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
@@ -112,13 +231,6 @@
       <pubDate>Thu, 16 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>年度リセット自動採番プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/fiscal_year_numbering/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/fiscal_year_numbering/</guid>
-      <description>APIキー・APIトークン不要で、会計年度(4月始まり)でリセットされる和暦+セグメント文字列+連番を自動採番するプラグイン。採番タイミングは保存時・ボタン押下時・ステータス変化時から選べる</description>
-      <pubDate>Mon, 13 Jul 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
       <title>法人番号検索プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/biz_code_search/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/biz_code_search/</guid>
@@ -126,17 +238,17 @@
       <pubDate>Mon, 13 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>数字抽出プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/number_extract/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/number_extract/</guid>
-      <description>文字列フィールドの値から数字(半角・全角・漢数字)の連続を左から順に抽出し、複数の出力先フィールドへ格納するプラグイン</description>
-      <pubDate>Sun, 12 Jul 2026 15:00:00 GMT</pubDate>
+      <title>年度リセット自動採番プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/fiscal_year_numbering/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/fiscal_year_numbering/</guid>
+      <description>APIキー・APIトークン不要で、会計年度(4月始まり)でリセットされる和暦+セグメント文字列+連番を自動採番するプラグイン。採番タイミングは保存時・ボタン押下時・ステータス変化時から選べる</description>
+      <pubDate>Mon, 13 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>自動ルックアッププラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/auto_lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/auto_lookup/</guid>
-      <description>レコード編集画面を開いたとき、選んだルックアップフィールド(サブテーブル内含む)を自動的に再取得(再ルックアップ)するプラグイン</description>
+      <title>モーダル確認プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/confirm_modal/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/confirm_modal/</guid>
+      <description>レコードの保存・削除・プロセス管理のアクション実行時に確認ダイアログを表示し、キャンセルを選ぶと処理を中止できるプラグイン(レコード一覧からの削除の確認のみPC専用)</description>
       <pubDate>Sun, 12 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
@@ -147,24 +259,24 @@
       <pubDate>Sun, 12 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>モーダル確認プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/confirm_modal/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/confirm_modal/</guid>
-      <description>レコードの保存・削除・プロセス管理のアクション実行時に確認ダイアログを表示し、キャンセルを選ぶと処理を中止できるプラグイン(レコード一覧からの削除の確認のみPC専用)</description>
+      <title>自動ルックアッププラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/auto_lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/auto_lookup/</guid>
+      <description>レコード編集画面を開いたとき、選んだルックアップフィールド(サブテーブル内含む)を自動的に再取得(再ルックアップ)するプラグイン</description>
       <pubDate>Sun, 12 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>お祝いプラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/status_celebration/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/status_celebration/</guid>
-      <description>ドロップダウン・ラジオボタン・プロセス管理のステータスが指定した値に変わったとき、くす玉・クラッカー・紙吹雪のお祝い演出をレコード画面に表示するプラグイン</description>
-      <pubDate>Sat, 11 Jul 2026 15:00:00 GMT</pubDate>
+      <title>数字抽出プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/number_extract/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/number_extract/</guid>
+      <description>文字列フィールドの値から数字(半角・全角・漢数字)の連続を左から順に抽出し、複数の出力先フィールドへ格納するプラグイン</description>
+      <pubDate>Sun, 12 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>印刷選択プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/printSelect/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/printSelect/</guid>
-      <description>レコード印刷画面で、あらかじめ設定画面でチェックしておいたフィールドを非表示にできるプラグイン</description>
+      <title>入力補助サイドパネルプラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/field_input_panel/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/field_input_panel/</guid>
+      <description>レコード追加・編集画面にフローティングボタンを設置し、指定したフィールドだけを画面右端のパネルにまとめて表示して入力しやすくするプラグイン</description>
       <pubDate>Sat, 11 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
@@ -175,17 +287,24 @@
       <pubDate>Sat, 11 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>入力補助サイドパネルプラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/field_input_panel/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/field_input_panel/</guid>
-      <description>レコード追加・編集画面にフローティングボタンを設置し、指定したフィールドだけを画面右端のパネルにまとめて表示して入力しやすくするプラグイン</description>
+      <title>印刷選択プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/printSelect/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/printSelect/</guid>
+      <description>レコード印刷画面で、あらかじめ設定画面でチェックしておいたフィールドを非表示にできるプラグイン</description>
       <pubDate>Sat, 11 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>組織ルックアッププラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/org_lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/org_lookup/</guid>
-      <description>文字列1行または組織選択フィールドに入力された組織コードをもとに、組織名・説明・親組織の情報を別の文字列フィールドへ自動入力するプラグイン</description>
+      <title>お祝いプラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/status_celebration/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/status_celebration/</guid>
+      <description>ドロップダウン・ラジオボタン・プロセス管理のステータスが指定した値に変わったとき、くす玉・クラッカー・紙吹雪のお祝い演出をレコード画面に表示するプラグイン</description>
+      <pubDate>Sat, 11 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>関連レコード集計プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/related_record_summary/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/related_record_summary/</guid>
+      <description>関連レコード一覧フィールドが参照する先のアプリのレコードを件数・合計・平均で集計し、自アプリの指定フィールドへ書き込むプラグイン</description>
       <pubDate>Fri, 10 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
@@ -196,80 +315,17 @@
       <pubDate>Fri, 10 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>関連レコード集計プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/related_record_summary/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/related_record_summary/</guid>
-      <description>関連レコード一覧フィールドが参照する先のアプリのレコードを件数・合計・平均で集計し、自アプリの指定フィールドへ書き込むプラグイン</description>
+      <title>組織ルックアッププラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/org_lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/org_lookup/</guid>
+      <description>文字列1行または組織選択フィールドに入力された組織コードをもとに、組織名・説明・親組織の情報を別の文字列フィールドへ自動入力するプラグイン</description>
       <pubDate>Fri, 10 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>矢羽プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/status_arrow/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/status_arrow/</guid>
-      <description>ドロップダウン・ラジオボタン・プロセス管理のステータスの値に応じて、矢羽根(進捗インジケーター)をレコードのヘッダーメニューに表示するプラグイン</description>
-      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>セルフルックアッププラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/self_lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/self_lookup/</guid>
-      <description>同一アプリ内の他レコードをキー一致で検索し、一致したレコードの値を自レコードへ反映するプラグイン</description>
-      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>タブ表示プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/tab_layout/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/tab_layout/</guid>
-      <description>スペースフィールドにタブUIを描画し、タブごとにフィールド(通常のフィールド・ラベル・スペース・罫線)の表示/非表示を切り替えるプラグイン</description>
-      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>条件つき非表示プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/setFieldShown/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/setFieldShown/</guid>
-      <description>あるフィールドが特定の値のとき、指定した別のフィールドを非表示にするプラグイン</description>
-      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>条件つき必須プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/requiredCondition/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/requiredCondition/</guid>
-      <description>あるフィールドが特定の値のとき、指定した別のフィールドを必須項目にするプラグイン</description>
-      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>選択肢絞込プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/narrowDown/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/narrowDown/</guid>
-      <description>あるフィールドの値に応じて、別のフィールドの選択肢をモーダルで絞り込んで選び直させるプラグイン</description>
-      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>サブテーブルルックアッププラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/subtable_lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/subtable_lookup/</guid>
-      <description>サブテーブルの中から条件に一致する1行を探し、その行の値をテーブル外のフィールドへ自動入力するプラグイン</description>
-      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>サブテーブルソートプラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/subtable_sort/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/subtable_sort/</guid>
-      <description>サブテーブルの行を複数列の条件でソートするプラグイン。保存時に自動ソート、またはボタンで任意実行できる</description>
-      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>RIGHT・LEFT・MID関数プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/text_slice/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/text_slice/</guid>
-      <description>元の文字列フィールドから指定した位置・文字数の部分文字列を取り出し、出力先フィールドへ格納するプラグイン</description>
-      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>スプリットプラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/text_split/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/text_split/</guid>
-      <description>文字列フィールドの値を指定した記号・文字または正規表現で分割し、複数の出力先フィールドへ順番に格納するプラグイン</description>
+      <title>box・googleドライブ埋め込みプラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/box_gdrive_iframe/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/box_gdrive_iframe/</guid>
+      <description>box・googleドライブをレコード画面に埋め込むプラグイン</description>
       <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
@@ -280,10 +336,73 @@
       <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>box・googleドライブ埋め込みプラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/box_gdrive_iframe/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/box_gdrive_iframe/</guid>
-      <description>box・googleドライブをレコード画面に埋め込むプラグイン</description>
+      <title>スプリットプラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/text_split/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/text_split/</guid>
+      <description>文字列フィールドの値を指定した記号・文字または正規表現で分割し、複数の出力先フィールドへ順番に格納するプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>RIGHT・LEFT・MID関数プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/text_slice/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/text_slice/</guid>
+      <description>元の文字列フィールドから指定した位置・文字数の部分文字列を取り出し、出力先フィールドへ格納するプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>サブテーブルソートプラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/subtable_sort/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/subtable_sort/</guid>
+      <description>サブテーブルの行を複数列の条件でソートするプラグイン。保存時に自動ソート、またはボタンで任意実行できる</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>サブテーブルルックアッププラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/subtable_lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/subtable_lookup/</guid>
+      <description>サブテーブルの中から条件に一致する1行を探し、その行の値をテーブル外のフィールドへ自動入力するプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>選択肢絞込プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/narrowDown/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/narrowDown/</guid>
+      <description>あるフィールドの値に応じて、別のフィールドの選択肢をモーダルで絞り込んで選び直させるプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>条件つき必須プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/requiredCondition/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/requiredCondition/</guid>
+      <description>あるフィールドが特定の値のとき、指定した別のフィールドを必須項目にするプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>条件つき非表示プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/setFieldShown/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/setFieldShown/</guid>
+      <description>あるフィールドが特定の値のとき、指定した別のフィールドを非表示にするプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>タブ表示プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/tab_layout/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/tab_layout/</guid>
+      <description>スペースフィールドにタブUIを描画し、タブごとにフィールド(通常のフィールド・ラベル・スペース・罫線)の表示/非表示を切り替えるプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>セルフルックアッププラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/self_lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/self_lookup/</guid>
+      <description>同一アプリ内の他レコードをキー一致で検索し、一致したレコードの値を自レコードへ反映するプラグイン</description>
+      <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>矢羽プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/status_arrow/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/status_arrow/</guid>
+      <description>ドロップダウン・ラジオボタン・プロセス管理のステータスの値に応じて、矢羽根(進捗インジケーター)をレコードのヘッダーメニューに表示するプラグイン</description>
       <pubDate>Thu, 09 Jul 2026 15:00:00 GMT</pubDate>
     </item>
   </channel>
