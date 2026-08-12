@@ -87,3 +87,49 @@ describe('isAssigneeRequired', () => {
     expect(StatusActions.isAssigneeRequired({}, '存在しない')).toBe(false);
   });
 });
+
+describe('listExecutableActionNames', () => {
+  const statusSettings = {
+    states: {
+      未処理: { index: '0', assignee: { type: 'ONE', entities: [] } },
+      申請中: {
+        index: '1',
+        assignee: {
+          type: 'ALL',
+          entities: [{ entity: { type: 'USER', code: 'boss' } }],
+        },
+      },
+      完了: { index: '2', assignee: { type: 'ONE', entities: [] } },
+      差戻中: {
+        index: '1',
+        assignee: {
+          type: 'ONE',
+          entities: [{ entity: { type: 'USER', code: 'sato' } }],
+        },
+      },
+    },
+    actions: [
+      { name: '申請する', from: '未処理', to: '申請中' },
+      { name: '承認', from: '申請中', to: '完了' },
+      { name: '差し戻す', from: '申請中', to: '差戻中' },
+    ],
+  };
+
+  test('遷移先がassignee必須でないアクション名だけを返す', () => {
+    expect(
+      StatusActions.listExecutableActionNames(statusSettings, '未処理'),
+    ).toEqual(['申請する']);
+  });
+
+  test('同じfromでもassignee必須の遷移先を持つアクションは除外される', () => {
+    expect(
+      StatusActions.listExecutableActionNames(statusSettings, '申請中'),
+    ).toEqual(['承認']);
+  });
+
+  test('該当するアクションが無ければ空配列', () => {
+    expect(
+      StatusActions.listExecutableActionNames(statusSettings, '完了'),
+    ).toEqual([]);
+  });
+});

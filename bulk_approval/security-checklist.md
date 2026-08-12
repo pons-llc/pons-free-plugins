@@ -4,7 +4,7 @@
 [age_grade_field_update/security-checklist.md](../age_grade_field_update/security-checklist.md)等の他プラグインと共通の内容)は
 重複記載を省略し、本プラグイン固有の項目のみ記載する。
 
-最終確認日: 2026-08-13 / 対象: 実装レビューとJestユニットテスト(42件)。Puppeteerによる実環境テストは
+最終確認日: 2026-08-13 / 対象: 実装レビューとJestユニットテスト(39件)。Puppeteerによる実環境テストは
 `src/e2e/`参照(下記「個別確認事項」に実施状況を記載)。
 
 ## コーディング作法
@@ -13,7 +13,7 @@
 - [x] グローバル変数を作らず、`window.BulkApproval`という単一の名前空間オブジェクトのみを公開している(`js/lib/`配下・`js/bulk-approval.js`・`js/desktop.js`・`js/mobile.js`・`js/config.js`共通)
 - [x] 既存のkintoneグローバルオブジェクトを書き換え・参照していない
 - [x] `'use strict'`を全JSファイルの先頭で使用している
-- [x] kintone内部のid/class属性・DOM構造に依存せず、JavaScript API(`kintone.app.getHeaderMenuSpaceElement()`, `kintone.mobile.app.getHeaderSpaceElement()`, `kintone.app.getStatus()`, `kintone.app.getFormFields()`, `kintone.user.getGroups()`)のみで要素・情報を取得している
+- [x] kintone内部のid/class属性・DOM構造に依存せず、JavaScript API(`kintone.app.getHeaderMenuSpaceElement()`, `kintone.mobile.app.getHeaderSpaceElement()`, `kintone.app.getStatus()`, `kintone.app.getFormFields()`)のみで要素・情報を取得している
 
 ## REST API利用
 
@@ -26,25 +26,24 @@
 ## プロセス管理APIの戻り値の形とassignee必須判定(実装前にkintoneドキュメントMCPで確認済み)
 
 - [x] `kintone.app.getStatus()`の戻り値は、REST API「プロセス管理の設定を取得する」の`revision`を除いたものと**同様の値がそのまま返る**(`{ states: {...} }`のようにプロパティ名でラップされない)ことをkintoneドキュメントMCPで確認し、`js/bulk-approval.js`の呼び出し箇所にコメントを残している(CLAUDE.md「既知の落とし穴」)
-- [x] `PUT /k/v1/records/status.json`実行時に`assignee`指定が必須になる条件(遷移先ステータスの作業者が「次のユーザーから作業者を選択」かつ選択可能なユーザーが存在する場合、または最初のステータスへ戻す場合)をREST APIドキュメントで確認し、該当するレコードは実行対象から除外している(`js/lib/status-actions.js`の`isAssigneeRequired`、`js/lib/selection-partitioner.js`)。本プラグインは実行時に作業者を選ばせるUIを持たないため、assignee必須の遷移は「対象外」として一覧表示するにとどめ、推測でassigneeを補って実行することはしない
-- [x] 「現在のステータスに同名のアクションが複数設定されている場合エラーになる」という制約をREST APIドキュメントで確認済みのため、`partitionForAction`はアクション名と現在のステータス(`from`)の組み合わせで一意に解決している(`js/lib/selection-partitioner.test.js`でテスト済み)
+- [x] `PUT /k/v1/records/status.json`実行時に`assignee`指定が必須になる条件(遷移先ステータスの作業者が「次のユーザーから作業者を選択」かつ選択可能なユーザーが存在する場合、または最初のステータスへ戻す場合)をREST APIドキュメントで確認し、該当するアクションはそもそも選択肢に出さない(`js/lib/status-actions.js`の`isAssigneeRequired`/`listExecutableActionNames`)。本プラグインは実行時に作業者を選ばせるUIを持たないため、assignee必須の遷移はセクションのアクション選択肢から除外するにとどめ、推測でassigneeを補って実行することはしない
+- [x] モーダルはレコードを現在のステータスごとにグループ化して表示し(`js/lib/record-grouping.js`の`groupRecordsByStatus`)、グループ(=ステータス)ごとに1つのアクションを選ばせる設計にしたため、「現在のステータスに同名のアクションが複数設定されている場合エラーになる」というREST APIの制約(グループ内の全レコードが同一ステータスであり、そのステータスから見て一意なアクション名しか選択肢に出ないため、この制約に抵触しうる組み合わせ自体が発生しない)を構造的に回避している(`js/lib/record-grouping.test.js`でテスト済み)
 
 ## 書き戻し(PUT)時のエラー処理(他プラグインとの相違点)
 
 - [x] `PUT /k/v1/records/status.json`も他の複数件書き込みAPIと同様「1件でも失敗するとリクエスト全体が失敗する」前提で設計し、バッチ送信が失敗した場合のみ`PUT /k/v1/record/status.json`で1件ずつ個別送信にフォールバックしている(`js/lib/batch-writer.js`、`age_grade_field_update`と同型)
 - [x] **他プラグイン(`age_grade_field_update`等)との意図的な相違点**: 個別送信時、revision競合以外のエラー(権限不足・想定外のアクション実行条件不一致など)も「スキップして続行」の対象にしている(`writeChunkWithFallback`)。承認作業では「一部のレコードだけ他ユーザーに先に処理された」状況が正常な業務エラーとして起こりうるため、1件のエラーで全体を中断せず、実行できた分だけ進める設計を意図的に選んでいる(idea.md「実行」参照)。この結果、意図しない種類のエラー(ネットワークエラー等)もスキップ扱いになりうるが、結果表示にスキップ理由(`err.message`)を含めて利用者が判別できるようにしている
-- [x] 実行完了後、成功件数・スキップ件数(理由付き)・選択されていたが対象外だった件数をalert表示する(`js/lib/batch-writer.js`の`buildResultSummary`)
+- [x] 実行完了後、成功件数・スキップ件数(理由付き)をalert表示する(`js/lib/batch-writer.js`の`buildResultSummary`)
 
-## 実行可能グループによる表示制御の限界(重要・idea.mdにも明記)
+## ボタンの表示制御について(意図的に「実行可能グループ」制御を持たない)
 
-- [x] 一覧画面ボタンの表示条件は`kintone.user.getGroups()`が設定画面で指定したグループコード(複数可、カンマ区切り)のいずれかを含むかどうかで判定している(`js/bulk-approval.js`の`renderButtonIfAuthorized`)
-- [x] 上記はクライアント側の表示ゲートに過ぎず、真の権限境界ではないことをidea.md・`html/config.html`の設定画面本文の両方に明記済み。真の権限境界は対象アプリのプロセス管理の設定(作業者・実行できるユーザー)自体であり、それに依存する設計であることを明示している
-- [x] `kintone.user.getGroups()`は一覧表示イベントごとに高々1回しか呼び出しておらず、ドキュメント記載のレート制限に抵触しない
-- [x] 設定画面では実行可能グループを1件以上指定しないと保存できないバリデーションを追加している(`js/lib/config-validation.js`)。0件のまま保存させると誰にもボタンが表示されず機能が使えなくなるため必須にしている
+- [x] 一覧画面ボタンの表示条件は、対象アプリでプロセス管理が有効かどうか(`kintone.app.getStatus().enable`)と、対象の一覧が表形式かどうかのみで判定しており、`kintone.user.getGroups()`によるグループ制限は行っていない(`js/bulk-approval.js`の`renderButtonIfEligible`)。これはユーザーからの明示的な指示(「一括承認は実行ユーザー絞らなくていい」)に基づく意図的な設計であり、idea.md「ボタンの表示制御について」に理由を明記している
+- [x] 実行できるかどうかの真の権限境界は、ボタンを押した後の実際のアクション実行(`PUT /k/v1/records/status.json` / `PUT /k/v1/record/status.json`)時に、対象アプリのプロセス管理の設定(作業者・「作業者以外でも実行できるアクション」の実行可能ユーザー)へkintone自身が問い合わせて検証する。ボタンが誰にでも見える状態でも、実行権限のないユーザーが実行しようとすればkintone側がエラーを返すため、意図しない実行は起きない
+- [x] `age_grade_field_update`/`bulk_field_update`のような「任意のフィールドへ任意の値を書き込む」プラグインとは異なり、本プラグインが実行するのはプロセス管理のアクションそのものであるため、フィールドアクセス権とは独立したクライアント側の表示ゲートを追加する実益が薄いと判断した(idea.md参照)
 
 ## エッジケースの扱い
 
-- [x] 対象アプリでプロセス管理が無効な場合、一覧画面ボタン自体を表示しない(`renderButtonIfAuthorized`が`kintone.app.getStatus().enable`を確認)。実行時にも二重チェックしている(`runBulkApproval`)
+- [x] 対象アプリでプロセス管理が無効な場合、一覧画面ボタン自体を表示しない(`renderButtonIfEligible`が`kintone.app.getStatus().enable`を確認)。実行時にも二重チェックしている(`runBulkApproval`)
 - [x] 表形式(`list`)以外の一覧(カレンダー・カスタマイズ)ではボタンを表示しない(`app.record.index.show`の`event.viewType`で判定。`kintone.app.getQueryCondition()`が意味を持つのは表形式のみのため)
 - [x] 対象レコード0件の場合はモーダルを開かず、`alert()`で「対象レコードがありません。」と通知して終了する
 - [x] チェックボックスが0件、またはアクション未選択のまま「次へ」を押した場合は、`beforeClose`でダイアログを閉じさせず、エラーメッセージを表示する(`js/bulk-approval.js`)
@@ -52,7 +51,7 @@
 
 ## クロスサイトスクリプティング(XSS)・CSSインジェクション対策
 
-- [x] `document.write`/`innerHTML`によるユーザー入力の動的HTML生成を行っていない。レコード一覧テーブル・確認ダイアログの本文はすべて`document.createElement`/`textContent`で組み立てている(`js/bulk-approval.js`の`buildRecordTable`/`buildFinalConfirmBody`、`js/config.js`のチェックボックス一覧)。フィールド値・ステータス名・アクション名・グループコード等のユーザー入力はいずれも`textContent`/`value`プロパティ経由でのみDOMに反映しており、HTML文字列として組み立てていない
+- [x] `document.write`/`innerHTML`によるユーザー入力の動的HTML生成を行っていない。ステータスグループごとのセクション・レコード一覧テーブル・確認ダイアログの本文はすべて`document.createElement`/`textContent`で組み立てている(`js/bulk-approval.js`の`buildGroupSection`/`buildGroupTable`/`buildFinalConfirmBody`、`js/config.js`のチェックボックス一覧)。フィールド値・ステータス名・アクション名等のユーザー入力はいずれも`textContent`/`value`プロパティ経由でのみDOMに反映しており、HTML文字列として組み立てていない
 - [x] 確認ダイアログ(`kintone.createDialog()`/`kintone.mobile.createBottomSheet()`)の`config.body`は、ドキュメントに「そのままダイアログ本文の要素として組み込まれるため必要に応じてサニタイズ処理を行うこと」と明記されている。本プラグインは上記の通り`createElement`/`textContent`のみでDOMを組み立てているため、サニタイズが必要な外部入力の混入経路は無い
 - [x] 外部サイトのJavaScript/CSSを読み込んでいない(`manifest.json`はローカルファイルのみを参照)
 - [x] プラグインの実行コード(js/css)に外部パッケージ・外部ライブラリを一切使用しない方針(vanilla JSのみ)。ビルド用の`@kintone/cli` / `eslint` / `@cybozu/eslint-config` / `jest` / `puppeteer`はローカル開発用のdevDependencyでありプラグイン本体には含まれない
@@ -60,7 +59,7 @@
 ## 通信・認証情報の取り扱い
 
 - [x] kintone以外の外部サーバーへの通信を一切行わない(全通信は`kintone.api()`経由でkintone自身に対してのみ)
-- [x] `kintone.plugin.app.setConfig()`に保存しているのは表示項目のフィールドコード一覧・グループコードのみで、認証情報や機密情報は含まれない(`js/lib/config-store.js`)
+- [x] `kintone.plugin.app.setConfig()`に保存しているのは表示項目のフィールドコード一覧のみで、認証情報や機密情報は含まれない(`js/lib/config-store.js`)
 - [x] `setProxyConfig()`は使用していない(外部認証情報を扱わない設計のため)
 
 ## リダイレクト

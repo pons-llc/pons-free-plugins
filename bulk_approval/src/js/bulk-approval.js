@@ -49,11 +49,6 @@
     return entry ? entry.code : null;
   };
 
-  const INELIGIBLE_REASON_LABEL = {
-    STATUS_MISMATCH: '現在のステータスでは実行できません',
-    ASSIGNEE_REQUIRED: '次の作業者の選択が必要なため対象外です',
-  };
-
   // config.displayFieldCodesのうち、現在のフォームに実在するフィールドだけを残す
   // (idea.md「エッジケース: コンフィグ削除後にフォームから消えたフィールドコード」参照)。
   const resolveDisplayFields = (config, formFields) =>
@@ -61,9 +56,9 @@
       .map((code) => formFields[code])
       .filter(Boolean);
 
-  // レコード一覧のチェックボックス付きテーブルを構築する。
+  // 1ステータスグループ分のチェックボックス付きテーブルを構築する。
   // 戻り値のcheckboxesは record.id -> checkbox要素 のMap。
-  const buildRecordTable = (records, statusFieldCode, displayFields) => {
+  const buildGroupTable = (records, displayFields) => {
     const table = document.createElement('table');
     table.className = 'bap-record-table';
 
@@ -75,10 +70,6 @@
     selectAllCheckbox.checked = true;
     selectAllTh.appendChild(selectAllCheckbox);
     headRow.appendChild(selectAllTh);
-
-    const statusTh = document.createElement('th');
-    statusTh.textContent = 'ステータス';
-    headRow.appendChild(statusTh);
 
     displayFields.forEach((field) => {
       const th = document.createElement('th');
@@ -101,12 +92,6 @@
       tr.appendChild(checkboxTd);
       checkboxes.set(record.id, checkbox);
 
-      const statusTd = document.createElement('td');
-      statusTd.textContent = record[statusFieldCode]
-        ? record[statusFieldCode].value
-        : '';
-      tr.appendChild(statusTd);
-
       displayFields.forEach((field) => {
         const td = document.createElement('td');
         td.textContent = NS.FieldValueFormatter.formatFieldValue(
@@ -122,57 +107,99 @@
     selectAllCheckbox.addEventListener('change', () => {
       checkboxes.forEach((cb) => {
         cb.checked = selectAllCheckbox.checked;
-        cb.dispatchEvent(new Event('change'));
       });
     });
 
     return { table, checkboxes };
   };
 
-  // 選択中(チェック済み)のレコードを取得する。
-  const getCheckedRecords = (records, checkboxes) =>
-    records.filter((record) => checkboxes.get(record.id).checked);
+  // 1ステータスグループ分のセクション(見出し・テーブル・アクション選択)を構築する。
+  // 実行できるアクションはグループのステータスだけで一意に決まるため、チェックボックスの
+  // 選択状態が変わっても選択肢を再計算する必要はない(idea.md「対象レコードのグループ化」参照)。
+  const buildGroupSection = (group, displayFields, statusSettings) => {
+    const section = document.createElement('section');
+    section.className = 'bap-status-group';
 
-  // アクション選択肢を、現在チェックされているレコードから再計算する。
-  // それまでの選択値が新しい候補に含まれていれば維持し、含まれなくなった場合は選択解除する。
-  const refreshActionOptions = (
-    selectEl,
-    records,
-    checkboxes,
-    statusFieldCode,
-    statusSettings,
-  ) => {
-    const checked = getCheckedRecords(records, checkboxes);
-    const names = NS.SelectionPartitioner.collectAvailableActionNames(
-      checked,
-      statusFieldCode,
+    const heading = document.createElement('h4');
+    heading.className = 'bap-group-heading';
+    heading.textContent = `${group.status}(${group.records.length}件)`;
+    section.appendChild(heading);
+
+    const tableWrapper = document.createElement('div');
+    tableWrapper.className = 'bap-table-scroll';
+    const { table, checkboxes } = buildGroupTable(group.records, displayFields);
+    tableWrapper.appendChild(table);
+    section.appendChild(tableWrapper);
+
+    const actionNames = NS.StatusActions.listExecutableActionNames(
       statusSettings,
+      group.status,
     );
-    const previousValue = selectEl.value;
-    selectEl.textContent = '';
+    let actionSelect = null;
+    if (actionNames.length === 0) {
+      const noteEl = document.createElement('p');
+      noteEl.className = 'bap-group-no-action-note';
+      noteEl.textContent =
+        'このステータスから実行できるアクションはありません(次の作業者の選択が必要なアクションは対象外です)。';
+      section.appendChild(noteEl);
+    } else {
+      const actionRow = document.createElement('p');
+      actionRow.className = 'bap-action-row';
+      const actionLabel = document.createElement('label');
+      actionLabel.textContent = '実行するアクション';
+      actionSelect = document.createElement('select');
+      actionSelect.className = 'bap-action-select';
 
-    const blankOption = document.createElement('option');
-    blankOption.value = '';
-    blankOption.textContent =
-      checked.length === 0
-        ? '(レコードを選択してください)'
-        : '(選択してください)';
-    selectEl.appendChild(blankOption);
+      const blankOption = document.createElement('option');
+      blankOption.value = '';
+      blankOption.textContent = '(選択してください)';
+      actionSelect.appendChild(blankOption);
+      actionNames.forEach((name) => {
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        actionSelect.appendChild(option);
+      });
 
-    names.forEach((name) => {
-      const option = document.createElement('option');
-      option.value = name;
-      option.textContent = name;
-      selectEl.appendChild(option);
+      actionLabel.appendChild(actionSelect);
+      actionRow.appendChild(actionLabel);
+      section.appendChild(actionRow);
+    }
+
+    return {
+      section,
+      status: group.status,
+      records: group.records,
+      checkboxes,
+      actionSelect,
+    };
+  };
+
+  // 現在のチェック状態・アクション選択から、実行対象(active)と、チェックはあるが
+  // アクション未選択のため実行されないグループ(skipped)を仕分ける。
+  const collectGroupSelections = (groupSections) => {
+    const active = [];
+    const skipped = [];
+    groupSections.forEach((g) => {
+      const checkedRecords = g.records.filter(
+        (r) => g.checkboxes.get(r.id).checked,
+      );
+      if (checkedRecords.length === 0) {
+        return;
+      }
+      const actionName = g.actionSelect ? g.actionSelect.value : '';
+      if (actionName) {
+        active.push({ status: g.status, actionName, records: checkedRecords });
+      } else {
+        skipped.push({ status: g.status, count: checkedRecords.length });
+      }
     });
-    selectEl.value = names.includes(previousValue) ? previousValue : '';
-    selectEl.disabled = names.length === 0;
+    return { active, skipped };
   };
 
   // 1つ目のダイアログ「対象レコードを選択」の本文を組み立てる。
   const buildSelectionDialogBody = (
-    records,
-    statusFieldCode,
+    groups,
     displayFields,
     statusSettings,
     headerMessage,
@@ -185,75 +212,60 @@
     messageEl.textContent = headerMessage;
     wrapper.appendChild(messageEl);
 
-    const tableWrapper = document.createElement('div');
-    tableWrapper.className = 'bap-table-scroll';
-    const { table, checkboxes } = buildRecordTable(
-      records,
-      statusFieldCode,
-      displayFields,
+    const groupSections = groups.map((group) =>
+      buildGroupSection(group, displayFields, statusSettings),
     );
-    tableWrapper.appendChild(table);
-    wrapper.appendChild(tableWrapper);
-
-    const actionRow = document.createElement('p');
-    actionRow.className = 'bap-action-row';
-    const actionLabel = document.createElement('label');
-    actionLabel.textContent = '実行するアクション';
-    const actionSelect = document.createElement('select');
-    actionSelect.className = 'bap-action-select';
-    actionLabel.appendChild(actionSelect);
-    actionRow.appendChild(actionLabel);
-    wrapper.appendChild(actionRow);
+    groupSections.forEach((g) => wrapper.appendChild(g.section));
 
     const errorEl = document.createElement('p');
     errorEl.className = 'bap-error';
     errorEl.hidden = true;
     wrapper.appendChild(errorEl);
 
-    const refresh = () =>
-      refreshActionOptions(
-        actionSelect,
-        records,
-        checkboxes,
-        statusFieldCode,
-        statusSettings,
-      );
-    checkboxes.forEach((cb) => cb.addEventListener('change', refresh));
-    refresh();
-
-    return { wrapper, checkboxes, actionSelect, errorEl };
+    return { wrapper, groupSections, errorEl };
   };
 
   // 2つ目のダイアログ「最終確認」の本文を組み立てる。
-  const buildFinalConfirmBody = (actionName, eligible, ineligible) => {
+  const buildFinalConfirmBody = (active, skipped) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'bap-confirm-body';
 
+    const totalCount = active.reduce((sum, s) => sum + s.records.length, 0);
     const summaryEl = document.createElement('p');
     summaryEl.className = 'bap-message';
-    summaryEl.textContent = `「${actionName}」を ${eligible.length}件のレコードに対して実行します。`;
+    summaryEl.textContent = `合計${totalCount}件のレコードに対して、次のアクションを実行します。`;
     wrapper.appendChild(summaryEl);
 
-    if (ineligible.length > 0) {
+    const list = document.createElement('ul');
+    list.className = 'bap-plan-list';
+    active.forEach((s) => {
+      const li = document.createElement('li');
+      li.textContent = `「${s.status}」の${s.records.length}件 → 「${s.actionName}」を実行`;
+      list.appendChild(li);
+    });
+    wrapper.appendChild(list);
+
+    if (skipped.length > 0) {
       const noteEl = document.createElement('p');
-      noteEl.className = 'bap-ineligible-note';
-      noteEl.textContent = `選択されていたレコードのうち${ineligible.length}件は対象外のため実行されません。`;
+      noteEl.className = 'bap-skipped-note';
+      noteEl.textContent =
+        'アクションが選択されていないため、次のステータスのチェック済みレコードは実行されません。';
       wrapper.appendChild(noteEl);
 
-      const list = document.createElement('ul');
-      list.className = 'bap-ineligible-list';
-      ineligible.forEach((item) => {
+      const skippedList = document.createElement('ul');
+      skippedList.className = 'bap-plan-list';
+      skipped.forEach((s) => {
         const li = document.createElement('li');
-        li.textContent = `レコードID ${item.id}: ${INELIGIBLE_REASON_LABEL[item.reason] || item.reason}`;
-        list.appendChild(li);
+        li.textContent = `「${s.status}」の${s.count}件`;
+        skippedList.appendChild(li);
       });
-      wrapper.appendChild(list);
+      wrapper.appendChild(skippedList);
     }
 
     return wrapper;
   };
 
-  // config: { displayFieldCodes, groupCodes }
+  // config: { displayFieldCodes }
   // platform: {
   //   createDialog(config): Promise<{show, close}>
   //     (kintone.createDialog/kintone.mobile.createBottomSheetと同一シグネチャ),
@@ -307,17 +319,20 @@
     const totalCount = Number(response.totalCount);
     const headerMessage =
       totalCount > MAX_RECORDS
-        ? `絞り込み条件に一致する${totalCount}件のうち、先頭${MAX_RECORDS}件を表示しています。対象レコードを選択してください。`
-        : `絞り込み条件に一致する${records.length}件のレコードです。対象レコードを選択してください。`;
+        ? `絞り込み条件に一致する${totalCount}件のうち、先頭${MAX_RECORDS}件を表示しています。ステータスごとに対象レコードを選択してください。`
+        : `絞り込み条件に一致する${records.length}件のレコードです。ステータスごとに対象レコードを選択してください。`;
 
-    const { wrapper, checkboxes, actionSelect, errorEl } =
-      buildSelectionDialogBody(
-        records,
-        statusFieldCode,
-        displayFields,
-        statusSettings,
-        headerMessage,
-      );
+    const groups = NS.RecordGrouping.groupRecordsByStatus(
+      records,
+      statusFieldCode,
+      statusSettings,
+    );
+    const { wrapper, groupSections, errorEl } = buildSelectionDialogBody(
+      groups,
+      displayFields,
+      statusSettings,
+      headerMessage,
+    );
 
     const selectionDialog = await platform.createDialog({
       title: '一括承認: 対象レコードを選択',
@@ -331,14 +346,10 @@
         if (action !== 'OK') {
           return true;
         }
-        const checked = getCheckedRecords(records, checkboxes);
-        if (checked.length === 0) {
-          errorEl.textContent = '対象レコードを1件以上選択してください。';
-          errorEl.hidden = false;
-          return false;
-        }
-        if (!actionSelect.value) {
-          errorEl.textContent = '実行するアクションを選択してください。';
+        const { active } = collectGroupSelections(groupSections);
+        if (active.length === 0) {
+          errorEl.textContent =
+            '実行するレコードがありません。対象レコードを選択し、アクションを選んでください。';
           errorEl.hidden = false;
           return false;
         }
@@ -350,18 +361,11 @@
       return;
     }
 
-    const checkedRecords = getCheckedRecords(records, checkboxes);
-    const actionName = actionSelect.value;
-    const { eligible, ineligible } = NS.SelectionPartitioner.partitionForAction(
-      checkedRecords,
-      statusFieldCode,
-      actionName,
-      statusSettings,
-    );
+    const { active, skipped } = collectGroupSelections(groupSections);
 
     const confirmDialog = await platform.createDialog({
       title: '一括承認: 最終確認',
-      body: buildFinalConfirmBody(actionName, eligible, ineligible),
+      body: buildFinalConfirmBody(active, skipped),
       showOkButton: true,
       okButtonText: '実行する',
       showCancelButton: true,
@@ -373,17 +377,18 @@
       return;
     }
 
+    const writeRecords = NS.RecordGrouping.buildExecutionBatch(active);
+
     platform.showLoading();
     try {
-      const writeResult = await NS.BatchWriter.runAll(eligible, {
+      const writeResult = await NS.BatchWriter.runAll(writeRecords, {
         putBatch: (chunk) => putStatusBatch(appId, chunk),
         putSingle: (record) => putStatusSingle(appId, record),
       });
       const summary = NS.BatchWriter.buildResultSummary({
-        totalTarget: eligible.length,
+        totalTarget: writeRecords.length,
         updatedCount: writeResult.updatedCount,
         skipped: writeResult.skipped,
-        ineligibleCount: ineligible.length,
       });
       global.alert(summary);
     } catch (err) {
@@ -393,11 +398,11 @@
     }
   };
 
-  // 一覧画面ヘッダーに、対象グループのメンバーにだけボタンを表示する。
-  // kintone.user.getGroups()はクライアント側の表示ゲートに過ぎず、真の権限境界ではない
-  // (真の境界は対象アプリのプロセス管理の設定自体。idea.md「実行可能グループによる表示制御」・
-  // security-checklist.md参照)。
-  const renderButtonIfAuthorized = async (
+  // 一覧画面ヘッダーに、対象アプリでプロセス管理が有効な場合のみボタンを表示する。
+  // 実行できるユーザーの絞り込みは行わない(実際にアクションを実行できるかどうかは対象アプリの
+  // プロセス管理の設定〈作業者・実行できるユーザー〉自体で決まるため、ボタンの表示可否を
+  // 追加でクライアント側にゲートする必要はないと判断した。idea.md・security-checklist.md参照)。
+  const renderButtonIfEligible = async (
     headerEl,
     config,
     appId,
@@ -411,18 +416,9 @@
     if (viewType && viewType !== 'list') {
       return;
     }
-    if (!config.groupCodes || config.groupCodes.length === 0) {
-      return;
-    }
 
     const statusSettings = await kintone.app.getStatus();
     if (!statusSettings.enable) {
-      return;
-    }
-
-    const groups = await kintone.user.getGroups();
-    const isAuthorized = groups.some((g) => config.groupCodes.includes(g.code));
-    if (!isAuthorized) {
       return;
     }
 
@@ -445,7 +441,7 @@
 
   NS.BulkApprovalMain = {
     runBulkApproval,
-    renderButtonIfAuthorized,
+    renderButtonIfEligible,
     findStatusFieldCode,
     resolveDisplayFields,
   };

@@ -57,23 +57,12 @@
   };
 
   // 実行完了後の結果表示用テキストを組み立てる。
-  // ineligibleCount: partitionForAction()で最初から対象外にしたレコード数(idea.md参照)。
-  const buildResultSummary = ({
-    totalTarget,
-    updatedCount,
-    skipped,
-    ineligibleCount,
-  }) => {
+  const buildResultSummary = ({ totalTarget, updatedCount, skipped }) => {
     const lines = [
       `実行対象レコード数: ${totalTarget}件`,
       `実行に成功したレコード数: ${updatedCount}件`,
       `実行に失敗しスキップしたレコード数: ${skipped.length}件`,
     ];
-    if (ineligibleCount) {
-      lines.push(
-        `選択されていたが対象外だったレコード数: ${ineligibleCount}件`,
-      );
-    }
     if (skipped.length > 0) {
       const reasons = skipped.map((s) => `${s.id}(${s.reason})`).join(', ');
       lines.push(`スキップしたレコード: ${reasons}`);

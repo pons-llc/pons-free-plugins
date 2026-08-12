@@ -33,7 +33,22 @@
     return String(toState.index) === '0';
   };
 
-  const StatusActions = { listActionsForStatus, isAssigneeRequired };
+  // 指定したステータスから実行できる(かつassignee指定が不要な)アクション名の一覧を返す。
+  // 一括承認のモーダルはステータスごとにグループ分けして表示するため、グループ単位で
+  // アクション候補を決められる(idea.md「対象レコードのグループ化」参照)。
+  const listExecutableActionNames = (statusSettings, statusName) => {
+    const actions = (statusSettings && statusSettings.actions) || [];
+    const states = (statusSettings && statusSettings.states) || {};
+    return listActionsForStatus(actions, statusName)
+      .filter((action) => !isAssigneeRequired(states, action.to))
+      .map((action) => action.name);
+  };
+
+  const StatusActions = {
+    listActionsForStatus,
+    isAssigneeRequired,
+    listExecutableActionNames,
+  };
 
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = StatusActions;

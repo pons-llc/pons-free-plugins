@@ -74,7 +74,6 @@ describe('設定画面(実環境)', () => {
         '.js-display-fields input[value="bap_title"]',
       );
       checkbox.checked = true;
-      document.querySelector('.js-group-codes').value = 'Administrators';
     });
 
     expect(pageErrors).toEqual([]);
@@ -92,11 +91,6 @@ describe('設定画面(実環境)', () => {
       '.js-display-fields input[value="bap_title"]',
       (el) => el.checked,
     );
-    const reloadedGroupCodes = await page.$eval(
-      '.js-group-codes',
-      (el) => el.value,
-    );
     expect(reloadedChecked).toBe(true);
-    expect(reloadedGroupCodes).toBe('Administrators');
   });
 });

@@ -70,28 +70,24 @@ describe('runAll', () => {
 });
 
 describe('buildResultSummary', () => {
-  test('スキップ・対象外件数を含めた本文を組み立てる', () => {
+  test('スキップ件数・理由を含めた本文を組み立てる', () => {
     const summary = BatchWriter.buildResultSummary({
       totalTarget: 3,
       updatedCount: 2,
       skipped: [{ id: 5, reason: 'conflict' }],
-      ineligibleCount: 1,
     });
     expect(summary).toContain('実行対象レコード数: 3件');
     expect(summary).toContain('実行に成功したレコード数: 2件');
     expect(summary).toContain('実行に失敗しスキップしたレコード数: 1件');
-    expect(summary).toContain('選択されていたが対象外だったレコード数: 1件');
     expect(summary).toContain('5(conflict)');
   });
 
-  test('スキップ・対象外が0件なら該当行を出さない', () => {
+  test('スキップが0件なら該当行を出さない', () => {
     const summary = BatchWriter.buildResultSummary({
       totalTarget: 2,
       updatedCount: 2,
       skipped: [],
-      ineligibleCount: 0,
     });
-    expect(summary).not.toContain('選択されていたが対象外');
     expect(summary).not.toContain('スキップしたレコード:');
   });
 });

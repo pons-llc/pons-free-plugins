@@ -13,11 +13,23 @@
   margin-bottom: 1em;
 }
 
+.bap-status-group {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.bap-group-heading {
+  margin: 0 0 0.75em;
+  font-size: 1em;
+}
+
 .bap-table-scroll {
-  max-height: 320px;
+  max-height: 260px;
   overflow-y: auto;
   border: 1px solid #e3e7e8;
-  margin-bottom: 1em;
+  margin-bottom: 0.75em;
 }
 
 .bap-record-table {
@@ -40,7 +52,7 @@
 }
 
 .bap-action-row {
-  margin-bottom: 0.5em;
+  margin-bottom: 0;
 }
 
 .bap-action-row label {
@@ -54,22 +66,25 @@
   min-width: 16em;
 }
 
+.bap-group-no-action-note {
+  margin: 0;
+  color: #666;
+}
+
 .bap-error {
   color: #c0392b;
 }
 
-.bap-ineligible-note {
+.bap-plan-list {
+  margin: 0 0 1em;
+  padding-left: 1.25em;
+}
+
+.bap-plan-list li {
+  margin-bottom: 0.35em;
+}
+
+.bap-skipped-note {
   color: #c0392b;
   margin-bottom: 0.5em;
-}
-
-.bap-ineligible-list {
-  margin: 0;
-  padding-left: 1.25em;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.bap-ineligible-list li {
-  margin-bottom: 0.35em;
 }

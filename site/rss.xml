@@ -87,7 +87,7 @@
       <title>一括承認プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/bulk_approval/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/bulk_approval/</guid>
-      <description>レコード一覧画面に一括承認ボタンを設置し、モーダルでチェックボックスにより対象レコードを選択、実行可能なプロセス管理のアクションを選んで最終確認のうえ一括実行するプラグイン。モーダルに表示する項目は設定画面から選択できます。</description>
+      <description>レコード一覧画面に一括承認ボタンを設置し、現在のステータスごとにグループ分けしたモーダルでチェックボックスにより対象レコードを選択、グループごとに実行可能なプロセス管理のアクションを選んで最終確認のうえ一括実行するプラグイン。モーダルに表示する項目は設定画面から選択できます。</description>
       <pubDate>Wed, 12 Aug 2026 15:00:00 GMT</pubDate>
     </item>
     <item>

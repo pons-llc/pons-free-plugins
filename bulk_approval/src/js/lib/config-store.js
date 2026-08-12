@@ -5,7 +5,6 @@
   // 未保存時のデフォルト値を管理する。
   const DEFAULTS = {
     displayFieldCodes: [],
-    groupCodes: [],
   };
 
   const parseArray = (raw) => {
@@ -22,20 +21,16 @@
 
   const load = (rawConfig) => {
     if (!rawConfig) {
-      return { displayFieldCodes: [], groupCodes: [] };
+      return { displayFieldCodes: [] };
     }
     return {
       displayFieldCodes: parseArray(rawConfig.displayFieldCodes),
-      groupCodes: parseArray(rawConfig.groupCodes),
     };
   };
 
   const serialize = (config) => ({
     displayFieldCodes: JSON.stringify(
       Array.isArray(config.displayFieldCodes) ? config.displayFieldCodes : [],
-    ),
-    groupCodes: JSON.stringify(
-      Array.isArray(config.groupCodes) ? config.groupCodes : [],
     ),
   });
 

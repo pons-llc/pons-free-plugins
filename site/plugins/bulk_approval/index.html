@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>一括承認プラグイン | GovAppsプラグイン</title>
-<meta name="description" content="レコード一覧画面に一括承認ボタンを設置し、モーダルでチェックボックスにより対象レコードを選択、実行可能なプロセス管理のアクションを選んで最終確認のうえ一括実行できるkintone無料プラグイン。モーダルに表示する項目は設定画面から選択できます。">
+<meta name="description" content="レコード一覧画面に一括承認ボタンを設置し、現在のステータスごとにグループ分けしたモーダルでチェックボックスにより対象レコードを選択、グループごとに実行可能なプロセス管理のアクションを選んで最終確認のうえ一括実行できるkintone無料プラグイン。モーダルに表示する項目は設定画面から選択できます。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -46,11 +46,13 @@
   <p class="plugin-lead">
     プロセス管理を使ったアプリのレコード一覧画面に「一括承認」ボタンを設置するプラグインです。ボタンを押すと、
     <strong>今その一覧に表示されている絞り込み条件</strong>(<code>kintone.app.getQueryCondition()</code>、最大500件)に
-    該当するレコードがモーダルにチェックボックス付きの一覧として表示されます。承認したいレコードを選択し、
-    選択中のレコードの現在のステータスから実行できるプロセス管理のアクションをドロップダウンから選ぶと、
-    最終確認画面で実行対象件数・対象外件数(理由付き)を確認したうえで一括実行できます。次の作業者の選択が
-    必須になる遷移(「次のユーザーから作業者を選択」設定で候補が存在する場合)は自動実行の対象外とし、
-    対象外である旨を明示します。設定画面ではモーダルの一覧に表示する項目(フィールド)を選択できます。
+    該当するレコードが、<strong>現在のステータスごとにグループ分け</strong>されたモーダルに表示されます。実行できる
+    プロセス管理のアクションはレコードのステータスによって異なるため、グループ(ステータス)ごとにチェックボックスで
+    対象レコードを選び、そのステータスから実行できるアクションをグループごとのドロップダウンから選びます。
+    最終確認画面ではグループごとの「件数→実行するアクション」が一覧表示され、複数のステータス・複数のアクションを
+    またいでも1回の操作でまとめて実行できます。実行できるアクションが無いステータス(次の作業者の選択が必須な
+    遷移しかない場合など)は、その旨を表示するだけで選択肢自体を出しません。設定画面ではモーダルの一覧に
+    表示する項目(フィールド)を選択できます。
   </p>
   <div class="plugin-hero-badges">
     <span class="badge badge-category">一括更新</span>
@@ -60,6 +62,13 @@
   </div>
   <a class="download-button" href="download" data-dl-plugin="bulk_approval">ダウンロード(v1)</a>
 </div>
+
+<section class="plugin-section">
+  <h3>紹介動画</h3>
+  <div class="video-frame">
+    <iframe src="https://player.vimeo.com/video/1217802764" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+</section>
 
 <section class="plugin-section">
   <h3>こんな方におすすめ</h3>
@@ -78,16 +87,16 @@
       <span class="accordion-icon">▶</span>
     </button>
     <div class="accordion-panel" id="usecase-1">
-      <p>作業者(担当者)自身が普段見ている「自分が作業者」の絞り込み済み一覧に一括承認ボタンを設置しておくと、対象レコードをボタン1つでモーダルに呼び出せます。チェックボックスで承認するレコードを選び、「承認」アクションを選択、最終確認のうえ一括で実行します。</p>
+      <p>作業者(担当者)自身が普段見ている「自分が作業者」の絞り込み済み一覧に一括承認ボタンを設置しておくと、対象レコードをボタン1つでモーダルに呼び出せます。「申請中」グループのチェックボックスで承認するレコードを選び、「承認」アクションを選択、最終確認のうえ一括で実行します。</p>
     </div>
   </div>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
-      <span>一覧の絞り込み条件を使い分けて、承認と差し戻しを別々に一括処理する</span>
+      <span>複数のステータスにまたがる処理(承認と差し戻し等)を1回でまとめて実行する</span>
       <span class="accordion-icon">▶</span>
     </button>
     <div class="accordion-panel" id="usecase-2" hidden>
-      <p>ボタンは一覧画面の現在の絞り込み条件に一致するレコードを対象にするため、「条件A一覧」では承認、「条件B一覧」では差し戻し、のように一覧を使い分けて別々の一括処理を行えます。選択中のレコードの現在のステータスに応じて、実行できるアクションの候補が自動的に絞り込まれます。</p>
+      <p>モーダルはレコードの現在のステータスごとにグループ分けされて表示されるため、「申請中」グループでは一部を「承認」、別のレコードは「差し戻す」を選び、さらに「未処理」グループでは「申請する」を選ぶ、といったように、複数のステータス・複数のアクションにまたがる操作を最終確認画面でまとめて確認し、1回の実行操作で処理できます。</p>
     </div>
   </div>
   <div class="accordion-item">
@@ -107,7 +116,6 @@
     <li>対象アプリでプロセス管理を有効にしておく(未設定の場合、一覧画面にボタンは表示されません)。</li>
     <li>プラグインをアプリに追加し、設定画面を開く。</li>
     <li>モーダルの一覧表に表示する項目(フィールド)を必要に応じて選択する(任意、0件でもステータスのみ表示されます)。</li>
-    <li>「一括承認」ボタンを一覧画面に表示するグループコードをカンマ区切りで入力する(1つ以上必須)。</li>
     <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード一覧画面に反映されます)。</li>
   </ol>
   <p class="download-note">対象は表形式の一覧のみです。カレンダー形式・カスタマイズ形式の一覧ではボタンは表示されません。1回の実行につき、絞り込み条件に一致するレコードのうち先頭500件までが対象です。</p>
@@ -123,10 +131,10 @@
     <div class="accordion-panel" id="security-summary" hidden>
       <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
       <ul class="review-checklist">
-        <li>レコード一覧テーブル・確認ダイアログの本文は<code>document.createElement()</code> + <code>textContent</code>のみで組み立てており、<code>innerHTML</code>へ動的な値を差し込む箇所はありません。</li>
+        <li>ステータスグループのセクション・レコード一覧テーブル・確認ダイアログの本文は<code>document.createElement()</code> + <code>textContent</code>のみで組み立てており、<code>innerHTML</code>へ動的な値を差し込む箇所はありません。</li>
         <li>REST APIの利用は「自アプリのレコード検索」「自アプリのプロセス管理アクション実行」に限られ、いずれも<code>kintone.api()</code>(kintone自身への呼び出し専用の内部ラッパー)経由です。生の<code>fetch</code>/<code>XMLHttpRequest</code>は使用していません。プロセス管理の設定取得・フォームのフィールド定義取得はJavaScript API(<code>kintone.app.getStatus()</code>・<code>kintone.app.getFormFields()</code>)を優先しています。</li>
-        <li>次の作業者の選択が必須になる遷移(「次のユーザーから作業者を選択」設定で候補が存在する場合)は、実行時に自動でassigneeを補うことはせず、対象外として一覧表示するにとどめています。</li>
-        <li>「一括承認」ボタンのグループ制限(<code>kintone.user.getGroups()</code>による表示切り替え)は、クライアント側の表示ゲートに過ぎず真の権限制御ではないことを明記しています。真の権限境界は対象アプリのプロセス管理の設定(作業者・実行できるユーザー)自体です。</li>
+        <li>次の作業者の選択が必須になる遷移(「次のユーザーから作業者を選択」設定で候補が存在する場合)は、そのステータスのアクション選択肢自体に出さない設計にしており、実行時に自動でassigneeを補うことはありません。</li>
+        <li>「一括承認」ボタンはユーザーの所属グループによる表示制限を行いません。実行できるかどうかの真の権限境界は対象アプリのプロセス管理の設定(作業者・実行できるユーザー)自体にあり、ボタンを追加でクライアント側にゲートする実益が薄いと判断したためです(詳細はidea.md参照)。</li>
         <li>外部サーバーへの通信・外部ライブラリの利用は一切ありません。</li>
       </ul>
       <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
@@ -138,7 +146,7 @@
 <section class="plugin-section">
   <h3>設定画面</h3>
   <div class="screenshot-frame">
-    <img src="screenshots/config-screen.png" alt="一括承認プラグインの設定画面。モーダルに表示する項目のチェックボックス一覧と、一括承認ボタンを表示する実行可能グループコードの入力欄が表示されている。" loading="lazy">
+    <img src="screenshots/config-screen.png" alt="一括承認プラグインの設定画面。モーダルに表示する項目を選択するチェックボックス一覧が表示されている。" loading="lazy">
   </div>
 </section>
 

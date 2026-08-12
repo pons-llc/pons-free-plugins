@@ -4,11 +4,10 @@
   const NS = window.BulkApproval;
 
   const displayFieldsEl = document.querySelector('.js-display-fields');
-  const groupCodesEl = document.querySelector('.js-group-codes');
   const formEl = document.querySelector('.js-submit-settings');
   const cancelButtonEl = document.querySelector('.js-cancel-button');
 
-  if (!(formEl && cancelButtonEl && displayFieldsEl && groupCodesEl)) {
+  if (!(formEl && cancelButtonEl && displayFieldsEl)) {
     throw new Error('Required elements do not exist.');
   }
 
@@ -50,11 +49,6 @@
   };
   buildDisplayFieldCheckboxes();
 
-  // groupCodesElはトップレベルのconstであり、await後に再代入され得ないため
-  // require-atomic-updatesは誤検知。
-  // eslint-disable-next-line require-atomic-updates
-  groupCodesEl.value = (config.groupCodes || []).join(', ');
-
   cancelButtonEl.addEventListener('click', () => {
     window.location.href = '../../' + kintone.app.getId() + '/plugin/';
   });
@@ -66,17 +60,7 @@
       displayFieldCodes: checkboxes
         .filter((cb) => cb.checked)
         .map((cb) => cb.value),
-      groupCodes: groupCodesEl.value
-        .split(',')
-        .map((code) => code.trim())
-        .filter((code) => code.length > 0),
     };
-
-    const errors = NS.ConfigValidation.validate(nextConfig);
-    if (errors.length > 0) {
-      alert(errors.join('\n'));
-      return;
-    }
 
     kintone.plugin.app.setConfig(NS.ConfigStore.serialize(nextConfig), () => {
       alert('プラグインの設定を保存しました。アプリを更新してください。');

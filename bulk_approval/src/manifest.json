@@ -8,7 +8,7 @@
       "js/lib/field-value-formatter.js",
       "js/lib/display-field-eligibility.js",
       "js/lib/status-actions.js",
-      "js/lib/selection-partitioner.js",
+      "js/lib/record-grouping.js",
       "js/lib/batch-writer.js",
       "js/lib/config-store.js",
       "js/bulk-approval.js",
@@ -25,7 +25,6 @@
     "js": [
       "js/lib/display-field-eligibility.js",
       "js/lib/config-store.js",
-      "js/lib/config-validation.js",
       "js/config.js"
     ],
     "css": [
@@ -47,7 +46,7 @@
       "js/lib/field-value-formatter.js",
       "js/lib/display-field-eligibility.js",
       "js/lib/status-actions.js",
-      "js/lib/selection-partitioner.js",
+      "js/lib/record-grouping.js",
       "js/lib/batch-writer.js",
       "js/lib/config-store.js",
       "js/bulk-approval.js",

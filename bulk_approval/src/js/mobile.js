@@ -18,7 +18,7 @@
   // 一覧画面: 対象グループのメンバーにのみ一括承認ボタンを表示する(idea.md「対応画面」参照)。
   kintone.events.on('mobile.app.record.index.show', (event) => {
     const config = loadConfig();
-    NS.BulkApprovalMain.renderButtonIfAuthorized(
+    NS.BulkApprovalMain.renderButtonIfEligible(
       kintone.mobile.app.getHeaderSpaceElement(),
       config,
       kintone.app.getId(),

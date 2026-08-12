@@ -7,9 +7,8 @@
 // 事前準備: config-screen.e2e.test.jsと同様。
 // 実行: pnpm run test:e2e
 //
-// NOTE: 一覧画面ボタンはkintone.user.getGroups()で判定した実行可能グループに所属する
-// ユーザーにのみ表示される。検証環境のログインユーザー(.envのKINTONE_USERNAME)は
-// "Administrators"グループに所属していることをUser API(/v1/user/groups.json)で事前確認済み。
+// NOTE: 一覧画面ボタンはグループによる絞り込みを行わない設計のため(idea.md「ボタンの表示制御
+// について」参照)、対象アプリでプロセス管理が有効であればログインユーザーに関わらず表示される。
 //
 // NOTE: kintone.createDialog()が生成するOK/キャンセルボタンはkintone内部のUIコンポーネント
 // (`gaia-argoui-dialog-buttons-*`)のため、`button[name="ok"]`(name属性)で特定する
@@ -52,13 +51,12 @@ describe('一覧画面ボタンでの一括承認(実環境)', () => {
     page.on('dialog', (dialog) => dialog.accept());
     await common.login(page, env);
 
-    // 表示項目=件名、実行可能グループ=Administrators で保存する。
+    // 表示項目=件名 で保存する。
     await common.openPluginConfig(page, env, BAP_TEST_APP_ID, pluginId);
     await page.evaluate(() => {
       document.querySelector(
         '.js-display-fields input[value="bap_title"]',
       ).checked = true;
-      document.querySelector('.js-group-codes').value = 'Administrators';
     });
     await Promise.all([
       page.waitForFunction(() => !location.href.includes('plugin/config')),
@@ -91,25 +89,31 @@ describe('一覧画面ボタンでの一括承認(実環境)', () => {
     );
 
     await page.click('.bap-bulk-button');
-    await page.waitForSelector('.bap-record-table tbody tr', {
+    // 種となる2レコードはどちらも「未処理」ステータスのため、グループセクションは1つになる。
+    await page.waitForSelector('.bap-status-group .bap-record-table tbody tr', {
       timeout: 15000,
     });
 
+    const groupHeading = await page.$eval(
+      '.bap-group-heading',
+      (el) => el.textContent,
+    );
+    expect(groupHeading).toBe('未処理(2件)');
+
     const rowCount = await page.$$eval(
-      '.bap-record-table tbody tr',
+      '.bap-status-group .bap-record-table tbody tr',
       (rows) => rows.length,
     );
     expect(rowCount).toBe(2);
 
-    // 未処理の2レコードとも既定でチェック済みのため、実行可能なアクションとして
-    // 「申請する」が候補に入っているはず。
+    // 未処理グループの実行可能なアクションとして「申請する」が候補に入っているはず。
     const optionLabels = await page.$$eval(
-      '.bap-action-select option',
+      '.bap-status-group .bap-action-select option',
       (opts) => opts.map((o) => o.textContent),
     );
     expect(optionLabels).toContain('申請する');
 
-    await page.select('.bap-action-select', '申請する');
+    await page.select('.bap-status-group .bap-action-select', '申請する');
     await clickLastOkButton();
 
     // 最終確認ダイアログへ遷移するのを待つ。
@@ -118,9 +122,15 @@ describe('一覧画面ボタンでの一括承認(実環境)', () => {
       '.bap-confirm-body .bap-message',
       (el) => el.textContent,
     );
-    expect(summaryText).toContain(
-      '「申請する」を 2件のレコードに対して実行します。',
+    expect(summaryText).toBe(
+      '合計2件のレコードに対して、次のアクションを実行します。',
     );
+
+    const planText = await page.$eval(
+      '.bap-confirm-body .bap-plan-list',
+      (el) => el.textContent,
+    );
+    expect(planText).toContain('「未処理」の2件 → 「申請する」を実行');
 
     await clickLastOkButton();
 
