@@ -607,6 +607,27 @@ a {
   font-weight: bold;
 }
 
+.recommend-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recommend-list li {
+  padding: 4px 0 4px 22px;
+  position: relative;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.recommend-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #3498db;
+  font-weight: bold;
+}
+
 .dos-list,
 .donts-list {
   list-style: none;
