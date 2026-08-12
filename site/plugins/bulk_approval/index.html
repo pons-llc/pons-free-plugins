@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一括承認プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="レコード一覧画面に一括承認ボタンを設置し、モーダルでチェックボックスにより対象レコードを選択、実行可能なプロセス管理のアクションを選んで最終確認のうえ一括実行できるkintone無料プラグイン。モーダルに表示する項目は設定画面から選択できます。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; 一括承認プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>一括承認プラグイン</h2>
+  <p class="plugin-lead">
+    プロセス管理を使ったアプリのレコード一覧画面に「一括承認」ボタンを設置するプラグインです。ボタンを押すと、
+    <strong>今その一覧に表示されている絞り込み条件</strong>(<code>kintone.app.getQueryCondition()</code>、最大500件)に
+    該当するレコードがモーダルにチェックボックス付きの一覧として表示されます。承認したいレコードを選択し、
+    選択中のレコードの現在のステータスから実行できるプロセス管理のアクションをドロップダウンから選ぶと、
+    最終確認画面で実行対象件数・対象外件数(理由付き)を確認したうえで一括実行できます。次の作業者の選択が
+    必須になる遷移(「次のユーザーから作業者を選択」設定で候補が存在する場合)は自動実行の対象外とし、
+    対象外である旨を明示します。設定画面ではモーダルの一覧に表示する項目(フィールド)を選択できます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">一括更新</span>
+    <span class="badge badge-tag">#一括承認</span>
+    <span class="badge badge-tag">#プロセス管理</span>
+    <span class="badge badge-tag">#ワークフロー</span>
+  </div>
+  <a class="download-button" href="download" data-dl-plugin="bulk_approval">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>こんな方におすすめ</h3>
+  <ul class="recommend-list">
+    <li>kintoneのプロセス管理で、1件ずつ承認するのが手間になっている</li>
+    <li>「kintone 一括承認」「kintone プロセス管理 まとめて処理」を探している</li>
+    <li>申請一覧から対象を選んでまとめて承認・却下したい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>「自分が作業者」の一覧から、溜まった申請をまとめて承認する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>作業者(担当者)自身が普段見ている「自分が作業者」の絞り込み済み一覧に一括承認ボタンを設置しておくと、対象レコードをボタン1つでモーダルに呼び出せます。チェックボックスで承認するレコードを選び、「承認」アクションを選択、最終確認のうえ一括で実行します。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>一覧の絞り込み条件を使い分けて、承認と差し戻しを別々に一括処理する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>ボタンは一覧画面の現在の絞り込み条件に一致するレコードを対象にするため、「条件A一覧」では承認、「条件B一覧」では差し戻し、のように一覧を使い分けて別々の一括処理を行えます。選択中のレコードの現在のステータスに応じて、実行できるアクションの候補が自動的に絞り込まれます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>モーダルに表示する項目を絞り込み、判断に必要な情報だけを見せる</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>設定画面でモーダルの一覧に表示するフィールドを選べるため、申請金額や申請者名など、承認判断に必要な項目だけを表示できます。現在のステータスは選択の有無にかかわらず常に表示されます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>対象アプリでプロセス管理を有効にしておく(未設定の場合、一覧画面にボタンは表示されません)。</li>
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>モーダルの一覧表に表示する項目(フィールド)を必要に応じて選択する(任意、0件でもステータスのみ表示されます)。</li>
+    <li>「一括承認」ボタンを一覧画面に表示するグループコードをカンマ区切りで入力する(1つ以上必須)。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード一覧画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">対象は表形式の一覧のみです。カレンダー形式・カスタマイズ形式の一覧ではボタンは表示されません。1回の実行につき、絞り込み条件に一致するレコードのうち先頭500件までが対象です。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>レコード一覧テーブル・確認ダイアログの本文は<code>document.createElement()</code> + <code>textContent</code>のみで組み立てており、<code>innerHTML</code>へ動的な値を差し込む箇所はありません。</li>
+        <li>REST APIの利用は「自アプリのレコード検索」「自アプリのプロセス管理アクション実行」に限られ、いずれも<code>kintone.api()</code>(kintone自身への呼び出し専用の内部ラッパー)経由です。生の<code>fetch</code>/<code>XMLHttpRequest</code>は使用していません。プロセス管理の設定取得・フォームのフィールド定義取得はJavaScript API(<code>kintone.app.getStatus()</code>・<code>kintone.app.getFormFields()</code>)を優先しています。</li>
+        <li>次の作業者の選択が必須になる遷移(「次のユーザーから作業者を選択」設定で候補が存在する場合)は、実行時に自動でassigneeを補うことはせず、対象外として一覧表示するにとどめています。</li>
+        <li>「一括承認」ボタンのグループ制限(<code>kintone.user.getGroups()</code>による表示切り替え)は、クライアント側の表示ゲートに過ぎず真の権限制御ではないことを明記しています。真の権限境界は対象アプリのプロセス管理の設定(作業者・実行できるユーザー)自体です。</li>
+        <li>外部サーバーへの通信・外部ライブラリの利用は一切ありません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/bulk_approval/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>設定画面</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="一括承認プラグインの設定画面。モーダルに表示する項目のチェックボックス一覧と、一括承認ボタンを表示する実行可能グループコードの入力欄が表示されている。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    「一括承認」ボタンを押すたびに、対象レコードの検索で<code>GET /k/v1/records.json</code>を1回実行します(最大500件)。
+    実行時は、選択したレコード数を100件ずつのバッチに分けて<code>PUT /k/v1/records/status.json</code>を実行し、
+    バッチ全体が失敗した場合のみそのバッチ内を1件ずつ<code>PUT /k/v1/record/status.json</code>で再送します
+    (通常は成功するため追加実行は発生しません)。設定画面での保存・読み込み自体はkintoneのプラグイン設定機能を
+    使うため、追加のAPI実行はありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/bulk_approval" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/bulk_approval/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

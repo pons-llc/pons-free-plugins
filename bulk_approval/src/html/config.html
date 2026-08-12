@@ -1,0 +1,39 @@
+<section class="settings">
+  <h2 class="settings-heading">一括承認プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコード一覧画面(PC・モバイル)に「一括承認」ボタンを設置します。押下すると、現在の一覧の
+    絞り込み条件に一致するレコード(最大500件)がモーダルに表示され、チェックボックスで対象を選択、
+    実行可能なプロセスアクションを選んで最終確認のうえ一括実行します。<br>
+    このプラグインを利用するには、対象アプリでプロセス管理が有効になっている必要があります。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="bap-section">
+      <div class="bap-section-heading">モーダルに表示する項目</div>
+      <p class="kintoneplugin-desc">
+        一括承認のモーダルの一覧表に表示するフィールドを選択してください(任意、複数選択可)。<br>
+        現在のステータスは選択の有無にかかわらず常に表示されます。
+      </p>
+      <p class="kintoneplugin-row">
+        <span class="js-display-fields bap-checkbox-list"></span>
+      </p>
+    </section>
+
+    <section class="bap-section">
+      <div class="bap-section-heading">実行可能グループ<span class="kintoneplugin-require">必須</span></div>
+      <p class="kintoneplugin-desc">
+        一覧画面に一括承認ボタンを表示するグループコードをカンマ区切りで入力してください(1つ以上必須)。<br>
+        <strong>注意:</strong> これはボタンの表示・非表示を切り替えるだけの制御であり、真の権限制御ではありません。
+        実際にアクションを実行できるかどうかは、対象アプリのプロセス管理の設定(作業者・実行できるユーザー)に依存します。
+      </p>
+      <p class="kintoneplugin-row">
+        <input type="text" class="kintoneplugin-input-text js-group-codes" placeholder="例）kanri_group, admins">
+      </p>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>

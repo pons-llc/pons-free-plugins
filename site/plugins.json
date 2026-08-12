@@ -613,5 +613,20 @@
       "一覧集計"
     ],
     "video": "https://vimeo.com/1217778527"
+  },
+  {
+    "id": "bulk_approval",
+    "name": "一括承認プラグイン",
+    "description": "レコード一覧画面に一括承認ボタンを設置し、モーダルでチェックボックスにより対象レコードを選択、実行可能なプロセス管理のアクションを選んで最終確認のうえ一括実行するプラグイン。モーダルに表示する項目は設定画面から選択できます。",
+    "version": "1",
+    "publishedAt": "2026-08-13",
+    "zip": "plugins/bulk_approval/plugin.zip",
+    "page": "plugins/bulk_approval/index.html",
+    "category": "一括更新",
+    "tags": [
+      "一括承認",
+      "プロセス管理",
+      "ワークフロー"
+    ]
   }
 ]

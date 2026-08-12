@@ -1,0 +1,60 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/field-value-formatter.js",
+      "js/lib/display-field-eligibility.js",
+      "js/lib/status-actions.js",
+      "js/lib/selection-partitioner.js",
+      "js/lib/batch-writer.js",
+      "js/lib/config-store.js",
+      "js/bulk-approval.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/display-field-eligibility.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "bulk_approval plugin",
+    "ja": "一括承認プラグイン"
+  },
+  "description": {
+    "en": "Adds a bulk-approval button to the record list. Select records via checkboxes in a modal, pick an executable process management action, confirm, and run it across all of them at once.",
+    "ja": "レコード一覧画面に一括承認ボタンを設置し、モーダルでチェックボックスにより対象レコードを選択、実行可能なプロセスアクションを選んで最終確認のうえ一括実行するプラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/field-value-formatter.js",
+      "js/lib/display-field-eligibility.js",
+      "js/lib/status-actions.js",
+      "js/lib/selection-partitioner.js",
+      "js/lib/batch-writer.js",
+      "js/lib/config-store.js",
+      "js/bulk-approval.js",
+      "js/mobile.js"
+    ],
+    "css": [
+      "css/mobile.css"
+    ]
+  }
+}
