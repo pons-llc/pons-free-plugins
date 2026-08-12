@@ -1,0 +1,218 @@
+.brc-bulk-button {
+  margin: 8px;
+}
+
+/* 重要: 個々のクラス(.brc-field-row等)がdisplayを直接指定しているため、[hidden]属性と
+   同じ詳細度(0,1,0)になり、カスケード順によっては[hidden]が効かなくなる(実際に発生した
+   不具合: 頻度=毎週を選んでも月次入力欄が消えない等)。!importantで確実にhidden側を
+   勝たせる。 */
+[hidden] {
+  display: none !important;
+}
+
+.brc-dialog-body {
+  padding: 1.25em 1.5em;
+  box-sizing: border-box;
+}
+
+.brc-section {
+  margin-bottom: 1.25em;
+  padding-bottom: 1.25em;
+  border-bottom: 1px solid #e3e7e8;
+}
+
+.brc-section:last-of-type {
+  border-bottom: none;
+}
+
+.brc-section h3 {
+  margin: 0 0 0.5em;
+  font-size: 1em;
+}
+
+.brc-sub-heading {
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #555;
+  margin: 0.9em 0 0.5em;
+}
+
+.brc-sub-heading:first-child {
+  margin-top: 0;
+}
+
+.brc-template-row {
+  margin-bottom: 1em;
+}
+
+.brc-field-label {
+  font-weight: bold;
+  margin-bottom: 0.35em;
+}
+
+.brc-field-row {
+  display: block;
+  margin-bottom: 0.75em;
+}
+
+.brc-field-row > input,
+.brc-field-row > select {
+  display: block;
+  margin-top: 0.35em;
+}
+
+.brc-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em 1em;
+}
+
+.brc-assignee-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+  margin-bottom: 0.75em;
+}
+
+.brc-assignee-mode-option {
+  font-weight: normal;
+}
+
+.brc-entity-picker {
+  margin-bottom: 0.75em;
+}
+
+.brc-picker-filter {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+}
+
+.brc-picker-list {
+  max-height: 12em;
+  overflow-y: auto;
+  border: 1px solid #e3e7e8;
+  padding: 0.5em;
+}
+
+.brc-picker-row {
+  display: block;
+  font-weight: normal;
+  padding: 0.15em 0;
+}
+
+.brc-org-tree {
+  max-height: 14em;
+  overflow-y: auto;
+  border: 1px solid #e3e7e8;
+  padding: 0.5em;
+}
+
+.brc-org-tree-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+}
+
+.brc-org-tree-row .brc-picker-row {
+  padding: 0.1em 0;
+}
+
+.brc-org-tree-toggle {
+  width: 1.5em;
+  flex: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #555;
+  padding: 0;
+}
+
+.brc-org-tree-spacer {
+  display: inline-block;
+  width: 1.5em;
+  flex: none;
+}
+
+.brc-scoped-user-picker {
+  margin-bottom: 0.75em;
+}
+
+.brc-weekdays {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25em 1em;
+  margin-bottom: 0.75em;
+}
+
+.brc-weekdays-caption {
+  font-weight: normal;
+  color: #555;
+}
+
+.brc-end-condition {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.brc-end-condition label {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.brc-time-section {
+  margin-top: 0.75em;
+  padding-top: 0.75em;
+  border-top: 1px dashed #e3e7e8;
+}
+
+.brc-time-mode {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35em 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.brc-time-mode label {
+  font-weight: normal;
+}
+
+.brc-time-range {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.brc-time-range label {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.brc-count-display {
+  font-weight: bold;
+}
+
+.brc-count-display.brc-count-over {
+  color: #c0392b;
+}
+
+.brc-error {
+  color: #c0392b;
+  white-space: pre-line;
+}
+
+.brc-preview-list {
+  margin: 0;
+  padding-left: 1.25em;
+  max-height: 16em;
+  overflow-y: auto;
+}
+
+.brc-preview-list li {
+  margin-bottom: 0.35em;
+}

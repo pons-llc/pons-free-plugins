@@ -1,0 +1,66 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/field-eligibility.js",
+      "js/lib/recurrence-expander.js",
+      "js/lib/time-slot-expander.js",
+      "js/lib/assignee-normalizer.js",
+      "js/lib/record-payload-builder.js",
+      "js/lib/record-count-estimator.js",
+      "js/lib/datetime-local-codec.js",
+      "js/lib/config-store.js",
+      "js/lib/batch-creator.js",
+      "js/bulk-create.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/field-eligibility.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "bulk_record_creation plugin",
+    "ja": "レコード一括作成プラグイン"
+  },
+  "description": {
+    "en": "Adds a list-screen button that bulk-creates records: fan out to selected users/organizations/groups, expand across a recurring date schedule, or both, using values typed into a confirmation dialog.",
+    "ja": "レコード一覧画面(PC・モバイル)のボタン押下で、ユーザー/組織/グループへの割り当てや定例(繰り返し)日程に応じて複数レコードを一括作成するプラグイン。作成する値は実行のたびに確認ダイアログで入力する。"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/field-eligibility.js",
+      "js/lib/recurrence-expander.js",
+      "js/lib/time-slot-expander.js",
+      "js/lib/assignee-normalizer.js",
+      "js/lib/record-payload-builder.js",
+      "js/lib/record-count-estimator.js",
+      "js/lib/datetime-local-codec.js",
+      "js/lib/config-store.js",
+      "js/lib/batch-creator.js",
+      "js/bulk-create.js",
+      "js/mobile.js"
+    ],
+    "css": [
+      "css/mobile.css"
+    ]
+  }
+}

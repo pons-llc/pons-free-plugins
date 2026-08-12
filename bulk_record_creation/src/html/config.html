@@ -1,0 +1,98 @@
+<section class="settings">
+  <h2 class="settings-heading">レコード一括作成プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコード一覧画面(PC・モバイル)に一括作成ボタンを設置します。ボタン押下時は、下記でON(対象)に
+    したフィールドへ書き込む値を確認ダイアログでその都度入力し、対象者(ユーザー/組織/グループ)や
+    繰り返し(定例)日程に応じて、この自アプリに複数のレコードを一括で新規作成します。<br>
+    テーブル・添付ファイル・ルックアップのフィールドはテンプレート対象にできません。
+    フォームで必須に設定されているフィールドは、確認ダイアログでの入力も必須になります。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="brc-config-section">
+      <div class="brc-config-section-heading">対象者フィールド(任意)</div>
+      <p class="kintoneplugin-desc">
+        ユーザー選択/組織選択/グループ選択のいずれかを指定すると、実行時に複数の対象者を選んで
+        1人(または1組織/1グループ)につき1件のレコードを作成できます。指定しない場合は対象者展開を
+        行いません。
+      </p>
+      <p class="kintoneplugin-row">
+        <select id="js-assignee-field-code" class="kintoneplugin-select"></select>
+      </p>
+    </section>
+
+    <section class="brc-config-section">
+      <div class="brc-config-section-heading">繰り返し用日付/日時フィールド(任意)</div>
+      <p class="kintoneplugin-desc">
+        日付(DATE)フィールドを指定すると、実行時に開始日・頻度(毎日/毎週/毎月)・終了条件を入力して、
+        複数の日程に展開したレコードを作成できます。<br>
+        日時(DATETIME)フィールドを指定した場合は、上記の日付の繰り返しに加えて、時刻の指定方法を
+        「固定の時刻」または「時間帯を一定間隔で分割」から選べます。「時間帯を一定間隔で分割」を
+        選ぶと、たとえば開始9:00・終了17:00・間隔60分と入力するだけで、平日9〜17時を1時間ごとの
+        枠に分割した会議室予約枠のようなレコード群を一括作成できます(終了時刻は含みません。
+        最後の枠は16:00開始・17:00終了になります)。<br>
+        いずれの型も指定しない場合は繰り返し展開を行いません。
+      </p>
+      <p class="kintoneplugin-row">
+        <select id="js-date-field-code" class="kintoneplugin-select"></select>
+      </p>
+
+      <div id="js-end-date-field-row" hidden>
+        <div class="brc-config-section-heading">終了日時フィールド(任意)</div>
+        <p class="kintoneplugin-desc">
+          日時(DATETIME)フィールドをもう1つ指定すると、開始日時の繰り返しに対応する終了日時も
+          あわせて書き込めます。「固定の時刻」の場合は指定した終了時刻を、「時間帯を一定間隔で
+          分割」の場合は各枠の開始時刻+間隔を終了日時として自動計算します(会議室予約枠の
+          開始・終了ペアなどに使えます)。指定しない場合は終了日時への書き込みを行いません。
+        </p>
+        <p class="kintoneplugin-row">
+          <select id="js-end-date-field-code" class="kintoneplugin-select"></select>
+        </p>
+      </div>
+    </section>
+
+    <section class="brc-config-section">
+      <div class="brc-config-section-heading">テンプレート対象フィールド<span class="kintoneplugin-require">必須</span></div>
+      <p class="kintoneplugin-desc">
+        一括作成の対象にしたいフィールドにチェックを入れてください。書き込む値はここでは設定せず、
+        一覧画面のボタンを押したときに表示される確認ダイアログで、実行のたびに入力します。
+      </p>
+      <p id="js-no-template-fields-warning" class="kintoneplugin-alert" style="display:none;">
+        このアプリにはテンプレート対象にできるフィールドがありません。
+      </p>
+      <p class="kintoneplugin-alert">
+        <strong>注意:</strong> フォームに必須(required)のフィールドがある場合、対象者フィールド・
+        繰り返し用日付フィールド・下記のテンプレート対象のいずれにも含めないと、レコード作成自体が
+        kintone側のバリデーションで失敗します(「対象」列に「必須」バッジが付いているフィールドは
+        必ずいずれかに含めてください)。
+      </p>
+      <table class="brc-table">
+        <thead>
+          <tr>
+            <th>対象</th>
+            <th>フィールド</th>
+            <th>種類</th>
+          </tr>
+        </thead>
+        <tbody id="js-template-field-body"></tbody>
+      </table>
+    </section>
+
+    <section class="brc-config-section">
+      <div class="brc-config-section-heading">実行可能グループ<span class="kintoneplugin-require">必須</span></div>
+      <p class="kintoneplugin-desc">
+        一覧画面の一括作成ボタンを表示するグループコードをカンマ区切りで入力してください(1つ以上必須)。<br>
+        <strong>注意:</strong> これはボタンの表示・非表示を切り替えるだけの制御であり、真の権限制御ではありません。
+        実際にレコードを作成できるかどうかは、このアプリのレコード追加権限・フィールド編集権限に依存します。
+      </p>
+      <p class="kintoneplugin-row">
+        <input type="text" class="kintoneplugin-input-text js-group-codes" placeholder="例）kanri_group, admins">
+      </p>
+    </section>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>

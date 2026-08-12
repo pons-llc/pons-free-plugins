@@ -73,7 +73,7 @@
   </div>
   <div class="filter-group">
     <div class="filter-group-label">カテゴリ</div>
-    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span><span class="chip" data-category="文字列処理">文字列処理</span><span class="chip" data-category="サブテーブル">サブテーブル</span><span class="chip" data-category="入力制御">入力制御</span><span class="chip" data-category="レイアウト・表示">レイアウト・表示</span><span class="chip" data-category="データ連携">データ連携</span><span class="chip" data-category="自動採番">自動採番</span><span class="chip" data-category="プラグイン管理">プラグイン管理</span><span class="chip" data-category="一括更新">一括更新</span><span class="chip" data-category="セキュリティ">セキュリティ</span>
+    <span class="chip is-active" data-category="all">すべて</span><span class="chip" data-category="ファイル・埋め込み">ファイル・埋め込み</span><span class="chip" data-category="日付・書式">日付・書式</span><span class="chip" data-category="文字列処理">文字列処理</span><span class="chip" data-category="サブテーブル">サブテーブル</span><span class="chip" data-category="入力制御">入力制御</span><span class="chip" data-category="レイアウト・表示">レイアウト・表示</span><span class="chip" data-category="データ連携">データ連携</span><span class="chip" data-category="自動採番">自動採番</span><span class="chip" data-category="プラグイン管理">プラグイン管理</span><span class="chip" data-category="一括更新">一括更新</span><span class="chip" data-category="一括作成">一括作成</span><span class="chip" data-category="セキュリティ">セキュリティ</span>
   </div>
   <div class="filter-group">
     <div class="filter-group-label">タグ</div>
@@ -424,6 +424,15 @@
   </div>
   <div class="plugin-version">v1</div>
 </a>
+<a class="plugin-card" data-category="一括作成" data-tags="予約枠作成,定例タスク,組織階層選択" data-search="レコード一括作成プラグイン レコード一覧画面のボタン押下で、ユーザー・組織・グループへの割り当てや、日付/時刻の繰り返し(定例)日程に応じて複数レコードを一括作成するプラグイン。会議室の予約枠作成や、日報の事前作成による提出状況の可視化などに使えます。 予約枠作成 定例タスク 組織階層選択" href="plugins/bulk_record_creation/">
+  <div class="plugin-name">レコード一括作成プラグイン</div>
+  <div class="plugin-desc">レコード一覧画面のボタン押下で、ユーザー・組織・グループへの割り当てや、日付/時刻の繰り返し(定例)日程に応じて複数レコードを一括作成するプラグイン。会議室の予約枠作成や、日報の事前作成による提出状況の可視化などに使えます。</div>
+  <div>
+    <span class="badge badge-category">一括作成</span>
+    <span class="badge badge-tag">#予約枠作成</span><span class="badge badge-tag">#定例タスク</span><span class="badge badge-tag">#組織階層選択</span>
+  </div>
+  <div class="plugin-version">v1</div>
+</a>
 </div>
 <p class="empty-state is-hidden">条件に一致するプラグインが見つかりませんでした。</p>
 
@@ -738,6 +747,13 @@
       description: '文字列(1行)・文字列(複数行)フィールドの値を、ブラウザ内でパスフレーズによりAES-256-GCM暗号化してから保存するプラグイン。パスフレーズはどこにも保存されません。',
       tags: ['暗号化', '機密情報保護'],
       text: 'フィールド暗号化プラグイン 文字列(1行)・文字列(複数行)フィールドの値を、レコード保存時にブラウザ内蔵のWeb Crypto APIでAES-256-GCM暗号化してから保存する。kintoneのREST APIは保存されている生の値をそのまま返すため、画面表示を隠すだけの表示マスキングではAPI越しに値が読めてしまうが、このプラグインは値そのものを暗号文に変換して保存するためREST API経由でも平文を読み取れない。鍵導出はPBKDF2-HMAC-SHA256(反復回数600,000回、OWASPの推奨値)、暗号化のたびに新しいIV・saltを生成する。パスフレーズは1レコードにつき1つで、新規作成画面で設定したパスフレーズがそのレコードの唯一の正しいパスフレーズになり、変更する機能は無い。パスフレーズはプラグイン設定・localStorage・Cookie等どこにも保存されず、画面を開くたびに入力する。詳細画面・編集画面では暗号化済みフィールドが「🔒 暗号化されています」というマスク表示になり、正しいパスフレーズを入力した場合のみその場で復号して内容を確認・編集できる。編集画面で復号せずに保存した場合は暗号文がそのまま保持され、復号して編集した場合のみ同じパスフレーズで新しいIV・saltを使って再暗号化される。PC画面ではスペースフィールドに設置したフォーム、モバイル画面では画面下から迫り上がるボトムシート形式のUIでパスフレーズを入力する。マイナンバー・口座番号・機微な個人情報等、REST API経由でも保護したいフィールドの用途を想定。パスフレーズを紛失した場合、暗号化されたデータは永久に復号できなくなる(仕様として明記)。暗号化 復号 AES-256-GCM PBKDF2 Web Crypto API 機密情報保護 マイナンバー 個人情報保護'
+    },
+    {
+      key: 'bulk_record_creation',
+      name: 'レコード一括作成プラグイン',
+      description: 'レコード一覧画面のボタン押下で、ユーザー・組織・グループへの割り当てや、日付/時刻の繰り返し(定例)日程に応じて複数レコードを一括作成するプラグイン。会議室の予約枠作成や、日報の事前作成による提出状況の可視化などに使えます。',
+      tags: ['予約枠作成', '定例タスク', '組織階層選択'],
+      text: 'レコード一括作成プラグイン レコード一覧画面(PC・モバイル)のボタン押下で、テンプレート値・対象者(ユーザー/組織/グループ)・繰り返し(定例)日程を確認ダイアログで入力し、この自アプリに複数レコードを一括で新規作成する(既存プラグインが軒並みPUT一括更新なのに対し、これはPOST一括作成)。対象者フィールドにUSER_SELECT/ORGANIZATION_SELECT/GROUP_SELECTのいずれかを指定すると、1人(または1組織/1グループ)につき1レコードを作成できる。USER_SELECTの場合は「組織で絞り込んでユーザーを選択」(まず組織をツリーから選び、その所属メンバーの中から個別に選ぶ2段階UI。全ユーザー一覧を一度に表示しない設計)、「組織を選んで所属ユーザー全員に展開」、「グループを選んで所属ユーザー全員に展開」の3方式から選べる。組織選択はparentCodeによる親子階層をツリー表示し、キーワード絞り込みで一致ノードの祖先ごと自動展開する。繰り返し用フィールドにDATE型を指定すると、開始日・頻度(単発/毎日/毎週の曜日複数選択/毎月の日付複数指定)・終了条件(回数または終了日)で複数の日程に展開できる。DATETIME型を指定すると、日付の繰り返しに加えて時刻の繰り返し(固定の時刻、または開始・終了・間隔を指定して時間帯を一定間隔で分割)も設定でき、「来週の月〜金、9:00〜17:00を1時間ごと」のような会議室予約枠を一括作成できる(終了時刻は含まない境界。9-17時を1時間ごとなら最後の枠は16:00開始・17:00終了)。終了日時フィールドを追加指定すると、各枠の終了日時(時間帯分割モードは開始+間隔で自動計算、固定の時刻モードは別途入力)も一緒に書き込める。対象者×(日付×時刻)は直積で組み合わさる(例: 対象者3人×日付5件×時刻8枠=120レコード)。生成予定件数は実行前にリアルタイム表示され、上限500件を超えると実行できない。テンプレート対象フィールドは値そのものを設定に保存せず実行のたびに確認ダイアログで入力する。レコード作成はPOST /k/v1/records.jsonを100件ずつ逐次バッチ送信し、1件でも失敗したバッチは全体がロールバックされる(先行バッチは残る)ため、結果表示で成功・失敗のバッチ範囲を明示する。フォーム上の必須フィールドを対象者/繰り返し/テンプレートのいずれにも含めないとkintone側のバリデーションで作成自体が失敗するため注意書きを表示する。用途は会議室予約枠の一括作成、日報や日次チェックリストの事前作成による未提出の可視化、組織・グループ単位での定例タスクの一括配布、キックオフ前のToDoレコードの一括登録など。会議室予約 予約枠 日報 未提出可視化 定例タスク 繰り返し作成 組織階層 組織ツリー DATETIME 時間帯分割 レコード一括作成 一括登録 対象者展開'
     }
   ];
 </script>

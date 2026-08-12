@@ -1,0 +1,40 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+/* desktop.css/mobile.cssと同じ理由の予防策(project_hidden_attribute_css_specificity_bug
+   参照)。このファイルでは今のところ同じ不具合は発生していないが、今後クラスにdisplayを
+   追加しても[hidden]切り替えが壊れないよう先に固定しておく。 */
+[hidden] {
+  display: none !important;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+.brc-config-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.brc-config-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.brc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75em;
+}
+
+.brc-table th,
+.brc-table td {
+  border: 1px solid #e3e7e8;
+  padding: 0.4em 0.6em;
+  text-align: left;
+  vertical-align: top;
+}

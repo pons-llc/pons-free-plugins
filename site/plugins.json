@@ -565,5 +565,21 @@
       "暗号化",
       "機密情報保護"
     ]
+  },
+  {
+    "id": "bulk_record_creation",
+    "name": "レコード一括作成プラグイン",
+    "description": "レコード一覧画面のボタン押下で、ユーザー・組織・グループへの割り当てや、日付/時刻の繰り返し(定例)日程に応じて複数レコードを一括作成するプラグイン。会議室の予約枠作成や、日報の事前作成による提出状況の可視化などに使えます。",
+    "version": "1",
+    "publishedAt": "2026-08-12",
+    "zip": "plugins/bulk_record_creation/plugin.zip",
+    "page": "plugins/bulk_record_creation/index.html",
+    "category": "一括作成",
+    "tags": [
+      "予約枠作成",
+      "定例タスク",
+      "組織階層選択"
+    ],
+    "video": "https://vimeo.com/1217534757"
   }
 ]

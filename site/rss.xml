@@ -7,6 +7,13 @@
     <language>ja</language>
     <lastBuildDate>Tue, 11 Aug 2026 15:00:00 GMT</lastBuildDate>
     <item>
+      <title>レコード一括作成プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/bulk_record_creation/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/bulk_record_creation/</guid>
+      <description>レコード一覧画面のボタン押下で、ユーザー・組織・グループへの割り当てや、日付/時刻の繰り返し(定例)日程に応じて複数レコードを一括作成するプラグイン。会議室の予約枠作成や、日報の事前作成による提出状況の可視化などに使えます。</description>
+      <pubDate>Tue, 11 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
       <title>フィールド暗号化プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/field_encryption/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/field_encryption/</guid>
