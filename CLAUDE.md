@@ -19,10 +19,15 @@ kintoneの無料プラグインを開発し、Cloudflare Pages(`site/`)で配布
   - `plugins/<name>/download.html` — ダウンロード計測用の中間ページ(直接`plugin.zip`をリンクせず、ここを経由させる)
   - `plugins/<name>/plugin.zip` — 実際の配布ファイル(git管理下)
   - `plugins/<name>/screenshots/config-screen.png` — 設定画面のスクリーンショット(E2Eテストで撮影、`scripts/e2e/common.js`の`screenshot()`参照)
+  - `solutions/<slug>/index.html` — 検索意図(「kintoneで○○したい」)別の解決策ページ。「こんな方におすすめ」+「対応するプラグイン」(複数可)+「あわせて見たい解決策ページ/記事」の構成で揃える。`solutions/index.html`が一覧ハブ(SEO設計の詳細は`seo_idea.md`参照)
+  - `articles/<slug>/index.html` — 特定のプラグイン/ユースケースを深掘りする記事ページ。「こんな方におすすめ」「標準機能でどこまでできるか」「プラグインでの実現方法(設定画面スクショ)」「実行結果(作成結果スクショ)」「対応するプラグイン」「あわせて見たい記事・解決策ページ」の構成で揃える。`articles/index.html`が一覧ハブ
+- `articles/<slug>/setup.js` — その記事用に`ARTICLE_APP_ID`アプリをセットアップ・実行し、`site/articles/<slug>/screenshots/`にスクショを保存するスクリプト(`site/`配下ではなくリポジトリルート直下。`<plugin_name>/idea.md`と同じ「記事ごとに独立したディレクトリを持つ」方針)。`scripts/templates/article-setup.template.js`をコピーして作る。手順の実行版は`.claude/skills/article-app-setup/SKILL.md`を参照(記事用アプリをセットアップする/記事のスクリーンショットを撮ると依頼されたときに使う)
 - `scripts/publish.sh <plugin_dir_name>` — 対象プラグインを`pnpm run build`し、生成された`plugin.zip`を`site/plugins/<name>/`にコピーしたうえで、`scripts/generate-feeds.js`を実行して`site/sitemap.xml`・`site/rss.xml`・`site/robots.txt`を再生成する
-- `scripts/generate-feeds.js` — `site/plugins.json`(各エントリの`publishedAt`)と静的ページ一覧から`site/sitemap.xml`・`site/rss.xml`・`site/robots.txt`を生成するNode製スクリプト(外部パッケージ不使用)。`publish.sh`から自動実行されるほか、`node scripts/generate-feeds.js`単体でも再生成できる
+- `scripts/generate-feeds.js` — `site/plugins.json`(各エントリの`publishedAt`)・静的ページ一覧・`site/solutions/`と`site/articles/`配下のディレクトリを走査して`site/sitemap.xml`・`site/rss.xml`・`site/robots.txt`を生成するNode製スクリプト(外部パッケージ不使用)。`publish.sh`から自動実行されるほか、`node scripts/generate-feeds.js`単体でも再生成できる(solutions/articlesはプラグインのビルドを伴わないため、追加・更新した際は`publish.sh`を使わずこちらを直接実行してsitemapに反映させる)
 
 新しいプラグインを公開するときは、上記の`site/plugins/<name>/`一式(`index.html`・`download.html`・`plugin.zip`・`screenshots/`)を用意したうえで、`site/plugins.json`にも1エントリ(id/name/description/version/publishedAt/zip/page/category/tags)を追加し、`site/index.html`の`.plugin-grid`と`window.__PLUGIN_CORPUS__`にもカードとAI検索用のコーパスを追加すること。`publishedAt`(`YYYY-MM-DD`)はサイトマップの`lastmod`とRSSの`pubDate`・掲載順に使われるため必須。手順の実行版は`.claude/skills/publish-site/SKILL.md`(サイトへの公開)を参照(プラグインをサイトに公開/一覧に追加すると依頼されたときに使う)。
+
+新しい記事を書くときの流れ(詳細は`.claude/skills/article-app-setup/SKILL.md`参照): (1)`scripts/templates/article-setup.template.js`を`articles/<slug>/setup.js`としてコピーし、記事で使うプラグイン・デモ用フィールド・設定値・投入するレコードを書く、(2)`node articles/<slug>/setup.js`を実行し、`ARTICLE_APP_ID`アプリを白紙に戻してから実際にプラグインを設定・実行し、`site/articles/<slug>/screenshots/`にスクショを保存する、(3)`site/articles/<slug>/index.html`を書く(既存記事`articles/organization-inquiry/`が実装例)、(4)`site/articles/index.html`の一覧に追加し、対応するプラグインページ・関連する解決策ページから相互リンクを張る、(5)全ページのヘッダーメニューに`/articles`リンクが既に入っているため、記事一覧への導線自体は追加不要、(6)`node scripts/generate-feeds.js`を実行してsitemapに反映する。
 
 ## よく使うコマンド
 
@@ -104,9 +109,11 @@ KINTONE_USERNAME=
 KINTONE_PASSWORD=
 TEST_APP_ID_1=570
 TEST_APP_ID_2=571
+ARTICLE_APP_ID=
 ```
 
 - `TEST_APP_ID_1`/`TEST_APP_ID_2`は動作確認用に用意されたkintoneアプリのIDで、プラグイン設定・レコード操作の検証に使う。
+- `ARTICLE_APP_ID`は`site/articles/`(STEP4)の記事本文用にプラグインの動作イメージを撮影する専用アプリのIDで、`TEST_APP_ID_1`/`TEST_APP_ID_2`と違い**記事を書くたびに白紙(フィールド・プラグイン・レコードなし)に戻して使い回す**。手順の実行版は`.claude/skills/article-app-setup/SKILL.md`を参照(記事用アプリをセットアップする/記事のスクリーンショットを撮ると依頼されたときに使う)。
 - 認証情報はフロントエンドコードやプラグイン設定(`kintone.plugin.app.setConfig()`)には埋め込まない([secureCodingGuideline.md](secureCodingGuideline.md)参照)。
 
 ## ドキュメント作成について

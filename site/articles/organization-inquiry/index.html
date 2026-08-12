@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kintoneで全部署に一斉に調査照会を作成する方法｜レコード一括作成プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="kintoneで、総務課などの1部署から社内のすべての組織(部署)に対して一斉に調査照会レコードを作成したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/articles">記事一覧</a> &gt; kintoneで全部署に一斉に調査照会を作成する方法</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>kintoneで全部署に一斉に調査照会を作成する方法</h2>
+  <p class="plugin-lead">
+    総務課・企画課のような1つの部署から、社内(庁内)のすべての組織に対して同じ内容の調査・照会を
+    一斉に依頼したい場面があります。「事務用品の使用状況を教えてください」「予算要望を提出してください」
+    といった庁内照会が典型例です。この記事では、部署の数だけ手作業でレコードを複製することなく、
+    無料プラグインで一括作成する方法を、実際の設定画面と作成結果つきで解説します。
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h3>こんな方におすすめ</h3>
+  <ul class="recommend-list">
+    <li>1つの部署から社内のすべての組織へ、同じ内容の照会・調査を一斉に依頼したい</li>
+    <li>組織の数だけ手作業でレコードをコピーするのをやめたい</li>
+    <li>「kintone 一括作成」「kintone 組織 一斉」を探している</li>
+    <li>自治体の庁内照会・企業の全社アンケートのような業務をkintoneで運用したい</li>
+    <li>依頼先の組織ごとに、回答状況を1レコード=1組織で管理したい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h3>kintone標準機能ではどこまでできるか</h3>
+  <p>
+    kintoneの標準機能には「複製」ボタンがありますが、これは1レコードずつの複製です。組織が
+    数十あれば、依頼先組織の欄だけを変えながら数十回複製・編集する作業が発生します。組織選択
+    フィールド自体は標準機能で用意できますが、「選んだ組織の数だけレコードを自動的に増やす」機能は
+    標準にはありません。JavaScriptカスタマイズを自作すれば実現できますが、組織階層の取得
+    (<code>/v1/organizations.json</code>等のUser API)や重複除去、実行時の入力ダイアログまで
+    自前で書くことになり、簡単な作業ではありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>レコード一括作成プラグインでの実現方法</h3>
+  <p>
+    <a href="/plugins/bulk_record_creation/">レコード一括作成プラグイン</a>には、対象者フィールドに
+    「組織選択」フィールドを指定すると、実行時に組織を複数選択して「1組織=1レコード」で一括作成する
+    機能があります(ユーザー選択・グループ選択でも同様に使えます)。設定はこの3ステップです。
+  </p>
+  <ol class="setup-steps">
+    <li>
+      <strong>組織選択フィールドを1つ用意する</strong><br>
+      今回の例では「依頼先組織」というフィールド名(組織選択タイプ)を用意しました。
+    </li>
+    <li>
+      <strong>プラグインの設定画面で、対象者フィールドに指定する</strong><br>
+      「対象者フィールド」欄で先ほどのフィールドを選びます。あわせて、実行のたびに入力したい項目
+      (今回は「調査件名」「回答期限」「調査内容」)をテンプレート対象フィールドとしてチェックします。
+    </li>
+    <li>
+      <strong>実行可能グループを設定して保存し、アプリを更新する</strong><br>
+      保存しただけではプレビュー状態のため、必ず「アプリを更新」まで行います。
+    </li>
+  </ol>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="レコード一括作成プラグインの設定画面。対象者フィールドに「依頼先組織」(組織選択)を指定し、テンプレート対象フィールドに調査件名・調査内容・回答期限をチェックした状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>実行結果: 組織の数だけレコードが自動作成される</h3>
+  <p>
+    レコード一覧画面の「レコードを一括作成」ボタンを押すと、調査件名・回答期限・調査内容を入力する
+    ダイアログと、対象の組織を選ぶ画面が表示されます。今回はサンプル環境にある3つの組織(営業部・
+    営業一課・企画部)をすべて選択して実行しました。内容を確認する最終ダイアログで「作成」を押すと、
+    <strong>組織ごとに1件、同じ内容のレコードが一括で作成されます。</strong>
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/record-list.png" alt="レコード一覧画面。依頼先組織(企画部・営業一課・営業部)ごとに、同じ調査件名・回答期限・調査内容を持つレコードが3件作成されている状態のスクリーンショット。" loading="lazy">
+  </div>
+  <p>
+    組織を1つ追加・変更したい場合も、次回実行時にダイアログで選び直すだけです。テンプレートの
+    内容(調査件名や期限)を都度変えられるので、毎回違う照会内容にも対応できます。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて確認したいポイント</h3>
+  <ul class="review-checklist">
+    <li>組織・グループのメンバー一覧取得にはkintoneのUser APIを使っており、APIキー・APIトークンの入力は不要です(ログイン中のセッションで動作します)。</li>
+    <li>実行可能グループの設定は、あくまでボタンの表示・非表示を切り替えるUI上の絞り込みです。実際にレコードを作成できるかどうかは、そのアプリのレコード追加権限・フィールド編集権限に依存します(<a href="/plugins/bulk_record_creation/">プラグイン個別ページ</a>のセキュリティレビューサマリ参照)。</li>
+    <li>一度に作成できる件数には上限(500件)があります。組織数が非常に多い環境では、対象を絞って複数回に分けて実行してください。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h3>対応するプラグイン</h3>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="/plugins/bulk_record_creation/">レコード一括作成プラグイン ― ユーザー・組織・グループへの割り当てや、日付/時刻の繰り返し(定例)日程に応じて複数レコードを一括作成</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて見たい記事・解決策ページ</h3>
+  <div class="related-services">
+    <a class="related-service-card" href="/solutions/scheduling/">kintoneで会議室予約・タスク管理を自動化する方法(同じプラグインの別の使い方)</a>
+    <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
+    <a class="related-service-card" href="/articles/">記事一覧に戻る</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>
