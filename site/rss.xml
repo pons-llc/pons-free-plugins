@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 08:44:49 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 08:50:29 GMT</lastBuildDate>
+    <item>
+      <title>kintoneの入力フォームをタブ化する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/tab-layout/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/tab-layout/</guid>
+      <description>kintoneの入力項目が多いフォームを、基本情報・契約詳細のようにタブで切り替えて見やすくしたい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 08:50:29 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneで条件によって入力項目を必須にする方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/required-condition/</link>
