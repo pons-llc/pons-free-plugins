@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kintoneで条件によってフィールドを非表示にする方法（無料） | GovAppsプラグイン</title>
+<meta name="description" content="kintoneで、ドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/articles">記事一覧</a> &gt; kintoneで条件によってフィールドを非表示にする方法</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>kintoneで条件によってフィールドを非表示にする方法（無料）</h1>
+  <p class="plugin-lead">
+    「出張申請」と「物品購入申請」を1つのアプリで扱っていると、申請の種類によっては使わない
+    フィールドまで画面に並んでしまい、入力者が迷いやすくなります。この記事では、無料プラグインで
+    ドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にする方法を、実際の
+    設定画面と表示結果つきで解説します。
+  </p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>1つのアプリで複数の申請種別を扱っており、種別によって不要なフィールドを隠したい</li>
+    <li>「kintone 条件 フィールド 非表示」「kintone 条件付き 表示」を探している</li>
+    <li>ドロップダウン・ラジオボタンの選択値に応じて画面をシンプルにしたい</li>
+    <li>入力フォームを分けずに、1つのアプリのまま使いやすくしたい</li>
+    <li>プロセス管理や複雑な分岐ロジックまでは不要で、表示・非表示だけを切り替えたい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>kintone標準機能ではどこまでできるか</h2>
+  <p>
+    kintoneの標準機能には、条件に応じてフィールドの表示・非表示を切り替える機能はありません。
+    アプリを申請種別ごとに分けるか、すべてのフィールドを常に表示したまま運用するかのどちらかに
+    なりがちです。JavaScriptカスタマイズを自作すれば、フィールドの値変更イベントを監視して
+    表示・非表示を切り替えられますが、レコード追加・編集・詳細のそれぞれの画面表示時の初期評価や、
+    複数条件・複数対象フィールドの組み合わせまで実装するのは手間がかかります。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
+  <p>
+    「条件に応じてフィールドを非表示にする」機能を用意する方法は、大きく4つあります。それぞれの
+    向き不向きをまとめました。
+  </p>
+  <div class="table-scroll">
+  <table class="fyn-table">
+    <thead>
+      <tr><th>方法</th><th>向いている場合</th><th>注意点</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>kintone標準機能のみ(アプリを分ける)</td><td>申請種別ごとに項目の差が大きく、アプリごと分けた方が管理しやすい場合</td><td>アプリが増えるほど横断的な集計・運用が煩雑になる</td></tr>
+      <tr><td>JavaScriptを自作する</td><td>社内に開発者がいて、独自の条件分岐ロジックが必要な場合</td><td>画面ごとの初期評価・値変更時の再評価の実装・保守が必要</td></tr>
+      <tr><td>有料の他社プラグイン</td><td>予算があり、より複雑な条件分岐を求める場合</td><td>月額課金が発生する。ソースコードが非公開で、外部通信の有無を利用者側で確認しにくいことが多い</td></tr>
+      <tr><td><strong>GovAppsプラグイン(このプラグイン)</strong></td><td>無料で試したい、社内・庁内でセキュリティを確認してから導入したい場合</td><td>同じ非表示対象フィールドを複数の条件で重複指定すると正しく動作しない</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>
+    GovAppsのプラグインは<strong>すべて無料・広告なし</strong>で、追加課金なしで使い続けられます。
+    ソースコードは<a href="https://github.com/pons-llc/pons-free-plugins" target="_blank" rel="noopener">GitHubで全公開</a>しているオープンソースなので、
+    「本当に外部と通信していないか」を自治体・企業のセキュリティ担当者自身の目で確認できます
+    (このプラグインも<a href="/plugins/setFieldShown/">個別ページ</a>にセキュリティレビュー結果を掲載しています)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>条件つき非表示プラグインでの実現方法</h2>
+  <p>
+    <a href="/plugins/setFieldShown/">条件つき非表示プラグイン</a>は、条件フィールド・条件値・
+    非表示対象フィールドを設定するだけで、レコードの追加・編集・詳細画面すべてに反映されます。
+    今回は「申請種別」(ドロップダウン: 出張申請/物品購入申請)・「出張先」・「出張日数」・
+    「購入品目」を持つアプリで設定しました。
+  </p>
+  <ol class="setup-steps">
+    <li>
+      <strong>「条件フィールド追加」を押し、条件フィールドを選ぶ</strong><br>
+      条件フィールドに「申請種別」を選びます(ドロップダウン・ラジオボタンのみ選択可)。
+    </li>
+    <li>
+      <strong>「条件値を追加」を押し、条件値と非表示対象フィールドを選ぶ</strong><br>
+      条件値に「物品購入申請」、非表示対象フィールドに「出張先」「出張日数」を選びました
+      (非表示対象は複数選択できます)。
+    </li>
+    <li>
+      <strong>「設定を保存」を押し、アプリを更新する</strong><br>
+      保存しただけではプレビュー状態のため、必ず「アプリを更新」まで行います。
+    </li>
+  </ol>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="条件つき非表示プラグインの設定画面。条件フィールドに「申請種別」、条件値に「物品購入申請」、非表示対象フィールドに「出張先」を選択した状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>実行結果: 選択値に応じてフィールドが自動的に隠れる</h2>
+  <p>
+    レコード追加画面を開いた時点(申請種別が未選択)では、出張先・出張日数・購入品目のすべての
+    フィールドが表示されています。
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/record-edit-before.png" alt="レコード追加画面。申請種別が未選択の状態で、出張先・出張日数・購入品目のすべてのフィールドが表示されている状態のスクリーンショット。" loading="lazy">
+  </div>
+  <p>
+    申請種別を「物品購入申請」に変更すると、<strong>設定した条件どおり出張先・出張日数フィールドが
+    その場で非表示になり、購入品目フィールドだけが残ります。</strong>入力者は今回の申請に関係ない
+    項目に惑わされずに済みます。
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/record-edit-after.png" alt="レコード追加画面。申請種別を「物品購入申請」に変更すると、出張先・出張日数フィールドが非表示になり、購入品目フィールドのみが表示されている状態のスクリーンショット。" loading="lazy">
+  </div>
+  <p>
+    申請種別を「出張申請」に戻すと、出張先・出張日数フィールドは再び表示されます。詳細画面でも
+    同じ条件がそのまま反映されます。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて確認したいポイント</h2>
+  <ul class="review-checklist">
+    <li>同じ非表示対象フィールドを複数の条件で重複して設定すると、正しく動作しません。設定画面にもその旨の注意書きがあります。</li>
+    <li>条件フィールドに選べるのはドロップダウン・ラジオボタンのみです。複数選択(チェックボックス等)は対象外です。</li>
+    <li>初期表示時(詳細・追加・編集画面を開いた瞬間)にも条件を評価するため、既存レコードを開いた場合も保存済みの値に応じて正しく非表示になります。</li>
+    <li>あくまで表示・非表示の制御であり、非表示にしたフィールドの値自体は保持されたままです(<a href="/plugins/setFieldShown/">プラグイン個別ページ</a>のセキュリティレビューサマリ参照)。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>対応するプラグイン</h2>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="/plugins/setFieldShown/">条件つき非表示プラグイン ― ドロップダウン・ラジオボタンの値に応じて、指定したフィールドを自動的に非表示</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて見たい記事・解決策ページ</h2>
+  <div class="related-services">
+    <a class="related-service-card" href="/articles/required-condition/">kintoneで条件によって入力項目を必須にする方法(必須化したい場合)</a>
+    <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
+    <a class="related-service-card" href="/articles/">記事一覧に戻る</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

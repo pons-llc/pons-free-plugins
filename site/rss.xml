@@ -5,7 +5,21 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 08:38:45 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 08:44:49 GMT</lastBuildDate>
+    <item>
+      <title>kintoneで条件によって入力項目を必須にする方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/required-condition/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/required-condition/</guid>
+      <description>kintoneで特定の選択肢を選んだときだけ別のフィールドを必須にしたい方向けに、無料プラグインで実現する方法を、実際のバリデーションエラー画面つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 08:44:49 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで条件によってフィールドを非表示にする方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/conditional-display/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/conditional-display/</guid>
+      <description>kintoneで、ドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 08:44:23 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</link>
@@ -53,13 +67,6 @@
       <link>https://govapps-plugin.pons-llc.com/articles/subtable-sort/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/subtable-sort/</guid>
       <description>kintoneのサブテーブルの行を保存するたびに自動で金額順・日付順に並び替えたい方向けに、無料プラグインで実現する方法を、実際の並び替え結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで条件によって入力項目を必須にする方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/required-condition/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/required-condition/</guid>
-      <description>kintoneで特定の選択肢を選んだときだけ別のフィールドを必須にしたい方向けに、無料プラグインで実現する方法を、実際のバリデーションエラー画面つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
     </item>
     <item>
