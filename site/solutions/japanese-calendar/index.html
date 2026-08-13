@@ -12,8 +12,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>kintoneで自動採番する方法｜無料プラグインで連番・年度リセット | GovAppsプラグイン</title>
-<meta name="description" content="kintoneで連番を自動採番したい、年度が変わったら番号をリセットしたい、和暦の文書番号を使いたい方向けに、APIキー不要の無料プラグインで実現する方法を解説します。">
+<title>kintoneの日付を和暦表示する方法｜無料プラグインで西暦・令和を自動変換 | GovAppsプラグイン</title>
+<meta name="description" content="kintoneの日付フィールドの値を、令和などの和暦表記(西暦併記可)へ自動変換したい方向けに、無料プラグインで実現する方法を解説します。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -30,7 +30,7 @@
       <span class="header-menu-toggle-bar"></span>
     </button>
   </div>
-  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneで自動採番する方法</p>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneの日付を和暦表示する方法</p>
   <nav class="header-menu" id="header-menu" hidden>
     <a href="/">トップ</a>
     <a href="/solutions">解決策から探す</a>
@@ -42,24 +42,21 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h1>kintoneで自動採番する方法（無料プラグインで解決）</h1>
+  <h1>kintoneの日付を和暦表示する方法（無料プラグインで解決）</h1>
   <p class="plugin-lead">
-    kintoneの標準機能には「連番」を自動で振る仕組みはありますが、年度が変わったらリセットしたい、
-    部署ごとに番号を分けたい、和暦を使った文書番号にしたいといった要望には対応できません。
-    このページでは、そうした自動採番のニーズを無料プラグインでどう実現できるかをまとめます。
+    自治体・官公庁の申請書や決裁文書では、日付を西暦ではなく令和などの和暦で表示したい場面が
+    多くあります。kintoneの日付フィールドは標準では西暦表示のみのため、和暦表記の文字列へ
+    変換する仕組みが必要です。このページでは、無料プラグインでどう実現できるかをまとめます。
   </p>
 </div>
 
 <section class="plugin-section">
   <h2>こんな方におすすめ</h2>
   <ul class="review-checklist">
-    <li>連番を自動で振りたい</li>
-    <li>年度が変わったら1番に戻したい</li>
-    <li>部署ごとに番号を管理したい</li>
-    <li>契約書番号・文書番号を自動生成したい</li>
-    <li>和暦を使った文書番号を作りたい</li>
-    <li>APIキー・APIトークンなしで自動採番を実現したい</li>
-    <li>無料で自動採番機能を追加したい</li>
+    <li>日付フィールドの値を令和などの和暦表記に自動変換したい</li>
+    <li>西暦と和暦を併記した表示にしたい</li>
+    <li>将来の改元にも対応できる形で和暦変換したい</li>
+    <li>申請書・決裁文書に和暦の日付を表示したい</li>
   </ul>
 </section>
 
@@ -67,21 +64,22 @@
   <h2>対応するプラグイン</h2>
   <p class="related-services-by">検索意図に合わせて、以下のプラグインが利用できます。</p>
   <div class="related-services">
-    <a class="related-service-card is-govapps" href="/plugins/fiscal_year_numbering/">年度リセット自動採番プラグイン ― 会計年度(4月始まり)でリセットされる和暦+セグメント文字列+連番を、APIキー不要で自動採番</a>
+    <a class="related-service-card is-govapps" href="/plugins/wareki_date_format/">西暦和暦変換プラグイン ― 日付・日時フィールドの値を和暦(または西暦・和暦併記)の文字列に変換し、指定した文字列フィールドへ自動入力する。将来の改元にも対応</a>
   </div>
 </section>
 
 <section class="plugin-section">
   <h2>あわせて読みたい記事</h2>
   <div class="related-services">
-    <a class="related-service-card is-govapps" href="/articles/fiscal-year-numbering/">kintoneで年度が変わったら番号をリセットして自動採番する方法</a>
+    <a class="related-service-card is-govapps" href="/articles/wareki-date/">kintoneの日付を令和・和暦に変換する方法(西暦併記も含めた変換の実例)</a>
+    <a class="related-service-card is-govapps" href="/articles/fiscal-year-numbering/">kintoneで年度が変わったら番号をリセットして自動採番する方法(和暦の文書番号を自動で振りたい場合)</a>
   </div>
 </section>
 
 <section class="plugin-section">
   <h2>あわせて見たい解決策ページ</h2>
   <div class="related-services">
-    <a class="related-service-card" href="/solutions/japanese-calendar/">kintoneの日付を和暦表示する方法(採番以外の日付を和暦表示したい場合はこちら)</a>
+    <a class="related-service-card" href="/solutions/automatic-numbering/">kintoneで自動採番する方法(和暦の文書番号を自動採番したい場合はこちら)</a>
     <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
   </div>
 </section>

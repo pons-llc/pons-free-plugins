@@ -5,7 +5,35 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 13:56:37 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 13:59:52 GMT</lastBuildDate>
+    <item>
+      <title>kintoneで自動採番する方法｜無料プラグインで連番・年度リセット</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</guid>
+      <description>kintoneで連番を自動採番したい、年度が変わったら番号をリセットしたい、和暦の文書番号を使いたい方向けに、APIキー不要の無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:59:52 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで年度が変わったら番号をリセットして自動採番する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</guid>
+      <description>kintoneで会計年度が変わったら連番を1にリセットしたい、和暦の文書番号を自動で振りたい方向けに、APIキー不要の無料プラグインで実現する方法を、実際に採番した結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:59:12 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの日付を令和・和暦に変換する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/wareki-date/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/wareki-date/</guid>
+      <description>kintoneの日付フィールドの値を、令和などの和暦表記(西暦併記可)へ自動変換して別フィールドに入力したい場合の実現方法を、無料プラグインの実際の設定画面・変換結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:59:07 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの日付を和暦表示する方法｜無料プラグインで西暦・令和を自動変換</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/japanese-calendar/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/japanese-calendar/</guid>
+      <description>kintoneの日付フィールドの値を、令和などの和暦表記(西暦併記可)へ自動変換したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:58:14 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneにGoogle Driveのファイルを表示・埋め込む方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/google-drive-embed/</link>
@@ -287,20 +315,6 @@
       <pubDate>Thu, 13 Aug 2026 10:05:50 GMT</pubDate>
     </item>
     <item>
-      <title>kintoneで年度が変わったら番号をリセットして自動採番する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</guid>
-      <description>kintoneで会計年度が変わったら連番を1にリセットしたい、和暦の文書番号を自動で振りたい方向けに、APIキー不要の無料プラグインで実現する方法を、実際に採番した結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 09:50:17 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの日付を令和・和暦に変換する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/wareki-date/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/wareki-date/</guid>
-      <description>kintoneの日付フィールドの値を、令和などの和暦表記(西暦併記可)へ自動変換して別フィールドに入力したい場合の実現方法を、無料プラグインの実際の設定画面・変換結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 09:49:44 GMT</pubDate>
-    </item>
-    <item>
       <title>自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</title>
       <link>https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</guid>
@@ -354,13 +368,6 @@
       <link>https://govapps-plugin.pons-llc.com/solutions/biz-code-search/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/biz-code-search/</guid>
       <description>kintoneで法人番号から会社情報を、法人名から法人番号を自動入力したい方向けに、gBizINFO REST APIを使った無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:06:30 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで自動採番する方法｜無料プラグインで連番・年度リセット</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</guid>
-      <description>kintoneで連番を自動採番したい、年度が変わったら番号をリセットしたい、和暦の文書番号を使いたい方向けに、APIキー不要の無料プラグインで実現する方法を解説します。</description>
       <pubDate>Thu, 13 Aug 2026 08:06:30 GMT</pubDate>
     </item>
     <item>
