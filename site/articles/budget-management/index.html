@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kintoneで予算と実績を管理する方法（無料） | GovAppsプラグイン</title>
+<meta name="description" content="kintoneの経費一覧の合計額が予算の何%に達しているかを、無料プラグインでメーター表示する方法を、実際の設定画面・警告表示結果つきで解説します。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/articles">記事一覧</a> &gt; kintoneで予算と実績を管理する方法</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>kintoneで予算と実績を管理する方法（無料）</h1>
+  <p class="plugin-lead">
+    経費申請や案件ごとの支出をkintoneで管理していると、「今、予算に対してどれくらい使っているか」を
+    都度自分で電卓を叩いて確認するのは面倒です。この記事では、無料プラグインで一覧の合計額を予算と
+    比べてメーター表示し、しきい値を超えたら色で警告する方法を、実際の設定画面と表示結果つきで
+    解説します。
+  </p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>経費・案件ごとの支出合計を、予算と比べて一目で確認したい</li>
+    <li>「kintone 予算管理」「kintone 予算 消化率」を探している</li>
+    <li>予算の80%・100%のようなしきい値を超えたら色で警告したい</li>
+    <li>一覧の絞り込み条件(期間・部署など)を変えて、その条件での消化率を確認したい</li>
+    <li>グラフ機能を都度開かず、ボタン1つで予算消化率を確認したい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>kintone標準機能ではどこまでできるか</h2>
+  <p>
+    kintoneの標準機能には、一覧のレコード件数・数値フィールドの合計を表示する集計機能や、グラフ機能が
+    あります。ただし「合計額を固定の予算額と比較して、しきい値で色分けする」という表示は標準にはなく、
+    グラフを開いて手動で予算額と見比べる運用になりがちです。JavaScriptカスタマイズを自作すれば実現
+    できますが、一覧の絞り込み条件を取得して集計し、しきい値判定・色分け・ダイアログ表示までを組む
+    のは簡単な作業ではありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
+  <p>
+    「一覧の合計額を予算と比較してメーター表示する」機能を用意する方法は、大きく4つあります。
+    それぞれの向き不向きをまとめました。
+  </p>
+  <div class="table-scroll">
+  <table class="fyn-table">
+    <thead>
+      <tr><th>方法</th><th>向いている場合</th><th>注意点</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>kintone標準のグラフ機能のみ</td><td>予算額との比較を都度自分で見比べても構わない場合</td><td>しきい値による色分け・警告表示はできない</td></tr>
+      <tr><td>JavaScriptを自作する</td><td>社内に開発者がいて、独自の集計・表示要件が多い場合</td><td>絞り込み条件の取得・集計・しきい値判定の実装・保守が必要</td></tr>
+      <tr><td>有料の他社プラグイン</td><td>予算があり、高機能なダッシュボードを求める場合</td><td>月額課金が発生する。ソースコードが非公開で、外部通信の有無を利用者側で確認しにくいことが多い</td></tr>
+      <tr><td><strong>GovAppsプラグイン(このプラグイン)</strong></td><td>無料で試したい、社内・庁内でセキュリティを確認してから導入したい場合</td><td>集計は合計(SUM)のみ対応(件数・平均はスコープ外)</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>
+    GovAppsのプラグインは<strong>すべて無料・広告なし</strong>で、追加課金なしで使い続けられます。
+    ソースコードは<a href="https://github.com/pons-llc/pons-free-plugins" target="_blank" rel="noopener">GitHubで全公開</a>しているオープンソースなので、
+    「本当に外部と通信していないか」「集計方法」を自治体・企業のセキュリティ担当者自身の目で
+    確認できます(このプラグインも<a href="/plugins/budget_meter/">個別ページ</a>にセキュリティレビュー結果を掲載しています)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>予算管理プラグインでの実現方法</h2>
+  <p>
+    <a href="/plugins/budget_meter/">予算管理プラグイン</a>は、対象の一覧・集計対象フィールド・予算額を
+    設定するだけで、一覧画面に「予算を確認」ボタンを追加します。今回は「経費一覧」という一覧
+    (費目・金額のフィールドを持つアプリ)で設定しました。
+  </p>
+  <ol class="setup-steps">
+    <li>
+      <strong>予算設定の行を追加する</strong><br>
+      対象の一覧に「経費一覧」、集計対象フィールドに「金額」を選びます。
+    </li>
+    <li>
+      <strong>予算額・しきい値・ラベルを入力する</strong><br>
+      予算額に「300000」、ラベルに「経費予算」を入力しました。警告しきい値(既定80%)・危険しきい値
+      (既定100%)はそのまま使っています。
+    </li>
+    <li>
+      <strong>「すべての予算を確認」を許可するグループを設定して保存し、アプリを更新する</strong><br>
+      複数の予算設定をまとめて確認できるボタンをどのグループに見せるか指定します(空欄なら誰にも
+      表示されません)。保存しただけではプレビュー状態のため、必ず「アプリを更新」まで行います。
+    </li>
+  </ol>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="予算管理プラグインの設定画面。対象の一覧に「経費一覧」、集計対象フィールドに「金額」、予算額に300000、ラベルに「経費予算」を入力した状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>実行結果: 予算の85%に達し、メーターが警告色に変わる</h2>
+  <p>
+    「経費一覧」を開いて「予算を確認」ボタンを押すと、その一覧の現在の絞り込み条件に該当する
+    全レコードの金額を合計し、予算に対する使用率をメーターで表示するダイアログが開きます。
+    今回は備品購入12万円・交通費8万円・その他経費5.5万円の合計25.5万円で、予算30万円の
+    <strong>85%に達したため、警告しきい値(80%)を超えてメーターがオレンジ色に変わりました。</strong>
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/budget-meter.png" alt="予算確認ダイアログ。「経費予算 255,000 / 300,000 (85%)」と表示され、メーターのバーが警告色のオレンジで85%まで塗られている状態のスクリーンショット。" loading="lazy">
+  </div>
+  <p>
+    一覧画面でさらに絞り込み条件を追加・変更してから「予算を確認」を押すと、その時点で画面に
+    表示されている条件のレコードだけを対象に再集計されます。色だけでなく「255,000 / 300,000
+    (85%)」という数値も必ず併記されるため、色覚に依存せず状況を把握できます。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて確認したいポイント</h2>
+  <ul class="review-checklist">
+    <li>対象となる一覧は表形式(LIST)のみです。カレンダー形式・カスタマイズ形式の一覧では利用できません。</li>
+    <li>集計にはREST API(<code>GET /k/v1/records.json</code>)を使い、対象一覧の現在の絞り込み条件(<code>kintone.app.getQueryCondition()</code>)に該当する全レコードをページングして取得します。書き込みは一切行いません。</li>
+    <li>「すべての予算を確認」ボタンの表示可否を決めるグループ設定は、あくまでUI上の表示・非表示の制御です。実際に集計対象のレコードを閲覧できるかどうかは、そのアプリのレコード閲覧権限に依存します(<a href="/plugins/budget_meter/">プラグイン個別ページ</a>のセキュリティレビューサマリ参照)。</li>
+    <li>集計は合計(SUM)のみに対応しています。件数・平均を集計したい場合は<a href="/plugins/related_record_summary/">関連レコード集計プラグイン</a>など別プラグインの利用を検討してください。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>対応するプラグイン</h2>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="/plugins/budget_meter/">予算管理プラグイン ― 一覧の合計額を予算と比較し、しきい値に応じて色分けしたメーターで表示</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて見たい記事・解決策ページ</h2>
+  <div class="related-services">
+    <a class="related-service-card" href="/plugins/related_record_summary/">関連レコード集計プラグイン(件数・合計・平均を集計したい場合)</a>
+    <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
+    <a class="related-service-card" href="/articles/">記事一覧に戻る</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>
