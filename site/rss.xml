@@ -5,7 +5,21 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 07:33:54 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 07:51:37 GMT</lastBuildDate>
+    <item>
+      <title>kintoneでレコードを一括作成する方法｜複数レコードをまとめて登録</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/</guid>
+      <description>kintoneで、毎週の定例会議のように同じ内容のレコードを日付を変えて何件も作りたい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:51:37 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneのレコードを一括更新する方法｜条件に一致するレコードをまとめて変更</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/bulk-field-update/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-field-update/</guid>
+      <description>kintoneで、一覧の絞り込み条件に一致する複数レコードのステータス等をまとめて変更したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:51:02 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに</title>
       <link>https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</link>
@@ -19,13 +33,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</guid>
       <description>kintoneで、総務課などの1部署から社内のすべての組織(部署)に対して一斉に調査照会レコードを作成したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 07:33:48 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneでレコードを一括作成する方法｜複数レコードをまとめて登録</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/</guid>
-      <description>kintoneで、毎週の定例会議のように同じ内容のレコードを日付を変えて何件も作りたい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 07:33:14 GMT</pubDate>
     </item>
     <item>
       <title>kintoneのサブテーブルを使いこなす方法｜並び替え・ルックアップの無料プラグイン</title>

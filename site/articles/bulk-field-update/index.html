@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kintoneのレコードを一括更新する方法｜条件に一致するレコードをまとめて変更 | GovAppsプラグイン</title>
+<meta name="description" content="kintoneで、一覧の絞り込み条件に一致する複数レコードのステータス等をまとめて変更したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/articles">記事一覧</a> &gt; kintoneのレコードを一括更新する方法</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>kintoneのレコードを一括更新する方法</h1>
+  <p class="plugin-lead">
+    「一覧で絞り込んだ問い合わせをまとめて『対応済み』にしたい」「特定の条件のレコードの担当欄を
+    一斉に変更したい」といった場面で、レコードを1件ずつ開いて編集するのは大きな手間です。この記事では、
+    一覧画面の絞り込み条件に一致する複数レコードへ、指定したフィールドの値をまとめて書き込む方法を、
+    実際の設定画面と実行結果つきで解説します。
+  </p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>一覧で絞り込んだ複数レコードのステータス・担当・備考などをまとめて変更したい</li>
+    <li>レコードを1件ずつ開いて同じ変更を繰り返し入力する作業をなくしたい</li>
+    <li>「kintone 一括更新」「kintone レコード 一括更新」を探している</li>
+    <li>問い合わせ・申請などのステータス管理をkintoneで運用している</li>
+    <li>変更する値は毎回違うので、設定に固定値を保存せずその都度入力したい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>kintone標準機能ではどこまでできるか</h2>
+  <p>
+    kintoneの標準機能には、レコード一覧からの一括削除やCSVでの一括インポートはありますが、
+    「画面上で選んだ複数レコードの特定フィールドだけをまとめて書き換える」機能はありません。
+    CSVインポートで一括更新することも可能ですが、対象レコードの抽出・列の編集・再取り込みという
+    手順が必要で、値を変えるたびにファイル操作が発生します。JavaScriptカスタマイズを自作すれば、
+    現在の絞り込み条件を取得してレコードカーソルAPIで列挙し、100件ずつバッチでPUTする処理を
+    書けば実現できますが、実装・保守コストは小さくありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
+  <p>
+    「絞り込んだレコードのフィールドをまとめて更新する」機能を用意する方法は、大きく4つあります。
+    それぞれの向き不向きをまとめました。
+  </p>
+  <div class="table-scroll">
+  <table class="fyn-table">
+    <thead>
+      <tr><th>方法</th><th>向いている場合</th><th>注意点</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>kintone標準機能(CSVインポート等)のみ</td><td>更新頻度が低く、ファイル操作の手間が気にならない場合</td><td>抽出・編集・再取り込みの手順が都度発生する</td></tr>
+      <tr><td>JavaScriptを自作する</td><td>社内に開発者がいて、独自の絞り込み・入力要件が多い場合</td><td>カーソルAPI・バッチ書き戻しの実装・保守が必要。担当者の異動時に引き継ぎコストがかかる</td></tr>
+      <tr><td>有料の他社プラグイン</td><td>予算があり、手厚いサポートを求める場合</td><td>月額課金が発生する。ソースコードが非公開で、外部通信の有無を利用者側で確認しにくいことが多い</td></tr>
+      <tr><td><strong>GovAppsプラグイン(このプラグイン)</strong></td><td>無料で試したい、社内・庁内でセキュリティを確認してから導入したい場合</td><td>機能追加の要望はGitHub Issueベース(個別カスタマイズの請負は行っていない)</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>
+    GovAppsのプラグインは<strong>すべて無料・広告なし</strong>で、追加課金なしで使い続けられます。
+    ソースコードは<a href="https://github.com/pons-llc/pons-free-plugins" target="_blank" rel="noopener">GitHubで全公開</a>しているオープンソースなので、
+    「本当に外部と通信していないか」「入力値をどう扱っているか」を自治体・企業のセキュリティ担当者
+    自身の目で確認できます(このプラグインも<a href="/plugins/bulk_field_update/">個別ページ</a>にセキュリティレビュー結果を掲載しています)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>特定フィールド一括更新プラグインでの実現方法</h2>
+  <p>
+    <a href="/plugins/bulk_field_update/">特定フィールド一括更新プラグイン</a>は、設定画面では
+    「どのフィールドを対象にするか」だけを決め、書き込む値そのものは<strong>一覧画面のボタンを
+    押すたびに確認ダイアログで入力</strong>する仕組みです。設定はこの2ステップです。
+  </p>
+  <ol class="setup-steps">
+    <li>
+      <strong>プラグインの設定画面で、対象フィールドにチェックを入れる</strong><br>
+      今回の例では「対応状況」(ラジオボタン)と「備考」(文字列1行)をONにしました。「件名」は
+      対象外のままです。
+    </li>
+    <li>
+      <strong>実行可能グループを設定して保存し、アプリを更新する</strong><br>
+      保存しただけではプレビュー状態のため、必ず「アプリを更新」まで行います。
+    </li>
+  </ol>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="特定フィールド一括更新プラグインの設定画面。対象フィールドに「対応状況」(ラジオボタン・必須)と「備考」をチェックし、「件名」は対象外のままにした状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>実行結果: 絞り込み条件に一致する全レコードがまとめて変わる</h2>
+  <p>
+    レコード一覧画面の「フィールドを一括更新」ボタンを押すと、現在の絞り込み条件と対象レコード数が
+    表示され、対象フィールドごとに「更新する」チェックボックスと入力欄が並びます。今回は絞り込みなし
+    (全レコード、3件)の状態で実行しました。ラジオボタンのようにフォームで必須設定のフィールドは、
+    この確認ダイアログでも入力が必須になります。
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/confirm-dialog.png" alt="一括更新の実行確認ダイアログ。対象レコード数3件・絞り込みなしと表示され、備考(文字列入力欄)と対応状況(必須、選択してくださいのプルダウン)の入力欄が並んでいる状態のスクリーンショット。" loading="lazy">
+  </div>
+  <p>
+    「対応状況」を「対応済み」、「備考」を「一括更新済み」と入力して次へ進むと、確定した値を
+    見直す最終確認ダイアログが表示され、「更新」を押すと<strong>絞り込み条件に一致する3件すべてが
+    同時に書き換わります。</strong>
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/record-list.png" alt="レコード一覧画面。問い合わせ対応1〜3の3件すべてで、対応状況が「対応済み」、備考が「一括更新済み」に変わっている状態のスクリーンショット。" loading="lazy">
+  </div>
+  <p>
+    「更新する」チェックを外したフィールドは書き込み対象から除外され、既存の値のまま変更されません。
+    件名のようにチェックを入れなかったフィールドも同様に、元の値がそのまま残ります。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて確認したいポイント</h2>
+  <ul class="review-checklist">
+    <li>対象は<strong>一覧画面の現在の絞り込み条件</strong>に一致するレコードです。実行前に一覧の絞り込み・検索条件を確認し、確認ダイアログに表示される絞り込み条件と対象件数を必ず見直してください。</li>
+    <li>実行可能グループの設定は、あくまでボタンの表示・非表示を切り替えるUI上の絞り込みです。実際にフィールドを書き換えられるかどうかは、そのアプリ・対象フィールド自体のkintoneのアクセス権設定に依存します(<a href="/plugins/bulk_field_update/">プラグイン個別ページ</a>のセキュリティレビューサマリ参照)。</li>
+    <li>ラジオボタン・ドロップダウンのような選択肢系フィールドは、必ず選択肢の中から選ぶ仕様です(空欄のまま更新することはできません)。</li>
+    <li>ルックアップフィールドを対象にすると、値を入力する代わりに「現在の値のまま更新」して関連レコードの最新情報を一括で再取得する動作になります。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>対応するプラグイン</h2>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="/plugins/bulk_field_update/">特定フィールド一括更新プラグイン ― 一覧の絞り込み条件に一致するレコードへ、指定したフィールドの値をまとめて書き込み</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて見たい記事・解決策ページ</h2>
+  <div class="related-services">
+    <a class="related-service-card" href="/articles/bulk-record-creation/">kintoneでレコードを一括作成する方法(新規レコードをまとめて作りたい場合)</a>
+    <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
+    <a class="related-service-card" href="/articles/">記事一覧に戻る</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>
