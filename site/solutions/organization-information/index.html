@@ -12,8 +12,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>kintoneでユーザー情報を自動取得する方法｜氏名・メール・所属を入力する無料プラグイン | GovAppsプラグイン</title>
-<meta name="description" content="kintoneでユーザーコードを入力するだけで氏名・メールアドレス・所属・グループを自動入力したい方向けに、無料プラグインで実現する方法を解説します。">
+<title>kintoneで組織情報を自動取得する方法｜組織名・親組織を入力する無料プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="kintoneで組織コードを入力するだけで組織名・説明・親組織名を自動入力したい方向けに、無料プラグインで実現する方法を解説します。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -30,7 +30,7 @@
       <span class="header-menu-toggle-bar"></span>
     </button>
   </div>
-  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneでユーザー情報を自動取得する方法</p>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneで組織情報を自動取得する方法</p>
   <nav class="header-menu" id="header-menu" hidden>
     <a href="/">トップ</a>
     <a href="/solutions">解決策から探す</a>
@@ -42,22 +42,21 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h1>kintoneでユーザー情報を自動取得する方法（無料プラグインで解決）</h1>
+  <h1>kintoneで組織情報を自動取得する方法（無料プラグインで解決）</h1>
   <p class="plugin-lead">
-    申請者や担当者の氏名・メールアドレスを、ユーザーコードを見ながら毎回手入力するのは
-    手間がかかるうえ、部署異動やメールアドレス変更があると古い情報のまま残ってしまいます。
-    このページでは、ユーザーコードをもとに氏名・メールアドレス・所属・グループを自動入力する
-    方法を無料プラグインでどう実現できるかをまとめます。
+    申請元の部署・課などを、組織コードを見ながら毎回手入力するのは手間がかかるうえ、
+    組織改編があると古い組織名のまま残ってしまいます。このページでは、組織コードをもとに
+    組織名・説明・親組織の情報を自動入力する方法を無料プラグインでどう実現できるかをまとめます。
   </p>
 </div>
 
 <section class="plugin-section">
   <h2>こんな方におすすめ</h2>
   <ul class="review-checklist">
-    <li>ユーザーコードから氏名・メールアドレスを自動入力したい</li>
-    <li>申請者の所属・グループも合わせて自動入力したい</li>
-    <li>文字列1行フィールドとユーザー選択フィールドのどちらからでも自動入力したい</li>
-    <li>手入力による氏名の誤字・古いメールアドレスの残存を防ぎたい</li>
+    <li>組織コードから組織名を自動入力したい</li>
+    <li>組織の説明・親組織の情報も合わせて自動入力したい</li>
+    <li>文字列1行フィールドと組織選択フィールドのどちらからでも自動入力したい</li>
+    <li>組織改編による組織名の手入力ミス・古い情報の残存を防ぎたい</li>
   </ul>
 </section>
 
@@ -65,22 +64,22 @@
   <h2>対応するプラグイン</h2>
   <p class="related-services-by">検索意図に合わせて、以下のプラグインが利用できます。</p>
   <div class="related-services">
-    <a class="related-service-card is-govapps" href="/plugins/user_info_lookup/">ユーザー情報ルックアッププラグイン ― 文字列1行またはユーザー選択フィールドに入力されたユーザーコードをもとに、氏名・メールアドレス・所属・グループなどのユーザー情報を別の文字列フィールドへ自動入力する</a>
+    <a class="related-service-card is-govapps" href="/plugins/org_lookup/">組織ルックアッププラグイン ― 文字列1行または組織選択フィールドに入力された組織コードをもとに、組織名・説明・親組織の情報を別の文字列フィールドへ自動入力する</a>
   </div>
 </section>
 
 <section class="plugin-section">
   <h2>あわせて読みたい記事</h2>
   <div class="related-services">
-    <a class="related-service-card is-govapps" href="/articles/user-info-lookup/">kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法(実際のUser API実行結果つきの実例)</a>
+    <a class="related-service-card is-govapps" href="/articles/organization-code-lookup/">kintoneの組織コードから組織名を取得する方法(組織名・説明・親組織名を自動入力する実例)</a>
   </div>
 </section>
 
 <section class="plugin-section">
   <h2>あわせて見たい解決策ページ</h2>
   <div class="related-services">
-    <a class="related-service-card" href="/solutions/organization-information/">kintoneで組織情報を自動取得する方法(組織名・親組織の自動取得はこちら)</a>
-    <a class="related-service-card" href="/solutions/lookup/">kintoneのルックアップを自動化・拡張する方法(組織情報の自動取得・同一アプリのルックアップも含めた全体像はこちら)</a>
+    <a class="related-service-card" href="/solutions/user-information/">kintoneでユーザー情報を自動取得する方法(氏名・メールアドレスの自動取得はこちら)</a>
+    <a class="related-service-card" href="/solutions/lookup/">kintoneのルックアップを自動化・拡張する方法(ユーザー情報の自動取得・同一アプリのルックアップも含めた全体像はこちら)</a>
     <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
   </div>
 </section>
