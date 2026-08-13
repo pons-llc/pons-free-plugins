@@ -5,7 +5,21 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 13:51:08 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 13:53:12 GMT</lastBuildDate>
+    <item>
+      <title>kintoneでレコードを削除する前にバックアップする方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/delete-backup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/delete-backup/</guid>
+      <description>kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい場合の実現方法を、無料プラグインの実際の設定画面・削除結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:53:12 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneのレコード削除をバックアップする方法｜無料プラグインで誤削除に備える</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/record-delete-backup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/record-delete-backup/</guid>
+      <description>kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:52:57 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneの入力を制御する方法｜条件付き必須・非表示・絞込の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/input-control/</link>
@@ -278,13 +292,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/google-drive-embed/</guid>
       <description>kintoneのレコード画面に、Google DriveやBoxのフォルダを埋め込んで表示したい場合の実現方法を、無料プラグインの実際の設定画面・許可ドメイン以外をブロックする挙動つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 09:13:20 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneでレコードを削除する前にバックアップする方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/delete-backup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/delete-backup/</guid>
-      <description>kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい場合の実現方法を、無料プラグインの実際の設定画面・削除結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 09:06:03 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで条件によって入力項目を必須にする方法（無料）</title>
