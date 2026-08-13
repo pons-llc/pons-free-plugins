@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kintoneの文字列から数字だけを抽出する方法（無料） | GovAppsプラグイン</title>
+<meta name="description" content="kintoneで、住所のような文字列から丁目・番地・号のような数字部分だけを取り出して別フィールドに入力したい場合の実現方法を、無料プラグインの実際の設定画面・抽出結果つきで解説します。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/articles">記事一覧</a> &gt; kintoneの文字列から数字だけを抽出する方法</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>kintoneの文字列から数字だけを抽出する方法（無料）</h1>
+  <p class="plugin-lead">
+    「港区西新橋二丁目3番4号」のような住所文字列から、丁目・番地・号の数字部分だけを取り出して
+    別フィールドに入れたい場面があります。区切り文字が挟まっていない(「丁目」「番」「号」という
+    漢字の直前直後に数字が来る)ケースは、単純な文字列分割では対応できません。この記事では、
+    無料プラグインで文字列中の数字の連続部分(半角・全角・漢数字)を自動抽出する方法を、実際の
+    設定画面と抽出結果つきで解説します。
+  </p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>住所の「丁目」「番」「号」のような、数字部分だけを別フィールドに取り出したい</li>
+    <li>「kintone 数字 抽出」を探している</li>
+    <li>漢数字(「二丁目」の「二」)も算用数字に変換して抽出したい</li>
+    <li>抽出結果を手で修正できる状態にしておきたい(自動抽出はあくまで下書き)</li>
+    <li>区切り文字を挟まない数字の連続を、左から順にまとめて拾いたい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>kintone標準機能ではどこまでできるか</h2>
+  <p>
+    kintoneの標準機能や計算(CALC)フィールドには、文字列の中から数字の連続部分だけを抽出する
+    機能はありません。まして漢数字を算用数字に変換する機能は標準にはなく、住所から丁目・番地を
+    取り出したい場合は手入力で二重管理するのが現実的な運用になりがちです。JavaScriptカスタマイズを
+    自作すれば正規表現で数字の連続を抜き出せますが、全角数字の読み替えや漢数字(位取り表記・
+    読み上げ表記の両方)の変換まで実装するのは簡単な作業ではありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
+  <p>
+    「文字列から数字の連続部分を抽出する」機能を用意する方法は、大きく4つあります。それぞれの
+    向き不向きをまとめました。
+  </p>
+  <div class="table-scroll">
+  <table class="fyn-table">
+    <thead>
+      <tr><th>方法</th><th>向いている場合</th><th>注意点</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>kintone標準機能のみ</td><td>数字部分を別フィールドに分ける必要が無い場合</td><td>抽出機能自体が無い</td></tr>
+      <tr><td>JavaScriptを自作する</td><td>社内に開発者がいて、独自の変換ルールが必要な場合</td><td>全角・漢数字変換の実装・保守が必要</td></tr>
+      <tr><td>有料の他社プラグイン</td><td>予算があり、手厚いサポートを求める場合</td><td>月額課金が発生する。ソースコードが非公開で、変換ロジックを利用者側で確認しにくいことが多い</td></tr>
+      <tr><td><strong>GovAppsプラグイン(このプラグイン)</strong></td><td>無料で試したい、社内・庁内でセキュリティを確認してから導入したい場合</td><td>漢数字は「億」以上の位には対応しない</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>
+    GovAppsのプラグインは<strong>すべて無料・広告なし</strong>で、追加課金なしで使い続けられます。
+    ソースコードは<a href="https://github.com/pons-llc/pons-free-plugins" target="_blank" rel="noopener">GitHubで全公開</a>しているオープンソースなので、
+    「本当に外部と通信していないか」を自治体・企業のセキュリティ担当者自身の目で確認できます
+    (このプラグインも<a href="/plugins/number_extract/">個別ページ</a>にセキュリティレビュー結果を掲載しています)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>数字抽出プラグインでの実現方法</h2>
+  <p>
+    <a href="/plugins/number_extract/">数字抽出プラグイン</a>は、元フィールド・抽出対象(全角数字/
+    漢数字を含むか)・出力先フィールドの並びを設定するだけです。今回は「所在地」(元フィールド)・
+    「丁目」「番地」「号」(出力先フィールド、いずれも数値型)を持つアプリで設定しました。
+  </p>
+  <ol class="setup-steps">
+    <li>
+      <strong>設定行を追加し、元フィールドを選ぶ</strong><br>
+      元フィールドに「所在地」を選びます。
+    </li>
+    <li>
+      <strong>抽出対象を選ぶ</strong><br>
+      「漢数字を含む」にチェックしました(「二丁目」の「二」も抽出対象にするため)。
+    </li>
+    <li>
+      <strong>出力先フィールドを順番に追加する</strong><br>
+      抽出結果は先頭から順に割り当てられるため、「丁目」→「番地」→「号」の順で追加しました。
+    </li>
+  </ol>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="数字抽出プラグインの設定画面。元フィールドに「所在地」、抽出対象に「漢数字を含む」をチェックし、出力先フィールドに「丁目」「番地」「号」を順に設定した状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>実行結果: 入力するそばから数字が自動抽出される</h2>
+  <p>
+    レコード追加画面で「所在地」に「港区西新橋二丁目3番4号」と入力すると、<strong>入力した瞬間に
+    「丁目」フィールドへ「2」(「二」を算用数字に変換)、「番地」フィールドへ「3」、「号」フィールドへ
+    「4」が自動的に入力されます。</strong>保存を待たずに、値を変更するたびにその場で再計算されます。
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/record-edit.png" alt="レコード追加画面。所在地「港区西新橋二丁目3番4号」に対して、丁目フィールドに2、番地フィールドに3、号フィールドに4が自動的に入力されている状態のスクリーンショット。" loading="lazy">
+  </div>
+  <p>
+    出力先フィールドは編集可能なままなので、自動抽出された値が意図と違う場合は手で修正できます。
+    一度修正した値は、次に所在地を変更するまでそのまま残ります(保存時に上書きされることもありません)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて確認したいポイント</h2>
+  <ul class="review-checklist">
+    <li>抽出処理は元フィールドの値が変わるたびに実行されます(レコード保存時に限らず、その場で反映されます)。</li>
+    <li>出力先フィールドは編集可能なままで、自動抽出後にユーザーが手で修正できます。抽出結果はあくまで下書きという位置づけです。</li>
+    <li>抽出結果が出力先フィールドより少ない場合は余ったフィールドを空文字列でクリアし、多い場合ははみ出した分を切り捨てます(<a href="/plugins/number_extract/">プラグイン個別ページ</a>のセキュリティレビューサマリ参照)。</li>
+    <li>漢数字は位取り表記(「十二」→12)と読み上げ表記(「二〇二四」→2024)の両方に対応しますが、「万」は1回のみを想定し「億」以上の位には対応しません。</li>
+    <li>数値(NUMBER)型の出力先フィールドに「007」のような先頭ゼロを抽出した場合、kintoneの数値フィールドの性質上「7」として保存されます(先頭ゼロを保持したい場合は文字列型の出力先フィールドを使ってください)。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>対応するプラグイン</h2>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="/plugins/number_extract/">数字抽出プラグイン ― 文字列フィールドから半角・全角・漢数字の連続部分を抽出し、複数の出力先フィールドへ格納</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて見たい記事・解決策ページ</h2>
+  <div class="related-services">
+    <a class="related-service-card" href="/articles/text-split/">kintoneの文字列を区切り文字で分割する方法(区切り文字がある場合の分割はこちら)</a>
+    <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
+    <a class="related-service-card" href="/articles/">記事一覧に戻る</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>
