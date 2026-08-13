@@ -91,6 +91,13 @@
       <pubDate>Wed, 12 Aug 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
+      <title>カンバンボードプラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/kanban_view/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/kanban_view/</guid>
+      <description>レコード一覧画面に、グループ分け・担当者表示・期限超過マークに対応したカンバンボードを表示するプラグイン。REST APIを一切使わずJavaScript APIのみで実現しています。</description>
+      <pubDate>Wed, 12 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
+    <item>
       <title>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法</title>
       <link>https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</guid>

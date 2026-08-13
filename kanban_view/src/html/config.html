@@ -1,0 +1,84 @@
+<section class="settings">
+  <h2 class="settings-heading">カンバンボードプラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    表形式の一覧(レコード一覧画面)に、グループ分けした列とカードで構成するカンバンボードを表示します(表示専用・ドラッグ&amp;ドロップでの編集はできません)。一覧ごとに表示設定を切り替えられます。
+    本プラグインはレコード取得にREST APIを使わず、JavaScript APIのみで実現しているため、対象一覧の指定は「一覧ID」の直接入力で行います(REST APIによる一覧の一覧取得は行いません)。
+  </p>
+  <p class="kintoneplugin-desc">
+    対象の一覧(表形式)を開いたときのブラウザのURLに含まれる<code>view=</code>の数値が一覧IDです(例: <code>.../k/1/?view=5</code>なら<code>5</code>)。空欄のまま追加すると、ビルトインの「すべて」一覧向けの設定になります。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="kb-section">
+      <div class="kb-section-heading">対象一覧を追加</div>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">対象一覧のID</label><br>
+        <input type="text" class="kintoneplugin-input-text js-view-id-input" placeholder="空欄で「すべて(デフォルト)」">
+        <button type="button" id="js-view-add" class="kintoneplugin-button-normal">+ この一覧の設定を追加</button>
+      </p>
+    </section>
+
+    <div id="js-view-config-list"></div>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-view-config-template">
+  <section class="kb-section js-view-config-block">
+    <div class="kb-section-heading js-view-title"></div>
+    <button type="button" class="kb-row-remove js-view-remove">この一覧の設定を削除</button>
+
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">タイトルフィールド<span class="kintoneplugin-require">必須</span></label><br>
+      <select class="kintoneplugin-select js-title-field"></select>
+    </p>
+
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">グループ分け方法<span class="kintoneplugin-require">必須</span></label><br>
+      <label class="embed-checkbox-label"><input type="radio" name="" class="js-group-mode" value="FIELD"> ラジオボタン/ドロップダウンフィールド</label>
+      <label class="embed-checkbox-label"><input type="radio" name="" class="js-group-mode" value="STATUS"> プロセス管理のステータス</label>
+      <span class="kb-radio-note js-status-group-note" hidden>(プロセス管理が有効なアプリでのみ選択できます)</span>
+    </p>
+    <p class="kintoneplugin-row js-group-field-row">
+      <label class="kintoneplugin-label">グループ分けフィールド(ラジオボタン/ドロップダウン)</label><br>
+      <select class="kintoneplugin-select js-group-field"></select>
+    </p>
+
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">担当者の表示元<span class="kintoneplugin-require">必須</span></label><br>
+      <label class="embed-checkbox-label"><input type="radio" name="" class="js-assignee-mode" value="USER_FIELD"> ユーザー選択フィールド(先頭の1人)</label>
+      <label class="embed-checkbox-label"><input type="radio" name="" class="js-assignee-mode" value="STATUS_ASSIGNEE"> プロセス管理の作業者(先頭の1人)</label>
+      <span class="kb-radio-note js-status-assignee-note" hidden>(プロセス管理が有効なアプリでのみ選択できます)</span>
+    </p>
+    <p class="kintoneplugin-row js-assignee-field-row">
+      <label class="kintoneplugin-label">担当者フィールド(ユーザー選択)</label><br>
+      <select class="kintoneplugin-select js-assignee-field"></select>
+    </p>
+
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">期限フィールド(日付/日時、未設定なら期限を表示しません)</label><br>
+      <select class="kintoneplugin-select js-due-field"></select>
+    </p>
+
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">バッジフィールド(任意、カードにタグとして表示)</label><br>
+      <select class="kintoneplugin-select js-badge-field"></select>
+    </p>
+
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">ホバー詳細項目(複数選択可、カードにマウスを乗せると表示)</label><br>
+      <div class="kb-checkbox-list js-hover-fields"></div>
+    </p>
+  </section>
+</template>
+
+<template id="js-checkbox-item-template">
+  <label class="kb-checkbox-item">
+    <input type="checkbox" class="js-checkbox-item-input">
+    <span class="js-checkbox-item-label"></span>
+  </label>
+</template>

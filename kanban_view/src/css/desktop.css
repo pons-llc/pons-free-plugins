@@ -1,0 +1,116 @@
+.kb-root {
+  margin: 8px 0;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 12px;
+}
+
+.kb-status {
+  padding: 6px 12px;
+  color: #888;
+  border-bottom: 1px solid #e3e7e8;
+}
+
+.kb-board {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  overflow-x: auto;
+}
+
+.kb-column {
+  flex: 0 0 260px;
+  width: 260px;
+  background: #f7f9fa;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-height: 640px;
+}
+
+.kb-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-bottom: 1px solid #e3e7e8;
+  font-weight: bold;
+}
+
+.kb-column-count {
+  color: #888;
+  font-weight: normal;
+  background: #eef1f2;
+  border-radius: 10px;
+  padding: 1px 8px;
+}
+
+.kb-column-body {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.kb-card {
+  background: #fff;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 8px 10px;
+  box-sizing: border-box;
+}
+
+.kb-card-clickable {
+  cursor: pointer;
+}
+
+.kb-card-clickable:hover {
+  border-color: #3498db;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.kb-card-title {
+  font-weight: bold;
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+
+.kb-badge {
+  display: inline-block;
+  background: #eaf3fb;
+  color: #3498db;
+  border-radius: 3px;
+  padding: 1px 6px;
+  margin-bottom: 4px;
+  font-size: 11px;
+}
+
+.kb-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.kb-due {
+  color: #888;
+}
+
+.kb-due-overdue {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.kb-assignee {
+  margin-left: auto;
+  background: #eef1f2;
+  border-radius: 10px;
+  padding: 1px 8px;
+  color: #555;
+}

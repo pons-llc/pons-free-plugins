@@ -1,0 +1,62 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.kintoneplugin-input-text {
+  width: 20em;
+}
+
+/* el.hidden(hidden属性)がclass側のdisplay指定に負けないよう明示する
+   (このリポジトリの既知の落とし穴: [hidden]よりクラスセレクターの詳細度が高いと無視される)。 */
+[hidden] {
+  display: none !important;
+}
+
+.kb-section {
+  position: relative;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.kb-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.kb-row-remove {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  color: #e74c3c;
+  cursor: pointer;
+  background: none;
+  border: 1px solid #e74c3c;
+  border-radius: 3px;
+  padding: 4px 8px;
+}
+
+.kb-checkbox-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 0.5em;
+  border: 1px solid #eef1f2;
+  border-radius: 4px;
+  max-height: 12em;
+  overflow-y: auto;
+}
+
+.kb-checkbox-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: normal;
+}
+
+.kb-radio-note {
+  color: #888;
+  font-size: 0.9em;
+  margin-left: 4px;
+}

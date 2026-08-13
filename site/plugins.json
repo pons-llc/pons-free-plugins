@@ -629,5 +629,20 @@
       "ワークフロー"
     ],
     "video": "https://vimeo.com/1217802764"
+  },
+  {
+    "id": "kanban_view",
+    "name": "カンバンボードプラグイン",
+    "description": "レコード一覧画面に、グループ分け・担当者表示・期限超過マークに対応したカンバンボードを表示するプラグイン。REST APIを一切使わずJavaScript APIのみで実現しています。",
+    "version": "1",
+    "publishedAt": "2026-08-13",
+    "zip": "plugins/kanban_view/plugin.zip",
+    "page": "plugins/kanban_view/index.html",
+    "category": "レイアウト・表示",
+    "tags": [
+      "カンバンボード",
+      "グループ分け",
+      "期限管理"
+    ]
   }
 ]

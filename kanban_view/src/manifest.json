@@ -1,0 +1,46 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/field-lookup.js",
+      "js/lib/format-field-value.js",
+      "js/lib/due-date.js",
+      "js/lib/assignee-resolver.js",
+      "js/lib/config-store.js",
+      "js/lib/view-resolution.js",
+      "js/lib/record-grouping.js",
+      "js/lib/card-model.js",
+      "js/kanban-render.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "kanban_view plugin",
+    "ja": "カンバンボードプラグイン"
+  },
+  "description": {
+    "en": "kanban_view plugin",
+    "ja": "レコード一覧(表形式)に、グループ分け・担当者表示・期限超過マークに対応したカンバンボードを表示するプラグイン"
+  }
+}

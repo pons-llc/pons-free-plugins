@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>カンバンボードプラグイン | GovAppsプラグイン</title>
+<meta name="description" content="レコード一覧画面に、グループ分け・担当者表示・期限超過マークに対応したカンバンボードを表示するkintone無料プラグイン。REST APIを一切使わずJavaScript APIのみで実現しています。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; カンバンボードプラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h2>カンバンボードプラグイン</h2>
+  <p class="plugin-lead">
+    レコード一覧画面(表形式)に、列(グループ)とカードで構成するカンバンボードを表示するプラグインです。
+    グループ分けはラジオボタン/ドロップダウンフィールド、またはプロセス管理のステータスから選べます。
+    カードには担当者(ユーザー選択フィールドの先頭の1人、またはプロセス管理の作業者)・期限日・任意のバッジを表示でき、
+    期限を過ぎているカードには🔥マークが自動で付きます。カードをクリックするとレコード詳細画面が別タブで開くため、
+    ボード側の絞り込みやスクロール位置を失いません。一覧ごとに表示設定を切り替えられ、レコードの取得にREST APIを
+    一切使わずJavaScript APIのみで実現しているため、表示できるのは一覧の現在ページの件数までです(表示専用、レコードの更新は行いません)。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">レイアウト・表示</span>
+    <span class="badge badge-tag">#カンバンボード</span>
+    <span class="badge badge-tag">#グループ分け</span>
+    <span class="badge badge-tag">#期限管理</span>
+  </div>
+  <a class="download-button" href="download" data-dl-plugin="kanban_view">ダウンロード(v1)</a>
+</div>
+
+<section class="plugin-section">
+  <h3>こんな方におすすめ</h3>
+  <ul class="recommend-list">
+    <li>kintoneでカンバンボード(タスクボード)表示を使いたい</li>
+    <li>「kintone カンバン」「kintone タスクボード」を探している</li>
+    <li>プロセス管理のステータスごとに進捗を俯瞰したい</li>
+    <li>期限が近い・過ぎているタスクをひと目で見つけたい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h3>ユースケース</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>プロセス管理のステータスごとに進捗を可視化する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>グループ分け方法に「プロセス管理のステータス」を選ぶと、プロセス管理のステータス定義の並び順どおりに列(未着手・着手中・完了 等)が並びます。各ステータスに何件のレコードがあるかが列ヘッダーの件数バッジで一目でわかります。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>ラジオボタン/ドロップダウンの値でタスクを分類する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>プロセス管理を使っていないアプリでも、優先度・カテゴリーなどのラジオボタン/ドロップダウンフィールドをグループ分けに指定すれば、同じようにカンバンボードとして分類表示できます。選択肢の並び順どおりに列が並び、選択肢にない値・未入力のレコードは末尾の「その他」「未設定」列にまとまります。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>期限超過のタスクを🔥マークで見逃さない</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>期限フィールド(日付/日時)を設定すると、カードに期限日が表示されます。今日より前の期限が入っているカードには🔥マークが自動で付くため、対応が遅れているタスクをボードの見た目だけで発見できます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>セットアップ手順</h3>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>対象一覧のIDを入力して「+ この一覧の設定を追加」を押す(空欄のままなら、ビルトインの「すべて(デフォルト)」一覧向けの設定になる)。対象の一覧を開いたときのブラウザURLに含まれる<code>view=</code>の数字が一覧IDです。</li>
+    <li>タイトルフィールド(必須)を選ぶ。</li>
+    <li>グループ分け方法(ラジオボタン/ドロップダウンフィールド、またはプロセス管理のステータス)を選び、前者の場合はグループ分けフィールドも選ぶ。</li>
+    <li>担当者の表示元(ユーザー選択フィールド、またはプロセス管理の作業者)を選び、前者の場合は担当者フィールドも選ぶ。</li>
+    <li>期限フィールド(任意)・バッジフィールド(任意)・ホバー詳細項目(任意、複数選択可)を必要に応じて選ぶ。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード一覧画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">対象は通常の一覧(表形式)・PC画面のみです。ボードは一覧本体(表)の上にあわせて表示され、一覧本体自体は非表示になりません。プロセス管理が無効なアプリでは、グループ分け方法・担当者の表示元の「プロセス管理」系の選択肢は選べません。</p>
+</section>
+
+<section class="plugin-section">
+  <h3>セキュリティレビュー結果サマリ</h3>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>本プラグインは<strong>REST APIを一切使用しません</strong>(表示専用)。<code>app.record.index.show</code>イベントの<code>event.records</code>(JavaScript APIの一部)のみを使い、対象一覧の指定もREST APIでの一覧列挙を避け一覧IDの直接入力方式にしています。</li>
+        <li>カードのタイトル・バッジ・期限・担当者名・列ラベルなど、レコード値に由来する文字列はすべて<code>textContent</code>への代入、またはツールチップ用の<code>title</code>プロパティ代入で挿入しており、<code>innerHTML</code>は一切使用していません。</li>
+        <li>カードをクリックした際のレコード詳細画面は<code>kintone.buildPageUrl('APP_DETAIL', ...)</code>で組み立てたURLを<code>window.open(url, '_blank', 'noopener')</code>で開いており、開いたタブから元のタブを操作できないようにしています。</li>
+        <li>外部サーバーへの通信・外部ライブラリの利用は一切ありません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/kanban_view/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>カンバンボード表示イメージ</h3>
+  <div class="screenshot-frame">
+    <img src="screenshots/kanban-board.png" alt="カンバンボードプラグインの表示例。「未着手」「着手中」「完了」の3列に分かれ、各カードにタスク名・優先度バッジ・担当者名が表示されている。期限が2026-08-05のカードには赤字で🔥マークが付き、期限超過であることがひと目でわかる。" loading="lazy">
+  </div>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="カンバンボードプラグインの設定画面。対象一覧IDの入力欄、タイトルフィールドの選択、グループ分け方法(ラジオボタン/ドロップダウン・プロセス管理のステータス)、担当者の表示元(ユーザー選択・プロセス管理の作業者)、期限フィールド・バッジフィールド・ホバー項目の選択を行う画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>API実行数について</h3>
+  <p class="api-usage-note">
+    このプラグインは表示専用であり、REST APIを一切実行しません。レコードの取得は<code>app.record.index.show</code>イベントの<code>event.records</code>(JavaScript APIの一部)のみを使用します。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h3>GitHub / 改善要望</h3>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/kanban_view" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/kanban_view/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h3>あわせて検討したいkintone関連サービス</h3>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>
