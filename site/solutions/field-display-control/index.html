@@ -12,8 +12,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>kintoneの入力を制御する方法｜条件付き必須・非表示・絞込の無料プラグイン | GovAppsプラグイン</title>
-<meta name="description" content="kintoneで条件によって入力項目を必須にしたい、非表示にしたい、選択肢を絞り込みたい方向けに、無料プラグインで実現する方法を解説します。">
+<title>kintoneのフィールドを条件によって表示・非表示にする方法｜無料プラグインで入力画面を整理 | GovAppsプラグイン</title>
+<meta name="description" content="kintoneでドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい方向けに、無料プラグインで実現する方法を解説します。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -30,7 +30,7 @@
       <span class="header-menu-toggle-bar"></span>
     </button>
   </div>
-  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneの入力を制御する方法</p>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneのフィールドを条件によって表示・非表示にする方法</p>
   <nav class="header-menu" id="header-menu" hidden>
     <a href="/">トップ</a>
     <a href="/solutions">解決策から探す</a>
@@ -42,23 +42,21 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h1>kintoneの入力を制御する方法（無料プラグインで解決）</h1>
+  <h1>kintoneのフィールドを条件によって表示・非表示にする方法（無料プラグインで解決）</h1>
   <p class="plugin-lead">
-    kintone標準の設定だけでは、「特定の値のときだけ必須にする」「条件で表示・非表示を切り替える」
-    「選択肢を別フィールドの値で絞り込む」といった細かい入力制御はできません。このページでは、
-    そうした入力制御を無料プラグインでどう実現できるかをまとめます。
+    入力フォームにすべての項目を並べたままだと、選択した内容によっては不要なフィールドまで
+    表示され、入力画面が煩雑になります。「ドロップダウンでこの値を選んだときだけ、別のフィールドを
+    表示する」といった条件つきの表示・非表示は標準機能では設定できません。このページでは、
+    そうした条件つき非表示を無料プラグインでどう実現できるかをまとめます。
   </p>
 </div>
 
 <section class="plugin-section">
   <h2>こんな方におすすめ</h2>
   <ul class="review-checklist">
-    <li>条件によって入力項目を必須にしたい</li>
-    <li>条件によってフィールドを非表示にしたい</li>
-    <li>選択肢を別フィールドの値で絞り込みたい</li>
-    <li>入力ミスや入力漏れを防ぎたい</li>
-    <li>よく使うフィールドだけをまとめて入力したい</li>
-    <li>保存・削除の前に確認ダイアログを出したい</li>
+    <li>ドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい</li>
+    <li>入力画面を必要な項目だけに絞ってシンプルに見せたい</li>
+    <li>特定の条件のときだけ入力してほしい項目を目立たせたい</li>
   </ul>
 </section>
 
@@ -66,25 +64,21 @@
   <h2>対応するプラグイン</h2>
   <p class="related-services-by">検索意図に合わせて、以下のプラグインが利用できます。</p>
   <div class="related-services">
-    <a class="related-service-card is-govapps" href="/plugins/requiredCondition/">条件つき必須プラグイン ― あるフィールドが特定の値のとき、指定した別のフィールドを必須項目にする</a>
     <a class="related-service-card is-govapps" href="/plugins/setFieldShown/">条件つき非表示プラグイン ― あるフィールドが特定の値のとき、指定した別のフィールドを非表示にする</a>
-    <a class="related-service-card is-govapps" href="/plugins/narrowDown/">選択肢絞込プラグイン ― あるフィールドの値に応じて、別のフィールドの選択肢をモーダルで絞り込んで選び直させる</a>
-    <a class="related-service-card is-govapps" href="/plugins/field_input_panel/">入力補助サイドパネルプラグイン ― 指定したフィールドだけを画面右端のパネルにまとめて表示して入力しやすくする</a>
-    <a class="related-service-card is-govapps" href="/plugins/confirm_modal/">モーダル確認プラグイン ― 保存・削除・プロセス管理のアクション実行時に確認ダイアログを表示する</a>
   </div>
 </section>
 
 <section class="plugin-section">
   <h2>あわせて読みたい記事</h2>
   <div class="related-services">
-    <a class="related-service-card is-govapps" href="/articles/required-condition/">kintoneで条件によって入力項目を必須にする方法</a>
+    <a class="related-service-card is-govapps" href="/articles/conditional-display/">kintoneで条件によってフィールドを非表示にする方法(選択値に応じて不要なフィールドを非表示にする実例)</a>
   </div>
 </section>
 
 <section class="plugin-section">
   <h2>あわせて見たい解決策ページ</h2>
   <div class="related-services">
-    <a class="related-service-card" href="/solutions/field-display-control/">kintoneのフィールドを条件によって表示・非表示にする方法(条件つき非表示に特化した詳細はこちら)</a>
+    <a class="related-service-card" href="/solutions/input-control/">kintoneの入力を制御する方法(条件つき必須・選択肢絞込・入力補助も含めた全体像はこちら)</a>
     <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
   </div>
 </section>
