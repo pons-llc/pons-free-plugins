@@ -5,7 +5,28 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 13:59:52 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 14:02:42 GMT</lastBuildDate>
+    <item>
+      <title>kintoneの文字列から数字だけを抽出する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/text-extract-number/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/text-extract-number/</guid>
+      <description>kintoneで、住所のような文字列から丁目・番地・号のような数字部分だけを取り出して別フィールドに入力したい場合の実現方法を、無料プラグインの実際の設定画面・抽出結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 14:02:42 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの文字列を区切り文字で分割する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/text-split/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/text-split/</guid>
+      <description>kintoneで、住所のような1つの文字列フィールドをスペースなどの区切り文字で複数のフィールドに自動分割したい場合の実現方法を、無料プラグインの実際の設定画面・分割結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 14:02:36 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの文字列を分割・抽出する方法｜無料プラグインで文字列処理を自動化</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/text-processing/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/text-processing/</guid>
+      <description>kintoneで住所のような1つの文字列フィールドを区切り文字で分割したい、部分文字列や数字だけを抽出したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 14:01:36 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneで自動採番する方法｜無料プラグインで連番・年度リセット</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</link>
@@ -299,20 +320,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/confirm-modal/</guid>
       <description>kintoneでレコードの保存・削除・プロセス管理のアクション実行時に、独自の文言で確認ダイアログを表示してキャンセルできるようにしたい場合の実現方法を、無料プラグインの実際の設定画面・動作結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 10:59:48 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの文字列を区切り文字で分割する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/text-split/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/text-split/</guid>
-      <description>kintoneで、住所のような1つの文字列フィールドをスペースなどの区切り文字で複数のフィールドに自動分割したい場合の実現方法を、無料プラグインの実際の設定画面・分割結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 10:06:16 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの文字列から数字だけを抽出する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/text-extract-number/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/text-extract-number/</guid>
-      <description>kintoneで、住所のような文字列から丁目・番地・号のような数字部分だけを取り出して別フィールドに入力したい場合の実現方法を、無料プラグインの実際の設定画面・抽出結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 10:05:50 GMT</pubDate>
     </item>
     <item>
       <title>自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</title>
