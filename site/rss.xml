@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 10:06:16 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 10:15:52 GMT</lastBuildDate>
+    <item>
+      <title>kintoneの一覧を条件によって色分けする方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/list-highlight/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/list-highlight/</guid>
+      <description>kintoneのレコード一覧で、対応状況が「未対応」の行だけを色分けして目立たせたい場合の実現方法を、無料プラグインの実際の設定画面・強調表示結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 10:15:52 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneの文字列を区切り文字で分割する方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/text-split/</link>
