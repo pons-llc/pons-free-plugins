@@ -5,13 +5,27 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 13:48:48 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 13:51:08 GMT</lastBuildDate>
     <item>
       <title>kintoneの入力を制御する方法｜条件付き必須・非表示・絞込の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/input-control/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/input-control/</guid>
       <description>kintoneで条件によって入力項目を必須にしたい、非表示にしたい、選択肢を絞り込みたい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:48:48 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 13:51:08 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの入力フォームをタブ化する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/tab-layout/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/tab-layout/</guid>
+      <description>kintoneの入力項目が多いフォームを、基本情報・契約詳細のようにタブで切り替えて見やすくしたい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:50:38 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneのフォームをタブ表示にする方法｜無料プラグインで入力画面を整理</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/tab-layout/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/tab-layout/</guid>
+      <description>kintoneの入力項目が多いフォームを、基本情報・契約詳細のようにタブで切り替えて見やすくしたい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:50:22 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで条件によってフィールドを非表示にする方法（無料）</title>
@@ -271,13 +285,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/delete-backup/</guid>
       <description>kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい場合の実現方法を、無料プラグインの実際の設定画面・削除結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 09:06:03 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの入力フォームをタブ化する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/tab-layout/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/tab-layout/</guid>
-      <description>kintoneの入力項目が多いフォームを、基本情報・契約詳細のようにタブで切り替えて見やすくしたい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:50:29 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで条件によって入力項目を必須にする方法（無料）</title>
