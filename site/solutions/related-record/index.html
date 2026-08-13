@@ -12,8 +12,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>kintoneの関連レコードを集計する方法｜件数・合計・平均を自動計算する無料プラグイン | GovAppsプラグイン</title>
-<meta name="description" content="kintoneの関連レコード一覧フィールドが参照する明細の件数・合計・平均を自動で計算したい方向けに、無料プラグインで実現する方法を解説します。">
+<title>kintoneで関連レコードを活用する方法｜別アプリの情報を集計する無料プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="kintoneの関連レコード一覧フィールドが表示する別アプリの情報を、自アプリのフィールドとして集計・活用したい方向けに、無料プラグインで実現する方法を解説します。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -30,7 +30,7 @@
       <span class="header-menu-toggle-bar"></span>
     </button>
   </div>
-  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneの関連レコードを集計する方法</p>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneで関連レコードを活用する方法</p>
   <nav class="header-menu" id="header-menu" hidden>
     <a href="/">トップ</a>
     <a href="/solutions">解決策から探す</a>
@@ -42,28 +42,29 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h1>kintoneの関連レコードを集計する方法（無料プラグインで解決）</h1>
+  <h1>kintoneで関連レコードを活用する方法（無料プラグインで解決）</h1>
   <p class="plugin-lead">
-    関連レコード一覧フィールドは参照先アプリの明細を一覧表示できますが、件数・合計・平均のような
-    集計値を自アプリのフィールドへ書き込むことはできません。見積の明細金額を合計して請求額を
-    自動計算したい、注文点数から件数を数えたいといった用途には、標準機能だけでは対応できません。
-    このページでは、そうした関連レコードの集計を無料プラグインでどう実現できるかをまとめます。
+    関連レコード一覧フィールドは、ルックアップフィールドが参照する別アプリのレコードを画面上に
+    一覧表示できる標準機能です。ただし、あくまで「表示」のための機能で、そこに並ぶ値をREST APIや
+    JavaScript APIで直接取得することはできません。そのため、別アプリのレコードを集計して
+    自アプリのフィールドに反映したい場合は、プラグインで補う必要があります。このページでは、
+    関連レコードをより活用するための方法をまとめます。
   </p>
 </div>
 
 <section class="plugin-section">
   <h2>こんな方におすすめ</h2>
   <ul class="review-checklist">
-    <li>関連レコード一覧が参照する明細の金額合計を自アプリのフィールドへ自動転記したい</li>
-    <li>関連レコードの件数を自動で数えたい</li>
-    <li>関連レコードの平均値(単価など)を自動計算したい</li>
-    <li>関連レコード一覧フィールドの値がREST APIで取得できず、自動計算に使えず困っている</li>
+    <li>関連レコード一覧に表示された別アプリのレコードを、自アプリの数値として使いたい</li>
+    <li>関連レコード一覧フィールドの値がAPIで取得できず、自動計算に使えず困っている</li>
+    <li>別アプリの明細レコードを件数・合計・平均で集計して自アプリに反映したい</li>
+    <li>まずは関連レコードで何ができて何ができないか、標準機能の範囲を把握したい</li>
   </ul>
 </section>
 
 <section class="plugin-section">
   <h2>対応するプラグイン</h2>
-  <p class="related-services-by">検索意図に合わせて、以下のプラグインが利用できます。</p>
+  <p class="related-services-by">関連レコードの値を集計して自アプリへ反映したい場合、以下のプラグインが利用できます。</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="/plugins/related_record_summary/">関連レコード集計プラグイン ― 関連レコード一覧フィールドが参照する先のアプリのレコードを件数・合計・平均で集計し、自アプリの指定フィールドへ書き込む</a>
   </div>
@@ -79,8 +80,8 @@
 <section class="plugin-section">
   <h2>あわせて見たい解決策ページ</h2>
   <div class="related-services">
-    <a class="related-service-card" href="/solutions/related-record/">kintoneで関連レコードを活用する方法(関連レコード一覧の標準機能・活用法の全体像はこちら)</a>
-    <a class="related-service-card" href="/solutions/budget-management/">kintoneで予算管理する方法(自アプリ内の一覧を集計してメーター表示したい場合はこちら)</a>
+    <a class="related-service-card" href="/solutions/related-record-summary/">kintoneの関連レコードを集計する方法(件数・合計・平均の集計に特化した詳細はこちら)</a>
+    <a class="related-service-card" href="/solutions/lookup/">kintoneのルックアップを自動化・拡張する方法(別アプリの値を自アプリのフィールドへ自動入力したい場合はこちら)</a>
     <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
   </div>
 </section>

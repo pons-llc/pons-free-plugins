@@ -5,13 +5,34 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 13:44:18 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 13:47:03 GMT</lastBuildDate>
+    <item>
+      <title>kintoneの関連レコードを件数・合計・平均で集計する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/related-record-summary/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/related-record-summary/</guid>
+      <description>kintoneの関連レコード一覧フィールドが参照する明細の金額合計を、自アプリのフィールドへ自動で書き込みたい場合の実現方法を、無料プラグインの実際の設定画面・集計結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:47:03 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneのルックアップを自動化・拡張する方法｜ユーザー・組織・自動更新の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/lookup/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/lookup/</guid>
       <description>kintoneでルックアップ先の情報を自動更新したい、ユーザーコードから氏名を、組織コードから組織名を自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:44:18 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 13:46:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの関連レコードを集計する方法｜件数・合計・平均を自動計算する無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/related-record-summary/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/related-record-summary/</guid>
+      <description>kintoneの関連レコード一覧フィールドが参照する明細の件数・合計・平均を自動で計算したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:46:39 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで関連レコードを活用する方法｜別アプリの情報を集計する無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/related-record/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/related-record/</guid>
+      <description>kintoneの関連レコード一覧フィールドが表示する別アプリの情報を、自アプリのフィールドとして集計・活用したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:46:05 GMT</pubDate>
     </item>
     <item>
       <title>kintoneでユーザー情報を自動取得する方法｜氏名・メール・所属を入力する無料プラグイン</title>
@@ -47,20 +68,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/budget-management/</guid>
       <description>kintoneの経費一覧の合計額が予算の何%に達しているかをひと目で確認したい方向けに、無料プラグインで実現する方法を解説します。</description>
       <pubDate>Thu, 13 Aug 2026 13:40:36 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの関連レコードを件数・合計・平均で集計する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/related-record-summary/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/related-record-summary/</guid>
-      <description>kintoneの関連レコード一覧フィールドが参照する明細の金額合計を、自アプリのフィールドへ自動で書き込みたい場合の実現方法を、無料プラグインの実際の設定画面・集計結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:40:31 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの関連レコードを集計する方法｜件数・合計・平均を自動計算する無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/related-record-summary/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/related-record-summary/</guid>
-      <description>kintoneの関連レコード一覧フィールドが参照する明細の件数・合計・平均を自動で計算したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:40:10 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで予算と実績を管理する方法（無料）</title>
