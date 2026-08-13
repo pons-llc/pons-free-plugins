@@ -331,6 +331,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://govapps-plugin.pons-llc.com/solutions/calendar/</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://govapps-plugin.pons-llc.com/solutions/input-control/</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>

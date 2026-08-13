@@ -5,7 +5,35 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 13:33:33 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 13:35:41 GMT</lastBuildDate>
+    <item>
+      <title>kintoneで会議室予約・タスク管理を自動化する方法｜一括作成・カレンダー表示の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/scheduling/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/scheduling/</guid>
+      <description>kintoneで会議室の予約枠や定例タスクを一括作成したい、作った予定をカレンダーで確認したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:35:41 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</guid>
+      <description>kintoneで会議室の予約枠を、平日9-17時を1時間ごとに一括で作成したい方向けに、無料プラグインで実現する方法を、実際に24件のレコードを作成した結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:35:32 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの予定をカレンダーで表示する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/calendar-view/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/calendar-view/</guid>
+      <description>kintoneのレコード一覧を、担当チームごとに色分け・列分けした週表示・日表示のカレンダーとして見たい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:35:26 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneをカレンダー表示する方法｜予定・予約を見やすく管理する無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/calendar/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/calendar/</guid>
+      <description>kintoneのレコード一覧を、担当チームごとに色分け・列分けしたカレンダーとして見たい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:35:05 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneで決裁・承認プロセスを管理する方法｜決裁履歴記録の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/approval/</link>
@@ -40,13 +68,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-field-update/</guid>
       <description>kintoneで、一覧の絞り込み条件に一致する複数レコードのステータス等をまとめて変更したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 13:31:42 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</guid>
-      <description>kintoneで会議室の予約枠を、平日9-17時を1時間ごとに一括で作成したい方向けに、無料プラグインで実現する方法を、実際に24件のレコードを作成した結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:29:07 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで全部署に一斉に調査照会を作成する方法｜レコード一括作成プラグイン（無料）</title>
@@ -210,13 +231,6 @@
       <pubDate>Thu, 13 Aug 2026 08:20:17 GMT</pubDate>
     </item>
     <item>
-      <title>kintoneの予定をカレンダーで表示する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/calendar-view/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/calendar-view/</guid>
-      <description>kintoneのレコード一覧を、担当チームごとに色分け・列分けした週表示・日表示のカレンダーとして見たい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:19:37 GMT</pubDate>
-    </item>
-    <item>
       <title>kintoneのサブテーブルを金額順に並び替える方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/subtable-sort/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/subtable-sort/</guid>
@@ -243,13 +257,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/auto-lookup/</guid>
       <description>kintoneでルックアップ先のマスタ情報が変わったとき、既存レコード側の値も自動で最新化したい方向けに、無料プラグインで実現する方法を、実際の自動反映結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで会議室予約・タスク管理を自動化する方法｜一括作成・カレンダー表示の無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/scheduling/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/scheduling/</guid>
-      <description>kintoneで会議室の予約枠や定例タスクを一括作成したい、作った予定をカレンダーで確認したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:06:30 GMT</pubDate>
     </item>
     <item>
       <title>kintoneのサブテーブルを使いこなす方法｜並び替え・ルックアップの無料プラグイン</title>
