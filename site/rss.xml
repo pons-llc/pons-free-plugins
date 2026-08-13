@@ -5,7 +5,28 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 13:40:36 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 13:42:41 GMT</lastBuildDate>
+    <item>
+      <title>kintoneのルックアップを自動化・拡張する方法｜ユーザー・組織・自動更新の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/lookup/</guid>
+      <description>kintoneでルックアップ先の情報を自動更新したい、ユーザーコードから氏名を、組織コードから組織名を自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:42:41 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</guid>
+      <description>kintoneでユーザーコードを入力するだけで氏名・メールアドレス・所属を自動入力したい方向けに、無料プラグインで実現する方法を、実際のUser API実行結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:42:35 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでユーザー情報を自動取得する方法｜氏名・メール・所属を入力する無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/user-information/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/user-information/</guid>
+      <description>kintoneでユーザーコードを入力するだけで氏名・メールアドレス・所属・グループを自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:41:53 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneで予算管理する方法｜予算消化率を一覧で見える化する無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/budget-management/</link>
@@ -133,13 +154,6 @@
       <pubDate>Thu, 13 Aug 2026 13:28:52 GMT</pubDate>
     </item>
     <item>
-      <title>kintoneのルックアップを自動化・拡張する方法｜ユーザー・組織・自動更新の無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/lookup/</guid>
-      <description>kintoneでルックアップ先の情報を自動更新したい、ユーザーコードから氏名を、組織コードから組織名を自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 11:10:29 GMT</pubDate>
-    </item>
-    <item>
       <title>kintoneで同じアプリの別レコードを検索して値を取得する方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/self-lookup/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/self-lookup/</guid>
@@ -236,13 +250,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/conditional-display/</guid>
       <description>kintoneで、ドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 08:44:23 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</guid>
-      <description>kintoneでユーザーコードを入力するだけで氏名・メールアドレス・所属を自動入力したい方向けに、無料プラグインで実現する方法を、実際のUser API実行結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:38:45 GMT</pubDate>
     </item>
     <item>
       <title>kintoneの組織コードから組織名を取得する方法（無料）</title>
