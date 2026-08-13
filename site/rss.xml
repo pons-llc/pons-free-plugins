@@ -5,13 +5,27 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 13:35:41 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 13:37:14 GMT</lastBuildDate>
     <item>
       <title>kintoneで会議室予約・タスク管理を自動化する方法｜一括作成・カレンダー表示の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/scheduling/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/scheduling/</guid>
       <description>kintoneで会議室の予約枠や定例タスクを一括作成したい、作った予定をカレンダーで確認したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:35:41 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 13:37:14 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでカンバンボードを作る方法｜案件・タスクを見える化（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/kanban-board/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/kanban-board/</guid>
+      <description>kintoneの一覧を表形式のまま眺めていると、案件やタスクの進捗の全体感がつかみにくいことがあります。この記事では、無料プラグインで進捗ごとに列分けしたカンバンボードを表示する方法を、実際の設定画面と表示結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:37:08 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneをカンバン方式で管理する方法｜案件・タスクを見える化する無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/kanban/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/kanban/</guid>
+      <description>kintoneの一覧を表形式のまま眺めていると案件やタスクの進捗がつかみにくい方向けに、進捗ごとに列分けしたカンバンボードを無料プラグインで表示する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:36:53 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに（無料）</title>
@@ -222,13 +236,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/related-record-summary/</guid>
       <description>kintoneの関連レコード一覧フィールドが参照する明細の金額合計を、自アプリのフィールドへ自動で書き込みたい場合の実現方法を、無料プラグインの実際の設定画面・集計結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 08:31:38 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneでカンバンボードを作る方法｜案件・タスクを見える化（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/kanban-board/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/kanban-board/</guid>
-      <description>kintoneの一覧を表形式のまま眺めていると、案件やタスクの進捗の全体感がつかみにくいことがあります。この記事では、無料プラグインで進捗ごとに列分けしたカンバンボードを表示する方法を、実際の設定画面と表示結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:20:17 GMT</pubDate>
     </item>
     <item>
       <title>kintoneのサブテーブルを金額順に並び替える方法（無料）</title>
