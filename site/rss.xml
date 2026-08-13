@@ -5,7 +5,28 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 14:04:26 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 14:07:12 GMT</lastBuildDate>
+    <item>
+      <title>kintoneをカンバン方式で管理する方法｜案件・タスクを見える化する無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/kanban/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/kanban/</guid>
+      <description>kintoneの一覧を表形式のまま眺めていると案件やタスクの進捗がつかみにくい方向けに、進捗ごとに列分けしたカンバンボードを無料プラグインで表示する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 14:07:12 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの一覧を条件によって色分けする方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/list-highlight/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/list-highlight/</guid>
+      <description>kintoneのレコード一覧で、対応状況が「未対応」の行だけを色分けして目立たせたい場合の実現方法を、無料プラグインの実際の設定画面・強調表示結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 14:07:05 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの一覧を条件によって色分けする方法｜無料プラグインで強調表示</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/record-highlight/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/record-highlight/</guid>
+      <description>kintoneのレコード一覧で、対応状況が「未対応」の行だけを色分けして目立たせたい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 14:06:24 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneのフィールドを条件によって表示・非表示にする方法｜無料プラグインで入力画面を整理</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/field-display-control/</link>
@@ -224,13 +245,6 @@
       <pubDate>Thu, 13 Aug 2026 13:37:08 GMT</pubDate>
     </item>
     <item>
-      <title>kintoneをカンバン方式で管理する方法｜案件・タスクを見える化する無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/kanban/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/kanban/</guid>
-      <description>kintoneの一覧を表形式のまま眺めていると案件やタスクの進捗がつかみにくい方向けに、進捗ごとに列分けしたカンバンボードを無料プラグインで表示する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:36:53 GMT</pubDate>
-    </item>
-    <item>
       <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</guid>
@@ -313,13 +327,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/self-lookup/</guid>
       <description>kintoneで同一アプリ内の別レコードをキー一致で検索し、値を自レコードへ自動転記する方法を、無料プラグインの実際の設定画面・検索結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 11:10:11 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの一覧を条件によって色分けする方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/list-highlight/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/list-highlight/</guid>
-      <description>kintoneのレコード一覧で、対応状況が「未対応」の行だけを色分けして目立たせたい場合の実現方法を、無料プラグインの実際の設定画面・強調表示結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 11:00:14 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで削除・保存時に確認ダイアログを表示する方法（無料）</title>
