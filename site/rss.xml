@@ -5,13 +5,20 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 09:06:14 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 09:13:45 GMT</lastBuildDate>
     <item>
       <title>自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</title>
       <link>https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</guid>
       <description>自治体・企業でkintoneの無料プラグインを導入する前に確認したいセキュリティチェックポイントを6つにまとめました。外部通信先・認証情報の保存場所・XSS対策・ソース公開の有無などを解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 09:06:14 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 09:13:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneにGoogle Driveのファイルを表示・埋め込む方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/google-drive-embed/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/google-drive-embed/</guid>
+      <description>kintoneのレコード画面に、Google DriveやBoxのフォルダを埋め込んで表示したい場合の実現方法を、無料プラグインの実際の設定画面・許可ドメイン以外をブロックする挙動つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 09:13:20 GMT</pubDate>
     </item>
     <item>
       <title>kintoneでレコードを削除する前にバックアップする方法（無料）</title>
