@@ -5,7 +5,28 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 07:08:28 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 07:33:54 GMT</lastBuildDate>
+    <item>
+      <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</guid>
+      <description>kintoneで会議室の予約枠を、平日9-17時を1時間ごとに一括で作成したい方向けに、無料プラグインで実現する方法を、実際に24件のレコードを作成した結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:33:54 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで全部署に一斉に調査照会を作成する方法｜レコード一括作成プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</guid>
+      <description>kintoneで、総務課などの1部署から社内のすべての組織(部署)に対して一斉に調査照会レコードを作成したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:33:48 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでレコードを一括作成する方法｜複数レコードをまとめて登録</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/</guid>
+      <description>kintoneで、毎週の定例会議のように同じ内容のレコードを日付を変えて何件も作りたい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:33:14 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneのサブテーブルを使いこなす方法｜並び替え・ルックアップの無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/subtable/</link>
@@ -81,20 +102,6 @@
       <link>https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</guid>
       <description>自治体・企業でkintoneの無料プラグインを導入する前に確認したいセキュリティチェックポイントを6つにまとめました。外部通信先・認証情報の保存場所・XSS対策・ソース公開の有無などを解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで全部署に一斉に調査照会を作成する方法｜レコード一括作成プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</guid>
-      <description>kintoneで、総務課などの1部署から社内のすべての組織(部署)に対して一斉に調査照会レコードを作成したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</guid>
-      <description>kintoneで会議室の予約枠を、平日9-17時を1時間ごとに一括で作成したい方向けに、無料プラグインで実現する方法を、実際に24件のレコードを作成した結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
     </item>
     <item>
