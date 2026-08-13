@@ -42,7 +42,7 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>組織ルックアッププラグイン</h2>
+  <h1>組織ルックアッププラグイン</h1>
   <p class="plugin-lead">
     文字列1行または組織選択フィールドに入力された「組織コード」をもとに、組織名・説明・親組織の情報を
     取得し、別の文字列フィールドへ自動入力するプラグインです。親組織が設定されている場合は親組織の
@@ -55,10 +55,15 @@
     <span class="badge badge-tag">#自動入力</span>
   </div>
   <a class="download-button" href="download" data-dl-plugin="org_lookup">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneで組織コードから組織名を自動取得したい</li>
     <li>部署の親組織情報も一緒に取得したい</li>
@@ -68,14 +73,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>紹介動画</h3>
+  <h2>紹介動画</h2>
   <div class="video-frame">
     <iframe src="https://player.vimeo.com/video/1209391867" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>ユースケース</h3>
+  <h2>ユースケース</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
       <span>組織コードを入力すると、組織名や説明を自動転記する</span>
@@ -97,7 +102,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セットアップ手順</h3>
+  <h2>セットアップ手順</h2>
   <ol class="setup-steps">
     <li>「ボタン押下時」を使う場合は、アプリのフォーム編集で「スペース」フィールドを1つ配置し、要素IDを設定する(組織情報取得ボタンが表示される場所になります)。</li>
     <li>プラグインをアプリに追加し、設定画面を開く。</li>
@@ -108,7 +113,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セキュリティレビュー結果サマリ</h3>
+  <h2>セキュリティレビュー結果サマリ</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
       <span>チェック結果を見る(すべて対応済み)</span>
@@ -130,14 +135,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>設定画面イメージ</h3>
+  <h2>設定画面イメージ</h2>
   <div class="screenshot-frame">
     <img src="screenshots/config-screen.png" alt="組織ルックアッププラグインの設定画面。元フィールド・発動条件・出力先フィールドの編集可否・転記項目(取得する項目と出力先フィールドの組み合わせ、親組織の項目を含む)を設定する画面のスクリーンショット。" loading="lazy">
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>API実行数について</h3>
+  <h2>API実行数について</h2>
   <p class="api-usage-note">
     このプラグインは、組織名・説明等の取得のためにOrganization API(<code>GET /v1/organizations.json</code>、
     内部向けラッパーの<code>kintone.api()</code>経由)を実行します。「ボタン押下時」を選んだ設定行は
@@ -148,7 +153,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>GitHub / 改善要望</h3>
+  <h2>GitHub / 改善要望</h2>
   <div class="plugin-links">
     <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/org_lookup" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
     <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/org_lookup/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
@@ -157,7 +162,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

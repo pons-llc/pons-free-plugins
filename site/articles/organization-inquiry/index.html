@@ -42,17 +42,22 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>kintoneで全部署に一斉に調査照会を作成する方法</h2>
+  <h1>kintoneで全部署に一斉に調査照会を作成する方法</h1>
   <p class="plugin-lead">
     総務課・企画課のような1つの部署から、社内(庁内)のすべての組織に対して同じ内容の調査・照会を
     一斉に依頼したい場面があります。「事務用品の使用状況を教えてください」「予算要望を提出してください」
     といった庁内照会が典型例です。この記事では、部署の数だけ手作業でレコードを複製することなく、
     無料プラグインで一括作成する方法を、実際の設定画面と作成結果つきで解説します。
   </p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>1つの部署から社内のすべての組織へ、同じ内容の照会・調査を一斉に依頼したい</li>
     <li>組織の数だけ手作業でレコードをコピーするのをやめたい</li>
@@ -63,7 +68,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>kintone標準機能ではどこまでできるか</h3>
+  <h2>kintone標準機能ではどこまでできるか</h2>
   <p>
     kintoneの標準機能には「複製」ボタンがありますが、これは1レコードずつの複製です。組織が
     数十あれば、依頼先組織の欄だけを変えながら数十回複製・編集する作業が発生します。組織選択
@@ -75,7 +80,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h3>
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
   <p>
     「組織の数だけレコードを増やす」機能を用意する方法は、大きく4つあります。それぞれの
     向き不向きをまとめました。
@@ -103,7 +108,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>レコード一括作成プラグインでの実現方法</h3>
+  <h2>レコード一括作成プラグインでの実現方法</h2>
   <p>
     <a href="/plugins/bulk_record_creation/">レコード一括作成プラグイン</a>には、対象者フィールドに
     「組織選択」フィールドを指定すると、実行時に組織を複数選択して「1組織=1レコード」で一括作成する
@@ -130,7 +135,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>実行結果: 組織の数だけレコードが自動作成される</h3>
+  <h2>実行結果: 組織の数だけレコードが自動作成される</h2>
   <p>
     レコード一覧画面の「レコードを一括作成」ボタンを押すと、調査件名・回答期限・調査内容を入力する
     ダイアログと、対象の組織を選ぶ画面が表示されます。今回はサンプル環境にある3つの組織(営業部・
@@ -147,7 +152,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて確認したいポイント</h3>
+  <h2>あわせて確認したいポイント</h2>
   <ul class="review-checklist">
     <li>組織・グループのメンバー一覧取得にはkintoneのUser APIを使っており、APIキー・APIトークンの入力は不要です(ログイン中のセッションで動作します)。</li>
     <li>実行可能グループの設定は、あくまでボタンの表示・非表示を切り替えるUI上の絞り込みです。実際にレコードを作成できるかどうかは、そのアプリのレコード追加権限・フィールド編集権限に依存します(<a href="/plugins/bulk_record_creation/">プラグイン個別ページ</a>のセキュリティレビューサマリ参照)。</li>
@@ -156,14 +161,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>対応するプラグイン</h3>
+  <h2>対応するプラグイン</h2>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="/plugins/bulk_record_creation/">レコード一括作成プラグイン ― ユーザー・組織・グループへの割り当てや、日付/時刻の繰り返し(定例)日程に応じて複数レコードを一括作成</a>
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて見たい記事・解決策ページ</h3>
+  <h2>あわせて見たい記事・解決策ページ</h2>
   <div class="related-services">
     <a class="related-service-card" href="/solutions/scheduling/">kintoneで会議室予約・タスク管理を自動化する方法(同じプラグインの別の使い方)</a>
     <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
@@ -172,7 +177,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

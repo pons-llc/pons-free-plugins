@@ -42,16 +42,21 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>kintoneで会議室の予約枠を一括作成する方法</h2>
+  <h1>kintoneで会議室の予約枠を一括作成する方法</h1>
   <p class="plugin-lead">
     「平日9時から17時まで、1時間ごとの会議室予約枠を作りたい」という場合、1件ずつ手作業で
     作成すると1日8件×5日=40件もの作業になります。この記事では、日時の繰り返しをまとめて
     自動生成する方法を、実際に24件の予約枠を一括作成した結果つきで解説します。
   </p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneで会議室の予約枠を一括で作りたい</li>
     <li>平日9-17時を1時間ごとの枠に自動で分割したい</li>
@@ -61,7 +66,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>kintone標準機能ではどこまでできるか</h3>
+  <h2>kintone標準機能ではどこまでできるか</h2>
   <p>
     kintone標準機能には、日時の範囲を一定間隔で分割して複数レコードを自動生成する機能は
     ありません。「複製」機能で1件ずつ複製しながら時刻を手で書き換えるか、Excelなどで
@@ -70,7 +75,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h3>
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
   <div class="table-scroll">
   <table class="fyn-table">
     <thead>
@@ -92,7 +97,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>プラグインでの実現方法</h3>
+  <h2>プラグインでの実現方法</h2>
   <p>
     <a href="/plugins/bulk_record_creation/">レコード一括作成プラグイン</a>で、繰り返し用フィールドに
     日時(DATETIME)型のフィールドを指定すると、日付の繰り返しに加えて時刻の指定方法も選べます。
@@ -117,7 +122,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>実行結果: 平日3日分×1時間ごと8枠=24件を一括作成</h3>
+  <h2>実行結果: 平日3日分×1時間ごと8枠=24件を一括作成</h2>
   <p>
     一覧画面の「レコードを一括作成」ボタンを押し、会議室名を入力したうえで、開始日・頻度「毎日」・
     回数「3」、時刻の指定方法「時間帯を一定間隔で分割」で9:00〜17:00・間隔60分を指定して実行すると、
@@ -133,7 +138,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて確認したいポイント</h3>
+  <h2>あわせて確認したいポイント</h2>
   <ul class="review-checklist">
     <li>作成予定件数はリアルタイムに再計算して表示され、上限(500件)を超える場合は実行できません。</li>
     <li>レコード作成は100件ずつのバッチで逐次(並列でなく)実行され、バッチ内で1件でも失敗するとそのバッチ全体がロールバックされます(先行して成功したバッチは残ります)。</li>
@@ -142,14 +147,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>対応するプラグイン</h3>
+  <h2>対応するプラグイン</h2>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="/plugins/bulk_record_creation/">レコード一括作成プラグイン ― ユーザー・組織・グループへの割り当てや、日付/時刻の繰り返し(定例)日程に応じて複数レコードを一括作成</a>
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて見たい記事・解決策ページ</h3>
+  <h2>あわせて見たい記事・解決策ページ</h2>
   <div class="related-services">
     <a class="related-service-card" href="/solutions/scheduling/">kintoneで会議室予約・タスク管理を自動化する方法(解決策ページ)</a>
     <a class="related-service-card" href="/articles/organization-inquiry/">kintoneで全部署に一斉に調査照会を作成する方法(同じプラグインの別の使い方)</a>
@@ -159,7 +164,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

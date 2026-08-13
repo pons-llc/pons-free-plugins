@@ -42,7 +42,7 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>西暦和暦変換プラグイン</h2>
+  <h1>西暦和暦変換プラグイン</h1>
   <p class="plugin-lead">
     日付・日時フィールド(DATE / DATETIME / 作成日時 / 更新日時)の値を和暦の文字列に変換し、
     指定した文字列(1行)フィールドへ自動入力します。「和暦のみ」「西暦和暦併記」の書式が選べ、
@@ -55,10 +55,15 @@
     <span class="badge badge-tag">#自動入力</span>
   </div>
   <a class="download-button" href="download" data-dl-plugin="wareki_date_format">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneの日付を和暦(令和など)で表示したい</li>
     <li>申請書・契約書に和暦の日付を自動で入力したい</li>
@@ -69,14 +74,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>紹介動画</h3>
+  <h2>紹介動画</h2>
   <div class="video-frame">
     <iframe src="https://player.vimeo.com/video/1209251118" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>ユースケース</h3>
+  <h2>ユースケース</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
       <span>公文書・帳票向けの日付表記</span>
@@ -116,7 +121,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セットアップ手順</h3>
+  <h2>セットアップ手順</h2>
   <ol class="setup-steps">
     <li>アプリのフォームに、変換先となる文字列(1行)フィールドを配置する(変換元の日付・日時フィールドは既存のもので構わない)。</li>
     <li>プラグインをアプリに追加し、設定画面を開く。</li>
@@ -128,7 +133,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セキュリティレビュー結果サマリ</h3>
+  <h2>セキュリティレビュー結果サマリ</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
       <span>チェック結果を見る(すべて対応済み)</span>
@@ -150,14 +155,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>設定画面イメージ</h3>
+  <h2>設定画面イメージ</h2>
   <div class="screenshot-frame">
     <img src="screenshots/config-screen.png" alt="西暦和暦変換プラグインの設定画面。変換元フィールド・出力先フィールド・書式・全角オプションを設定した変換ペアと、プレビュー結果が表示されている状態のスクリーンショット。" loading="lazy">
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>API実行数について</h3>
+  <h2>API実行数について</h2>
   <p class="api-usage-note">
     このプラグインはREST APIを一切実行しません。フィールド情報の取得は<code>kintone.app.getFormFields()</code>のみで行い、
     レコード画面での変換処理は<code>change</code>/<code>submit</code>イベント内でのローカルな文字列変換のみで完結します。
@@ -166,7 +171,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>GitHub / 改善要望</h3>
+  <h2>GitHub / 改善要望</h2>
   <div class="plugin-links">
     <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/wareki_date_format" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
     <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/wareki_date_format/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
@@ -175,7 +180,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

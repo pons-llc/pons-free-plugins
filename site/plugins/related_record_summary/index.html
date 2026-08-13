@@ -42,7 +42,7 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>関連レコード集計プラグイン</h2>
+  <h1>関連レコード集計プラグイン</h1>
   <p class="plugin-lead">
     関連レコード一覧フィールドが参照している先のアプリのレコードを、件数・合計・平均で集計し、
     このアプリの指定フィールド(数値)へ書き込むプラグインです。関連レコード一覧フィールドの値そのものは
@@ -55,10 +55,15 @@
     <span class="badge badge-tag">#自動集計</span>
   </div>
   <a class="download-button" href="download" data-dl-plugin="related_record_summary">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneで関連レコードの合計・件数・平均を自動計算したい</li>
     <li>「kintone 関連レコード 集計」を探している</li>
@@ -68,14 +73,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>紹介動画</h3>
+  <h2>紹介動画</h2>
   <div class="video-frame">
     <iframe src="https://player.vimeo.com/video/1209391294" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>ユースケース</h3>
+  <h2>ユースケース</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
       <span>関連レコード一覧に表示されているレコードの件数・合計・平均を自動で反映する</span>
@@ -106,7 +111,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セットアップ手順</h3>
+  <h2>セットアップ手順</h2>
   <ol class="setup-steps">
     <li>プラグインをアプリに追加し、設定画面を開く。</li>
     <li>「+ 集計設定を追加」で行を作成し、①関連レコード一覧フィールド→②集計種別(件数・合計・平均)→③集計対象フィールド(合計・平均時のみ、参照先アプリの数値フィールドから選択)→④書き込み先フィールド(自アプリの数値フィールド)→⑤除外条件(任意、クエリの断片)の順に設定する。行は複数追加できる。</li>
@@ -117,7 +122,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セキュリティレビュー結果サマリ</h3>
+  <h2>セキュリティレビュー結果サマリ</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
       <span>チェック結果を見る(すべて対応済み・一部は実環境未検証)</span>
@@ -139,14 +144,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>設定画面イメージ</h3>
+  <h2>設定画面イメージ</h2>
   <div class="screenshot-frame">
     <img src="screenshots/config-screen.png" alt="関連レコード集計プラグインの設定画面。関連レコード一覧フィールド・集計種別・集計対象フィールド・書き込み先フィールド・除外条件を行ごとに設定するテーブルのスクリーンショット。" loading="lazy">
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>API実行数について</h3>
+  <h2>API実行数について</h2>
   <p class="api-usage-note">
     保存時トリガー・詳細画面ボタンは、実行するたびに集計設定の行数分だけ参照先アプリへの検索APIを実行します
     (件数集計は1回、合計・平均は集計対象レコードを500件ごとに取得するため件数が多いほど増えます)。加えて
@@ -158,7 +163,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>GitHub / 改善要望</h3>
+  <h2>GitHub / 改善要望</h2>
   <div class="plugin-links">
     <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/related_record_summary" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
     <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/related_record_summary/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
@@ -167,7 +172,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

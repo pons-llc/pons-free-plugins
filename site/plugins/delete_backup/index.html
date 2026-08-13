@@ -42,7 +42,7 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>削除バックアッププラグイン</h2>
+  <h1>削除バックアッププラグイン</h1>
   <p class="plugin-lead">
     レコード詳細画面・レコード一覧画面でレコードを削除する直前に、削除されるレコードの内容
     (添付ファイルを含む)を必ずバックアップしてから削除を許可するプラグインです。バックアップ方式は
@@ -56,10 +56,15 @@
     <span class="badge badge-tag">#バックアップ</span>
   </div>
   <a class="download-button" href="download" data-dl-plugin="delete_backup">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneで誤って削除したレコードを復元できるようにしたい</li>
     <li>削除前に自動でバックアップを残したい</li>
@@ -69,14 +74,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>紹介動画</h3>
+  <h2>紹介動画</h2>
   <div class="video-frame">
     <iframe src="https://player.vimeo.com/video/1212667680" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>ユースケース</h3>
+  <h2>ユースケース</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
       <span>誤操作による削除に備えて、削除前に必ずzipでバックアップを残す</span>
@@ -98,7 +103,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セットアップ手順</h3>
+  <h2>セットアップ手順</h2>
   <ol class="setup-steps">
     <li>「別アプリへアーカイブ」を使う場合は、あらかじめアーカイブ先アプリを用意する。JSON保存用の文字列(複数行を推奨)フィールドと、添付ファイル保存用の添付ファイルフィールドを1つずつ用意し、<strong>それ以外に必須フィールドが無いこと</strong>を確認する(必須フィールドが1つでもあると登録が必ず失敗し、削除自体ができなくなります)。</li>
     <li>プラグインをアプリに追加し、設定画面を開く。</li>
@@ -109,7 +114,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セキュリティレビュー結果サマリ</h3>
+  <h2>セキュリティレビュー結果サマリ</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
       <span>チェック結果を見る(すべて対応済み)</span>
@@ -131,14 +136,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>設定画面イメージ</h3>
+  <h2>設定画面イメージ</h2>
   <div class="screenshot-frame">
     <img src="screenshots/config-screen.png" alt="削除バックアッププラグインの設定画面。バックアップ方式(zipでダウンロード/別アプリへアーカイブ)を選ぶラジオボタンと、アーカイブ方式選択時に表示されるアーカイブ先アプリID・JSON保存先フィールド・添付ファイル保存先フィールドの設定欄のスクリーンショット。" loading="lazy">
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>API実行数について</h3>
+  <h2>API実行数について</h2>
   <p class="api-usage-note">
     このプラグインは、レコードが削除されるたびに実行されます。zip方式では、添付ファイル1件につき
     ダウンロードAPI(<code>GET /k/v1/file.json</code>)を1回実行します。アーカイブ方式では、添付ファイル
@@ -150,7 +155,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>GitHub / 改善要望</h3>
+  <h2>GitHub / 改善要望</h2>
   <div class="plugin-links">
     <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/delete_backup" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
     <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/delete_backup/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
@@ -159,7 +164,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

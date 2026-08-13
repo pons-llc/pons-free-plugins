@@ -42,16 +42,21 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法</h2>
+  <h1>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法</h1>
   <p class="plugin-lead">
     担当者の氏名やメールアドレスを毎回手入力していると、社員名簿を確認する手間や入力ミスが
     発生しがちです。この記事では、ユーザーコードを入力するだけで氏名・メールアドレス等を
     自動入力する方法を、実際にUser APIから取得した結果つきで解説します。
   </p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneでユーザーコードから氏名・メールアドレスを自動取得したい</li>
     <li>担当者の所属部署を自動で入力したい</li>
@@ -61,7 +66,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>kintone標準機能ではどこまでできるか</h3>
+  <h2>kintone標準機能ではどこまでできるか</h2>
   <p>
     kintone標準の「ユーザー選択」フィールドで担当者を選ぶことはできますが、氏名以外の
     メールアドレスや所属部署などの詳細情報を別のフィールドへ自動転記する機能はありません。
@@ -71,7 +76,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h3>
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
   <div class="table-scroll">
   <table class="fyn-table">
     <thead>
@@ -93,7 +98,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>プラグインでの実現方法</h3>
+  <h2>プラグインでの実現方法</h2>
   <p>
     <a href="/plugins/user_info_lookup/">ユーザー情報ルックアッププラグイン</a>は、元フィールド・
     発動条件・転記項目を設定するだけで使えます。
@@ -120,7 +125,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>実行結果: ボタン一つで氏名・メールアドレスが自動入力される</h3>
+  <h2>実行結果: ボタン一つで氏名・メールアドレスが自動入力される</h2>
   <p>
     ユーザーコードを入力し、「ユーザー情報を取得して反映」ボタンを押すと、
     <strong>User APIへ実際にリクエストが送られ、氏名・メールアドレスが自動的に入力されます。</strong>
@@ -134,7 +139,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて確認したいポイント</h3>
+  <h2>あわせて確認したいポイント</h2>
   <ul class="review-checklist">
     <li>User APIの呼び出しはログイン中のセッションで完結し、APIキー・APIトークンは使用しません。</li>
     <li>該当するユーザーが見つからない場合(未入力を含む)、出力先フィールドはすべて空文字列でクリアされます。</li>
@@ -143,14 +148,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>対応するプラグイン</h3>
+  <h2>対応するプラグイン</h2>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="/plugins/user_info_lookup/">ユーザー情報ルックアッププラグイン ― ユーザーコードをもとに、氏名・メールアドレス・所属・グループなどのユーザー情報を別の文字列フィールドへ自動入力</a>
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて見たい記事・解決策ページ</h3>
+  <h2>あわせて見たい記事・解決策ページ</h2>
   <div class="related-services">
     <a class="related-service-card" href="/solutions/lookup/">kintoneのルックアップを自動化・拡張する方法(解決策ページ)</a>
     <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
@@ -159,7 +164,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

@@ -42,7 +42,7 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>照会回答パッケージプラグイン</h2>
+  <h1>照会回答パッケージプラグイン</h1>
   <p class="plugin-lead">
     自治体などで頻発する部署間の「照会(調査依頼)」と「回答」の業務を、「依頼アプリ」「回答アプリ」の
     わずか2つのアプリだけで実現するノーコードパッケージプラグインです。依頼アプリで質問項目・表示幅・
@@ -56,10 +56,15 @@
     <span class="badge badge-tag">#ノーコードフォーム</span>
   </div>
   <a class="download-button" href="download" data-dl-plugin="research_and_answer">ダウンロード(v5)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneで部署間の照会・回答業務をノーコードで作りたい</li>
     <li>依頼内容によって回答フォームの項目を動的に変えたい</li>
@@ -69,7 +74,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>ユースケース</h3>
+  <h2>ユースケース</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
       <span>部署間の照会をノーコードで都度フォーム化する</span>
@@ -100,7 +105,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セットアップ手順</h3>
+  <h2>セットアップ手順</h2>
   <ol class="setup-steps">
     <li>依頼アプリ用・回答アプリ用に、それぞれ別のアプリを1つずつ用意し、両方に本プラグインを追加する。</li>
     <li>依頼アプリの設定画面で「このアプリの役割」を「依頼アプリ」に、回答アプリの設定画面で「回答アプリ」に設定し、それぞれ相手アプリのアプリIDを入力して保存する。</li>
@@ -114,12 +119,12 @@
 </section>
 
 <section class="plugin-section">
-  <h3>アプリ設定でしていいこと・悪いこと</h3>
+  <h2>アプリ設定でしていいこと・悪いこと</h2>
   <p>
     本プラグインは、依頼アプリ・回答アプリ双方に固定のフィールドコード(予備フィールドを含む)を前提に
     動作します。「必要な項目・一覧を自動作成」で作られたフィールド・一覧まわりを扱う際の注意点です。
   </p>
-  <h4>していいこと</h4>
+  <h3>していいこと</h3>
   <ul class="dos-list">
     <li>依頼アプリ・回答アプリのどちらにも、固定のフィールドコードと重複しない新しいコードで、社内管理用のフィールド(担当者・優先度・内部メモなど)を追加すること。</li>
     <li>フォーム上のフィールドの並び順やグループ化など、表示上のレイアウトを整理すること(ただしプレビュー用スペース・回答フォーム用スペースは削除しない)。</li>
@@ -128,7 +133,7 @@
     <li>集計リスト・分析以外に、独自の一覧(絞り込み・並び替え済みのビューなど)を追加すること。</li>
     <li>回答アプリにプロセス管理を導入し、ステータスに応じたアクセス権制御と組み合わせて使うこと(次項「おすすめ設定」参照)。</li>
   </ul>
-  <h4>してはいけないこと</h4>
+  <h3>してはいけないこと</h3>
   <ul class="donts-list">
     <li>固定のフィールドコード(依頼アプリ: <code>title</code>/<code>description</code>/<code>requester</code>/<code>recipients</code>/<code>deadline</code>/<code>attachment</code>/<code>questions</code>/<code>condition_json</code>/<code>json</code>/<code>related_links</code>/<code>related_rich_text</code>/<code>related</code>、回答アプリ: <code>title</code>/<code>description</code>/<code>requester</code>/<code>deadline</code>/<code>json</code>/<code>answer_department</code>/<code>answer_status</code>/<code>attachment</code>/<code>lookup</code>/予備フィールド<code>text_*</code>等)のフィールドタイプ変更・削除・コードのリネームをすること。JavaScriptカスタマイズがこれらのコードを直接参照しているため、動作しなくなります。</li>
     <li>予備フィールド(<code>text_1</code>〜<code>text_30</code>等)を、質問項目テーブル経由ではなく直接編集して別用途に転用すること。依頼アプリ側の質問項目テーブルの<code>insert_column</code>(タイプ+番号から自動計算)が動的にこれらを割り当てるため、直接値を入れると仮想フォームの表示内容と食い違います。</li>
@@ -141,7 +146,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>おすすめ設定</h3>
+  <h2>おすすめ設定</h2>
   <p>運用を始めるとよく課題になる点への対応例です。特に1点目は、回答済みデータの改ざん・誤操作を防ぐうえで強く推奨します。</p>
   <ul class="review-checklist">
     <li><strong>回答状況が「回答済」になったら編集をロックする。</strong>回答アプリの「アプリの設定」→「レコードのアクセス権」で、条件に「回答状況(<code>answer_status</code>)が 回答済」を追加し、回答部署の編集権限を外して閲覧のみにします。回答状況はプラグイン固定の通常フィールド(ラジオボタン)なので、標準のレコードのアクセス権の「フィールドの値」条件でそのまま指定できます。</li>
@@ -154,7 +159,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セキュリティレビュー結果サマリ</h3>
+  <h2>セキュリティレビュー結果サマリ</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
       <span>チェック結果を見る(すべて対応済み)</span>
@@ -177,7 +182,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>画面イメージ</h3>
+  <h2>画面イメージ</h2>
   <p class="download-note">設定画面(役割の選択と必要な項目・一覧の自動作成)、回答アプリの集計リスト(仮想一覧)、分析ダッシュボードの3画面です。</p>
   <div class="screenshot-frame">
     <img src="screenshots/config-screen.png" alt="照会回答パッケージプラグインの設定画面。このアプリの役割(依頼アプリ/回答アプリ)の選択、相手アプリのアプリID、必要な項目・一覧の自動作成ボタンを設定する画面のスクリーンショット。" loading="lazy">
@@ -191,7 +196,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>API実行数について</h3>
+  <h2>API実行数について</h2>
   <p class="api-usage-note">
     設定画面の「必要な項目・一覧を自動作成」ボタンを押すたびに、動作テスト環境のフィールド取得・追加
     (preview系API)を実行します(ボタンを押した回数だけ実行され、自動では実行されません)。依頼アプリの
@@ -202,7 +207,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>GitHub / 改善要望</h3>
+  <h2>GitHub / 改善要望</h2>
   <div class="plugin-links">
     <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/research_and_answer" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
     <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/research_and_answer/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
@@ -211,7 +216,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

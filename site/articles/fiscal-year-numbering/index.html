@@ -42,17 +42,22 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>kintoneで年度が変わったら番号をリセットして自動採番する方法</h2>
+  <h1>kintoneで年度が変わったら番号をリセットして自動採番する方法</h1>
   <p class="plugin-lead">
     契約書番号や申請書番号を「R8-0001」のように会計年度ごとにリセットしながら振りたい、という
     要望はよくありますが、kintone標準の「連番」機能には年度リセットの概念がありません。
     この記事では、無料プラグインで年度リセット付きの自動採番を実現する方法を、実際に採番した
     結果つきで解説します。
   </p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneで文書番号を自動採番したい</li>
     <li>年度が変わったら連番を1にリセットしたい</li>
@@ -63,7 +68,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>kintone標準機能ではどこまでできるか</h3>
+  <h2>kintone標準機能ではどこまでできるか</h2>
   <p>
     kintone標準の「連番」フィールドは、レコード作成のたびに数字が1つずつ増えていくだけで、
     「4月になったら1にリセットする」「和暦を組み合わせる」「部署ごとに連番を分ける」といった
@@ -74,7 +79,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h3>
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
   <div class="table-scroll">
   <table class="fyn-table">
     <thead>
@@ -97,7 +102,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>プラグインでの実現方法</h3>
+  <h2>プラグインでの実現方法</h2>
   <p>
     このプラグインは番号の重複を防ぐため「カウンター専用アプリ」というkintoneアプリを1つ必要とします
     (環境に1つ作れば複数アプリで使い回せます)。対象アプリ側の設定はこの3ステップです。
@@ -125,7 +130,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>実行結果: 保存すると自動的に番号が振られる</h3>
+  <h2>実行結果: 保存すると自動的に番号が振られる</h2>
   <p>
     レコード追加画面で申請日を入力して保存すると、<strong>「R8-0001」という番号が文書番号
     フィールドに自動的に入力されます。</strong>「R8」は令和8年(2026年)を表す元号コード+年、
@@ -137,7 +142,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて確認したいポイント</h3>
+  <h2>あわせて確認したいポイント</h2>
   <ul class="review-checklist">
     <li>プラグイン設定画面・実行コードのどこにもAPIトークンやパスワード等の認証情報を入力・保存する欄はありません。</li>
     <li>カウンター専用アプリは「閲覧+作成のみ」の権限で運用する設計で、番号の重複防止は一意制約フィールドへの違反検知+自動リトライで行います(無限リトライにはなりません)。</li>
@@ -146,14 +151,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>対応するプラグイン</h3>
+  <h2>対応するプラグイン</h2>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="/plugins/fiscal_year_numbering/">年度リセット自動採番プラグイン ― 会計年度(4月始まり)でリセットされる和暦+セグメント文字列+連番を、APIキー不要で自動採番</a>
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて見たい記事・解決策ページ</h3>
+  <h2>あわせて見たい記事・解決策ページ</h2>
   <div class="related-services">
     <a class="related-service-card" href="/solutions/automatic-numbering/">kintoneで自動採番する方法(解決策ページ)</a>
     <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
@@ -162,7 +167,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

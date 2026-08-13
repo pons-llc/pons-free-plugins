@@ -42,16 +42,21 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>kintoneで法人番号から会社情報を自動入力する方法</h2>
+  <h1>kintoneで法人番号から会社情報を自動入力する方法</h1>
   <p class="plugin-lead">
     取引先アプリなどで法人番号や会社の正式名称・代表者名を手入力していると、入力ミスや二度手間が
     発生しがちです。この記事では、経済産業省が公開しているgBizINFOと連携し、法人番号(または法人名)
     から会社情報を自動入力する方法を、実際にAPIへリクエストして取得した結果つきで解説します。
   </p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneで法人番号を入力するだけで会社情報を自動入力したい</li>
     <li>法人名から法人番号を検索したい</li>
@@ -62,7 +67,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>kintone標準機能ではどこまでできるか</h3>
+  <h2>kintone標準機能ではどこまでできるか</h2>
   <p>
     kintone標準の「ルックアップ」フィールドは、同じkintone環境内の別アプリを参照する機能で、
     外部のWeb APIから情報を取得することはできません。法人番号から会社情報を自動入力するには、
@@ -71,7 +76,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h3>
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
   <p>
     外部APIと連携する以上、「誰が」「どうやって」APIトークンを扱うかが特に重要になります。
   </p>
@@ -99,7 +104,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>プラグインでの実現方法</h3>
+  <h2>プラグインでの実現方法</h2>
   <p>
     <a href="/plugins/biz_code_search/">法人番号検索プラグイン</a>は、gBizINFOの
     <a href="https://info.gbiz.go.jp/" target="_blank" rel="noopener">Web API利用申請ページ</a>から
@@ -125,7 +130,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>実行結果: 実際にgBizINFOへリクエストして取得</h3>
+  <h2>実行結果: 実際にgBizINFOへリクエストして取得</h2>
   <p>
     レコード追加画面で法人番号(<code>5010001072207</code>、サイボウズ株式会社の実際の法人番号)を
     入力し、「法人番号から取得」ボタンを押すと、gBizINFOへ実際にリクエストが送られ、
@@ -141,7 +146,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて確認したいポイント</h3>
+  <h2>あわせて確認したいポイント</h2>
   <ul class="review-checklist">
     <li>通信先は<code>api.info.gbiz.go.jp</code>(gBizINFO)のみで、それ以外の外部サーバーへは通信しません。</li>
     <li>APIトークンはプラグインの秘匿領域に保存され、設定画面・実行コードのどこにも平文で表示されません。</li>
@@ -150,14 +155,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>対応するプラグイン</h3>
+  <h2>対応するプラグイン</h2>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="/plugins/biz_code_search/">法人番号検索プラグイン ― gBizINFO REST API v2を利用し、法人番号から法人情報を、法人名から法人番号を検索して自動入力</a>
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて見たい記事・解決策ページ</h3>
+  <h2>あわせて見たい記事・解決策ページ</h2>
   <div class="related-services">
     <a class="related-service-card" href="/solutions/biz-code-search/">kintoneで法人番号を自動取得する方法(解決策ページ)</a>
     <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
@@ -166,7 +171,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

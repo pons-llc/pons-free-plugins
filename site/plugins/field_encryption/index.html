@@ -42,7 +42,7 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>フィールド暗号化プラグイン</h2>
+  <h1>フィールド暗号化プラグイン</h1>
   <p class="plugin-lead">
     文字列(1行)・文字列(複数行)フィールドの値を、レコード保存時にブラウザ内(Web Crypto API)で
     AES-256-GCM暗号化してから保存するプラグインです。kintoneのREST APIは保存されている生の値を
@@ -56,10 +56,15 @@
     <span class="badge badge-tag">#機密情報保護</span>
   </div>
   <a class="download-button" href="download" data-dl-plugin="field_encryption">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneで機密情報を暗号化して保存したい</li>
     <li>「kintone フィールド 暗号化」を探している</li>
@@ -68,7 +73,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>ユースケース</h3>
+  <h2>ユースケース</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
       <span>マイナンバーや口座番号など、特に機微な情報をREST API越しにも保護したい</span>
@@ -99,7 +104,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セットアップ手順</h3>
+  <h2>セットアップ手順</h2>
   <ol class="setup-steps">
     <li>アプリのフォーム編集で「スペース」フィールドを1つ配置し、要素IDを設定する(パスフレーズ入力フォーム・復号ボタンが表示される場所になります)。</li>
     <li>プラグインをアプリに追加し、設定画面を開く。</li>
@@ -110,7 +115,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セキュリティレビュー結果サマリ</h3>
+  <h2>セキュリティレビュー結果サマリ</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
       <span>チェック結果を見る(すべて対応済み)</span>
@@ -132,14 +137,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>設定画面イメージ</h3>
+  <h2>設定画面イメージ</h2>
   <div class="screenshot-frame">
     <img src="screenshots/config-screen.png" alt="フィールド暗号化プラグインの設定画面。暗号化対象フィールド(チェックボックス)、復号ボタンを設置するスペースフィールド、パスフレーズの最小文字数を設定する画面のスクリーンショット。" loading="lazy">
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>API実行数について</h3>
+  <h2>API実行数について</h2>
   <p class="api-usage-note">
     このプラグインはREST API・<code>kintone.api()</code>を一切使用しません。暗号化・復号処理はすべて
     ブラウザ内蔵のWeb Crypto APIのみで完結するため、レコードの保存・閲覧に伴うAPI実行数への影響は
@@ -148,7 +153,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>GitHub / 改善要望</h3>
+  <h2>GitHub / 改善要望</h2>
   <div class="plugin-links">
     <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/field_encryption" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
     <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/field_encryption/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
@@ -157,7 +162,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

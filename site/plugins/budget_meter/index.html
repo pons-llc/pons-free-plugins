@@ -42,7 +42,7 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>予算管理プラグイン</h2>
+  <h1>予算管理プラグイン</h1>
   <p class="plugin-lead">
     アプリの「一覧(View)」ごとに予算額と集計対象フィールド(数値)を設定できるプラグインです。予算を設定した一覧を開くと
     一覧画面のヘッダーに「予算を確認」ボタンが表示され、押すと<strong>今まさにその一覧に表示されている絞り込み条件</strong>
@@ -62,17 +62,22 @@
     <span class="badge badge-tag">#一覧集計</span>
   </div>
   <a class="download-button" href="download" data-dl-plugin="budget_meter">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>紹介動画</h3>
+  <h2>紹介動画</h2>
   <div class="video-frame">
     <iframe src="https://player.vimeo.com/video/1217778527" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneで予算・目標の進捗管理をしたい</li>
     <li>「kintone 予算管理」「kintone 進捗メーター」を探している</li>
@@ -81,7 +86,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>ユースケース</h3>
+  <h2>ユースケース</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
       <span>部署ごとの経費一覧に予算を設定し、消化率をひと目で確認する</span>
@@ -112,7 +117,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セットアップ手順</h3>
+  <h2>セットアップ手順</h2>
   <ol class="setup-steps">
     <li>プラグインをアプリに追加し、設定画面を開く。</li>
     <li>「+ 予算設定を追加」で行を追加し、対象の一覧(表形式〈LIST〉のみ選択可)・集計対象フィールド(数値、または表示書式が数値の計算フィールド)・予算額・警告しきい値(%、既定80)・危険しきい値(%、既定100)・ラベル(任意)を設定する。同じ一覧に複数行を追加することもできる。</li>
@@ -123,7 +128,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セキュリティレビュー結果サマリ</h3>
+  <h2>セキュリティレビュー結果サマリ</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
       <span>チェック結果を見る(すべて対応済み)</span>
@@ -144,21 +149,21 @@
 </section>
 
 <section class="plugin-section">
-  <h3>設定画面</h3>
+  <h2>設定画面</h2>
   <div class="screenshot-frame">
     <img src="screenshots/config-screen.png" alt="予算管理プラグインの設定画面。対象の一覧・集計対象フィールド・予算額・警告しきい値(%)・危険しきい値(%)・ラベル(任意)を行ごとに設定する予算設定テーブルと、「すべての予算を一括表示」を許可するグループコードの入力欄が表示されている。" loading="lazy">
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>API実行数について</h3>
+  <h2>API実行数について</h2>
   <p class="api-usage-note">
     「予算を確認」「すべての予算を確認」ボタンを押すたびに、対象レコードを<code>$id</code>昇順で500件ずつページングしながら取得するため、対象レコード数が多いほどAPI実行回数が増えます(500件ごとに1回)。「すべての予算を確認」ボタンはさらに、運用環境の一覧設定を取得するAPIを1回追加で実行します。設定画面での保存・読み込み自体はkintoneのプラグイン設定機能を使うため、追加のAPI実行はありません。
   </p>
 </section>
 
 <section class="plugin-section">
-  <h3>GitHub / 改善要望</h3>
+  <h2>GitHub / 改善要望</h2>
   <div class="plugin-links">
     <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/budget_meter" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
     <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/budget_meter/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
@@ -167,7 +172,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

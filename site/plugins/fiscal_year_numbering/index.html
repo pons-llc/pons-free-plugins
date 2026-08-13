@@ -42,7 +42,7 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>年度リセット自動採番プラグイン</h2>
+  <h1>年度リセット自動採番プラグイン</h1>
   <p class="plugin-lead">
     会計年度(4月始まり固定)でリセットされる連番を、和暦(元号+元号年)+セグメント文字列+連番の形式で
     自動採番するプラグインです(例: <code>R6-総務課-請求書-0007</code>)。
@@ -59,10 +59,15 @@
     <span class="badge badge-tag">#自動採番</span>
   </div>
   <a class="download-button" href="download" data-dl-plugin="fiscal_year_numbering">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneで文書番号を自動採番したい</li>
     <li>契約書番号を自動で付けたい</li>
@@ -75,7 +80,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>ユースケース</h3>
+  <h2>ユースケース</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
       <span>官公庁の文書番号(申請書・契約書番号など)を年度・部署ごとに自動採番したい</span>
@@ -106,7 +111,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セットアップ手順</h3>
+  <h2>セットアップ手順</h2>
   <p class="kintoneplugin-desc">
     採番の重複を防ぐため、このプラグインは「カウンター専用アプリ」というkintoneアプリを1つ必要とします。
     少し手順が多く見えますが、すべて通常のkintone管理画面(アプリの新規作成・フィールド追加)だけで完結し、
@@ -176,7 +181,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セキュリティレビュー結果サマリ</h3>
+  <h2>セキュリティレビュー結果サマリ</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
       <span>チェック結果を見る(すべて対応済み)</span>
@@ -198,14 +203,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>設定画面イメージ</h3>
+  <h2>設定画面イメージ</h2>
   <div class="screenshot-frame">
     <img src="screenshots/config-screen.png" alt="年度リセット自動採番プラグインの設定画面。年度判定の基準日、元号テーブル、セグメントフィールド、番号フォーマット、採番タイミング(保存時/ボタン押下時/ステータス変化時)、カウンター専用アプリID、一括採番を許可するグループコードを設定する画面のスクリーンショット。" loading="lazy">
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>API実行数について</h3>
+  <h2>API実行数について</h2>
   <p class="api-usage-note">
     このプラグインは、カウンター専用アプリへの参照・追記のためにkintone REST API(<code>kintone.api()</code>経由)を
     実行します。採番タイミングが「保存時」ならレコード作成の保存のたびに、「ボタン押下時」ならボタンを
@@ -217,14 +222,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて読みたい記事</h3>
+  <h2>あわせて読みたい記事</h2>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="/articles/fiscal-year-numbering/">kintoneで年度が変わったら番号をリセットして自動採番する方法 ― 実際に採番した結果つきで解説</a>
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>GitHub / 改善要望</h3>
+  <h2>GitHub / 改善要望</h2>
   <div class="plugin-links">
     <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/fiscal_year_numbering" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
     <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/fiscal_year_numbering/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
@@ -233,7 +238,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

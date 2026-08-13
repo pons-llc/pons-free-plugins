@@ -5,76 +5,132 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Wed, 12 Aug 2026 15:23:24 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 07:08:28 GMT</lastBuildDate>
+    <item>
+      <title>kintoneのサブテーブルを使いこなす方法｜並び替え・ルックアップの無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/subtable/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/subtable/</guid>
+      <description>kintoneのサブテーブルの行を並び替えたい、サブテーブル内の値を検索して自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneで会議室予約・タスク管理を自動化する方法｜一括作成・カレンダー表示の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/scheduling/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/scheduling/</guid>
       <description>kintoneで会議室の予約枠や定例タスクを一括作成したい、作った予定をカレンダーで確認したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 15:23:24 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで決裁・承認プロセスを管理する方法｜決裁履歴記録の無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/approval/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/approval/</guid>
-      <description>kintoneのプロセス管理で決裁履歴を記録したい、承認の進捗を見える化したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 15:23:03 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
     </item>
     <item>
       <title>kintoneのルックアップを自動化・拡張する方法｜ユーザー・組織・自動更新の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/lookup/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/lookup/</guid>
       <description>kintoneでルックアップ先の情報を自動更新したい、ユーザーコードから氏名を、組織コードから組織名を自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 15:22:52 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
     </item>
     <item>
       <title>kintoneの入力を制御する方法｜条件付き必須・非表示・絞込の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/input-control/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/input-control/</guid>
       <description>kintoneで条件によって入力項目を必須にしたい、非表示にしたい、選択肢を絞り込みたい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 15:22:42 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneのサブテーブルを使いこなす方法｜並び替え・ルックアップの無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/subtable/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/subtable/</guid>
-      <description>kintoneのサブテーブルの行を並び替えたい、サブテーブル内の値を検索して自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 15:22:30 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで法人番号を自動取得する方法｜gBizINFO連携の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/biz-code-search/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/biz-code-search/</guid>
       <description>kintoneで法人番号から会社情報を、法人名から法人番号を自動入力したい方向けに、gBizINFO REST APIを使った無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 15:22:20 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで自動採番する方法｜無料プラグインで連番・年度リセット</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</guid>
       <description>kintoneで連番を自動採番したい、年度が変わったら番号をリセットしたい、和暦の文書番号を使いたい方向けに、APIキー不要の無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 15:22:09 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで決裁・承認プロセスを管理する方法｜決裁履歴記録の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/approval/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/approval/</guid>
+      <description>kintoneのプロセス管理で決裁履歴を記録したい、承認の進捗を見える化したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</guid>
+      <description>kintoneでユーザーコードを入力するだけで氏名・メールアドレス・所属を自動入力したい方向けに、無料プラグインで実現する方法を、実際のUser API実行結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneのサブテーブルを金額順に並び替える方法</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/subtable-sort/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/subtable-sort/</guid>
+      <description>kintoneのサブテーブルの行を保存するたびに自動で金額順・日付順に並び替えたい方向けに、無料プラグインで実現する方法を、実際の並び替え結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで条件によって入力項目を必須にする方法</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/required-condition/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/required-condition/</guid>
+      <description>kintoneで特定の選択肢を選んだときだけ別のフィールドを必須にしたい方向けに、無料プラグインで実現する方法を、実際のバリデーションエラー画面つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
     </item>
     <item>
       <title>自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</title>
       <link>https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</guid>
       <description>自治体・企業でkintoneの無料プラグインを導入する前に確認したいセキュリティチェックポイントを6つにまとめました。外部通信先・認証情報の保存場所・XSS対策・ソース公開の有無などを解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 15:19:21 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで全部署に一斉に調査照会を作成する方法｜レコード一括作成プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</guid>
+      <description>kintoneで、総務課などの1部署から社内のすべての組織(部署)に対して一斉に調査照会レコードを作成したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに</title>
       <link>https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</guid>
       <description>kintoneで会議室の予約枠を、平日9-17時を1時間ごとに一括で作成したい方向けに、無料プラグインで実現する方法を、実際に24件のレコードを作成した結果つきで解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 15:17:54 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでカンバンボードを作る方法｜案件・タスクを見える化</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/kanban-board/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/kanban-board/</guid>
+      <description>kintoneの一覧を表形式のまま眺めていると、案件やタスクの進捗の全体感がつかみにくいことがあります。この記事では、無料プラグインで進捗ごとに列分けしたカンバンボードを表示する方法を、実際の設定画面と表示結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで年度が変わったら番号をリセットして自動採番する方法</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</guid>
+      <description>kintoneで会計年度が変わったら連番を1にリセットしたい、和暦の文書番号を自動で振りたい方向けに、APIキー不要の無料プラグインで実現する方法を、実際に採番した結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで法人番号から会社情報を自動入力する方法｜gBizINFO連携</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</guid>
+      <description>kintoneで法人番号や法人名から、正式名称・代表者名などの会社情報を自動入力したい方向けに、経済産業省gBizINFOと連携する無料プラグインで実現する方法を、実際のAPIリクエスト結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでルックアップ先の情報を自動更新する方法</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/auto-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/auto-lookup/</guid>
+      <description>kintoneでルックアップ先のマスタ情報が変わったとき、既存レコード側の値も自動で最新化したい方向けに、無料プラグインで実現する方法を、実際の自動反映結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで決裁履歴を自動で記録する方法</title>
       <link>https://govapps-plugin.pons-llc.com/articles/approval-history/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/approval-history/</guid>
       <description>kintoneのプロセス管理で、誰がいつ承認したかの履歴を自動で記録したい方向けに、無料プラグインで実現する方法を、実際の承認操作と記録結果つきで解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 15:11:14 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
     </item>
     <item>
       <title>予算管理プラグイン</title>
@@ -96,55 +152,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/kanban_view/</guid>
       <description>レコード一覧画面に、グループ分け・担当者表示・期限超過マークに対応したカンバンボードを表示するプラグイン。REST APIを一切使わずJavaScript APIのみで実現しています。</description>
       <pubDate>Wed, 12 Aug 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</guid>
-      <description>kintoneでユーザーコードを入力するだけで氏名・メールアドレス・所属を自動入力したい方向けに、無料プラグインで実現する方法を、実際のUser API実行結果つきで解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 14:55:13 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneでルックアップ先の情報を自動更新する方法</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/auto-lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/auto-lookup/</guid>
-      <description>kintoneでルックアップ先のマスタ情報が変わったとき、既存レコード側の値も自動で最新化したい方向けに、無料プラグインで実現する方法を、実際の自動反映結果つきで解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 14:48:49 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで条件によって入力項目を必須にする方法</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/required-condition/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/required-condition/</guid>
-      <description>kintoneで特定の選択肢を選んだときだけ別のフィールドを必須にしたい方向けに、無料プラグインで実現する方法を、実際のバリデーションエラー画面つきで解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 14:26:32 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneのサブテーブルを金額順に並び替える方法</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/subtable-sort/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/subtable-sort/</guid>
-      <description>kintoneのサブテーブルの行を保存するたびに自動で金額順・日付順に並び替えたい方向けに、無料プラグインで実現する方法を、実際の並び替え結果つきで解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 14:22:06 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで年度が変わったら番号をリセットして自動採番する方法</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</guid>
-      <description>kintoneで会計年度が変わったら連番を1にリセットしたい、和暦の文書番号を自動で振りたい方向けに、APIキー不要の無料プラグインで実現する方法を、実際に採番した結果つきで解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 14:17:41 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで法人番号から会社情報を自動入力する方法｜gBizINFO連携</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</guid>
-      <description>kintoneで法人番号や法人名から、正式名称・代表者名などの会社情報を自動入力したい方向けに、経済産業省gBizINFOと連携する無料プラグインで実現する方法を、実際のAPIリクエスト結果つきで解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 13:56:25 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで全部署に一斉に調査照会を作成する方法｜レコード一括作成プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</guid>
-      <description>kintoneで、総務課などの1部署から社内のすべての組織(部署)に対して一斉に調査照会レコードを作成したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
-      <pubDate>Wed, 12 Aug 2026 13:47:44 GMT</pubDate>
     </item>
     <item>
       <title>フィールド暗号化プラグイン</title>

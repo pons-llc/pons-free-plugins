@@ -445,7 +445,7 @@ a {
   margin-bottom: 20px;
 }
 
-.plugin-hero h2 {
+.plugin-hero h1 {
   margin: 0 0 8px;
   font-size: 22px;
 }
@@ -457,6 +457,23 @@ a {
 
 .plugin-hero-badges {
   margin-bottom: 16px;
+}
+
+.plugin-hero .author-bio {
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+  font-size: 12px;
+  color: #888;
+}
+
+.plugin-hero .author-bio a {
+  color: #3498db;
+}
+
+.author-bio-note {
+  display: block;
+  margin-top: 2px;
 }
 
 .download-button {
@@ -482,13 +499,16 @@ a {
   margin-bottom: 20px;
 }
 
-.plugin-section h3 {
+/* .container h2/h3 (about/faq/terms向け)と同じ詳細度になるため、section.pluginSectionのように
+   要素型を足して確実にこちらを優先させる(cascadeの記述順に依存させない)。*/
+section.plugin-section h2 {
   margin-top: 0;
   padding-bottom: 8px;
   border-bottom: 1px solid #e3e7e8;
+  font-size: 18px;
 }
 
-.plugin-section h4 {
+section.plugin-section h3 {
   font-size: 14px;
   margin: 16px 0 6px;
 }

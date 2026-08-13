@@ -42,7 +42,7 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>法人番号検索プラグイン</h2>
+  <h1>法人番号検索プラグイン</h1>
   <p class="plugin-lead">
     経済産業省が提供するgBizINFO REST API v2を使い、「法人番号→法人情報入力」「法人名→法人番号検索」の
     2つのボタンをレコード追加・編集画面に設置します。法人番号から代表者名・資本金・従業員数・所在地
@@ -58,10 +58,15 @@
     <span class="badge badge-tag">#自動入力</span>
   </div>
   <a class="download-button" href="download" data-dl-plugin="biz_code_search">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneで法人番号を検索したい</li>
     <li>法人番号から会社情報を自動入力したい</li>
@@ -72,7 +77,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>ユースケース</h3>
+  <h2>ユースケース</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
       <span>取引先の法人番号を入力すると、代表者名・資本金・所在地などを自動転記する</span>
@@ -94,7 +99,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セットアップ手順</h3>
+  <h2>セットアップ手順</h2>
   <ol class="setup-steps">
     <li><a href="https://info.gbiz.go.jp/hojin/various_registration/form" target="_blank" rel="noopener noreferrer">gBizINFOのWeb API利用申請ページ</a>からAPIトークンを取得する(申請後、即日〜数時間程度で登録メールアドレスに届きます)。</li>
     <li>アプリのフォーム編集で「スペース」フィールドを2つ配置し、それぞれ要素IDを設定する(「法人番号から取得」ボタン・「法人名から検索」ボタンが表示される場所になります)。</li>
@@ -106,7 +111,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セキュリティレビュー結果サマリ</h3>
+  <h2>セキュリティレビュー結果サマリ</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
       <span>チェック結果を見る(すべて対応済み)</span>
@@ -128,14 +133,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>設定画面イメージ</h3>
+  <h2>設定画面イメージ</h2>
   <div class="screenshot-frame">
     <img src="screenshots/config-screen.png" alt="法人番号検索プラグインの設定画面。APIトークン入力欄、法人番号・法人名フィールド、転記項目(gBizINFOの項目と出力先フィールドの組み合わせ)、ボタンの設置スペースを設定する画面のスクリーンショット。" loading="lazy">
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>API実行数について</h3>
+  <h2>API実行数について</h2>
   <p class="api-usage-note">
     このプラグインは、法人情報の取得のためにgBizINFO REST API v2(<code>kintone.plugin.app.proxy()</code>
     経由)を実行します。「法人番号から取得」ボタンを押すたびに詳細取得APIが1回、「法人名から検索」
@@ -146,14 +151,14 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて読みたい記事</h3>
+  <h2>あわせて読みたい記事</h2>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="/articles/corporate-number-lookup/">kintoneで法人番号から会社情報を自動入力する方法 ― gBizINFOへの実際のリクエスト結果つきで解説</a>
   </div>
 </section>
 
 <section class="plugin-section">
-  <h3>GitHub / 改善要望</h3>
+  <h2>GitHub / 改善要望</h2>
   <div class="plugin-links">
     <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/biz_code_search" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
     <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/biz_code_search/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
@@ -162,7 +167,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>

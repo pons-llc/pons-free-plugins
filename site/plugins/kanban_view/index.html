@@ -42,7 +42,7 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h2>カンバンボードプラグイン</h2>
+  <h1>カンバンボードプラグイン</h1>
   <p class="plugin-lead">
     レコード一覧画面(表形式)に、列(グループ)とカードで構成するカンバンボードを表示するプラグインです。
     グループ分けはラジオボタン/ドロップダウンフィールド、またはプロセス管理のステータスから選べます。
@@ -58,10 +58,15 @@
     <span class="badge badge-tag">#期限管理</span>
   </div>
   <a class="download-button" href="download" data-dl-plugin="kanban_view">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
 </div>
 
 <section class="plugin-section">
-  <h3>こんな方におすすめ</h3>
+  <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
     <li>kintoneでカンバンボード(タスクボード)表示を使いたい</li>
     <li>「kintone カンバン」「kintone タスクボード」を探している</li>
@@ -71,7 +76,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>ユースケース</h3>
+  <h2>ユースケース</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
       <span>プロセス管理のステータスごとに進捗を可視化する</span>
@@ -102,7 +107,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セットアップ手順</h3>
+  <h2>セットアップ手順</h2>
   <ol class="setup-steps">
     <li>プラグインをアプリに追加し、設定画面を開く。</li>
     <li>対象一覧のIDを入力して「+ この一覧の設定を追加」を押す(空欄のままなら、ビルトインの「すべて(デフォルト)」一覧向けの設定になる)。対象の一覧を開いたときのブラウザURLに含まれる<code>view=</code>の数字が一覧IDです。</li>
@@ -116,7 +121,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>セキュリティレビュー結果サマリ</h3>
+  <h2>セキュリティレビュー結果サマリ</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
       <span>チェック結果を見る(すべて対応済み)</span>
@@ -137,7 +142,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>カンバンボード表示イメージ</h3>
+  <h2>カンバンボード表示イメージ</h2>
   <div class="screenshot-frame">
     <img src="screenshots/kanban-board.png" alt="カンバンボードプラグインの表示例。「未着手」「着手中」「完了」の3列に分かれ、各カードにタスク名・優先度バッジ・担当者名が表示されている。期限が2026-08-05のカードには赤字で🔥マークが付き、期限超過であることがひと目でわかる。" loading="lazy">
   </div>
@@ -147,14 +152,21 @@
 </section>
 
 <section class="plugin-section">
-  <h3>API実行数について</h3>
+  <h2>API実行数について</h2>
   <p class="api-usage-note">
     このプラグインは表示専用であり、REST APIを一切実行しません。レコードの取得は<code>app.record.index.show</code>イベントの<code>event.records</code>(JavaScript APIの一部)のみを使用します。
   </p>
 </section>
 
 <section class="plugin-section">
-  <h3>GitHub / 改善要望</h3>
+  <h2>あわせて読みたい記事</h2>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="/articles/kanban-board/">kintoneでカンバンボードを作る方法 ― 実際の設定画面と表示結果つきで解説</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>GitHub / 改善要望</h2>
   <div class="plugin-links">
     <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/kanban_view" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
     <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/kanban_view/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
@@ -163,7 +175,7 @@
 </section>
 
 <section class="plugin-section">
-  <h3>あわせて検討したいkintone関連サービス</h3>
+  <h2>あわせて検討したいkintone関連サービス</h2>
   <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
