@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kintoneの日付を令和・和暦に変換する方法（無料） | GovAppsプラグイン</title>
+<meta name="description" content="kintoneの日付フィールドの値を、令和などの和暦表記(西暦併記可)へ自動変換して別フィールドに入力したい場合の実現方法を、無料プラグインの実際の設定画面・変換結果つきで解説します。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/articles">記事一覧</a> &gt; kintoneの日付を令和・和暦に変換する方法</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>kintoneの日付を令和・和暦に変換する方法（無料）</h1>
+  <p class="plugin-lead">
+    自治体や官公庁向けの帳票では、契約日や決裁日を「令和8年5月1日」のような和暦表記で出力したい
+    場面が多くあります。kintoneの日付フィールドは西暦(<code>2026-05-01</code>)でしか保持できないため、
+    和暦表記が必要な場合は別フィールドへの変換が必要です。この記事では、無料プラグインで日付を
+    自動的に和暦へ変換する方法を、実際の設定画面と変換結果つきで解説します。
+  </p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>契約日・決裁日などを「令和8年5月1日」のような和暦表記で扱いたい</li>
+    <li>「kintone 令和 日付」「kintone 和暦 変換」を探している</li>
+    <li>西暦と和暦を併記(「2026年(令和8年)5月1日」)して表示したい</li>
+    <li>公用文の帳票にあわせて、1桁の数字だけ全角にしたい</li>
+    <li>将来の改元にも柔軟に対応できる仕組みにしておきたい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>kintone標準機能ではどこまでできるか</h2>
+  <p>
+    kintoneの日付フィールドは西暦(グレゴリオ暦)でしか値を保持できず、標準機能に和暦表示への変換
+    機能はありません。計算(CALC)フィールドでも日付から元号・和暦年を算出することはできません。
+    JavaScriptカスタマイズを自作すれば、ブラウザの<code>Intl.DateTimeFormat</code>を使って和暦へ
+    変換できますが、元年表記(「令和元年」)・全角/半角の使い分け・将来の改元への対応まで含めると
+    簡単な作業ではありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
+  <p>
+    「日付を和暦表記に変換する」機能を用意する方法は、大きく4つあります。それぞれの向き不向きを
+    まとめました。
+  </p>
+  <div class="table-scroll">
+  <table class="fyn-table">
+    <thead>
+      <tr><th>方法</th><th>向いている場合</th><th>注意点</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>kintone標準機能のみ</td><td>西暦表記のままで運用できる場合</td><td>和暦への変換機能自体が無い</td></tr>
+      <tr><td>JavaScriptを自作する</td><td>社内に開発者がいて、独自の書式・改元対応が必要な場合</td><td>元年表記・全角半角切り替え・改元対応の実装・保守が必要</td></tr>
+      <tr><td>有料の他社プラグイン</td><td>予算があり、手厚いサポートを求める場合</td><td>月額課金が発生する。ソースコードが非公開で、変換ロジックを利用者側で確認しにくいことが多い</td></tr>
+      <tr><td><strong>GovAppsプラグイン(このプラグイン)</strong></td><td>無料で試したい、社内・庁内でセキュリティを確認してから導入したい場合</td><td>一覧のインライン編集・REST API経由の変更には追従しない</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>
+    GovAppsのプラグインは<strong>すべて無料・広告なし</strong>で、追加課金なしで使い続けられます。
+    ソースコードは<a href="https://github.com/pons-llc/pons-free-plugins" target="_blank" rel="noopener">GitHubで全公開</a>しているオープンソースなので、
+    「本当に外部と通信していないか(ブラウザ標準の日時APIのみで完結しているか)」を自治体・企業の
+    セキュリティ担当者自身の目で確認できます(このプラグインも<a href="/plugins/wareki_date_format/">個別ページ</a>にセキュリティレビュー結果を掲載しています)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>西暦和暦変換プラグインでの実現方法</h2>
+  <p>
+    <a href="/plugins/wareki_date_format/">西暦和暦変換プラグイン</a>は、変換元フィールド・出力先
+    フィールド・書式を設定するだけです。今回は「契約日」(日付型)・「契約日(和暦)」(文字列1行)を
+    持つアプリで設定しました。
+  </p>
+  <ol class="setup-steps">
+    <li>
+      <strong>変換ペアを追加する</strong><br>
+      変換元フィールドに「契約日」、出力先フィールドに「契約日(和暦)」を選びます。
+    </li>
+    <li>
+      <strong>書式と全角/半角を選ぶ</strong><br>
+      書式は「西暦和暦併記」、全角オプションはONにしました。設定画面には入力例(サンプル日付
+      2024-07-09)を使ったプレビューがリアルタイムに表示されます。
+    </li>
+    <li>
+      <strong>保存し、アプリを更新する</strong><br>
+      保存しただけではプレビュー状態のため、必ず「アプリを更新」まで行います。
+    </li>
+  </ol>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="西暦和暦変換プラグインの設定画面。変換元フィールドに「契約日」、出力先フィールドに「契約日(和暦)」、書式に「西暦和暦併記」、全角にチェックを入れ、プレビュー欄に「2024年(令和6年)7月9日」と表示されている状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>実行結果: 日付を入力すると和暦が自動入力される</h2>
+  <p>
+    契約日に「2026-05-01」を入力して保存すると、<strong>契約日(和暦)フィールドに
+    「2026年(令和８年)５月１日」が自動的に入力されます。</strong>1桁の元号年(8年)・月(5月)・日(1日)
+    は全角(「８年」「５月」「１日」)になり、4桁の西暦年(2026年)は全角オプションの対象外として
+    常に半角のまま表示されます。元年にあたる日付を入力すると「令和元年」のように表記されます。
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/record-detail.png" alt="レコード詳細画面。契約日「2026-05-01」に対して、契約日(和暦)フィールドに「2026年(令和８年)５月１日」が自動入力されている状態のスクリーンショット。" loading="lazy">
+  </div>
+  <p>
+    契約日を変更すると、その場で(または保存時に)契約日(和暦)フィールドが再計算されて上書きされます。
+    出力先フィールドを手入力の自由記述欄として使うことはできません(次に変換元フィールドが変わるか
+    保存すると上書きされます)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて確認したいポイント</h2>
+  <ul class="review-checklist">
+    <li>元号・年の判定はブラウザ標準の<code>Intl.DateTimeFormat</code>を基本にしており、明治〜令和の範囲は将来の改元にもブラウザのアップデートで自動的に追従します。</li>
+    <li>次の改元が施行されてからブラウザ側の対応が行き渡るまでの間だけ、設定画面の「元号テーブル」に元号名と改元日を登録すると、その日付以降はブラウザの判定より優先してテーブルの内容が使われます。</li>
+    <li>一覧画面でのインライン編集や、REST API経由での日付変更には追従しません。変換元フィールドの値がkintoneの標準UI(change/submitイベント)を通じて変わったときのみ動作します(<a href="/plugins/wareki_date_format/">プラグイン個別ページ</a>のセキュリティレビューサマリ参照)。</li>
+    <li>日時(DATETIME)型フィールドを変換元にする場合、暦日の判定はAsia/Tokyo固定で行われます。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>対応するプラグイン</h2>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="/plugins/wareki_date_format/">西暦和暦変換プラグイン ― 日付/日時フィールドの値を令和などの和暦文字列に変換し、別フィールドへ自動入力</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて見たい記事・解決策ページ</h2>
+  <div class="related-services">
+    <a class="related-service-card" href="/articles/fiscal-year-numbering/">kintoneで年度が変わったら番号をリセットして自動採番する方法(年度・元号に関連した別プラグイン)</a>
+    <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
+    <a class="related-service-card" href="/articles/">記事一覧に戻る</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

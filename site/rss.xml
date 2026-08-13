@@ -5,7 +5,21 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 09:13:45 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 09:50:17 GMT</lastBuildDate>
+    <item>
+      <title>kintoneで年度が変わったら番号をリセットして自動採番する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</guid>
+      <description>kintoneで会計年度が変わったら連番を1にリセットしたい、和暦の文書番号を自動で振りたい方向けに、APIキー不要の無料プラグインで実現する方法を、実際に採番した結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 09:50:17 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの日付を令和・和暦に変換する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/wareki-date/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/wareki-date/</guid>
+      <description>kintoneの日付フィールドの値を、令和などの和暦表記(西暦併記可)へ自動変換して別フィールドに入力したい場合の実現方法を、無料プラグインの実際の設定画面・変換結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 09:49:44 GMT</pubDate>
+    </item>
     <item>
       <title>自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</title>
       <link>https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</link>
@@ -123,13 +137,6 @@
       <link>https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</guid>
       <description>kintoneで法人番号や法人名から、正式名称・代表者名などの会社情報を自動入力したい方向けに、経済産業省gBizINFOと連携する無料プラグインで実現する方法を、実際のAPIリクエスト結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで年度が変わったら番号をリセットして自動採番する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</guid>
-      <description>kintoneで会計年度が変わったら連番を1にリセットしたい、和暦の文書番号を自動で振りたい方向けに、APIキー不要の無料プラグインで実現する方法を、実際に採番した結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
     </item>
     <item>
