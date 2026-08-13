@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kintoneでレコードを削除する前にバックアップする方法（無料） | GovAppsプラグイン</title>
+<meta name="description" content="kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい場合の実現方法を、無料プラグインの実際の設定画面・削除結果つきで解説します。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/articles">記事一覧</a> &gt; kintoneでレコードを削除する前にバックアップする方法</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>kintoneでレコードを削除する前にバックアップする方法（無料）</h1>
+  <p class="plugin-lead">
+    kintoneのレコード削除は一度実行すると元に戻せず、添付ファイルも含めて完全に失われます。
+    「誤って削除してしまった」を防ぐには、削除の直前に必ず内容を残す仕組みが必要です。この記事では、
+    無料プラグインでレコード削除前に自動でzipバックアップをダウンロードし、バックアップに失敗したら
+    削除自体を中止する方法を、実際の設定画面と削除結果つきで解説します。
+  </p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>レコードを削除する前に、添付ファイルを含めた内容を必ず残しておきたい</li>
+    <li>「kintone レコード削除 バックアップ」「kintone 削除 復元」を探している</li>
+    <li>誤削除時の証跡・監査対応として削除前の内容を保管したい</li>
+    <li>バックアップに失敗した場合は削除自体を止めてほしい</li>
+    <li>別アプリへのアーカイブ、またはzipダウンロードのどちらかで運用したい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>kintone標準機能ではどこまでできるか</h2>
+  <p>
+    kintoneの標準機能には、削除したレコードを復元する機能はありません。監査ログでいつ誰が削除したかは
+    追えますが、削除された内容そのもの(添付ファイルを含む)は標準機能では残せません。JavaScript
+    カスタマイズを自作すれば、削除前イベントでバックアップ処理を挟めますが、添付ファイルの
+    ダウンロード・zip生成・別アプリへの再アップロードまで実装し、かつ「バックアップが失敗したら
+    削除もキャンセルする」フェイルセーフまで組み込むのは簡単な作業ではありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
+  <p>
+    「削除前に必ずバックアップを取る」機能を用意する方法は、大きく4つあります。それぞれの
+    向き不向きをまとめました。
+  </p>
+  <div class="table-scroll">
+  <table class="fyn-table">
+    <thead>
+      <tr><th>方法</th><th>向いている場合</th><th>注意点</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>kintone標準機能のみ</td><td>削除頻度が低く、監査ログの記録だけで十分な場合</td><td>削除された内容そのものは復元できない</td></tr>
+      <tr><td>JavaScriptを自作する</td><td>社内に開発者がいて、独自のバックアップ形式が必要な場合</td><td>zip生成・ファイル再アップロード・失敗時のキャンセル処理の実装・保守が必要</td></tr>
+      <tr><td>有料の他社プラグイン</td><td>予算があり、手厚いサポートを求める場合</td><td>月額課金が発生する。ソースコードが非公開で、外部通信の有無を利用者側で確認しにくいことが多い</td></tr>
+      <tr><td><strong>GovAppsプラグイン(このプラグイン)</strong></td><td>無料で試したい、社内・庁内でセキュリティを確認してから導入したい場合</td><td>PC専用(モバイルは対象外)</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>
+    GovAppsのプラグインは<strong>すべて無料・広告なし</strong>で、追加課金なしで使い続けられます。
+    ソースコードは<a href="https://github.com/pons-llc/pons-free-plugins" target="_blank" rel="noopener">GitHubで全公開</a>しているオープンソースなので、
+    「本当に外部と通信していないか(ファイルのダウンロード・アップロードはkintone自身にのみ行っているか)」を
+    自治体・企業のセキュリティ担当者自身の目で確認できます(このプラグインも<a href="/plugins/delete_backup/">個別ページ</a>にセキュリティレビュー結果を掲載しています)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>削除バックアッププラグインでの実現方法</h2>
+  <p>
+    <a href="/plugins/delete_backup/">削除バックアッププラグイン</a>は、バックアップ方式を選ぶだけで
+    設定が完了します。今回は「zipでダウンロード」方式で設定しました(もう1つの「別アプリへ
+    アーカイブ」方式では、アーカイブ先アプリ・保存先フィールドをあわせて指定します)。
+  </p>
+  <ol class="setup-steps">
+    <li>
+      <strong>バックアップ方式を選ぶ</strong><br>
+      「zipでダウンロード(ブラウザからダウンロード)」を選びました。
+    </li>
+    <li>
+      <strong>保存し、アプリを更新する</strong><br>
+      保存しただけではプレビュー状態のため、必ず「アプリを更新」まで行います。
+    </li>
+  </ol>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="削除バックアッププラグインの設定画面。バックアップ方式で「zipでダウンロード(ブラウザからダウンロード)」が選択されている状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>実行結果: 削除操作をすると自動でzipがダウンロードされる</h2>
+  <p>
+    添付ファイル(demo.txt)を持つレコードの詳細画面から、通常どおり「オプション」→「レコードを削除」
+    を選ぶと、kintone標準の削除確認ポップアップが表示されます。
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/record-before-delete.png" alt="レコード詳細画面。件名「見積書(廃棄予定)」、添付ファイルに「demo.txt」が設定されている、削除前の状態のスクリーンショット。" loading="lazy">
+  </div>
+  <div class="screenshot-frame">
+    <img src="screenshots/delete-confirm.png" alt="kintone標準の削除確認ポップアップ。「削除します。よろしいですか?」に対して「キャンセル」「削除する」ボタンが表示されている状態のスクリーンショット。" loading="lazy">
+  </div>
+  <p>
+    「削除する」を押すと、<strong>レコードが実際に削除される直前に、プラグインが自動でレコードの
+    内容と添付ファイルをまとめたzipファイル(<code>backup_app{アプリID}_record{レコードID}.zip</code>)
+    をブラウザからダウンロードします。</strong>zipの中には削除時点のレコード情報(<code>record.json</code>)と
+    添付ファイル本体が格納されています。ダウンロードが完了して初めて削除が実行されるため、
+    バックアップを取り損ねたまま削除される心配がありません。
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/record-list-after.png" alt="レコード一覧画面。レコードが削除され「データがありません。」と表示されている状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて確認したいポイント</h2>
+  <ul class="review-checklist">
+    <li>バックアップに失敗した場合(通信エラー・アクセス権不足など)は、削除そのものがキャンセルされます。「削除はできたがバックアップは失敗した」という状態を作らない設計です。</li>
+    <li>対応画面はレコード詳細画面・レコード一覧画面での削除(PCのみ)です。モバイルは対象外です。</li>
+    <li>「別アプリへアーカイブ」方式を使う場合、アーカイブ先アプリにJSON保存先・添付ファイル保存先以外の必須フィールドがあると、レコード登録が失敗して削除自体ができなくなります。アーカイブ先はこのプラグイン専用の空アプリを推奨します(<a href="/plugins/delete_backup/">プラグイン個別ページ</a>のセキュリティレビューサマリ参照)。</li>
+    <li>ファイルのダウンロード・アップロードはkintone自身(同一オリジン)へのfetchのみで、外部サーバーへの通信は一切行いません。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>対応するプラグイン</h2>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="/plugins/delete_backup/">削除バックアッププラグイン ― レコード削除の直前に、添付ファイルを含む内容を必ずバックアップしてから削除を許可</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて見たい記事・解決策ページ</h2>
+  <div class="related-services">
+    <a class="related-service-card" href="/articles/plugin-security-checklist/">自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</a>
+    <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
+    <a class="related-service-card" href="/articles/">記事一覧に戻る</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

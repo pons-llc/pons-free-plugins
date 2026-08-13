@@ -5,7 +5,21 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 08:50:29 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 08:59:06 GMT</lastBuildDate>
+    <item>
+      <title>自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</guid>
+      <description>自治体・企業でkintoneの無料プラグインを導入する前に確認したいセキュリティチェックポイントを6つにまとめました。外部通信先・認証情報の保存場所・XSS対策・ソース公開の有無などを解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 08:59:06 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでレコードを削除する前にバックアップする方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/delete-backup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/delete-backup/</guid>
+      <description>kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい場合の実現方法を、無料プラグインの実際の設定画面・削除結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 08:58:35 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneの入力フォームをタブ化する方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/tab-layout/</link>
@@ -187,13 +201,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</guid>
       <description>kintoneで連番を自動採番したい、年度が変わったら番号をリセットしたい、和暦の文書番号を使いたい方向けに、APIキー不要の無料プラグインで実現する方法を解説します。</description>
       <pubDate>Thu, 13 Aug 2026 08:06:30 GMT</pubDate>
-    </item>
-    <item>
-      <title>自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</guid>
-      <description>自治体・企業でkintoneの無料プラグインを導入する前に確認したいセキュリティチェックポイントを6つにまとめました。外部通信先・認証情報の保存場所・XSS対策・ソース公開の有無などを解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 07:08:28 GMT</pubDate>
     </item>
     <item>
       <title>予算管理プラグイン</title>

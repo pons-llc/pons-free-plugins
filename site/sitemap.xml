@@ -397,6 +397,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://govapps-plugin.pons-llc.com/articles/delete-backup/</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
