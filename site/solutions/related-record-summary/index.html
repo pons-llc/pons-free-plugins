@@ -12,8 +12,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>kintoneで予算管理する方法｜予算消化率を一覧で見える化する無料プラグイン | GovAppsプラグイン</title>
-<meta name="description" content="kintoneの経費一覧の合計額が予算の何%に達しているかをひと目で確認したい方向けに、無料プラグインで実現する方法を解説します。">
+<title>kintoneの関連レコードを集計する方法｜件数・合計・平均を自動計算する無料プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="kintoneの関連レコード一覧フィールドが参照する明細の件数・合計・平均を自動で計算したい方向けに、無料プラグインで実現する方法を解説します。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -30,7 +30,7 @@
       <span class="header-menu-toggle-bar"></span>
     </button>
   </div>
-  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneで予算管理する方法</p>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneの関連レコードを集計する方法</p>
   <nav class="header-menu" id="header-menu" hidden>
     <a href="/">トップ</a>
     <a href="/solutions">解決策から探す</a>
@@ -42,22 +42,22 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h1>kintoneで予算管理する方法（無料プラグインで解決）</h1>
+  <h1>kintoneの関連レコードを集計する方法（無料プラグインで解決）</h1>
   <p class="plugin-lead">
-    経費や発注のレコードを一覧で見ているだけでは、予算に対して今どれだけ使ったのかが直感的に
-    分かりません。都度電卓で合計額を計算して予算と見比べる運用は、確認漏れや使いすぎに気づく
-    タイミングの遅れにつながります。このページでは、予算消化率をメーター表示で見える化する
-    方法を無料プラグインでどう実現できるかをまとめます。
+    関連レコード一覧フィールドは参照先アプリの明細を一覧表示できますが、件数・合計・平均のような
+    集計値を自アプリのフィールドへ書き込むことはできません。見積の明細金額を合計して請求額を
+    自動計算したい、注文点数から件数を数えたいといった用途には、標準機能だけでは対応できません。
+    このページでは、そうした関連レコードの集計を無料プラグインでどう実現できるかをまとめます。
   </p>
 </div>
 
 <section class="plugin-section">
   <h2>こんな方におすすめ</h2>
   <ul class="review-checklist">
-    <li>経費一覧の合計額が予算の何%に達しているかをひと目で確認したい</li>
-    <li>予算超過に気づかず発注・支出してしまうミスを防ぎたい</li>
-    <li>一覧の絞り込み条件(部署・費目など)ごとに予算を分けて管理したい</li>
-    <li>複数の予算(一覧)の消化状況をまとめて確認したい</li>
+    <li>関連レコード一覧が参照する明細の金額合計を自アプリのフィールドへ自動転記したい</li>
+    <li>関連レコードの件数を自動で数えたい</li>
+    <li>関連レコードの平均値(単価など)を自動計算したい</li>
+    <li>関連レコード一覧フィールドの値がREST APIで取得できず、自動計算に使えず困っている</li>
   </ul>
 </section>
 
@@ -65,21 +65,21 @@
   <h2>対応するプラグイン</h2>
   <p class="related-services-by">検索意図に合わせて、以下のプラグインが利用できます。</p>
   <div class="related-services">
-    <a class="related-service-card is-govapps" href="/plugins/budget_meter/">予算管理プラグイン ― 一覧(View)ごとに予算額と集計対象フィールドを設定し、絞り込み条件に該当するレコードの合計値を予算に対する使用率メーターで表示する</a>
+    <a class="related-service-card is-govapps" href="/plugins/related_record_summary/">関連レコード集計プラグイン ― 関連レコード一覧フィールドが参照する先のアプリのレコードを件数・合計・平均で集計し、自アプリの指定フィールドへ書き込む</a>
   </div>
 </section>
 
 <section class="plugin-section">
   <h2>あわせて読みたい記事</h2>
   <div class="related-services">
-    <a class="related-service-card is-govapps" href="/articles/budget-management/">kintoneで予算と実績を管理する方法(経費一覧の合計額を予算消化率メーターで表示する実例)</a>
+    <a class="related-service-card is-govapps" href="/articles/related-record-summary/">kintoneの関連レコードを件数・合計・平均で集計する方法(明細金額を自動集計する実例)</a>
   </div>
 </section>
 
 <section class="plugin-section">
   <h2>あわせて見たい解決策ページ</h2>
   <div class="related-services">
-    <a class="related-service-card" href="/solutions/related-record-summary/">kintoneの関連レコードを集計する方法(別アプリのレコードを集計したい場合はこちら)</a>
+    <a class="related-service-card" href="/solutions/budget-management/">kintoneで予算管理する方法(自アプリ内の一覧を集計してメーター表示したい場合はこちら)</a>
     <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
   </div>
 </section>
