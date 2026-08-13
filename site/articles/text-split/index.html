@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kintoneの文字列を区切り文字で分割する方法（無料） | GovAppsプラグイン</title>
+<meta name="description" content="kintoneで、住所のような1つの文字列フィールドをスペースなどの区切り文字で複数のフィールドに自動分割したい場合の実現方法を、無料プラグインの実際の設定画面・分割結果つきで解説します。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/articles">記事一覧</a> &gt; kintoneの文字列を区切り文字で分割する方法</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>kintoneの文字列を区切り文字で分割する方法（無料）</h1>
+  <p class="plugin-lead">
+    住所を1つのフィールドにまとめて入力していると、「都道府県だけで絞り込みたい」「市区町村ごとに
+    集計したい」といった場面で不便になります。この記事では、無料プラグインで文字列フィールドの値を
+    区切り文字で分割し、複数のフィールドへ自動で振り分ける方法を、実際の設定画面と分割結果つきで
+    解説します。
+  </p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>住所やコード値のような1つの文字列を、複数のフィールドに自動で分割したい</li>
+    <li>「kintone 文字列 分割」を探している</li>
+    <li>スペース・ハイフンなどの記号、または正規表現で分割条件を指定したい</li>
+    <li>分割元・分割先フィールドを画面から直接編集できないよう保護したい</li>
+    <li>分割結果の個数が入力によって変わっても、安全に処理したい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>kintone標準機能ではどこまでできるか</h2>
+  <p>
+    kintoneの標準機能には、1つの文字列フィールドの値を区切り文字で分割して複数フィールドへ
+    振り分ける機能はありません。計算(CALC)フィールドの文字列関数でも、部分文字列の抽出は
+    できても「区切り文字で可変個数に分割する」処理は組めません。JavaScriptカスタマイズを
+    自作すれば実現できますが、分割結果が出力先フィールドの数より多い・少ない場合の扱いや、
+    元フィールド・出力先フィールドの編集制御まで含めると簡単な作業ではありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
+  <p>
+    「文字列を区切り文字で分割して複数フィールドへ格納する」機能を用意する方法は、大きく4つ
+    あります。それぞれの向き不向きをまとめました。
+  </p>
+  <div class="table-scroll">
+  <table class="fyn-table">
+    <thead>
+      <tr><th>方法</th><th>向いている場合</th><th>注意点</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>kintone標準機能のみ</td><td>分割せず1フィールドのまま運用できる場合</td><td>分割・振り分け機能自体が無い</td></tr>
+      <tr><td>JavaScriptを自作する</td><td>社内に開発者がいて、独自の分割ルールが必要な場合</td><td>可変長の割り当てロジック・編集制御の実装・保守が必要</td></tr>
+      <tr><td>有料の他社プラグイン</td><td>予算があり、手厚いサポートを求める場合</td><td>月額課金が発生する。ソースコードが非公開で、外部通信の有無を利用者側で確認しにくいことが多い</td></tr>
+      <tr><td><strong>GovAppsプラグイン(このプラグイン)</strong></td><td>無料で試したい、社内・庁内でセキュリティを確認してから導入したい場合</td><td>分割結果が出力先より多い場合、はみ出した分は切り捨てられる</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>
+    GovAppsのプラグインは<strong>すべて無料・広告なし</strong>で、追加課金なしで使い続けられます。
+    ソースコードは<a href="https://github.com/pons-llc/pons-free-plugins" target="_blank" rel="noopener">GitHubで全公開</a>しているオープンソースなので、
+    「本当に外部と通信していないか」を自治体・企業のセキュリティ担当者自身の目で確認できます
+    (このプラグインも<a href="/plugins/text_split/">個別ページ</a>にセキュリティレビュー結果を掲載しています)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>スプリットプラグインでの実現方法</h2>
+  <p>
+    <a href="/plugins/text_split/">スプリットプラグイン</a>は、元フィールド・区切りモード・
+    区切り文字・出力先フィールドの並びを設定するだけです。今回は「住所」(元フィールド)・
+    「都道府県」「番地以降」(出力先フィールド、いずれも文字列1行)を持つアプリで設定しました。
+  </p>
+  <ol class="setup-steps">
+    <li>
+      <strong>設定行を追加し、元フィールドを選ぶ</strong><br>
+      元フィールドに「住所」を選びます。
+    </li>
+    <li>
+      <strong>区切りモードと区切り文字を指定する</strong><br>
+      区切りモードは「記号・文字」、区切り文字に半角スペース(<code> </code>)を追加しました
+      (正規表現での指定も選べます)。
+    </li>
+    <li>
+      <strong>出力先フィールドを順番に追加する</strong><br>
+      分割結果は先頭から順に割り当てられるため、「都道府県」→「番地以降」の順で追加しました。
+    </li>
+  </ol>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="スプリットプラグインの設定画面。元フィールドに「住所」、区切りモードに「記号・文字」、区切り文字に半角スペース、出力先フィールドに「都道府県」「番地以降」を順に設定した状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>実行結果: 保存時に住所が自動で分割される</h2>
+  <p>
+    「住所」に「東京都 千代田区丸の内1-1-1」(都道府県と番地以降を半角スペースで区切った文字列)
+    を入力して保存すると、<strong>「都道府県」フィールドに「東京都」、「番地以降」フィールドに
+    「千代田区丸の内1-1-1」が自動的に格納されます。</strong>
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/record-detail.png" alt="レコード詳細画面。住所「東京都 千代田区丸の内1-1-1」に対して、都道府県フィールドに「東京都」、番地以降フィールドに「千代田区丸の内1-1-1」が自動的に格納されている状態のスクリーンショット。" loading="lazy">
+  </div>
+  <p>
+    出力先フィールド(都道府県・番地以降)はレコード追加・編集画面で編集不可になっており、
+    分割結果以外の値が手入力で紛れ込むことはありません。区切り文字が住所に含まれていない場合は、
+    2つ目以降の出力先フィールドが空文字列でクリアされます。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて確認したいポイント</h2>
+  <ul class="review-checklist">
+    <li>分割処理はレコード保存時(<code>submit</code>イベント)にのみ実行されます。入力中にリアルタイムで分割結果が表示されるわけではありません。</li>
+    <li>分割結果が出力先フィールドより<strong>少ない</strong>場合、余った出力先フィールドは空文字列でクリアされます。<strong>多い</strong>場合は、はみ出した分を切り捨てます(結合はしません)。</li>
+    <li>出力先フィールドは追加・編集画面で直接編集できなくなり、元フィールドはレコード一覧のインライン編集で直接編集できなくなります(<a href="/plugins/text_split/">プラグイン個別ページ</a>のセキュリティレビューサマリ参照)。</li>
+    <li>1つの元フィールドに複数の設定行を作ることも、異なる元フィールドにそれぞれ設定することもできます。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>対応するプラグイン</h2>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="/plugins/text_split/">スプリットプラグイン ― 文字列フィールドの値を区切り文字・正規表現で分割し、複数の出力先フィールドへ格納</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて見たい記事・解決策ページ</h2>
+  <div class="related-services">
+    <a class="related-service-card" href="/plugins/number_extract/">数字抽出プラグイン(文字列から数字だけを取り出したい場合)</a>
+    <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
+    <a class="related-service-card" href="/articles/">記事一覧に戻る</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>
