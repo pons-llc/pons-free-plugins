@@ -5,7 +5,21 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 13:37:14 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 13:39:00 GMT</lastBuildDate>
+    <item>
+      <title>kintoneで予算と実績を管理する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/budget-management/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/budget-management/</guid>
+      <description>kintoneの経費一覧の合計額が予算の何%に達しているかを、無料プラグインでメーター表示する方法を、実際の設定画面・警告表示結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:39:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで予算管理する方法｜予算消化率を一覧で見える化する無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/budget-management/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/budget-management/</guid>
+      <description>kintoneの経費一覧の合計額が予算の何%に達しているかをひと目で確認したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:38:26 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneで会議室予約・タスク管理を自動化する方法｜一括作成・カレンダー表示の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/scheduling/</link>
@@ -222,13 +236,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/organization-code-lookup/</guid>
       <description>kintoneで、入力した組織コードから組織名・説明・親組織名を自動入力したい場合の実現方法を、無料プラグインの実際の設定画面・反映結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 08:38:17 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで予算と実績を管理する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/budget-management/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/budget-management/</guid>
-      <description>kintoneの経費一覧の合計額が予算の何%に達しているかを、無料プラグインでメーター表示する方法を、実際の設定画面・警告表示結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:31:56 GMT</pubDate>
     </item>
     <item>
       <title>kintoneの関連レコードを件数・合計・平均で集計する方法（無料）</title>
