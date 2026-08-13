@@ -3,26 +3,20 @@
 
   // 一覧画面からの一括承認の orchestration ロジック。PC・モバイル共通で使う
   // (kintone.createDialog/kintone.mobile.createBottomSheet、kintone.showLoading/
-  // kintone.mobile.showLoading、kintone.app.getQueryCondition/
-  // kintone.mobile.app.getQueryConditionはそれぞれPC専用/モバイル専用APIのため、
-  // platform引数として呼び出し元(desktop.js/mobile.js)から注入する。idea.md参照)。
+  // kintone.mobile.showLoadingはそれぞれPC専用/モバイル専用APIのため、platform引数として
+  // 呼び出し元(desktop.js/mobile.js)から注入する。idea.md参照)。
+  //
+  // 対象レコードはREST APIで取得しない。`app.record.index.show`/
+  // `mobile.app.record.index.show`イベントの`event.records`(現在ページに表示されている
+  // レコードの配列。REST GETと同じフィールド形式ですべてのフィールドの値を持つ、calendar_view等の
+  // 既存プラグインで確認済みの挙動)を`platform.getRecords()`経由でそのまま使う
+  // (idea.md「対象レコードの取得」参照。ユーザー指示によりREST検索を廃止)。
   const NS = global.BulkApproval;
 
-  const MAX_RECORDS = 500;
-
-  const recordsUrl = () => kintone.api.url('/k/v1/records.json', true);
   const statusBatchUrl = () =>
     kintone.api.url('/k/v1/records/status.json', true);
   const statusSingleUrl = () =>
     kintone.api.url('/k/v1/record/status.json', true);
-
-  const getRecords = (appId, query, fields) =>
-    kintone.api(recordsUrl(), 'GET', {
-      app: appId,
-      query,
-      fields,
-      totalCount: true,
-    });
 
   const putStatusBatch = (appId, records) =>
     kintone.api(statusBatchUrl(), 'PUT', {
@@ -270,7 +264,9 @@
   //   createDialog(config): Promise<{show, close}>
   //     (kintone.createDialog/kintone.mobile.createBottomSheetと同一シグネチャ),
   //   showLoading(): void, hideLoading(): void,
-  //   getQueryCondition(): string,
+  //   getRecords(): 配列(呼び出し元がindex-showイベントのevent.recordsを保持して返す関数。
+  //     一覧のページ送り・絞り込み変更のたびにevent.recordsが更新されるため、ボタン作成時点ではなく
+  //     クリック時点の最新値を返す必要がある。idea.md「対象レコードの取得」参照),
   // }
   const runBulkApproval = async (config, appId, platform) => {
     // kintone.app.getStatus()はレコード一覧画面でも利用できる非同期API。戻り値はREST API
@@ -289,38 +285,19 @@
     }
 
     const displayFields = resolveDisplayFields(config, formFields);
-    const query = `${platform.getQueryCondition()} limit ${MAX_RECORDS}`.trim();
-    const fields = [
-      '$id',
-      '$revision',
-      statusFieldCode,
-      ...displayFields.map((f) => f.code),
-    ];
-
-    let response;
-    try {
-      response = await getRecords(appId, query, fields);
-    } catch (err) {
-      global.alert(`対象レコードの検索に失敗しました: ${err.message}`);
-      return;
-    }
-
-    if (response.records.length === 0) {
+    const rawRecords = platform.getRecords();
+    if (!rawRecords || rawRecords.length === 0) {
       global.alert('対象レコードがありません。');
       return;
     }
 
-    const records = response.records.map((record) => ({
+    const records = rawRecords.map((record) => ({
       id: record.$id.value,
       revision: record.$revision.value,
       ...record,
     }));
 
-    const totalCount = Number(response.totalCount);
-    const headerMessage =
-      totalCount > MAX_RECORDS
-        ? `絞り込み条件に一致する${totalCount}件のうち、先頭${MAX_RECORDS}件を表示しています。ステータスごとに対象レコードを選択してください。`
-        : `絞り込み条件に一致する${records.length}件のレコードです。ステータスごとに対象レコードを選択してください。`;
+    const headerMessage = `現在の一覧に表示されている${records.length}件のレコードです。ステータスごとに対象レコードを選択してください。`;
 
     const groups = NS.RecordGrouping.groupRecordsByStatus(
       records,
@@ -398,22 +375,28 @@
     }
   };
 
-  // 一覧画面ヘッダーに、対象アプリでプロセス管理が有効な場合のみボタンを表示する。
-  // 実行できるユーザーの絞り込みは行わない(実際にアクションを実行できるかどうかは対象アプリの
-  // プロセス管理の設定〈作業者・実行できるユーザー〉自体で決まるため、ボタンの表示可否を
-  // 追加でクライアント側にゲートする必要はないと判断した。idea.md・security-checklist.md参照)。
+  // プロセス管理を有効にすると、kintoneが自動的に「（作業者が自分）」という一覧
+  // (作業者がログインユーザー自身に限定された一覧)を作成する
+  // (https://jp.kintone.help/k/ja/app/process/process_tips 参照、確認済み)。
+  // 一括承認ボタンは、この一覧を開いているときにだけ表示する(idea.md「対応画面」参照)。
+  const SELF_ASSIGNED_VIEW_NAME = '（作業者が自分）';
+
+  // 一覧画面ヘッダーに、対象アプリでプロセス管理が有効かつ「（作業者が自分）」一覧を
+  // 開いている場合のみボタンを表示する。実行できるユーザーの絞り込みは行わない
+  // (実際にアクションを実行できるかどうかは対象アプリのプロセス管理の設定〈作業者・実行できる
+  // ユーザー〉自体で決まるため、ボタンの表示可否を追加でクライアント側にゲートする必要はないと
+  // 判断した。idea.md・security-checklist.md参照)。
   const renderButtonIfEligible = async (
     headerEl,
     config,
     appId,
     platform,
-    viewType,
+    viewName,
   ) => {
     if (!headerEl || headerEl.dataset.bapButtonRendered) {
       return;
     }
-    // kintone.app.getQueryCondition()が意味を持つ表形式の一覧のみ対応する(idea.md「対象レコードの取得」参照)。
-    if (viewType && viewType !== 'list') {
+    if (viewName !== SELF_ASSIGNED_VIEW_NAME) {
       return;
     }
 

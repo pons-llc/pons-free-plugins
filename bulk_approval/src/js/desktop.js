@@ -7,22 +7,29 @@
   const loadConfig = () =>
     NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
 
+  // ページ送り・絞り込み変更のたびに`app.record.index.show`が再発火してevent.recordsが
+  // 更新されるため、ボタンのクリックハンドラーはこの変数を都度参照することで最新の一覧内容を使う
+  // (ボタン要素自体は最初の一覧表示時に1回だけ作られ、以降は再生成されないため。idea.md参照)。
+  let latestRecords = [];
+
   const platform = {
     createDialog: (dialogConfig) => kintone.createDialog(dialogConfig),
     showLoading: () => kintone.showLoading('VISIBLE'),
     hideLoading: () => kintone.showLoading('HIDDEN'),
-    getQueryCondition: () => kintone.app.getQueryCondition() || '',
+    getRecords: () => latestRecords,
   };
 
-  // 一覧画面: 対象グループのメンバーにのみ一括承認ボタンを表示する(idea.md「対応画面」参照)。
+  // 一覧画面: 「(作業者が自分)」一覧を開いているときにのみ一括承認ボタンを表示する
+  // (idea.md「対応画面」参照)。
   kintone.events.on('app.record.index.show', (event) => {
+    latestRecords = event.records || [];
     const config = loadConfig();
     NS.BulkApprovalMain.renderButtonIfEligible(
       kintone.app.getHeaderMenuSpaceElement(),
       config,
       kintone.app.getId(),
       platform,
-      event.viewType,
+      event.viewName,
     );
     return event;
   });
