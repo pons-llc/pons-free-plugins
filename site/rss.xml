@@ -5,13 +5,34 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 13:31:49 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 13:33:33 GMT</lastBuildDate>
     <item>
       <title>kintoneで決裁・承認プロセスを管理する方法｜決裁履歴記録の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/approval/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/approval/</guid>
       <description>kintoneのプロセス管理で決裁履歴を記録したい、承認の進捗を見える化したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:31:49 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 13:33:33 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneのレコードを一括更新する方法｜無料プラグインでまとめて変更</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/bulk-update/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/bulk-update/</guid>
+      <description>kintoneで一覧の絞り込み条件に一致する複数レコードのフィールド値をまとめて変更したい、ステータスを一括で進めたい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:33:25 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで複数レコードを一括承認する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/bulk-approval/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-approval/</guid>
+      <description>kintoneのプロセス管理で、「(作業者が自分)」一覧に並ぶ複数の申請をまとめて承認したい場合の実現方法を、無料プラグインの実際の設定画面・実行結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:33:18 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでレコードを一括承認する方法｜プロセス管理を効率化する無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/bulk-approval/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/bulk-approval/</guid>
+      <description>kintoneのプロセス管理で、「(作業者が自分)」一覧に並ぶ複数の申請をまとめて承認したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:33:04 GMT</pubDate>
     </item>
     <item>
       <title>kintoneのレコードを一括更新する方法｜条件に一致するレコードをまとめて変更（無料）</title>
@@ -19,13 +40,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-field-update/</guid>
       <description>kintoneで、一覧の絞り込み条件に一致する複数レコードのステータス等をまとめて変更したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 13:31:42 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneのレコードを一括更新する方法｜無料プラグインでまとめて変更</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/bulk-update/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/bulk-update/</guid>
-      <description>kintoneで一覧の絞り込み条件に一致する複数レコードのフィールド値をまとめて変更したい、ステータスを一括で進めたい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:31:21 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに（無料）</title>
@@ -214,13 +228,6 @@
       <link>https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</guid>
       <description>kintoneで法人番号や法人名から、正式名称・代表者名などの会社情報を自動入力したい方向けに、経済産業省gBizINFOと連携する無料プラグインで実現する方法を、実際のAPIリクエスト結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで複数レコードを一括承認する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/bulk-approval/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-approval/</guid>
-      <description>kintoneのプロセス管理で、「(作業者が自分)」一覧に並ぶ複数の申請をまとめて承認したい場合の実現方法を、無料プラグインの実際の設定画面・実行結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
     </item>
     <item>
