@@ -49,4 +49,4 @@
 | A17 | 公開済み | `/articles/text-extract-number/`      | kintoneの文字列から数字だけを抽出する方法                 | kintoneの文字列から数字を抽出する方法       | `kintone 数字 抽出`                   | `/solutions/text-processing/`                                       |
 | A18 | 公開済み | `/articles/list-highlight/`           | kintoneの一覧を条件によって色分けする方法                 | kintoneの一覧を条件で色分けする方法        | `kintone 一覧 色分け 方法`               | `/solutions/record-highlight/`                                      |
 | A19 | 公開済み | `/articles/confirm-modal/`            | kintoneで削除・保存時に確認ダイアログを表示する方法            | kintoneで確認ダイアログを表示する方法       | `kintone 確認ダイアログ 方法`              | `/solutions/confirmation-dialog/`                                   |
-| A20 | 未着手  | `/articles/self-lookup/`              | kintoneで同じアプリの別レコードを検索して値を取得する方法         | kintoneで同一アプリのレコードを参照する方法    | `kintone 同一アプリ ルックアップ`            | `/solutions/lookup/` `/plugins/self_lookup/`                        |
+| A20 | 公開済み | `/articles/self-lookup/`              | kintoneで同じアプリの別レコードを検索して値を取得する方法         | kintoneで同一アプリのレコードを参照する方法    | `kintone 同一アプリ ルックアップ`            | `/solutions/lookup/` `/plugins/self_lookup/`                        |

@@ -5,7 +5,21 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 11:00:14 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 11:10:29 GMT</lastBuildDate>
+    <item>
+      <title>kintoneのルックアップを自動化・拡張する方法｜ユーザー・組織・自動更新の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/lookup/</guid>
+      <description>kintoneでルックアップ先の情報を自動更新したい、ユーザーコードから氏名を、組織コードから組織名を自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 11:10:29 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで同じアプリの別レコードを検索して値を取得する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/self-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/self-lookup/</guid>
+      <description>kintoneで同一アプリ内の別レコードをキー一致で検索し、値を自レコードへ自動転記する方法を、無料プラグインの実際の設定画面・検索結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 11:10:11 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneの一覧を条件によって色分けする方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/list-highlight/</link>
@@ -214,13 +228,6 @@
       <link>https://govapps-plugin.pons-llc.com/solutions/subtable/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/subtable/</guid>
       <description>kintoneのサブテーブルの行を並び替えたい、サブテーブル内の値を検索して自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:06:30 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneのルックアップを自動化・拡張する方法｜ユーザー・組織・自動更新の無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/lookup/</guid>
-      <description>kintoneでルックアップ先の情報を自動更新したい、ユーザーコードから氏名を、組織コードから組織名を自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
       <pubDate>Thu, 13 Aug 2026 08:06:30 GMT</pubDate>
     </item>
     <item>
