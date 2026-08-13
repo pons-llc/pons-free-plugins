@@ -5,7 +5,35 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 11:10:29 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 13:29:07 GMT</lastBuildDate>
+    <item>
+      <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</guid>
+      <description>kintoneで会議室の予約枠を、平日9-17時を1時間ごとに一括で作成したい方向けに、無料プラグインで実現する方法を、実際に24件のレコードを作成した結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:29:07 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで全部署に一斉に調査照会を作成する方法｜レコード一括作成プラグイン（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</guid>
+      <description>kintoneで、総務課などの1部署から社内のすべての組織(部署)に対して一斉に調査照会レコードを作成したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:29:06 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでレコードを一括作成する方法｜複数レコードをまとめて登録（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/</guid>
+      <description>kintoneで、毎週の定例会議のように同じ内容のレコードを日付を変えて何件も作りたい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:29:03 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでレコードを一括作成する方法｜定例予定・一斉照会を自動化する無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/bulk-record-creation/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/bulk-record-creation/</guid>
+      <description>kintoneで会議室の予約枠や日報などの定例レコードをまとめて作りたい、全部署・全ユーザーに一斉に調査照会レコードを配布したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 13:28:52 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneのルックアップを自動化・拡張する方法｜ユーザー・組織・自動更新の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/lookup/</link>
@@ -161,20 +189,6 @@
       <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
     </item>
     <item>
-      <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</guid>
-      <description>kintoneで会議室の予約枠を、平日9-17時を1時間ごとに一括で作成したい方向けに、無料プラグインで実現する方法を、実際に24件のレコードを作成した結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで全部署に一斉に調査照会を作成する方法｜レコード一括作成プラグイン（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</guid>
-      <description>kintoneで、総務課などの1部署から社内のすべての組織(部署)に対して一斉に調査照会レコードを作成したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
-    </item>
-    <item>
       <title>kintoneで法人番号から会社情報を自動入力する方法｜gBizINFO連携（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</guid>
@@ -186,13 +200,6 @@
       <link>https://govapps-plugin.pons-llc.com/articles/bulk-field-update/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-field-update/</guid>
       <description>kintoneで、一覧の絞り込み条件に一致する複数レコードのステータス等をまとめて変更したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneでレコードを一括作成する方法｜複数レコードをまとめて登録（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/</guid>
-      <description>kintoneで、毎週の定例会議のように同じ内容のレコードを日付を変えて何件も作りたい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
     </item>
     <item>
