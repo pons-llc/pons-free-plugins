@@ -12,8 +12,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>kintoneのレコード削除をバックアップする方法｜無料プラグインで誤削除に備える | GovAppsプラグイン</title>
-<meta name="description" content="kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい方向けに、無料プラグインで実現する方法を解説します。">
+<title>kintoneの保存・削除時に確認ダイアログを表示する方法｜無料プラグインで誤操作を防止 | GovAppsプラグイン</title>
+<meta name="description" content="kintoneでレコードの保存・削除・プロセス管理のアクション実行時に、独自の文言で確認ダイアログを表示してキャンセルできるようにしたい方向けに、無料プラグインで実現する方法を解説します。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -30,7 +30,7 @@
       <span class="header-menu-toggle-bar"></span>
     </button>
   </div>
-  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneのレコード削除をバックアップする方法</p>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneの保存・削除時に確認ダイアログを表示する方法</p>
   <nav class="header-menu" id="header-menu" hidden>
     <a href="/">トップ</a>
     <a href="/solutions">解決策から探す</a>
@@ -42,22 +42,22 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h1>kintoneのレコード削除をバックアップする方法（無料プラグインで解決）</h1>
+  <h1>kintoneの保存・削除時に確認ダイアログを表示する方法（無料プラグインで解決）</h1>
   <p class="plugin-lead">
-    kintoneのレコード削除は取り消せず、標準の「ごみ箱」もアプリの設定によっては使えないことが
-    あります。誤削除に気づいたときにはもう内容も添付ファイルも失われている、という事態を防ぐには、
-    削除の直前に内容を必ずバックアップしてから削除を許可する仕組みが有効です。このページでは、
-    無料プラグインでどう実現できるかをまとめます。
+    kintone標準の削除確認は「本当に削除しますか?」のような汎用的な文言のみで、誤操作を防ぐには
+    もう一押し足りないと感じることがあります。保存・削除・プロセス管理のアクション実行時に、
+    業務に合わせた独自の文言で確認ダイアログを挟めれば、誤操作による事故を減らせます。
+    このページでは、無料プラグインでどう実現できるかをまとめます。
   </p>
 </div>
 
 <section class="plugin-section">
   <h2>こんな方におすすめ</h2>
   <ul class="review-checklist">
-    <li>レコード削除の前に、添付ファイルを含めた内容を必ずバックアップしたい</li>
-    <li>誤削除による重要データの消失を防ぎたい</li>
-    <li>削除内容をzipでダウンロードするか、別アプリへアーカイブするか選びたい</li>
-    <li>自治体・官公庁の文書管理でレコード削除の証跡を残したい</li>
+    <li>レコードの保存・削除時に独自の文言で確認ダイアログを表示したい</li>
+    <li>プロセス管理のアクション実行時(承認・却下など)にも確認を挟みたい</li>
+    <li>キャンセルを選んだら処理を中止できるようにしたい</li>
+    <li>モバイル利用時も違和感のない確認UIにしたい</li>
   </ul>
 </section>
 
@@ -65,23 +65,22 @@
   <h2>対応するプラグイン</h2>
   <p class="related-services-by">検索意図に合わせて、以下のプラグインが利用できます。</p>
   <div class="related-services">
-    <a class="related-service-card is-govapps" href="/plugins/delete_backup/">削除バックアッププラグイン ― レコード削除の直前に、削除されるレコードの内容(添付ファイルを含む)をzipダウンロードまたは別アプリへのアーカイブで必ずバックアップしてから削除を許可する</a>
+    <a class="related-service-card is-govapps" href="/plugins/confirm_modal/">モーダル確認プラグイン ― レコードの保存・削除・プロセス管理のアクション実行時に確認ダイアログ(モバイルは確認ボトムシート)を表示し、キャンセルを選ぶと処理を中止できる</a>
   </div>
 </section>
 
 <section class="plugin-section">
   <h2>あわせて読みたい記事</h2>
   <div class="related-services">
-    <a class="related-service-card is-govapps" href="/articles/delete-backup/">kintoneでレコードを削除する前にバックアップする方法(添付ファイルを含めて必ずバックアップする実例)</a>
-    <a class="related-service-card is-govapps" href="/articles/plugin-security-checklist/">自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</a>
+    <a class="related-service-card is-govapps" href="/articles/confirm-modal/">kintoneで削除・保存時に確認ダイアログを表示する方法(独自の文言で確認ダイアログを表示する実例)</a>
   </div>
 </section>
 
 <section class="plugin-section">
   <h2>あわせて見たい解決策ページ</h2>
   <div class="related-services">
-    <a class="related-service-card" href="/solutions/field-encryption/">kintoneのフィールドを暗号化する方法(保存中のデータそのものを保護したい場合はこちら)</a>
-    <a class="related-service-card" href="/solutions/confirmation-dialog/">kintoneの保存・削除時に確認ダイアログを表示する方法(削除前の確認自体を強化したい場合はこちら)</a>
+    <a class="related-service-card" href="/solutions/input-control/">kintoneの入力を制御する方法(条件つき必須・非表示・選択肢絞込も含めた全体像はこちら)</a>
+    <a class="related-service-card" href="/solutions/record-delete-backup/">kintoneのレコード削除をバックアップする方法(削除の確認だけでなくバックアップも残したい場合はこちら)</a>
     <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
   </div>
 </section>

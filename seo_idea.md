@@ -23,7 +23,7 @@
 | S17 | 公開済み | `/solutions/text-processing/`          | kintoneの文字列を分割・抽出する方法｜文字列処理を自動化      | kintoneの文字列を分割・抽出する方法           | `kintone 文字列 分割` / `kintone 文字列 抽出`              | `/plugins/text_split/` `/plugins/text_slice/` `/plugins/number_extract/`                             |
 | S18 | 公開済み | `/solutions/print-control/`            | kintoneの印刷項目を制御する方法｜不要なフィールドを非表示     | kintoneの印刷項目を制御する方法             | `kintone 印刷 非表示` / `kintone 印刷 項目`               | `/plugins/printSelect/`                                                                              |
 | S19 | 公開済み | `/solutions/record-highlight/`         | kintoneの一覧を条件によって色分けする方法             | kintoneの一覧を条件で強調表示する方法          | `kintone 一覧 色分け` / `kintone 条件 色`                | `/plugins/list_highlight/`                                                                           |
-| S20 | 未着手 | `/solutions/confirmation-dialog/`      | kintoneの保存・削除時に確認ダイアログを表示する方法        | kintoneに確認ダイアログを追加する方法          | `kintone 確認ダイアログ` / `kintone 削除 確認`              | `/plugins/confirm_modal/`                                                                            |
+| S20 | 公開済み | `/solutions/confirmation-dialog/`      | kintoneの保存・削除時に確認ダイアログを表示する方法        | kintoneに確認ダイアログを追加する方法          | `kintone 確認ダイアログ` / `kintone 削除 確認`              | `/plugins/confirm_modal/`                                                                            |
 
 
 # articles

@@ -5,7 +5,35 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 14:07:12 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 14:09:07 GMT</lastBuildDate>
+    <item>
+      <title>kintoneのレコード削除をバックアップする方法｜無料プラグインで誤削除に備える</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/record-delete-backup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/record-delete-backup/</guid>
+      <description>kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 14:09:07 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの入力を制御する方法｜条件付き必須・非表示・絞込の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/input-control/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/input-control/</guid>
+      <description>kintoneで条件によって入力項目を必須にしたい、非表示にしたい、選択肢を絞り込みたい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 14:09:01 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで削除・保存時に確認ダイアログを表示する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/confirm-modal/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/confirm-modal/</guid>
+      <description>kintoneでレコードの保存・削除・プロセス管理のアクション実行時に、独自の文言で確認ダイアログを表示してキャンセルできるようにしたい場合の実現方法を、無料プラグインの実際の設定画面・動作結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 14:08:55 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの保存・削除時に確認ダイアログを表示する方法｜無料プラグインで誤操作を防止</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/confirmation-dialog/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/confirmation-dialog/</guid>
+      <description>kintoneでレコードの保存・削除・プロセス管理のアクション実行時に、独自の文言で確認ダイアログを表示してキャンセルできるようにしたい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 14:08:38 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneをカンバン方式で管理する方法｜案件・タスクを見える化する無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/kanban/</link>
@@ -105,13 +133,6 @@
       <pubDate>Thu, 13 Aug 2026 13:56:20 GMT</pubDate>
     </item>
     <item>
-      <title>kintoneのレコード削除をバックアップする方法｜無料プラグインで誤削除に備える</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/record-delete-backup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/record-delete-backup/</guid>
-      <description>kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:55:08 GMT</pubDate>
-    </item>
-    <item>
       <title>kintoneで個人情報を暗号化して保存する方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/field-encryption/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/field-encryption/</guid>
@@ -131,13 +152,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/delete-backup/</guid>
       <description>kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい場合の実現方法を、無料プラグインの実際の設定画面・削除結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 13:53:12 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの入力を制御する方法｜条件付き必須・非表示・絞込の無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/input-control/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/input-control/</guid>
-      <description>kintoneで条件によって入力項目を必須にしたい、非表示にしたい、選択肢を絞り込みたい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:51:08 GMT</pubDate>
     </item>
     <item>
       <title>kintoneの入力フォームをタブ化する方法（無料）</title>
@@ -327,13 +341,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/self-lookup/</guid>
       <description>kintoneで同一アプリ内の別レコードをキー一致で検索し、値を自レコードへ自動転記する方法を、無料プラグインの実際の設定画面・検索結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 11:10:11 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで削除・保存時に確認ダイアログを表示する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/confirm-modal/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/confirm-modal/</guid>
-      <description>kintoneでレコードの保存・削除・プロセス管理のアクション実行時に、独自の文言で確認ダイアログを表示してキャンセルできるようにしたい場合の実現方法を、無料プラグインの実際の設定画面・動作結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 10:59:48 GMT</pubDate>
     </item>
     <item>
       <title>自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</title>
