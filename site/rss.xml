@@ -5,20 +5,27 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 08:59:06 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 09:06:14 GMT</lastBuildDate>
     <item>
       <title>自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</title>
       <link>https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</guid>
       <description>自治体・企業でkintoneの無料プラグインを導入する前に確認したいセキュリティチェックポイントを6つにまとめました。外部通信先・認証情報の保存場所・XSS対策・ソース公開の有無などを解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:59:06 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 09:06:14 GMT</pubDate>
     </item>
     <item>
       <title>kintoneでレコードを削除する前にバックアップする方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/delete-backup/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/delete-backup/</guid>
       <description>kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい場合の実現方法を、無料プラグインの実際の設定画面・削除結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:58:35 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 09:06:03 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで個人情報を暗号化して保存する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/field-encryption/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/field-encryption/</guid>
+      <description>kintoneのマイナンバーのような個人情報を、REST APIからも読み取れない形で暗号化して保存したい場合の実現方法を、無料プラグインの実際の設定画面・暗号化/復号結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 09:05:39 GMT</pubDate>
     </item>
     <item>
       <title>kintoneの入力フォームをタブ化する方法（無料）</title>
