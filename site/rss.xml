@@ -5,7 +5,21 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 14:02:42 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 14:04:26 GMT</lastBuildDate>
+    <item>
+      <title>kintoneのフィールドを条件によって表示・非表示にする方法｜無料プラグインで入力画面を整理</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/field-display-control/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/field-display-control/</guid>
+      <description>kintoneでドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 14:04:26 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの印刷項目を制御する方法｜無料プラグインで不要なフィールドを非表示</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/print-control/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/print-control/</guid>
+      <description>kintoneのレコード印刷時に、社内向けメモや作業用フィールドなど帳票に出したくない項目を非表示にしたい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 14:04:07 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneの文字列から数字だけを抽出する方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/text-extract-number/</link>
@@ -124,13 +138,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/conditional-display/</guid>
       <description>kintoneで、ドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 13:48:43 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneのフィールドを条件によって表示・非表示にする方法｜無料プラグインで入力画面を整理</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/field-display-control/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/field-display-control/</guid>
-      <description>kintoneでドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:48:28 GMT</pubDate>
     </item>
     <item>
       <title>kintoneの関連レコードを件数・合計・平均で集計する方法（無料）</title>

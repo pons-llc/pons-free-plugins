@@ -12,8 +12,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>kintoneのフィールドを条件によって表示・非表示にする方法｜無料プラグインで入力画面を整理 | GovAppsプラグイン</title>
-<meta name="description" content="kintoneでドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい方向けに、無料プラグインで実現する方法を解説します。">
+<title>kintoneの印刷項目を制御する方法｜無料プラグインで不要なフィールドを非表示 | GovAppsプラグイン</title>
+<meta name="description" content="kintoneのレコード印刷時に、社内向けメモや作業用フィールドなど帳票に出したくない項目を非表示にしたい方向けに、無料プラグインで実現する方法を解説します。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -30,7 +30,7 @@
       <span class="header-menu-toggle-bar"></span>
     </button>
   </div>
-  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneのフィールドを条件によって表示・非表示にする方法</p>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneの印刷項目を制御する方法</p>
   <nav class="header-menu" id="header-menu" hidden>
     <a href="/">トップ</a>
     <a href="/solutions">解決策から探す</a>
@@ -42,21 +42,21 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h1>kintoneのフィールドを条件によって表示・非表示にする方法（無料プラグインで解決）</h1>
+  <h1>kintoneの印刷項目を制御する方法（無料プラグインで解決）</h1>
   <p class="plugin-lead">
-    入力フォームにすべての項目を並べたままだと、選択した内容によっては不要なフィールドまで
-    表示され、入力画面が煩雑になります。「ドロップダウンでこの値を選んだときだけ、別のフィールドを
-    表示する」といった条件つきの表示・非表示は標準機能では設定できません。このページでは、
-    そうした条件つき非表示を無料プラグインでどう実現できるかをまとめます。
+    レコード印刷画面は、画面に表示されているフィールドがそのまま帳票に出力されます。
+    社内向けのメモや作業用のフィールドまで一緒に印刷されると、外部に渡す帳票としては
+    体裁が悪くなってしまいます。このページでは、印刷時にだけ特定のフィールドを非表示にする
+    方法を無料プラグインでどう実現できるかをまとめます。
   </p>
 </div>
 
 <section class="plugin-section">
   <h2>こんな方におすすめ</h2>
   <ul class="review-checklist">
-    <li>ドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい</li>
-    <li>入力画面を必要な項目だけに絞ってシンプルに見せたい</li>
-    <li>特定の条件のときだけ入力してほしい項目を目立たせたい</li>
+    <li>社内向けメモや作業用フィールドを印刷時だけ非表示にしたい</li>
+    <li>外部に渡す帳票の体裁を整えたい</li>
+    <li>画面の表示内容は変えずに、印刷結果だけを調整したい</li>
   </ul>
 </section>
 
@@ -64,22 +64,14 @@
   <h2>対応するプラグイン</h2>
   <p class="related-services-by">検索意図に合わせて、以下のプラグインが利用できます。</p>
   <div class="related-services">
-    <a class="related-service-card is-govapps" href="/plugins/setFieldShown/">条件つき非表示プラグイン ― あるフィールドが特定の値のとき、指定した別のフィールドを非表示にする</a>
-  </div>
-</section>
-
-<section class="plugin-section">
-  <h2>あわせて読みたい記事</h2>
-  <div class="related-services">
-    <a class="related-service-card is-govapps" href="/articles/conditional-display/">kintoneで条件によってフィールドを非表示にする方法(選択値に応じて不要なフィールドを非表示にする実例)</a>
+    <a class="related-service-card is-govapps" href="/plugins/printSelect/">印刷選択プラグイン ― レコード印刷画面で、あらかじめ指定しておいたフィールドを非表示にできる。帳票に出したくない項目だけを印刷時に隠せる</a>
   </div>
 </section>
 
 <section class="plugin-section">
   <h2>あわせて見たい解決策ページ</h2>
   <div class="related-services">
-    <a class="related-service-card" href="/solutions/input-control/">kintoneの入力を制御する方法(条件つき必須・選択肢絞込・入力補助も含めた全体像はこちら)</a>
-    <a class="related-service-card" href="/solutions/print-control/">kintoneの印刷項目を制御する方法(印刷時だけフィールドを非表示にしたい場合はこちら)</a>
+    <a class="related-service-card" href="/solutions/field-display-control/">kintoneのフィールドを条件によって表示・非表示にする方法(画面表示自体を条件で制御したい場合はこちら)</a>
     <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
   </div>
 </section>
