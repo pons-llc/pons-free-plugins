@@ -5,7 +5,21 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 08:31:56 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 08:38:45 GMT</lastBuildDate>
+    <item>
+      <title>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</guid>
+      <description>kintoneでユーザーコードを入力するだけで氏名・メールアドレス・所属を自動入力したい方向けに、無料プラグインで実現する方法を、実際のUser API実行結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 08:38:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの組織コードから組織名を取得する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/organization-code-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/organization-code-lookup/</guid>
+      <description>kintoneで、入力した組織コードから組織名・説明・親組織名を自動入力したい場合の実現方法を、無料プラグインの実際の設定画面・反映結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 08:38:17 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneで予算と実績を管理する方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/budget-management/</link>
@@ -39,13 +53,6 @@
       <link>https://govapps-plugin.pons-llc.com/articles/subtable-sort/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/subtable-sort/</guid>
       <description>kintoneのサブテーブルの行を保存するたびに自動で金額順・日付順に並び替えたい方向けに、無料プラグインで実現する方法を、実際の並び替え結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</guid>
-      <description>kintoneでユーザーコードを入力するだけで氏名・メールアドレス・所属を自動入力したい方向けに、無料プラグインで実現する方法を、実際のUser API実行結果つきで解説します。</description>
       <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
     </item>
     <item>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kintoneの組織コードから組織名を取得する方法（無料） | GovAppsプラグイン</title>
+<meta name="description" content="kintoneで、入力した組織コードから組織名・説明・親組織名を自動入力したい場合の実現方法を、無料プラグインの実際の設定画面・反映結果つきで解説します。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/articles">記事一覧</a> &gt; kintoneの組織コードから組織名を取得する方法</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>kintoneの組織コードから組織名を取得する方法（無料）</h1>
+  <p class="plugin-lead">
+    申請書や台帳アプリに「所管課コード」のような組織コードを入力する運用で、組織名を毎回手入力
+    していると表記ゆれや入力ミスが起きがちです。この記事では、無料プラグインで組織コードから
+    組織名・説明・親組織名を自動入力する方法を、実際の設定画面と反映結果つきで解説します。
+  </p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>組織コードを入力するだけで、組織名・説明を自動入力したい</li>
+    <li>「kintone 組織コード 組織名」「kintone 組織情報 自動取得」を探している</li>
+    <li>親組織の名前もあわせて表示したい(1階層分)</li>
+    <li>組織名の手入力による表記ゆれ・入力ミスをなくしたい</li>
+    <li>庁内・社内の所管課コードのような組織コードを台帳アプリで扱っている</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>kintone標準機能ではどこまでできるか</h2>
+  <p>
+    kintoneの標準機能には組織選択フィールドがあり、組織そのものを選ぶことはできますが、
+    「文字列で入力した組織コードから組織名を自動的に転記する」機能は標準にはありません。
+    組織コードを外部システムやマスタ台帳と連携させたい場合、組織名は別途手入力するか、
+    組織選択フィールドの値をコードとして扱うか、いずれかの妥協が必要になります。
+    JavaScriptカスタマイズを自作すれば、Organization API(User APIと同系統)を呼び出して
+    実現できますが、親組織を1階層だけ遡る処理や該当なし時のクリア処理まで含めると、
+    簡単な作業ではありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
+  <p>
+    「組織コードから組織名を自動転記する」機能を用意する方法は、大きく4つあります。それぞれの
+    向き不向きをまとめました。
+  </p>
+  <div class="table-scroll">
+  <table class="fyn-table">
+    <thead>
+      <tr><th>方法</th><th>向いている場合</th><th>注意点</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>kintone標準の組織選択フィールドのみ</td><td>組織名を文字列として別管理する必要が無い場合</td><td>外部の組織コード体系との連携には使いにくい</td></tr>
+      <tr><td>JavaScriptを自作する</td><td>社内に開発者がいて、独自の転記項目・階層要件が多い場合</td><td>Organization API呼び出し・親組織の遡り処理の実装・保守が必要</td></tr>
+      <tr><td>有料の他社プラグイン</td><td>予算があり、手厚いサポートを求める場合</td><td>月額課金が発生する。ソースコードが非公開で、外部通信の有無を利用者側で確認しにくいことが多い</td></tr>
+      <tr><td><strong>GovAppsプラグイン(このプラグイン)</strong></td><td>無料で試したい、社内・庁内でセキュリティを確認してから導入したい場合</td><td>親組織は1階層のみ(祖父にあたる組織までは遡らない)</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>
+    GovAppsのプラグインは<strong>すべて無料・広告なし</strong>で、追加課金なしで使い続けられます。
+    ソースコードは<a href="https://github.com/pons-llc/pons-free-plugins" target="_blank" rel="noopener">GitHubで全公開</a>しているオープンソースなので、
+    「本当に外部と通信していないか(kintone自身のUser API/Organization API以外は呼んでいないか)」を
+    自治体・企業のセキュリティ担当者自身の目で確認できます(このプラグインも<a href="/plugins/org_lookup/">個別ページ</a>にセキュリティレビュー結果を掲載しています)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>組織ルックアッププラグインでの実現方法</h2>
+  <p>
+    <a href="/plugins/org_lookup/">組織ルックアッププラグイン</a>は、元フィールド・発動条件・転記項目を
+    設定するだけで、組織コードから組織情報を自動入力します。今回は「組織コード」「組織名」
+    「組織の説明」「親組織名」(いずれも文字列1行)を持つアプリで設定しました。
+  </p>
+  <ol class="setup-steps">
+    <li>
+      <strong>設定行を追加し、元フィールドと発動条件を選ぶ</strong><br>
+      元フィールドに「組織コード」、発動条件に「ボタン押下時」を選び、ボタンを設置するスペース
+      フィールドを指定します。
+    </li>
+    <li>
+      <strong>転記項目を追加する</strong><br>
+      「組織名→組織名」「組織の説明→組織の説明」「親組織名→親組織名」の3項目を追加しました。
+    </li>
+    <li>
+      <strong>保存し、アプリを更新する</strong><br>
+      保存しただけではプレビュー状態のため、必ず「アプリを更新」まで行います。
+    </li>
+  </ol>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="組織ルックアッププラグインの設定画面。元フィールドに「組織コード」、発動条件に「ボタン押下時」、転記項目に組織名・組織の説明・親組織名を設定した状態のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>実行結果: ボタン1つで組織名が自動入力される</h2>
+  <p>
+    レコード追加画面で組織コードを入力し、「組織情報を取得して反映」ボタンを押すと、
+    <strong>Organization APIから取得した組織名が組織名フィールドへ自動的に反映されます。</strong>
+    出力先フィールドは既定で編集不可になっており、手入力による上書きを防ぎます。
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/record-edit.png" alt="レコード追加画面。組織コード欄に入力した値をもとに、組織名フィールドへ「営業部」が自動反映され、下に「組織情報を取得して反映」ボタンと「クリア」ボタンが表示されている状態のスクリーンショット。" loading="lazy">
+  </div>
+  <p>
+    該当する組織が見つからない場合や組織コードが未入力の場合、出力先フィールドはすべて空文字列で
+    クリアされます。親組織が設定されていない組織の場合、親組織名の欄も空のままになります。
+    「クリア」ボタンを押すと、元フィールド・転記先フィールドをまとめて空にできます。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて確認したいポイント</h2>
+  <ul class="review-checklist">
+    <li>組織を取得するJavaScript APIは存在しないため、内部的にはkintone自身へのREST API(Organization API、<code>kintone.api()</code>経由)を使っています。外部サーバーへの通信は一切ありません。</li>
+    <li>親組織の情報は1階層分だけ追加取得します(親のさらに親〈祖父にあたる組織〉までは遡りません)。</li>
+    <li>発動条件を「保存時」にすると、レコード保存の直前に自動で取得・反映されます。取得に失敗した場合は保存自体を中断します。</li>
+    <li>元フィールドには文字列1行または組織選択フィールドを指定できます。組織選択フィールドの場合は1つ目に選択された組織のみを使用します(<a href="/plugins/org_lookup/">プラグイン個別ページ</a>のセキュリティレビューサマリ参照)。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>対応するプラグイン</h2>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="/plugins/org_lookup/">組織ルックアッププラグイン ― 組織コードから組織名・説明・親組織名を取得し、別フィールドへ自動入力</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて見たい記事・解決策ページ</h2>
+  <div class="related-services">
+    <a class="related-service-card" href="/articles/user-info-lookup/">kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法(ユーザー情報を取得したい場合)</a>
+    <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
+    <a class="related-service-card" href="/articles/">記事一覧に戻る</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>
