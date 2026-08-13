@@ -2,7 +2,7 @@
 
 // articles/field-encryption/setup.js
 // 記事「kintoneで個人情報を暗号化して保存する方法」用に ARTICLE_APP_ID を白紙に戻し、
-// field_encryption プラグインで「マイナンバー・備考フィールドを暗号化して保存し、
+// field_encryption プラグインで「口座番号・備考フィールドを暗号化して保存し、
 // 詳細画面でパスフレーズ入力により復号する」デモを実行してスクリーンショットを撮る
 // (scripts/templates/article-setup.template.js のコピー)。
 //
@@ -16,7 +16,7 @@ const kintoneAdmin = require('../../scripts/kintone-admin');
 
 const ARTICLE_SLUG = 'field-encryption';
 const NAME_FIELD_CODE = '氏名';
-const NUMBER_FIELD_CODE = 'マイナンバー';
+const NUMBER_FIELD_CODE = '口座番号';
 const NOTE_FIELD_CODE = '備考';
 const SPACE_ELEMENT_ID = 'fe_article_decrypt_space';
 const PASSPHRASE = 'k1ntone-fe-article-2026!';
@@ -68,7 +68,7 @@ const main = async () => {
     await kintoneAdmin.addPlugin(env, appId, pluginId);
     await kintoneAdmin.deployApp(env, appId);
 
-    // 設定画面: 暗号化対象フィールド=マイナンバー・備考、復号ボタン設置スペース、最小文字数=8。
+    // 設定画面: 暗号化対象フィールド=口座番号・備考、復号ボタン設置スペース、最小文字数=8。
     await common.openPluginConfig(page, env, appId, pluginId);
     const checkboxHandles = await page.$$('#js-target-fields input[type=checkbox]');
     for (const handle of checkboxHandles) {
@@ -99,7 +99,7 @@ const main = async () => {
     ]);
     await kintoneAdmin.deployApp(env, appId);
 
-    // レコード追加画面へ実際のユーザー導線で遷移し、氏名・マイナンバー・備考を入力、
+    // レコード追加画面へ実際のユーザー導線で遷移し、氏名・口座番号・備考を入力、
     // パスフレーズを設定して保存する。
     await page.goto(`https://${env.KINTONE_DOMAIN}/k/${appId}/`, {
       waitUntil: 'networkidle0',
@@ -115,7 +115,7 @@ const main = async () => {
       (nameCode, numberCode, noteCode) => {
         const current = kintone.app.record.get().record;
         current[nameCode].value = '山田太郎';
-        current[numberCode].value = '123456789012';
+        current[numberCode].value = '1234567';
         current[noteCode].value = '来庁時は本人確認書類を確認すること';
         kintone.app.record.set({ record: current });
       },
@@ -128,13 +128,16 @@ const main = async () => {
     await page.type('.fe-passphrase-input', PASSPHRASE);
     await page.type('.fe-passphrase-confirm-input', PASSPHRASE);
 
-    await Promise.all([
-      page.waitForFunction(() => !location.href.includes('mode=edit')),
-      page.click('button.gaia-ui-actionmenu-save'),
-    ]);
-    await page
-      .waitForNetworkIdle({ idleTime: 500, timeout: 15000 })
-      .catch(() => {});
+    // 蓄積したスペーサーフィールドでページが縦に長くなり、保存ボタンの座標に固定ヘッダーが
+    // 重なってしまうことがあるため、座標クリックではなくDOM要素へ直接click()する。
+    const saveButtonHandle = await page.$('button.gaia-ui-actionmenu-save');
+    await saveButtonHandle.evaluate((el) => el.click());
+
+    // PBKDF2(600,000回反復)の鍵導出に数秒かかることがあるため、レコード作成完了(URLに
+    // record=が付く)まで長めに待つ。
+    await page.waitForFunction(() => location.href.includes('record='), {
+      timeout: 60000,
+    });
 
     const url = new URL(page.url());
     const recordId = url.hash.match(/record=(\d+)/)[1];
@@ -145,7 +148,7 @@ const main = async () => {
       id: recordId,
     });
     const ciphertext = record.record[NUMBER_FIELD_CODE].value;
-    if (!ciphertext.startsWith('FE1:') || ciphertext.includes('123456789012')) {
+    if (!ciphertext.startsWith('FE1:') || ciphertext.includes('1234567')) {
       throw new Error(`想定外の保存値: ${ciphertext}`);
     }
     console.log('ciphertext ok:', ciphertext.slice(0, 40) + '...');

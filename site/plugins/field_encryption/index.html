@@ -68,7 +68,7 @@
   <ul class="recommend-list">
     <li>kintoneで機密情報を暗号化して保存したい</li>
     <li>「kintone フィールド 暗号化」を探している</li>
-    <li>マイナンバーや個人情報を保護して保存したい</li>
+    <li>個人情報や機密情報を保護して保存したい</li>
   </ul>
 </section>
 
@@ -76,7 +76,7 @@
   <h2>ユースケース</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
-      <span>マイナンバーや口座番号など、特に機微な情報をREST API越しにも保護したい</span>
+      <span>口座番号など、特に機微な情報をREST API越しにも保護したい</span>
       <span class="accordion-icon">▶</span>
     </button>
     <div class="accordion-panel" id="usecase-1">
@@ -112,6 +112,7 @@
     <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
   </ol>
   <p class="download-note">新規作成画面でパスフレーズを設定すると、対象フィールドが保存時に自動で暗号化されます。対象フィールドが空欄のままならパスフレーズの入力は不要です。パスフレーズは1レコードにつき1つで、新規作成時に設定したパスフレーズが以後もそのレコードの唯一の正しいパスフレーズになります(変更する機能はありません)。<strong>パスフレーズを紛失した場合、暗号化されたデータは復号する手段がなく、永久に読めなくなります。</strong>パスフレーズの管理は利用者ご自身の責任で行ってください。</p>
+  <p class="download-note"><strong>マイナンバー(個人番号)を取り扱う場合の注意:</strong> マイナンバーの利用・保管には番号法(マイナンバー法)等に基づく別途の法令要件があり、本プラグインによる暗号化だけでこれらの要件を満たせるとは限りません。マイナンバーをkintoneで扱うかどうか、扱う場合の方法は、必ず組織のセキュリティ担当・個人情報保護担当にご確認のうえご判断ください。</p>
 </section>
 
 <section class="plugin-section">
