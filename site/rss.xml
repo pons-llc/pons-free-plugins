@@ -5,13 +5,20 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 08:25:04 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 08:31:56 GMT</lastBuildDate>
     <item>
       <title>kintoneで予算と実績を管理する方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/budget-management/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/budget-management/</guid>
       <description>kintoneの経費一覧の合計額が予算の何%に達しているかを、無料プラグインでメーター表示する方法を、実際の設定画面・警告表示結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:25:04 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 08:31:56 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの関連レコードを件数・合計・平均で集計する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/related-record-summary/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/related-record-summary/</guid>
+      <description>kintoneの関連レコード一覧フィールドが参照する明細の金額合計を、自アプリのフィールドへ自動で書き込みたい場合の実現方法を、無料プラグインの実際の設定画面・集計結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 08:31:38 GMT</pubDate>
     </item>
     <item>
       <title>kintoneでカンバンボードを作る方法｜案件・タスクを見える化（無料）</title>
