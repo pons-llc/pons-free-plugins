@@ -1,0 +1,18 @@
+# solutions再編(2026-08-14): 1プラグイン=1ページだったS01-S20の一部を
+# ユースケースベースの新ページ/既存ピラーページへ統合したことによるリダイレクト。
+# 詳細は .claude/skills/solutions-page/SKILL.md および seo_idea.md 参照。
+
+/solutions/bulk-record-creation/     /solutions/scheduling/         301
+/solutions/bulk-approval/            /solutions/bulk-update/        301
+/solutions/calendar/                 /solutions/scheduling/         301
+/solutions/kanban/                   /solutions/list-visualization/ 301
+/solutions/record-highlight/         /solutions/list-visualization/ 301
+/solutions/budget-management/        /solutions/aggregation/        301
+/solutions/related-record-summary/   /solutions/aggregation/        301
+/solutions/related-record/           /solutions/aggregation/        301
+/solutions/user-information/         /solutions/lookup/             301
+/solutions/organization-information/ /solutions/lookup/             301
+/solutions/field-display-control/    /solutions/input-control/      301
+/solutions/confirmation-dialog/      /solutions/input-control/      301
+/solutions/record-delete-backup/     /solutions/data-protection/    301
+/solutions/field-encryption/         /solutions/data-protection/    301

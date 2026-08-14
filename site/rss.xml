@@ -5,342 +5,314 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 13 Aug 2026 14:09:07 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 14 Aug 2026 00:11:35 GMT</lastBuildDate>
     <item>
-      <title>kintoneのレコード削除をバックアップする方法｜無料プラグインで誤削除に備える</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/record-delete-backup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/record-delete-backup/</guid>
-      <description>kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 14:09:07 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの入力を制御する方法｜条件付き必須・非表示・絞込の無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/input-control/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/input-control/</guid>
-      <description>kintoneで条件によって入力項目を必須にしたい、非表示にしたい、選択肢を絞り込みたい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 14:09:01 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで削除・保存時に確認ダイアログを表示する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/confirm-modal/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/confirm-modal/</guid>
-      <description>kintoneでレコードの保存・削除・プロセス管理のアクション実行時に、独自の文言で確認ダイアログを表示してキャンセルできるようにしたい場合の実現方法を、無料プラグインの実際の設定画面・動作結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 14:08:55 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの保存・削除時に確認ダイアログを表示する方法｜無料プラグインで誤操作を防止</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/confirmation-dialog/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/confirmation-dialog/</guid>
-      <description>kintoneでレコードの保存・削除・プロセス管理のアクション実行時に、独自の文言で確認ダイアログを表示してキャンセルできるようにしたい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 14:08:38 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneをカンバン方式で管理する方法｜案件・タスクを見える化する無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/kanban/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/kanban/</guid>
-      <description>kintoneの一覧を表形式のまま眺めていると案件やタスクの進捗がつかみにくい方向けに、進捗ごとに列分けしたカンバンボードを無料プラグインで表示する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 14:07:12 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの一覧を条件によって色分けする方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/list-highlight/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/list-highlight/</guid>
-      <description>kintoneのレコード一覧で、対応状況が「未対応」の行だけを色分けして目立たせたい場合の実現方法を、無料プラグインの実際の設定画面・強調表示結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 14:07:05 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの一覧を条件によって色分けする方法｜無料プラグインで強調表示</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/record-highlight/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/record-highlight/</guid>
-      <description>kintoneのレコード一覧で、対応状況が「未対応」の行だけを色分けして目立たせたい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 14:06:24 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneのフィールドを条件によって表示・非表示にする方法｜無料プラグインで入力画面を整理</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/field-display-control/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/field-display-control/</guid>
-      <description>kintoneでドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 14:04:26 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの印刷項目を制御する方法｜無料プラグインで不要なフィールドを非表示</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/print-control/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/print-control/</guid>
-      <description>kintoneのレコード印刷時に、社内向けメモや作業用フィールドなど帳票に出したくない項目を非表示にしたい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 14:04:07 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの文字列から数字だけを抽出する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/text-extract-number/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/text-extract-number/</guid>
-      <description>kintoneで、住所のような文字列から丁目・番地・号のような数字部分だけを取り出して別フィールドに入力したい場合の実現方法を、無料プラグインの実際の設定画面・抽出結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 14:02:42 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの文字列を区切り文字で分割する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/text-split/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/text-split/</guid>
-      <description>kintoneで、住所のような1つの文字列フィールドをスペースなどの区切り文字で複数のフィールドに自動分割したい場合の実現方法を、無料プラグインの実際の設定画面・分割結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 14:02:36 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの文字列を分割・抽出する方法｜無料プラグインで文字列処理を自動化</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/text-processing/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/text-processing/</guid>
-      <description>kintoneで住所のような1つの文字列フィールドを区切り文字で分割したい、部分文字列や数字だけを抽出したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 14:01:36 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで自動採番する方法｜無料プラグインで連番・年度リセット</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</guid>
-      <description>kintoneで連番を自動採番したい、年度が変わったら番号をリセットしたい、和暦の文書番号を使いたい方向けに、APIキー不要の無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:59:52 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで年度が変わったら番号をリセットして自動採番する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</guid>
-      <description>kintoneで会計年度が変わったら連番を1にリセットしたい、和暦の文書番号を自動で振りたい方向けに、APIキー不要の無料プラグインで実現する方法を、実際に採番した結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:59:12 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの日付を令和・和暦に変換する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/wareki-date/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/wareki-date/</guid>
-      <description>kintoneの日付フィールドの値を、令和などの和暦表記(西暦併記可)へ自動変換して別フィールドに入力したい場合の実現方法を、無料プラグインの実際の設定画面・変換結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:59:07 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの日付を和暦表示する方法｜無料プラグインで西暦・令和を自動変換</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/japanese-calendar/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/japanese-calendar/</guid>
-      <description>kintoneの日付フィールドの値を、令和などの和暦表記(西暦併記可)へ自動変換したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:58:14 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneにGoogle Driveのファイルを表示・埋め込む方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/google-drive-embed/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/google-drive-embed/</guid>
-      <description>kintoneのレコード画面に、Google DriveやBoxのフォルダを埋め込んで表示したい場合の実現方法を、無料プラグインの実際の設定画面・許可ドメイン以外をブロックする挙動つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:56:37 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneにBox・Google Driveを埋め込む方法｜無料プラグインでファイルをその場に表示</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/box-google-drive/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/box-google-drive/</guid>
-      <description>kintoneのレコード画面に、Google DriveやBoxのフォルダ・ファイルを埋め込んで表示したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:56:20 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで個人情報を暗号化して保存する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/field-encryption/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/field-encryption/</guid>
-      <description>kintoneの口座番号のような機微な個人情報を、REST APIからも読み取れない形で暗号化して保存したい場合の実現方法を、無料プラグインの実際の設定画面・暗号化/復号結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:55:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneのフィールドを暗号化する方法｜無料プラグインで個人情報・機密情報を保護</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/field-encryption/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/field-encryption/</guid>
-      <description>kintoneの口座番号のような機微な個人情報を、REST APIからも読み取れない形で暗号化して保存したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:54:30 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneでレコードを削除する前にバックアップする方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/delete-backup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/delete-backup/</guid>
-      <description>kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい場合の実現方法を、無料プラグインの実際の設定画面・削除結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:53:12 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの入力フォームをタブ化する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/tab-layout/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/tab-layout/</guid>
-      <description>kintoneの入力項目が多いフォームを、基本情報・契約詳細のようにタブで切り替えて見やすくしたい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:50:38 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneのフォームをタブ表示にする方法｜無料プラグインで入力画面を整理</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/tab-layout/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/tab-layout/</guid>
-      <description>kintoneの入力項目が多いフォームを、基本情報・契約詳細のようにタブで切り替えて見やすくしたい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:50:22 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで条件によってフィールドを非表示にする方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/conditional-display/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/conditional-display/</guid>
-      <description>kintoneで、ドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:48:43 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの関連レコードを件数・合計・平均で集計する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/related-record-summary/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/related-record-summary/</guid>
-      <description>kintoneの関連レコード一覧フィールドが参照する明細の金額合計を、自アプリのフィールドへ自動で書き込みたい場合の実現方法を、無料プラグインの実際の設定画面・集計結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:47:03 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneのルックアップを自動化・拡張する方法｜ユーザー・組織・自動更新の無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/lookup/</guid>
-      <description>kintoneでルックアップ先の情報を自動更新したい、ユーザーコードから氏名を、組織コードから組織名を自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:46:45 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの関連レコードを集計する方法｜件数・合計・平均を自動計算する無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/related-record-summary/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/related-record-summary/</guid>
-      <description>kintoneの関連レコード一覧フィールドが参照する明細の件数・合計・平均を自動で計算したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:46:39 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで関連レコードを活用する方法｜別アプリの情報を集計する無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/related-record/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/related-record/</guid>
-      <description>kintoneの関連レコード一覧フィールドが表示する別アプリの情報を、自アプリのフィールドとして集計・活用したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:46:05 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneでユーザー情報を自動取得する方法｜氏名・メール・所属を入力する無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/user-information/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/user-information/</guid>
-      <description>kintoneでユーザーコードを入力するだけで氏名・メールアドレス・所属・グループを自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:44:11 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneの組織コードから組織名を取得する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/organization-code-lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/organization-code-lookup/</guid>
-      <description>kintoneで、入力した組織コードから組織名・説明・親組織名を自動入力したい場合の実現方法を、無料プラグインの実際の設定画面・反映結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:44:04 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで組織情報を自動取得する方法｜組織名・親組織を入力する無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/organization-information/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/organization-information/</guid>
-      <description>kintoneで組織コードを入力するだけで組織名・説明・親組織名を自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:43:49 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</guid>
-      <description>kintoneでユーザーコードを入力するだけで氏名・メールアドレス・所属を自動入力したい方向けに、無料プラグインで実現する方法を、実際のUser API実行結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:42:35 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで予算管理する方法｜予算消化率を一覧で見える化する無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/budget-management/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/budget-management/</guid>
-      <description>kintoneの経費一覧の合計額が予算の何%に達しているかをひと目で確認したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:40:36 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで予算と実績を管理する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/budget-management/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/budget-management/</guid>
-      <description>kintoneの経費一覧の合計額が予算の何%に達しているかを、無料プラグインでメーター表示する方法を、実際の設定画面・警告表示結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:39:00 GMT</pubDate>
+      <title>kintoneの一覧を見やすくする方法｜カンバン表示・色分け強調の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/list-visualization/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/list-visualization/</guid>
+      <description>kintoneのレコード一覧を表形式のまま眺めていても進捗や優先度がつかみにくい方向けに、カンバンボード表示・条件による色分け強調を無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:11:35 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで会議室予約・タスク管理を自動化する方法｜一括作成・カレンダー表示の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/scheduling/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/scheduling/</guid>
       <description>kintoneで会議室の予約枠や定例タスクを一括作成したい、作った予定をカレンダーで確認したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:37:14 GMT</pubDate>
+      <pubDate>Fri, 14 Aug 2026 00:11:16 GMT</pubDate>
     </item>
     <item>
-      <title>kintoneでカンバンボードを作る方法｜案件・タスクを見える化（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/kanban-board/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/kanban-board/</guid>
-      <description>kintoneの一覧を表形式のまま眺めていると、案件やタスクの進捗の全体感がつかみにくいことがあります。この記事では、無料プラグインで進捗ごとに列分けしたカンバンボードを表示する方法を、実際の設定画面と表示結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:37:08 GMT</pubDate>
+      <title>kintoneのルックアップを自動化・拡張する方法｜ユーザー・組織・自動更新の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/lookup/</guid>
+      <description>kintoneでルックアップ先の情報を自動更新したい、ユーザーコードから氏名を、組織コードから組織名を自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:11:08 GMT</pubDate>
     </item>
     <item>
-      <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</guid>
-      <description>kintoneで会議室の予約枠を、平日9-17時を1時間ごとに一括で作成したい方向けに、無料プラグインで実現する方法を、実際に24件のレコードを作成した結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:35:32 GMT</pubDate>
+      <title>kintoneの印刷項目を制御する方法｜無料プラグインで不要なフィールドを非表示</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/print-control/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/print-control/</guid>
+      <description>kintoneのレコード印刷時に、社内向けメモや作業用フィールドなど帳票に出したくない項目を非表示にしたい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:11:01 GMT</pubDate>
     </item>
     <item>
-      <title>kintoneの予定をカレンダーで表示する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/calendar-view/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/calendar-view/</guid>
-      <description>kintoneのレコード一覧を、担当チームごとに色分け・列分けした週表示・日表示のカレンダーとして見たい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:35:26 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneをカレンダー表示する方法｜予定・予約を見やすく管理する無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/calendar/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/calendar/</guid>
-      <description>kintoneのレコード一覧を、担当チームごとに色分け・列分けしたカレンダーとして見たい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:35:05 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで決裁・承認プロセスを管理する方法｜決裁履歴記録の無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/approval/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/approval/</guid>
-      <description>kintoneのプロセス管理で決裁履歴を記録したい、承認の進捗を見える化したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:33:33 GMT</pubDate>
+      <title>kintoneの入力を制御する方法｜条件付き必須・非表示・絞込の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/input-control/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/input-control/</guid>
+      <description>kintoneで条件によって入力項目を必須にしたい、非表示にしたい、選択肢を絞り込みたい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:10:54 GMT</pubDate>
     </item>
     <item>
       <title>kintoneのレコードを一括更新する方法｜無料プラグインでまとめて変更</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/bulk-update/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/bulk-update/</guid>
       <description>kintoneで一覧の絞り込み条件に一致する複数レコードのフィールド値をまとめて変更したい、ステータスを一括で進めたい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:33:25 GMT</pubDate>
+      <pubDate>Fri, 14 Aug 2026 00:10:46 GMT</pubDate>
     </item>
     <item>
-      <title>kintoneで複数レコードを一括承認する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/bulk-approval/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-approval/</guid>
-      <description>kintoneのプロセス管理で、「(作業者が自分)」一覧に並ぶ複数の申請をまとめて承認したい場合の実現方法を、無料プラグインの実際の設定画面・実行結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:33:18 GMT</pubDate>
+      <title>kintoneで決裁・承認プロセスを管理する方法｜決裁履歴記録の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/approval/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/approval/</guid>
+      <description>kintoneのプロセス管理で決裁履歴を記録したい、承認の進捗を見える化したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:10:39 GMT</pubDate>
     </item>
     <item>
-      <title>kintoneでレコードを一括承認する方法｜プロセス管理を効率化する無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/bulk-approval/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/bulk-approval/</guid>
-      <description>kintoneのプロセス管理で、「(作業者が自分)」一覧に並ぶ複数の申請をまとめて承認したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:33:04 GMT</pubDate>
+      <title>kintoneで削除・保存時に確認ダイアログを表示する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/confirm-modal/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/confirm-modal/</guid>
+      <description>kintoneでレコードの保存・削除・プロセス管理のアクション実行時に、独自の文言で確認ダイアログを表示してキャンセルできるようにしたい場合の実現方法を、無料プラグインの実際の設定画面・動作結果つきで解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:08:48 GMT</pubDate>
     </item>
     <item>
-      <title>kintoneのレコードを一括更新する方法｜条件に一致するレコードをまとめて変更（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/bulk-field-update/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-field-update/</guid>
-      <description>kintoneで、一覧の絞り込み条件に一致する複数レコードのステータス等をまとめて変更したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:31:42 GMT</pubDate>
+      <title>kintoneの予定をカレンダーで表示する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/calendar-view/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/calendar-view/</guid>
+      <description>kintoneのレコード一覧を、担当チームごとに色分け・列分けした週表示・日表示のカレンダーとして見たい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:08:42 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでレコードを削除する前にバックアップする方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/delete-backup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/delete-backup/</guid>
+      <description>kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい場合の実現方法を、無料プラグインの実際の設定画面・削除結果つきで解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:08:37 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの一覧を条件によって色分けする方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/list-highlight/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/list-highlight/</guid>
+      <description>kintoneのレコード一覧で、対応状況が「未対応」の行だけを色分けして目立たせたい場合の実現方法を、無料プラグインの実際の設定画面・強調表示結果つきで解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:08:31 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで条件によってフィールドを非表示にする方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/conditional-display/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/conditional-display/</guid>
+      <description>kintoneで、ドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:08:25 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでカンバンボードを作る方法｜案件・タスクを見える化（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/kanban-board/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/kanban-board/</guid>
+      <description>kintoneの一覧を表形式のまま眺めていると、案件やタスクの進捗の全体感がつかみにくいことがあります。この記事では、無料プラグインで進捗ごとに列分けしたカンバンボードを表示する方法を、実際の設定画面と表示結果つきで解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:08:20 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで全部署に一斉に調査照会を作成する方法｜レコード一括作成プラグイン（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</guid>
       <description>kintoneで、総務課などの1部署から社内のすべての組織(部署)に対して一斉に調査照会レコードを作成したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:29:06 GMT</pubDate>
+      <pubDate>Fri, 14 Aug 2026 00:08:14 GMT</pubDate>
     </item>
     <item>
       <title>kintoneでレコードを一括作成する方法｜複数レコードをまとめて登録（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/</guid>
       <description>kintoneで、毎週の定例会議のように同じ内容のレコードを日付を変えて何件も作りたい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:29:03 GMT</pubDate>
+      <pubDate>Fri, 14 Aug 2026 00:08:08 GMT</pubDate>
     </item>
     <item>
-      <title>kintoneでレコードを一括作成する方法｜定例予定・一斉照会を自動化する無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/bulk-record-creation/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/bulk-record-creation/</guid>
-      <description>kintoneで会議室の予約枠や日報などの定例レコードをまとめて作りたい、全部署・全ユーザーに一斉に調査照会レコードを配布したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 13:28:52 GMT</pubDate>
+      <title>kintoneで予算と実績を管理する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/budget-management/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/budget-management/</guid>
+      <description>kintoneの経費一覧の合計額が予算の何%に達しているかを、無料プラグインでメーター表示する方法を、実際の設定画面・警告表示結果つきで解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:08:02 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</guid>
+      <description>kintoneでユーザーコードを入力するだけで氏名・メールアドレス・所属を自動入力したい方向けに、無料プラグインで実現する方法を、実際のUser API実行結果つきで解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:07:57 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの組織コードから組織名を取得する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/organization-code-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/organization-code-lookup/</guid>
+      <description>kintoneで、入力した組織コードから組織名・説明・親組織名を自動入力したい場合の実現方法を、無料プラグインの実際の設定画面・反映結果つきで解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:07:34 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで複数レコードを一括承認する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/bulk-approval/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-approval/</guid>
+      <description>kintoneのプロセス管理で、「(作業者が自分)」一覧に並ぶ複数の申請をまとめて承認したい場合の実現方法を、無料プラグインの実際の設定画面・実行結果つきで解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:07:29 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで個人情報を暗号化して保存する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/field-encryption/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/field-encryption/</guid>
+      <description>kintoneの口座番号のような機微な個人情報を、REST APIからも読み取れない形で暗号化して保存したい場合の実現方法を、無料プラグインの実際の設定画面・暗号化/復号結果つきで解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:07:23 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの関連レコードを件数・合計・平均で集計する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/related-record-summary/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/related-record-summary/</guid>
+      <description>kintoneの関連レコード一覧フィールドが参照する明細の金額合計を、自アプリのフィールドへ自動で書き込みたい場合の実現方法を、無料プラグインの実際の設定画面・集計結果つきで解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:07:17 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</guid>
+      <description>kintoneで会議室の予約枠を、平日9-17時を1時間ごとに一括で作成したい方向けに、無料プラグインで実現する方法を、実際に24件のレコードを作成した結果つきで解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:07:11 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで大切なデータを守る方法｜誤削除防止・暗号化の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/data-protection/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/data-protection/</guid>
+      <description>kintoneでレコードの誤削除に備えたい、口座番号のような機微な個人情報を暗号化して保存したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:05:35 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでレコードを集計する方法｜予算管理・関連レコード集計の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/aggregation/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/aggregation/</guid>
+      <description>kintoneで経費一覧の合計額を予算と見比べたい、関連レコード一覧が参照する明細を件数・合計・平均で集計したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Fri, 14 Aug 2026 00:05:02 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneにGoogle Driveのファイルを表示・埋め込む方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/google-drive-embed/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/google-drive-embed/</guid>
+      <description>kintoneのレコード画面に、Google DriveやBoxのフォルダを埋め込んで表示したい場合の実現方法を、無料プラグインの実際の設定画面・許可ドメイン以外をブロックする挙動つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:54:24 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneのサブテーブルを金額順に並び替える方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/subtable-sort/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/subtable-sort/</guid>
+      <description>kintoneのサブテーブルの行を保存するたびに自動で金額順・日付順に並び替えたい方向けに、無料プラグインで実現する方法を、実際の並び替え結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:50:45 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで同じアプリの別レコードを検索して値を取得する方法（無料）</title>
       <link>https://govapps-plugin.pons-llc.com/articles/self-lookup/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/self-lookup/</guid>
       <description>kintoneで同一アプリ内の別レコードをキー一致で検索し、値を自レコードへ自動転記する方法を、無料プラグインの実際の設定画面・検索結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 11:10:11 GMT</pubDate>
+      <pubDate>Thu, 13 Aug 2026 23:50:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで年度が変わったら番号をリセットして自動採番する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/</guid>
+      <description>kintoneで会計年度が変わったら連番を1にリセットしたい、和暦の文書番号を自動で振りたい方向けに、APIキー不要の無料プラグインで実現する方法を、実際に採番した結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:50:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの文字列から数字だけを抽出する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/text-extract-number/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/text-extract-number/</guid>
+      <description>kintoneで、住所のような文字列から丁目・番地・号のような数字部分だけを取り出して別フィールドに入力したい場合の実現方法を、無料プラグインの実際の設定画面・抽出結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:50:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの文字列を区切り文字で分割する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/text-split/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/text-split/</guid>
+      <description>kintoneで、住所のような1つの文字列フィールドをスペースなどの区切り文字で複数のフィールドに自動分割したい場合の実現方法を、無料プラグインの実際の設定画面・分割結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:50:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで決裁履歴を自動で記録する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/approval-history/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/approval-history/</guid>
+      <description>kintoneのプロセス管理で、誰がいつ承認したかの履歴を自動で記録したい方向けに、無料プラグインで実現する方法を、実際の承認操作と記録結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:50:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの日付を令和・和暦に変換する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/wareki-date/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/wareki-date/</guid>
+      <description>kintoneの日付フィールドの値を、令和などの和暦表記(西暦併記可)へ自動変換して別フィールドに入力したい場合の実現方法を、無料プラグインの実際の設定画面・変換結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:50:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneでルックアップ先の情報を自動更新する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/auto-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/auto-lookup/</guid>
+      <description>kintoneでルックアップ先のマスタ情報が変わったとき、既存レコード側の値も自動で最新化したい方向けに、無料プラグインで実現する方法を、実際の自動反映結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:50:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで法人番号から会社情報を自動入力する方法｜gBizINFO連携（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</guid>
+      <description>kintoneで法人番号や法人名から、正式名称・代表者名などの会社情報を自動入力したい方向けに、経済産業省gBizINFOと連携する無料プラグインで実現する方法を、実際のAPIリクエスト結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:50:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで条件によって入力項目を必須にする方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/required-condition/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/required-condition/</guid>
+      <description>kintoneで特定の選択肢を選んだときだけ別のフィールドを必須にしたい方向けに、無料プラグインで実現する方法を、実際のバリデーションエラー画面つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:50:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの入力フォームをタブ化する方法（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/tab-layout/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/tab-layout/</guid>
+      <description>kintoneの入力項目が多いフォームを、基本情報・契約詳細のようにタブで切り替えて見やすくしたい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:50:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneのレコードを一括更新する方法｜条件に一致するレコードをまとめて変更（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/bulk-field-update/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/bulk-field-update/</guid>
+      <description>kintoneで、一覧の絞り込み条件に一致する複数レコードのステータス等をまとめて変更したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:50:45 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneにBox・Google Driveを埋め込む方法｜無料プラグインでファイルをその場に表示</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/box-google-drive/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/box-google-drive/</guid>
+      <description>kintoneのレコード画面に、Google DriveやBoxのフォルダ・ファイルを埋め込んで表示したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:46:54 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの文字列を分割・抽出する方法｜無料プラグインで文字列処理を自動化</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/text-processing/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/text-processing/</guid>
+      <description>kintoneで住所のような1つの文字列フィールドを区切り文字で分割したい、部分文字列や数字だけを抽出したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:46:54 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneの日付を和暦表示する方法｜無料プラグインで西暦・令和を自動変換</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/japanese-calendar/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/japanese-calendar/</guid>
+      <description>kintoneの日付フィールドの値を、令和などの和暦表記(西暦併記可)へ自動変換したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:46:54 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで自動採番する方法｜無料プラグインで連番・年度リセット</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/</guid>
+      <description>kintoneで連番を自動採番したい、年度が変わったら番号をリセットしたい、和暦の文書番号を使いたい方向けに、APIキー不要の無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:46:54 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneで法人番号を自動取得する方法｜gBizINFO連携の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/biz-code-search/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/biz-code-search/</guid>
+      <description>kintoneで法人番号から会社情報を、法人名から法人番号を自動入力したい方向けに、gBizINFO REST APIを使った無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:46:54 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneのフォームをタブ表示にする方法｜無料プラグインで入力画面を整理</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/tab-layout/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/tab-layout/</guid>
+      <description>kintoneの入力項目が多いフォームを、基本情報・契約詳細のようにタブで切り替えて見やすくしたい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:46:54 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneのサブテーブルを使いこなす方法｜並び替え・ルックアップの無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/subtable/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/subtable/</guid>
+      <description>kintoneのサブテーブルの行を並び替えたい、サブテーブル内の値を検索して自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Thu, 13 Aug 2026 23:46:54 GMT</pubDate>
     </item>
     <item>
       <title>自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</title>
@@ -348,55 +320,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/</guid>
       <description>自治体・企業でkintoneの無料プラグインを導入する前に確認したいセキュリティチェックポイントを6つにまとめました。外部通信先・認証情報の保存場所・XSS対策・ソース公開の有無などを解説します。</description>
       <pubDate>Thu, 13 Aug 2026 09:13:45 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで条件によって入力項目を必須にする方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/required-condition/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/required-condition/</guid>
-      <description>kintoneで特定の選択肢を選んだときだけ別のフィールドを必須にしたい方向けに、無料プラグインで実現する方法を、実際のバリデーションエラー画面つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:44:49 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneのサブテーブルを金額順に並び替える方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/subtable-sort/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/subtable-sort/</guid>
-      <description>kintoneのサブテーブルの行を保存するたびに自動で金額順・日付順に並び替えたい方向けに、無料プラグインで実現する方法を、実際の並び替え結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで法人番号から会社情報を自動入力する方法｜gBizINFO連携（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/</guid>
-      <description>kintoneで法人番号や法人名から、正式名称・代表者名などの会社情報を自動入力したい方向けに、経済産業省gBizINFOと連携する無料プラグインで実現する方法を、実際のAPIリクエスト結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで決裁履歴を自動で記録する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/approval-history/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/approval-history/</guid>
-      <description>kintoneのプロセス管理で、誰がいつ承認したかの履歴を自動で記録したい方向けに、無料プラグインで実現する方法を、実際の承認操作と記録結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneでルックアップ先の情報を自動更新する方法（無料）</title>
-      <link>https://govapps-plugin.pons-llc.com/articles/auto-lookup/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/auto-lookup/</guid>
-      <description>kintoneでルックアップ先のマスタ情報が変わったとき、既存レコード側の値も自動で最新化したい方向けに、無料プラグインで実現する方法を、実際の自動反映結果つきで解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:07:08 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneのサブテーブルを使いこなす方法｜並び替え・ルックアップの無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/subtable/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/subtable/</guid>
-      <description>kintoneのサブテーブルの行を並び替えたい、サブテーブル内の値を検索して自動入力したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:06:30 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで法人番号を自動取得する方法｜gBizINFO連携の無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/biz-code-search/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/biz-code-search/</guid>
-      <description>kintoneで法人番号から会社情報を、法人名から法人番号を自動入力したい方向けに、gBizINFO REST APIを使った無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Thu, 13 Aug 2026 08:06:30 GMT</pubDate>
     </item>
     <item>
       <title>予算管理プラグイン</title>

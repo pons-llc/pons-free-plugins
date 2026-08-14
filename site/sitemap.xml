@@ -290,13 +290,19 @@
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/solutions/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://govapps-plugin.pons-llc.com/solutions/aggregation/</loc>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/solutions/approval/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -319,56 +325,20 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/budget-management/</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/bulk-approval/</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/bulk-record-creation/</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://govapps-plugin.pons-llc.com/solutions/bulk-update/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/calendar/</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/confirmation-dialog/</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/field-display-control/</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/field-encryption/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <loc>https://govapps-plugin.pons-llc.com/solutions/data-protection/</loc>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/solutions/input-control/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -379,56 +349,26 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/kanban/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <loc>https://govapps-plugin.pons-llc.com/solutions/list-visualization/</loc>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/solutions/lookup/</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/organization-information/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/solutions/print-control/</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/record-delete-backup/</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/record-highlight/</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/related-record/</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/related-record-summary/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/solutions/scheduling/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -446,12 +386,6 @@
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/solutions/text-processing/</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://govapps-plugin.pons-llc.com/solutions/user-information/</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -476,13 +410,13 @@
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/budget-management/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/bulk-approval/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -494,25 +428,25 @@
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/calendar-view/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/conditional-display/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/confirm-modal/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -524,13 +458,13 @@
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/delete-backup/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/field-encryption/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -548,31 +482,31 @@
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/kanban-board/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/list-highlight/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/organization-code-lookup/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/organization-inquiry/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -584,7 +518,7 @@
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/related-record-summary/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -626,7 +560,7 @@
   </url>
   <url>
     <loc>https://govapps-plugin.pons-llc.com/articles/user-info-lookup/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

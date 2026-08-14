@@ -12,8 +12,8 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>kintoneのレコード削除をバックアップする方法｜無料プラグインで誤削除に備える | GovAppsプラグイン</title>
-<meta name="description" content="kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい方向けに、無料プラグインで実現する方法を解説します。">
+<title>kintoneで大切なデータを守る方法｜誤削除防止・暗号化の無料プラグイン | GovAppsプラグイン</title>
+<meta name="description" content="kintoneでレコードの誤削除に備えたい、口座番号のような機微な個人情報を暗号化して保存したい方向けに、無料プラグインで実現する方法を解説します。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -30,7 +30,7 @@
       <span class="header-menu-toggle-bar"></span>
     </button>
   </div>
-  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneのレコード削除をバックアップする方法</p>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/solutions">解決策から探す</a> &gt; kintoneで大切なデータを守る方法</p>
   <nav class="header-menu" id="header-menu" hidden>
     <a href="/">トップ</a>
     <a href="/solutions">解決策から探す</a>
@@ -42,12 +42,13 @@
 <div class="container">
 
 <div class="plugin-hero">
-  <h1>kintoneのレコード削除をバックアップする方法（無料プラグインで解決）</h1>
+  <h1>kintoneで大切なデータを守る方法（無料プラグインで解決）</h1>
   <p class="plugin-lead">
     kintoneのレコード削除は取り消せず、標準の「ごみ箱」もアプリの設定によっては使えないことが
-    あります。誤削除に気づいたときにはもう内容も添付ファイルも失われている、という事態を防ぐには、
-    削除の直前に内容を必ずバックアップしてから削除を許可する仕組みが有効です。このページでは、
-    無料プラグインでどう実現できるかをまとめます。
+    あります。また、口座番号のような機微な個人情報を平文のまま保存すると、権限設定を誤ったり
+    APIトークンが漏えいしたりした場合にそのまま読み取られてしまうリスクもあります。このページ
+    では、「消してしまう事故」と「見られてしまう事故」の両方から大切なデータを守る方法を、
+    無料プラグインでどう実現できるかまとめます。
   </p>
 </div>
 
@@ -56,20 +57,27 @@
   <ul class="review-checklist">
     <li>レコード削除の前に、添付ファイルを含めた内容を必ずバックアップしたい</li>
     <li>誤削除による重要データの消失を防ぎたい</li>
-    <li>削除内容をzipでダウンロードするか、別アプリへアーカイブするか選びたい</li>
-    <li>自治体・官公庁の文書管理でレコード削除の証跡を残したい</li>
+    <li>口座番号のような機微な個人情報を暗号化して保存したい</li>
+    <li>権限設定のミスやAPIトークン漏えいが起きても、値がそのまま読み取られないようにしたい</li>
+    <li>自治体・官公庁の文書管理でデータ保護の証跡・仕組みを整えたい</li>
   </ul>
 </section>
 
 <section class="plugin-section">
   <h2>対応するプラグイン</h2>
-  <p class="related-services-by">検索意図に合わせて、以下のプラグインが利用できます。</p>
+  <p class="related-services-by">「消してしまう事故」への備えか、「見られてしまう事故」への備えかで、対応するプラグインが異なります。</p>
   <div class="plugin-cta-grid">
     <div class="plugin-cta">
       <p class="plugin-cta-badge">無料プラグイン</p>
       <p class="plugin-cta-name">削除バックアッププラグイン</p>
       <p class="plugin-cta-desc">レコード削除の直前に、削除されるレコードの内容(添付ファイルを含む)をzipダウンロードまたは別アプリへのアーカイブで必ずバックアップしてから削除を許可する</p>
       <a class="plugin-cta-button" href="/plugins/delete_backup/">プラグイン詳細を見る →</a>
+    </div>
+    <div class="plugin-cta">
+      <p class="plugin-cta-badge">無料プラグイン</p>
+      <p class="plugin-cta-name">フィールド暗号化プラグイン</p>
+      <p class="plugin-cta-desc">文字列(1行)・文字列(複数行)フィールドの値を、ブラウザ内でパスフレーズによりAES-256-GCM暗号化してから保存する。パスフレーズはどこにも保存されない</p>
+      <a class="plugin-cta-button" href="/plugins/field_encryption/">プラグイン詳細を見る →</a>
     </div>
   </div>
 </section>
@@ -78,6 +86,7 @@
   <h2>あわせて読みたい記事</h2>
   <div class="related-services">
     <a class="related-service-card is-govapps" href="/articles/delete-backup/">kintoneでレコードを削除する前にバックアップする方法(添付ファイルを含めて必ずバックアップする実例)</a>
+    <a class="related-service-card is-govapps" href="/articles/field-encryption/">kintoneで個人情報を暗号化して保存する方法(口座番号を暗号化して保存する実例)</a>
     <a class="related-service-card is-govapps" href="/articles/plugin-security-checklist/">自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント</a>
   </div>
 </section>
@@ -85,8 +94,7 @@
 <section class="plugin-section">
   <h2>あわせて見たい解決策ページ</h2>
   <div class="related-services">
-    <a class="related-service-card" href="/solutions/field-encryption/">kintoneのフィールドを暗号化する方法(保存中のデータそのものを保護したい場合はこちら)</a>
-    <a class="related-service-card" href="/solutions/confirmation-dialog/">kintoneの保存・削除時に確認ダイアログを表示する方法(削除前の確認自体を強化したい場合はこちら)</a>
+    <a class="related-service-card" href="/solutions/input-control/">kintoneの入力を制御する方法(削除前の確認ダイアログも合わせて検討したい場合はこちら)</a>
     <a class="related-service-card" href="/solutions/">解決策一覧に戻る</a>
   </div>
 </section>
