@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Fri, 14 Aug 2026 00:11:35 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 14 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>AIダッシュボード for kintone</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/natural_text_dashboard/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/natural_text_dashboard/</guid>
+      <description>レコード一覧画面に「現在のクエリでダッシュボードを作成」ボタンを追加し、AIとのチャットでKPI・グラフ・表・地図のダッシュボードを組み立てるプラグイン。利用にはご自身のGemini/OpenAI/Claude APIキーが必要です。</description>
+      <pubDate>Fri, 14 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneの一覧を見やすくする方法｜カンバン表示・色分け強調の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/list-visualization/</link>

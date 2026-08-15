@@ -644,5 +644,21 @@
       "グループ分け",
       "期限管理"
     ]
+  },
+  {
+    "id": "natural_text_dashboard",
+    "name": "AIダッシュボード for kintone",
+    "description": "レコード一覧画面に「現在のクエリでダッシュボードを作成」ボタンを追加し、AIとのチャットでKPI・グラフ・表・地図のダッシュボードを組み立てるプラグイン。利用にはご自身のGemini/OpenAI/Claude APIキーが必要です。",
+    "version": "1",
+    "publishedAt": "2026-08-15",
+    "zip": "plugins/natural_text_dashboard/plugin.zip",
+    "page": "plugins/natural_text_dashboard/index.html",
+    "category": "データ分析",
+    "tags": [
+      "AI活用",
+      "ダッシュボード",
+      "自然言語"
+    ],
+    "video": "https://vimeo.com/1218533690"
   }
 ]

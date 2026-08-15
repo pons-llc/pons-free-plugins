@@ -1,0 +1,33 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 9,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/dashboard.bundle.js"
+    ],
+    "css": [
+      "js/dashboard.bundle.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "AI Dashboard for kintone",
+    "ja": "AIダッシュボード for kintone"
+  },
+  "description": {
+    "en": "Create dashboards from the current list query by chatting with an AI you bring your own API key for.",
+    "ja": "レコード一覧画面の「現在のクエリ」を対象に、AIとのチャットでダッシュボードを組み立てるプラグイン。"
+  }
+}

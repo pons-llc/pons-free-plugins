@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIダッシュボード for kintone｜無料のkintoneプラグイン | GovAppsプラグイン</title>
+<meta name="description" content="kintoneのレコード一覧画面で、今の絞り込み条件に一致するレコードを対象に、AIとのチャットからKPI・グラフ・表・地図のダッシュボードを組み立てる無料プラグイン。利用にはご自身のGemini/OpenAI/Claude APIキーが必要です。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; AIダッシュボード for kintone</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>AIダッシュボード for kintone（無料）</h1>
+  <p class="plugin-lead">
+    レコード一覧画面に「現在のクエリでダッシュボードを作成」ボタンを追加します。押すとモーダルが開き、
+    左側のチャットでAIに依頼するだけで、今その一覧で絞り込んでいる条件に一致するレコードを対象に、
+    KPI・棒グラフ・折れ線・円グラフ・表・クロス集計・地図といったダッシュボードを右側に組み立てます。
+    ダッシュボードはブラウザを閉じると消える一時的なもので、残したい場合はHTMLとしてダウンロードできます。
+  </p>
+  <p class="download-note">
+    <strong>このプラグインの利用には、ご自身のGemini・OpenAI・Claudeいずれかの外部AI APIキーが必要です
+    (無料枠でも利用できますが、APIキーの発行・管理は各社のサービスに依存します)。</strong>
+    プラグイン自体は無料ですが、選んだAIプロバイダへの通信が発生する点が他のGovAppsプラグインと異なります。
+    詳しくは下記「セキュリティレビュー結果サマリ」をご確認ください。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">データ分析</span>
+    <span class="badge badge-tag">#AI活用</span>
+    <span class="badge badge-tag">#ダッシュボード</span>
+    <span class="badge badge-tag">#自然言語</span>
+  </div>
+  <a class="download-button" href="download" data-dl-plugin="natural_text_dashboard">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>kintoneのレコード一覧を、集計・グラフ化のたびにExcelへエクスポートするのが面倒</li>
+    <li>「案件の状況を一目で把握したい」のように、自然言語で頼むだけでダッシュボードを作りたい</li>
+    <li>一覧画面で絞り込んだ条件そのままの範囲で、KPIや内訳・時系列の推移をすぐ見たい</li>
+    <li>作ったダッシュボードをHTMLファイルとして保存し、あとで見返したり共有したりしたい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>紹介動画</h2>
+  <div class="video-frame">
+    <iframe src="https://player.vimeo.com/video/1218533690" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>ユースケース</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>案件管理アプリで、絞り込んだ範囲の状況をチャットで聞く</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>一覧画面で「今月」「担当者A」などに絞り込んだ状態でボタンを押し、「案件の状況を一目で把握できるダッシュボードを作って」のように頼むと、AIがステータス別の内訳・金額の推移・担当者別の件数など、性質の異なるウィジェットを組み合わせて自動的に配置します。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>グラフをクリックしてさらに絞り込む(ドリルダウン)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>棒グラフ・円グラフ・表・クロス集計のセルをクリックすると、その値で絞り込む・時系列の粒度を変える(月別→日別など)といったメニューが出ます。チャットで頼み直さなくても、画面を触るだけでダッシュボードを掘り下げられます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>位置情報を持つアプリで、地図ダッシュボードを作る</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>緯度・経度にあたるフィールド(フィールドコードやラベルに「緯度」「経度」「lat」「lng」等を含むもの)があるアプリでは、AIに頼むと地図ウィジェットも作成できます。地図タイルは国土地理院タイルを使用します。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>セットアップ手順</h2>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、アプリを更新(デプロイ)する。プラグイン自体の設定画面に入力項目はありません。</li>
+    <li>あらかじめGemini・OpenAI・Claudeのいずれかの開発者向けサイトでAPIキーを発行しておく。</li>
+    <li>対象アプリのレコード一覧画面を開き、必要に応じて絞り込みを行う。</li>
+    <li>ヘッダーの「現在のクエリでダッシュボードを作成」ボタンを押し、AIプロバイダ・モデルを選び、APIキーを入力する(送信内容の確認・同意が必要です)。</li>
+    <li>開いたワークスペースの左側チャットに、作りたいダッシュボードの内容を日本語で入力する。</li>
+  </ol>
+  <p class="download-note">APIキーはどこにも保存されません。ワークスペースを閉じるたびに、次に使うときは改めて入力が必要です。</p>
+</section>
+
+<section class="plugin-section">
+  <h2>セキュリティレビュー結果サマリ</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(外部通信あり・要確認事項を含む)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。<strong>このプラグインは
+      GovAppsの他のプラグインと異なり、機能上、外部(選択したAIプロバイダ)への通信が必須です。</strong>
+      特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>選択したAIプロバイダ(Gemini/OpenAI/Claude)には、フィールド名・現在の絞り込み条件・チャットの入力内容・集計結果(件数や合計等の数値)が送信されます。<strong>レコードの生データそのものは送信しません。</strong>接続設定画面に送信内容の一覧を明示し、利用者の同意チェックを必須にしています。</li>
+        <li>APIキーはkintoneのプラグイン設定・localStorage・sessionStorageのいずれにも保存せず、ブラウザのメモリ上にのみ一時的に保持します。ワークスペースを閉じると破棄され、次回はあらためて入力が必要です。より高度な構成(管理者が1つのAPIキーを設定し、kintoneのプロキシ機能経由でサーバーサイドから呼び出す方式)への切り替え手順もGitHub上のドキュメントに記載しています。</li>
+        <li>チャットやAIが生成した文字列(ウィジェットのタイトル等)は、画面上・HTMLエクスポートいずれも常に<code>textContent</code>やDOM要素の組み立てのみで描画し、<code>innerHTML</code>には一切渡していません。AI自身がHTML文字列を組み立てることもありません。</li>
+        <li>グラフ描画・地図表示のライブラリ(Chart.js、Leaflet)はビルド時にファイルへ静的に取り込んでおり、実行時にCDN等から新しいコードを読み込むことはありません。依存パッケージは<code>pnpm audit</code>で既知の脆弱性が無いことを確認済みです。</li>
+        <li>地図ウィジェットを使う場合のみ、国土地理院タイル(画像)への通信が発生します。地図を使わなければ発生しません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/natural_text_dashboard/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>接続設定画面イメージ</h2>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="AIダッシュボード for kintoneの接続設定モーダル。AIプロバイダ(Google Gemini/OpenAI/Anthropic Claude)とモデルの選択、APIキーの入力欄、送信される内容の一覧、同意チェックボックスが表示されている。" loading="lazy">
+  </div>
+  <p class="download-note">プラグイン自体の管理者向け設定画面には入力項目がないため、実際に利用者が操作するこの接続設定モーダルを掲載しています。</p>
+</section>
+
+<section class="plugin-section">
+  <h2>API実行数について</h2>
+  <p class="api-usage-note">
+    ダッシュボード作成の開始時(チャットでの最初の依頼を送るタイミング)に、現在のクエリに一致するレコードを
+    kintoneのレコード一括取得用カーソルAPI(<code>kintone.api()</code>経由、最大50,000件まで)で1回取得し、
+    ブラウザのメモリ上にキャッシュします。以降のチャットでのやり取りはこのキャッシュに対する集計のみで、
+    kintoneへの追加のREST API実行はありません。これとは別に、チャットのやり取りごとに選択したAIプロバイダ
+    (Gemini/OpenAI/Claude)への外部API通信が発生します。こちらの実行回数・料金は各AIプロバイダのプラン・
+    ご利用状況に依存します。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>GitHub / 改善要望</h2>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/natural_text_dashboard" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/natural_text_dashboard/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

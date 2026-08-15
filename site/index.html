@@ -515,6 +515,16 @@
   <div class="plugin-version">v1</div>
   <span class="plugin-card-cta">プラグイン詳細を見る →</span>
 </a>
+<a class="plugin-card" data-category="データ分析" data-tags="AI活用,ダッシュボード,自然言語" data-search="AIダッシュボード for kintone レコード一覧画面に「現在のクエリでダッシュボードを作成」ボタンを追加し、AIとのチャットでKPI・グラフ・表・地図のダッシュボードを組み立てるプラグイン。利用にはご自身のGemini/OpenAI/Claude APIキーが必要です。 AI活用 ダッシュボード 自然言語" href="plugins/natural_text_dashboard/">
+  <div class="plugin-name">AIダッシュボード for kintone</div>
+  <div class="plugin-desc">レコード一覧画面に「現在のクエリでダッシュボードを作成」ボタンを追加し、AIとのチャットでKPI・グラフ・表・地図のダッシュボードを組み立てるプラグイン。利用にはご自身のGemini/OpenAI/Claude APIキーが必要です。</div>
+  <div>
+    <span class="badge badge-category">データ分析</span>
+    <span class="badge badge-tag">#AI活用</span><span class="badge badge-tag">#ダッシュボード</span><span class="badge badge-tag">#自然言語</span>
+  </div>
+  <div class="plugin-version">v1</div>
+  <span class="plugin-card-cta">プラグイン詳細を見る →</span>
+</a>
 </div>
 <p class="empty-state is-hidden">条件に一致するプラグインが見つかりませんでした。</p>
 
@@ -864,6 +874,13 @@
       description: 'レコード一覧画面に、グループ分け・担当者表示・期限超過マークに対応したカンバンボードを表示するプラグイン。REST APIを一切使わずJavaScript APIのみで実現しています。',
       tags: ['カンバンボード', 'グループ分け', '期限管理'],
       text: 'カンバンボードプラグイン レコード一覧画面(表形式、PC専用)の一覧メニューと一覧本体の間(kintone.app.getHeaderSpaceElement())に、列(グループ)とカードで構成するカンバンボード(タスクボード)を描画する、表示専用(レコードの更新・ドラッグ&ドロップでの編集は一切行わない)プラグイン。一覧本体自体は非表示にせずそのまま残す。app.record.index.showイベントのevent.viewIdで一覧(view)ごとに表示設定を切り替えられ、対象一覧はREST API(GET /k/v1/app/views.json)を使わず管理者がブラウザURLのview=の数字を一覧IDとして直接入力する方式(calendar_viewと同じ設計)。レコード取得もREST APIを一切使わずevent.records(現在ページ分、bulk_approvalと同じ設計方針)のみを使用する。グループ分け(ボードの列)はラジオボタン/ドロップダウンフィールドの選択肢順、またはプロセス管理のステータス(kintone.app.getStatus()のstates[].index順)から選べ、レコードが0件の列も維持され、選択肢に無い値は「その他」列・未入力は「未設定」列にまとまる。カードに表示する担当者は、ユーザー選択フィールドの先頭の1人、またはプロセス管理の作業者(STATUS_ASSIGNEE、getFormFields()で型から自動特定)の先頭の1人から選べる。カードにはタイトル(必須)・ホバー詳細(複数選択可、ブラウザ標準のtitle属性ツールチップ)・期限日(DATE/DATETIME、任意)・バッジ(任意の1フィールド)を表示し、期限が今日より前(ローカル日付で比較)のカードには🔥マークが自動で付く。カードクリックでkintone.buildPageUrl(APP_DETAIL)のURLをwindow.open(url, "_blank", "noopener")で別タブに開き、ボード側の絞り込み・スクロール位置を保持する。プロセス管理が無効なアプリでは設定画面でプロセス管理系の選択肢が選べない(getFormFields()にSTATUS/STATUS_ASSIGNEE型フィールドが含まれるかで判定、プラグイン設定画面ではkintone.app.getStatus()が利用できない画面制限があるため)。プロセス管理のステータスごとの進捗管理、優先度・カテゴリー別のタスク分類、担当者ごとの負荷把握、期限管理を兼ねたタスクボード用途を想定。カンバンボード タスクボード かんばん グループ分け 列分け ステータス管理 進捗管理 期限管理 期限超過 担当者表示 作業者 プロセス管理 REST API不使用 JavaScript APIのみ 別タブで開く'
+    },
+    {
+      key: 'natural_text_dashboard',
+      name: 'AIダッシュボード for kintone',
+      description: 'レコード一覧画面に「現在のクエリでダッシュボードを作成」ボタンを追加し、AIとのチャットでKPI・グラフ・表・地図のダッシュボードを組み立てるプラグイン。利用にはご自身のGemini/OpenAI/Claude APIキーが必要です。',
+      tags: ['AI活用', 'ダッシュボード', '自然言語'],
+      text: 'AIダッシュボード for kintone レコード一覧画面のヘッダー(kintone.app.getHeaderMenuSpaceElement())に「現在のクエリでダッシュボードを作成」ボタンを追加する。押すと接続設定モーダルが開き、AIプロバイダ(Google Gemini/OpenAI/Anthropic Claude)・モデルを選び、その場でAPIキーを入力する(保存はせず、ワークスペースを閉じるとブラウザのメモリ上から破棄される)。送信内容(フィールド名・絞り込み条件・チャット入力・集計値。レコードの生データは含まない)を明示し、同意チェックボックスへのチェックを必須にしている。同意すると、チャット(左)とダッシュボード(右)の2カラムのワークスペースモーダルが開く。kintone.app.getQueryCondition()で取得した「現在の一覧の絞り込み条件」に一致するレコードを、レコード一括取得用カーソルAPI(kintone.api()経由、最大50,000件)で1回だけ取得しブラウザのメモリにキャッシュ、以降のダッシュボード操作(ウィジェット追加・フィルタ変更・再集計)はこのキャッシュに対する集計のみで完結する。AIはkintone.app.getFormFields()由来のスキーマと集計結果の要約だけを根拠に判断し、生レコードやHTML文字列を直接扱うことはない(ツール呼び出し経由でKPI・棒グラフ・折れ線・円グラフ・表・クロス集計・地図の7種のウィジェットを組み立てる)。チャート・表・クロス集計のセルはクリックでき、その値による絞り込みや時系列の粒度変更(月別→日別等)のドリルダウンメニューが出る。ダッシュボードはブラウザのタブを閉じると消える一時的なもので、右上の常設「ダウンロード」ボタンを押した場合のみ自己完結HTMLファイルとしてローカルに保存できる(AIのツール呼び出しからは自動ダウンロードされない設計。地図ウィジェットを含む場合は確認ダイアログを挟む)。位置情報の可視化には、フィールドコードやラベルが緯度・経度・lat・lngに一致するNUMBERフィールドのペアをヒューリスティックに検出し、国土地理院タイルを使った地図ウィジェットを作成できる。GovAppsの他のプラグインと異なり、機能上、選択したAIプロバイダへの外部API通信が必須(kintone以外への通信を行わない、というGovAppsプラグイン共通方針の例外)。グラフ描画にChart.js、地図にLeafletを使用し、いずれもビルド時にファイルへ静的に取り込みCDNからは読み込まない。案件管理アプリでのステータス別内訳・金額推移の可視化、絞り込んだ範囲だけの集計確認、位置情報を持つアプリでの地図ダッシュボード作成用途を想定。自然言語 ダッシュボード AI活用 チャット 生成AI Gemini OpenAI Claude グラフ作成 KPI 棒グラフ 折れ線グラフ 円グラフ クロス集計 地図 ドリルダウン 絞り込み HTMLエクスポート 現在のクエリ データ分析 可視化'
     }
   ];
 </script>
