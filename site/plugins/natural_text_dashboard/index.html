@@ -62,6 +62,7 @@
     <span class="badge badge-tag">#自然言語</span>
   </div>
   <a class="download-button" href="download" data-dl-plugin="natural_text_dashboard">ダウンロード(v1)</a>
+  <p class="download-note">ブラウザから直接APIを呼び出す構成での動作確認は、現時点でGoogle Geminiのみ完了しています。OpenAI・Anthropic Claudeは仕様上対応していますが、CORSの実機確認がまだ済んでいません。</p>
   <p class="author-bio">
     執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
     kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
@@ -146,6 +147,7 @@
         <li>チャットやAIが生成した文字列(ウィジェットのタイトル等)は、画面上・HTMLエクスポートいずれも常に<code>textContent</code>やDOM要素の組み立てのみで描画し、<code>innerHTML</code>には一切渡していません。AI自身がHTML文字列を組み立てることもありません。</li>
         <li>グラフ描画・地図表示のライブラリ(Chart.js、Leaflet)はビルド時にファイルへ静的に取り込んでおり、実行時にCDN等から新しいコードを読み込むことはありません。依存パッケージは<code>pnpm audit</code>で既知の脆弱性が無いことを確認済みです。</li>
         <li>地図ウィジェットを使う場合のみ、国土地理院タイル(画像)への通信が発生します。地図を使わなければ発生しません。</li>
+        <li><strong>ブラウザから直接APIを呼び出す構成での動作確認は、現時点でGoogle Geminiのみ完了しています。</strong>OpenAI・Anthropic ClaudeについてはAPI仕様上は対応していますが、ブラウザからの直接呼び出し(CORS)の実機確認がまだ済んでいません。確実に動作させたい場合はGeminiの利用を推奨します。</li>
       </ul>
       <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
       <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/natural_text_dashboard/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
