@@ -1,0 +1,56 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/id-paging.js",
+      "js/lib/match-key.js",
+      "js/lib/display-value.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/lib/app-schema.js",
+      "js/lib/reconcile.js",
+      "js/lib/result-schema.js",
+      "js/lib/run-history.js",
+      "js/lib/row-filter.js",
+      "js/lib/csv.js",
+      "js/lib/run-id.js",
+      "js/records-client.js",
+      "js/file-client.js",
+      "js/reconcile-runner.js",
+      "js/result-view.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/match-key.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/lib/app-schema.js",
+      "js/schema-writer.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "cross_app_check plugin",
+    "ja": "アプリ間突合プラグイン"
+  },
+  "description": {
+    "en": "cross_app_check plugin",
+    "ja": "基準アプリの対象者に対し、別アプリへの提出有無を突き合わせて提出済/未提出の一覧を作成し、集計アプリに履歴として保存します"
+  }
+}

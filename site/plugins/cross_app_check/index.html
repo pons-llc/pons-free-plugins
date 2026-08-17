@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>アプリ間突合プラグイン｜無料のkintoneプラグイン | GovAppsプラグイン</title>
+<meta name="description" content="基準アプリの対象者に対して、別アプリへの提出があるかどうかを突き合わせ、「提出済/未提出」の一覧を作成するkintone無料プラグイン。未提出者の洗い出しをCSV+Excelの手作業から解放します。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; アプリ間突合プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>アプリ間突合プラグイン（無料）</h1>
+  <p class="plugin-lead">
+    「基準アプリ」に登録されている人が、別の「対象アプリ」にも提出しているかどうかを突き合わせ、
+    <strong>提出済/未提出の一覧</strong>を作成するプラグインです。たとえば「妊娠届は出ているが、
+    妊娠時面談予約が出ていない人」を1クリックで洗い出せます。結果は集計アプリのレコードに
+    JSONファイルとして履歴で残り、過去の実行結果と切り替えて見比べられます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">データ分析</span>
+    <span class="badge badge-tag">#アプリ間突合</span>
+    <span class="badge badge-tag">#未提出チェック</span>
+    <span class="badge badge-tag">#名寄せ</span>
+  </div>
+  <a class="download-button" href="download" data-dl-plugin="cross_app_check">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>kintoneで「Aアプリには出ているがBアプリには出ていない人」を一覧にしたい</li>
+    <li>未提出者・未受診者・未回答者の洗い出しを毎月CSV+ExcelのVLOOKUPでやっている</li>
+    <li>「kintone アプリ間 突合」「kintone 未提出 抽出」を探している</li>
+    <li>関連レコード一覧では1件ずつしか見られず、一覧化・件数集計ができなくて困っている</li>
+    <li>いつ時点でどれだけ未提出だったか、推移を記録として残したい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>kintone標準ではなぜできないのか</h2>
+  <p>
+    kintoneの<strong>関連レコード一覧</strong>フィールドは、レコード詳細画面で「この人の面談予約」を
+    1件ずつ見ることはできますが、一覧画面に並べたり、「予約が0件の人だけ」を絞り込んだりはできません。
+    <strong>グラフ・クロス集計</strong>も1つのアプリの中でしか集計できないため、アプリをまたいだ
+    「片方にしかない」の抽出はできません。結果として、両方のアプリからCSVを書き出して
+    ExcelのVLOOKUPで突き合わせる、という手作業が残りがちです。
+  </p>
+  <p>
+    このプラグインは、その突き合わせをkintoneの中で完結させ、結果を記録として残すためのものです。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>ユースケース</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>母子保健: 妊娠届は出たが、妊娠時面談の予約がない人を洗い出す</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>「妊娠届」アプリを基準アプリ、「妊娠時面談予約」アプリを対象アプリに設定し、宛名番号などの共通コードで突き合わせます。妊娠届を出しているのに面談予約のレコードがない人が「未提出」として一覧に並ぶので、そのまま連絡対象のリストとして使えます。「未提出のみ表示」に切り替えてCSVでダウンロードすれば、通知の宛先リストがそのまま作れます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>研修・健診: 対象者名簿に対して、複数の提出物の状況をまとめて確認する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>対象アプリは複数登録できます。「職員名簿」を基準アプリにして、「研修受講記録」「健診受診記録」「ストレスチェック回答」をそれぞれ対象アプリに設定すると、1つの表に「誰が・何を・出しているか」が横並びで表示されます。対象アプリごとに絞り込み条件(クエリ)を設定できるので、「今年度分だけ」といった条件も指定できます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>推移の記録: 毎月実行して、未提出者が減っているかを追う</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>突合結果は上書きされず、実行するたびに「突合履歴」テーブルへ1行ずつ追記されます。過去の実行結果はドロップダウンで切り替えて表示できるため、「先月時点では何人が未提出だったか」をあとから確認できます。督促の効果測定や、監査時の記録としても使えます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-4">
+      <span>重複提出の確認: 同じ人から複数件出ていないかを見る</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-4" hidden>
+      <p>対象アプリに同じキーのレコードが複数ある場合、「提出済(2件)」のように件数付きで表示され、最終提出日もあわせて表示されます。重複登録や再申請の確認に使えます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>セットアップ手順</h2>
+  <ol class="setup-steps">
+    <li>突合結果を保存するための「集計アプリ」を新しく1つ作る(フィールドは空のままで構いません)。</li>
+    <li>集計アプリにプラグインを追加し、設定画面を開く。</li>
+    <li>「1. 集計用フィールド」の<strong>「集計用フィールドを作成」</strong>ボタンを押す。結果を保存する「突合履歴」テーブル(添付ファイル付き)と、結果を表示するスペースが自動で作成されます。<strong>この操作はアプリの設定を運用環境へ反映(デプロイ)します</strong>ので、動作テスト環境に未反映の変更がないことを確認してから実行してください。</li>
+    <li>「2. 基準アプリ」に、対象者の母集団となるアプリのIDを入力して「このアプリのフィールドを読み込む」を押し、突合キー(宛名番号・個人番号など)と表示名(氏名など)のフィールドを選ぶ。必要なら絞り込み条件(クエリ)も設定する。</li>
+    <li>「3. 対象アプリ」に、提出状況を調べるアプリを同様に設定する。「+ 対象アプリを追加」で複数登録できる。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+    <li>集計アプリでレコードを1件作成して開き、画面上部の<strong>「突合を実行」</strong>ボタンを押す。</li>
+  </ol>
+  <p class="download-note">集計アプリの1レコードが、1つの突合設定の結果置き場になります。突合キーは「完全一致」で突き合わせます。数値フィールド同士であれば「1」と「01」は同じものとして扱いますが、文字列フィールドの場合は先頭のゼロも含めて一致する必要があります(宛名番号のように先頭ゼロに意味があるコードを壊さないための仕様です)。</p>
+</section>
+
+<section class="plugin-section">
+  <h2>実行結果イメージ</h2>
+  <div class="screenshot-frame">
+    <img src="screenshots/result-view.png" alt="アプリ間突合プラグインの実行結果画面。突合履歴テーブルに実行ID・実行日時・概要・結果JSONの添付ファイルが1行記録され、その下に対象者4件・いずれか未提出2件のサマリと、突合キー・氏名・面談の状況(提出済/未提出)・最終提出日を並べた一覧表が表示されている。" loading="lazy">
+  </div>
+  <p class="download-note">「未提出のみ表示」のチェック、対象アプリでの絞り込み、突合キー・氏名でのキーワード検索ができます。表示中の内容はCSVでダウンロードできます。突合キーと状況のセルからは、元のアプリのレコードへ直接リンクします。</p>
+</section>
+
+<section class="plugin-section">
+  <h2>設定画面イメージ</h2>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="アプリ間突合プラグインの設定画面。集計用フィールドの作成ボタン、基準アプリ(アプリID・突合キー・表示名・絞り込み条件)、対象アプリ(アプリID・突合キー・提出日・表示ラベル・絞り込み条件)、表示と上限の設定項目が並んでいる。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>セキュリティレビュー結果サマリ</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>突合結果は添付ファイル(JSON)として保存されますが、<strong>添付ファイルはレコードを編集できる人が差し替えられる「信用できない入力」</strong>として扱っています。画面に表示する前に必ず形式と型を検証し、レコードIDとアプリIDは「数字のみ」しか通しません(リンクの組み立てに使うため、<code>javascript:</code>のような値が混入する経路を塞いでいます)。</li>
+        <li>結果一覧の描画は<code>innerHTML</code>を一切使わず、<code>createElement</code>と<code>textContent</code>のみで組み立てています。氏名や突合キーにHTML特殊文字が含まれていても、文字列として表示されます。</li>
+        <li>CSV出力では、<code>=</code>や<code>+</code>で始まる値の先頭にシングルクォートを付けて無害化しています(Excelで開いたときに数式として実行されるCSVインジェクションの対策)。</li>
+        <li>集計用フィールドの自動作成は、設定画面で管理者がボタンを押したときだけ実行され、確認ダイアログで「運用環境へ反映される」ことを明示します。追加するのは不足しているフィールドだけで、既存フィールドの設定は変更も削除もしません。書き換え対象はプラグインが動作しているアプリ自身のみで、基準アプリ・対象アプリには読み取りしか行いません。</li>
+        <li>kintone以外のサーバーへの通信は一切行わず、外部ライブラリも使用していません。ファイルの読み書きだけはkintone公式が<code>kintone.api()</code>非対応と明記しているため同一オリジンへの<code>fetch</code>を使いますが、URLは<code>kintone.api.url()</code>で組み立て、POSTにはCSRFトークンを付与しています。</li>
+        <li>レコードの取得は逐次実行で、1アプリあたりの読み込み件数に上限(既定5000件)を設けています。突合履歴の行数にも上限(既定20件)を設け、kintone公式の「1つのテーブルに大量の行を追加しない」という注意事項に対応しています。</li>
+        <li><strong>運用上の注意:</strong> 突合結果のJSONには対象者の突合キーと氏名が含まれます。集計アプリのアクセス権は、閲覧してよい担当者だけに絞ってください。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/cross_app_check/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>API実行数について</h2>
+  <p class="api-usage-note">
+    「突合を実行」ボタンを押すたびに、基準アプリと各対象アプリからレコードを取得します。
+    レコード取得は1回のAPIで最大500件のため、API実行数はおおよそ
+    <strong>(基準アプリの件数 ÷ 500) + Σ(対象アプリの件数 ÷ 500) + 3</strong> 回です
+    (末尾の3回は、結果JSONのアップロード・集計アプリのレコード取得・レコード更新)。
+    たとえば基準アプリ1,200件・対象アプリ2つが各800件の場合、1回の実行で約10回のAPIを消費します。
+    自動実行は行わないため、ボタンを押さない限りAPIは消費しません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>制限事項</h2>
+  <ul class="recommend-list">
+    <li>突合キーは<strong>1つのフィールドの完全一致</strong>のみです。「氏名＋生年月日」のような複合キーや、表記ゆれ(全角/半角、旧字体)の吸収はしていません。共通のID項目を持たない運用ではご利用いただけません。</li>
+    <li>対象者の母集団は基準アプリです。対象アプリにしか存在しない人は一覧に表示されません。</li>
+    <li>実行は手動のボタン操作のみです(kintoneプラグインから定期自動実行はできません)。</li>
+    <li>実行直後、結果一覧はすぐ更新されますが、レコード上の「突合履歴」テーブルの表示は画面を再読み込みするまで更新されません(その旨を画面に表示します)。</li>
+    <li>画面に一度に表示するのは500行までです。それを超える場合はCSVでダウンロードしてください。</li>
+    <li>モバイル表示には対応していません。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>GitHub / 改善要望</h2>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/cross_app_check" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/cross_app_check/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

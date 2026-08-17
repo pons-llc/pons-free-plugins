@@ -660,5 +660,20 @@
       "自然言語"
     ],
     "video": "https://vimeo.com/1218533690"
+  },
+  {
+    "id": "cross_app_check",
+    "name": "アプリ間突合プラグイン",
+    "description": "基準アプリに登録されている人が別のアプリにも提出しているかを突き合わせ、「提出済/未提出」の一覧を作成するプラグイン。未提出者の洗い出しをCSV+Excelの手作業から解放します。結果は実行のたびに履歴として蓄積され、過去の結果と切り替えて確認できます。",
+    "version": "1",
+    "publishedAt": "2026-08-18",
+    "zip": "plugins/cross_app_check/plugin.zip",
+    "page": "plugins/cross_app_check/index.html",
+    "category": "データ分析",
+    "tags": [
+      "アプリ間突合",
+      "未提出チェック",
+      "名寄せ"
+    ]
   }
 ]

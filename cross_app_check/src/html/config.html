@@ -1,0 +1,131 @@
+<section class="settings">
+  <h2 class="settings-heading">アプリ間突合プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    基準アプリのレコードを対象者一覧として、対象アプリそれぞれに同じ人のレコードがあるかを突き合わせ、
+    「提出済 / 未提出」の一覧をこのアプリのレコードに保存します。
+    実行のたびに結果はJSONファイルとして「突合履歴」テーブルに1行ずつ追記され、
+    レコード詳細画面のドロップダウンから過去の実行結果を切り替えて表示できます。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="cac-section">
+      <div class="cac-section-heading">1. 集計用フィールド</div>
+      <p class="kintoneplugin-desc">
+        結果を保存するための「突合履歴」テーブルと、結果を表示するスペースをこのアプリに作成します。
+        <strong>この操作を実行すると、アプリの設定が運用環境へ反映(デプロイ)されます。</strong>
+        動作テスト環境に未反映の変更がある場合、それらも同時に公開されます。
+      </p>
+      <p class="kintoneplugin-row">
+        <button type="button" class="kintoneplugin-button-normal js-schema-create">集計用フィールドを作成</button>
+        <span class="cac-note js-schema-status">確認中...</span>
+      </p>
+    </section>
+
+    <section class="cac-section">
+      <div class="cac-section-heading">2. 基準アプリ(対象者の母集団)</div>
+      <p class="kintoneplugin-desc">
+        「誰が対象者か」を決めるアプリです。例:「妊娠届」アプリ。ここに登録されている人が突合結果の各行になります。
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          基準アプリID<span class="kintoneplugin-require">必須</span>
+        </label><br>
+        <input type="text" class="kintoneplugin-input-text js-base-app-id" placeholder="例）12">
+        <button type="button" class="kintoneplugin-button-normal js-base-app-fetch">このアプリのフィールドを読み込む</button>
+        <span class="cac-note js-base-app-status"></span>
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">
+          突合キーのフィールド<span class="kintoneplugin-require">必須</span>
+        </label><br>
+        <select class="kintoneplugin-select js-base-key-field" disabled></select>
+        <span class="cac-note">個人番号・宛名番号など、人を一意に特定できるフィールドを選びます。</span>
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">表示名のフィールド</label><br>
+        <select class="kintoneplugin-select js-base-name-field" disabled></select>
+        <span class="cac-note">結果一覧に氏名などを併記したい場合に選びます(任意)。</span>
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">絞り込み条件(クエリ)</label><br>
+        <textarea class="kintoneplugin-input-text cac-textarea js-base-query" rows="2" placeholder='例）提出日 &gt;= "2026-04-01"'></textarea>
+        <span class="cac-note">kintoneのクエリ記法で書きます。空欄なら全レコードが対象です。</span>
+      </p>
+    </section>
+
+    <section class="cac-section">
+      <div class="cac-section-heading">3. 対象アプリ(提出状況を調べるアプリ)</div>
+      <p class="kintoneplugin-desc">
+        基準アプリの人が「出しているかどうか」を調べるアプリです。例:「妊娠時面談予約」アプリ。複数指定できます。
+      </p>
+      <div id="js-target-list"></div>
+      <button type="button" id="js-target-add" class="kintoneplugin-button-normal">+ 対象アプリを追加</button>
+    </section>
+
+    <section class="cac-section">
+      <div class="cac-section-heading">4. 表示と上限</div>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">提出済の表記</label><br>
+        <input type="text" class="kintoneplugin-input-text js-label-submitted" placeholder="提出済">
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">未提出の表記</label><br>
+        <input type="text" class="kintoneplugin-input-text js-label-unsubmitted" placeholder="未提出">
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">1回の突合で読み込むレコードの上限</label><br>
+        <input type="number" min="1" class="kintoneplugin-input-text js-max-base-records" placeholder="5000">
+        <span class="cac-note">アプリ1つあたりの上限です。超えた分は突合されません。</span>
+      </p>
+      <p class="kintoneplugin-row">
+        <label class="kintoneplugin-label">保持する突合履歴の件数</label><br>
+        <input type="number" min="1" class="kintoneplugin-input-text js-max-history-rows" placeholder="20">
+        <span class="cac-note">超えた分は古い実行結果から削除されます。</span>
+      </p>
+    </section>
+
+    <p class="cac-error js-config-error" hidden></p>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="kintoneplugin-button-dialog-cancel js-cancel">キャンセル</button>
+      <button type="submit" class="kintoneplugin-button-dialog-ok">保存する</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-target-row-template">
+  <section class="cac-target js-target-row">
+    <div class="cac-target-heading">
+      <span class="js-target-title">対象アプリ</span>
+      <span class="cac-row-remove js-target-remove">削除</span>
+    </div>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">
+        アプリID<span class="kintoneplugin-require">必須</span>
+      </label><br>
+      <input type="text" class="kintoneplugin-input-text js-target-app-id" placeholder="例）13">
+      <button type="button" class="kintoneplugin-button-normal js-target-app-fetch">このアプリのフィールドを読み込む</button>
+      <span class="cac-note js-target-app-status"></span>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">
+        突合キーのフィールド<span class="kintoneplugin-require">必須</span>
+      </label><br>
+      <select class="kintoneplugin-select js-target-key-field" disabled></select>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">提出日のフィールド</label><br>
+      <select class="kintoneplugin-select js-target-date-field" disabled></select>
+      <span class="cac-note">結果一覧に最終提出日を出したい場合に選びます(任意)。</span>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">表示ラベル</label><br>
+      <input type="text" class="kintoneplugin-input-text js-target-label" placeholder="例）面談">
+      <span class="cac-note">結果一覧の列見出しに使います。空欄ならアプリ名を使います。</span>
+    </p>
+    <p class="kintoneplugin-row">
+      <label class="kintoneplugin-label">絞り込み条件(クエリ)</label><br>
+      <textarea class="kintoneplugin-input-text cac-textarea js-target-query" rows="2" placeholder='例）ステータス in ("受付済")'></textarea>
+    </p>
+  </section>
+</template>

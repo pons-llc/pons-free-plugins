@@ -1,0 +1,22 @@
+{
+  "name": "src",
+  "version": "0.1.0",
+  "scripts": {
+    "upload": "cli-kintone plugin upload --input dist/plugin.zip --watch",
+    "develop": "pnpm run build --watch",
+    "keygen": "cli-kintone plugin keygen --output private.ppk",
+    "build": "cli-kintone plugin pack --private-key private.ppk --output dist/plugin.zip --input manifest.json",
+    "lint": "eslint .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:e2e": "jest --config jest.e2e.config.js"
+  },
+  "devDependencies": {
+    "@cybozu/eslint-config": "25.0.1",
+    "@kintone/cli": "1.20.0",
+    "eslint": "9.39.4",
+    "jest": "29.7.0",
+    "npm-run-all": "4.1.5",
+    "puppeteer": "^22.15.0"
+  }
+}

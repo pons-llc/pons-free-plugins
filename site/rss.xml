@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Fri, 14 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 17 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>アプリ間突合プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/cross_app_check/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/cross_app_check/</guid>
+      <description>基準アプリに登録されている人が別のアプリにも提出しているかを突き合わせ、「提出済/未提出」の一覧を作成するプラグイン。未提出者の洗い出しをCSV+Excelの手作業から解放します。結果は実行のたびに履歴として蓄積され、過去の結果と切り替えて確認できます。</description>
+      <pubDate>Mon, 17 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>AIダッシュボード for kintone</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/natural_text_dashboard/</link>
