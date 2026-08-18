@@ -88,10 +88,13 @@
     const targetLabel = (target) =>
       target.label || target.appName || `アプリ${target.appId}`;
 
+    // 突合の定義(どのアプリを・どのキーで・どの条件で)はレコード単位の`definition`から、
+    // 提出済/未提出の表記だけはアプリ共通のプラグイン設定(`labels`)から受け取る。
     const buildResult = (params) => {
-      const config = params.config;
-      const baseApp = config.baseApp;
-      const targets = config.targets || [];
+      const definition = params.definition || {};
+      const baseApp = definition.baseApp || {};
+      const targets = definition.targets || [];
+      const labels = params.labels || {};
       const targetRecordSets = params.targetRecordSets || [];
 
       const built = buildBaseRows(params.baseRecords, baseApp);
@@ -134,7 +137,10 @@
         schemaVersion: RESULT_SCHEMA_VERSION,
         runId: params.runId,
         runAt: params.runAt,
-        labels: config.labels,
+        labels: {
+          submitted: labels.submitted || '提出済',
+          unsubmitted: labels.unsubmitted || '未提出',
+        },
         baseApp: {
           appId: baseApp.appId,
           name: baseApp.appName,

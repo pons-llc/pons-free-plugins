@@ -13,6 +13,106 @@
   margin-left: 8px;
 }
 
+/* --- レコード内の突合設定エディタ --- */
+
+.cac-editor {
+  margin: 8px 0 12px;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  background-color: #fafbfc;
+}
+
+.cac-editor-toggle {
+  width: 100%;
+  padding: 8px 12px;
+  border: 0;
+  background-color: #f0f4f5;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cac-editor-toggle:hover {
+  background-color: #e8eef0;
+}
+
+.cac-editor-body {
+  padding: 12px;
+}
+
+.cac-editor-section {
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.cac-editor-heading {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.cac-editor-target-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.cac-editor-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.cac-editor-label {
+  flex: 0 0 90px;
+  font-size: 12px;
+  color: #555;
+}
+
+.cac-editor-row .kintoneplugin-input-text {
+  flex: 1 1 320px;
+  min-width: 200px;
+}
+
+.cac-note {
+  font-size: 12px;
+  color: #666;
+}
+
+.cac-editor-status {
+  margin: 6px 0;
+  color: #3f8f3f;
+  font-size: 12px;
+}
+
+.cac-editor-error {
+  margin: 6px 0;
+  padding: 6px 8px;
+  background-color: #fdf3f3;
+  border-left: 3px solid #e74c3c;
+  color: #a94442;
+  font-size: 12px;
+}
+
+.cac-row-remove {
+  color: #e74c3c;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.cac-row-remove:hover {
+  text-decoration: underline;
+}
+
 .cac-toolbar {
   display: flex;
   flex-wrap: wrap;

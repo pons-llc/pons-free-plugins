@@ -1,12 +1,13 @@
 (function (root) {
   'use strict';
 
-  // 設定画面の保存前チェック。エラーメッセージは日本語でそのまま画面に出す。
+  // レコード単位の突合定義([[definition-store]])の保存前チェック。
+  // エラーメッセージは日本語でそのまま詳細画面に出す。
   const isAppId = (value) => /^[0-9]+$/.test(String(value || '').trim());
 
-  const validate = (config, currentAppId) => {
+  const validate = (definition, currentAppId) => {
     const errors = [];
-    const source = config || {};
+    const source = definition || {};
     const baseApp = source.baseApp || {};
     const targets = Array.isArray(source.targets) ? source.targets : [];
 
@@ -72,15 +73,15 @@
     return { ok: errors.length === 0, errors };
   };
 
-  const ConfigValidation = {
+  const DefinitionValidation = {
     isAppId,
     validate,
   };
 
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ConfigValidation;
+    module.exports = DefinitionValidation;
   } else {
     root.CrossAppCheck = root.CrossAppCheck || {};
-    root.CrossAppCheck.ConfigValidation = ConfigValidation;
+    root.CrossAppCheck.DefinitionValidation = DefinitionValidation;
   }
 })(typeof window !== 'undefined' ? window : globalThis);

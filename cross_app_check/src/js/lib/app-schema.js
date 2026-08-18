@@ -6,6 +6,7 @@
   // 結果の中身はJSONファイルに持たせ、アプリ側は「実行履歴のテーブル」だけを固定で持つ。
   const FIELD_CODES = {
     title: 'cac_title',
+    definition: 'cac_definition',
     runs: 'cac_runs',
     runId: 'cac_run_id',
     runAt: 'cac_run_at',
@@ -80,6 +81,17 @@
       hideExpression: false,
       minLength: '',
       maxLength: '',
+    },
+    // 突合の定義(基準アプリ・対象アプリ・キー・絞り込み条件)をJSONで保持する欄。
+    // 利用者が直接編集するものではなく、詳細画面の設定UIが読み書きする。
+    // 対象アプリが可変長なのでフィールドを増やさずJSON1本に寄せている。
+    [FIELD_CODES.definition]: {
+      type: 'MULTI_LINE_TEXT',
+      code: FIELD_CODES.definition,
+      label: '突合設定(自動生成・編集不要)',
+      noLabel: false,
+      required: false,
+      defaultValue: '',
     },
     [FIELD_CODES.runs]: {
       type: 'SUBTABLE',

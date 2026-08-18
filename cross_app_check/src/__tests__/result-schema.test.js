@@ -1,10 +1,10 @@
 const ResultSchema = require('../js/lib/result-schema');
 const Reconcile = require('../js/lib/reconcile');
-const ConfigStore = require('../js/lib/config-store');
+const DefinitionStore = require('../js/lib/definition-store');
 
 const validResult = () =>
   Reconcile.buildResult({
-    config: ConfigStore.normalize({
+    definition: DefinitionStore.normalize({
       baseApp: {
         appId: '570',
         appName: '妊娠届',

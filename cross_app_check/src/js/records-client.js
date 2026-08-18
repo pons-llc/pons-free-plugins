@@ -11,6 +11,18 @@
   const recordUrl = () => kintone.api.url('/k/v1/record.json', true);
   const formFieldsUrl = () =>
     kintone.api.url('/k/v1/app/form/fields.json', true);
+  const viewsUrl = () => kintone.api.url('/k/v1/app/views.json', true);
+  const appsUrl = () => kintone.api.url('/k/v1/apps.json', true);
+
+  // アプリ名は結果一覧の見出しに使う。取れなくても突合自体はできるので、失敗しても止めない。
+  const fetchAppName = async (appId) => {
+    try {
+      const resp = await kintone.api(appsUrl(), 'GET', { ids: [appId] });
+      return resp.apps && resp.apps[0] ? resp.apps[0].name : '';
+    } catch {
+      return '';
+    }
+  };
 
   // 別アプリのフィールド一覧を取得する(設定画面のプルダウン生成に使う)。
   // 「フィールドを取得する」REST APIの戻り値は`properties`でラップされている
@@ -55,6 +67,21 @@
     }
   };
 
+  // 一覧(view)の設定を取る。
+  // 一覧のURLに`view=`しか付いていない場合、その一覧に保存された絞り込み条件は
+  // URLに現れないため、ここで`filterCond`を引いて補う。
+  const fetchViewFilterCond = async (appId, viewId) => {
+    if (!appId || !viewId) {
+      return '';
+    }
+    const resp = await kintone.api(viewsUrl(), 'GET', { app: appId });
+    const views = resp.views || {};
+    const matched = Object.keys(views)
+      .map((name) => views[name])
+      .find((view) => String(view.id) === String(viewId));
+    return matched && matched.filterCond ? matched.filterCond : '';
+  };
+
   const fetchRecord = async (appId, recordId) => {
     const resp = await kintone.api(recordUrl(), 'GET', {
       app: appId,
@@ -73,6 +100,8 @@
 
   NS.RecordsClient = {
     fetchFormFields,
+    fetchAppName,
+    fetchViewFilterCond,
     fetchAllRecords,
     fetchRecord,
     updateRecord,

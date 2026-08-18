@@ -1,5 +1,5 @@
 const Reconcile = require('../js/lib/reconcile');
-const ConfigStore = require('../js/lib/config-store');
+const DefinitionStore = require('../js/lib/definition-store');
 
 const baseRecord = (id, key, name) => ({
   $id: { type: '__ID__', value: String(id) },
@@ -13,8 +13,8 @@ const targetRecord = (id, key, date) => ({
   面談日: { type: 'DATE', value: date },
 });
 
-const buildConfig = () =>
-  ConfigStore.normalize({
+const buildDefinition = () =>
+  DefinitionStore.normalize({
     baseApp: {
       appId: '570',
       appName: '妊娠届',
@@ -36,9 +36,9 @@ const buildConfig = () =>
     ],
   });
 
-const run = (baseRecords, targetRecords, config) =>
+const run = (baseRecords, targetRecords, definition) =>
   Reconcile.buildResult({
-    config: config || buildConfig(),
+    definition: definition || buildDefinition(),
     baseRecords,
     targetRecordSets: [targetRecords],
     runId: 'run-1',
@@ -107,6 +107,28 @@ describe('buildResult — 基本の突合', () => {
   });
 });
 
+describe('buildResult — ラベル', () => {
+  test('提出済/未提出の表記はプラグイン設定側(labels)から受け取る', () => {
+    const result = Reconcile.buildResult({
+      definition: buildDefinition(),
+      labels: { submitted: '済', unsubmitted: '未' },
+      baseRecords: [baseRecord(1, 'A-001', '山田花子')],
+      targetRecordSets: [[]],
+      runId: 'run-1',
+      runAt: '2026-08-18T01:00:00Z',
+    });
+    expect(result.labels).toEqual({ submitted: '済', unsubmitted: '未' });
+  });
+
+  test('labelsを渡さなければ既定の表記になる', () => {
+    const result = run([baseRecord(1, 'A-001', '山田花子')], []);
+    expect(result.labels).toEqual({
+      submitted: '提出済',
+      unsubmitted: '未提出',
+    });
+  });
+});
+
 describe('buildResult — 端のケース', () => {
   test('キーが空の基準レコードは行にせず skippedNoKey に数える', () => {
     const result = run(
@@ -146,12 +168,12 @@ describe('buildResult — 端のケース', () => {
   });
 
   test('提出日フィールド未設定なら lastDate は null のまま', () => {
-    const config = buildConfig();
-    config.targets[0].dateFieldCode = '';
+    const definition = buildDefinition();
+    definition.targets[0].dateFieldCode = '';
     const result = run(
       [baseRecord(1, 'A-001', '山田花子')],
       [targetRecord(11, 'A-001', '2026-05-01')],
-      config,
+      definition,
     );
     expect(result.rows[0].targets[0].submitted).toBe(true);
     expect(result.rows[0].targets[0].lastDate).toBeNull();
@@ -179,8 +201,8 @@ describe('buildResult — 端のケース', () => {
 });
 
 describe('buildResult — 対象アプリが複数', () => {
-  const multiConfig = () =>
-    ConfigStore.normalize({
+  const multiDefinition = () =>
+    DefinitionStore.normalize({
       baseApp: {
         appId: '570',
         appName: '妊娠届',
@@ -208,7 +230,7 @@ describe('buildResult — 対象アプリが複数', () => {
 
   test('対象アプリごとに列が並び、どれか未提出なら unsubmittedAny に数える', () => {
     const result = Reconcile.buildResult({
-      config: multiConfig(),
+      definition: multiDefinition(),
       baseRecords: [
         baseRecord(1, 'A-001', '山田花子'),
         baseRecord(2, 'A-002', '鈴木一郎'),
@@ -233,7 +255,7 @@ describe('buildResult — 対象アプリが複数', () => {
   });
 
   test('ラベル未設定ならアプリ名、それも無ければアプリIDで代用する', () => {
-    const config = ConfigStore.normalize({
+    const definition = DefinitionStore.normalize({
       baseApp: {
         appId: '570',
         keyFieldCode: '宛名番号',
@@ -245,7 +267,7 @@ describe('buildResult — 対象アプリが複数', () => {
       ],
     });
     const result = Reconcile.buildResult({
-      config,
+      definition,
       baseRecords: [baseRecord(1, 'A-001', '山田花子')],
       targetRecordSets: [[], []],
       runId: 'run-1',

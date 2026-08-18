@@ -1,9 +1,11 @@
 const AppSchema = require('../js/lib/app-schema');
 
 describe('buildFieldProperties', () => {
-  test('突合名と履歴テーブルを定義する', () => {
+  test('突合名・突合設定・履歴テーブルを定義する', () => {
     const props = AppSchema.buildFieldProperties();
     expect(props.cac_title.type).toBe('SINGLE_LINE_TEXT');
+    // 突合の定義はレコード単位で持つため、JSONを入れる複数行テキストが要る
+    expect(props.cac_definition.type).toBe('MULTI_LINE_TEXT');
     expect(props.cac_runs.type).toBe('SUBTABLE');
   });
 
@@ -31,14 +33,18 @@ describe('buildFieldProperties', () => {
 describe('missingFieldProperties', () => {
   test('何も無ければ全フィールドを返す', () => {
     const missing = AppSchema.missingFieldProperties({});
-    expect(Object.keys(missing).sort()).toEqual(['cac_runs', 'cac_title']);
+    expect(Object.keys(missing).sort()).toEqual([
+      'cac_definition',
+      'cac_runs',
+      'cac_title',
+    ]);
   });
 
   test('既にあるフィールドは返さない(既存には触らない)', () => {
     const missing = AppSchema.missingFieldProperties({
       cac_title: { type: 'SINGLE_LINE_TEXT', code: 'cac_title' },
     });
-    expect(Object.keys(missing)).toEqual(['cac_runs']);
+    expect(Object.keys(missing).sort()).toEqual(['cac_definition', 'cac_runs']);
   });
 
   test('すべて揃っていれば空オブジェクト', () => {
@@ -49,10 +55,10 @@ describe('missingFieldProperties', () => {
   });
 
   test('引数がnull/undefinedでも落ちない', () => {
-    expect(Object.keys(AppSchema.missingFieldProperties(null))).toHaveLength(2);
+    expect(Object.keys(AppSchema.missingFieldProperties(null))).toHaveLength(3);
     expect(
       Object.keys(AppSchema.missingFieldProperties(undefined)),
-    ).toHaveLength(2);
+    ).toHaveLength(3);
   });
 });
 

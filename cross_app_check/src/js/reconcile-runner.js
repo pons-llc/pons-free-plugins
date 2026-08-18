@@ -7,7 +7,11 @@
   // データ取得(RecordsClient) → 突合(Reconcile) → JSON化(ResultSchema) →
   // 添付(FileClient) → 履歴テーブルへ追記(RunHistory) の順に呼ぶだけで、
   // 判断ロジックはすべて js/lib 配下の純粋関数側に置いている。
+  //
+  // 「どのアプリを・どのキーで・どの条件で」はレコード単位の`definition`、
+  // 「提出済/未提出の表記」と「上限」はアプリ共通の`config`から受け取る。
   const run = async (params) => {
+    const definition = params.definition;
     const config = params.config;
     const summaryAppId = params.summaryAppId;
     const summaryRecordId = params.summaryRecordId;
@@ -15,24 +19,25 @@
 
     const runId = NS.RunId.createRunId(new Date());
     const runAtIso = NS.RunId.toIsoString(new Date());
+    const baseApp = definition.baseApp;
 
     onProgress(
-      `基準アプリ(${config.baseApp.appName || config.baseApp.appId})を読み込んでいます...`,
+      `基準アプリ(${baseApp.appName || baseApp.appId})を読み込んでいます...`,
     );
     const base = await NS.RecordsClient.fetchAllRecords(
-      config.baseApp.appId,
-      config.baseApp.query,
-      [config.baseApp.keyFieldCode, config.baseApp.nameFieldCode],
+      baseApp.appId,
+      baseApp.query,
+      [baseApp.keyFieldCode, baseApp.nameFieldCode],
       config.limits.maxBaseRecords,
     );
 
     // 対象アプリは逐次で読む(並列にするとAPI実行数が一気に跳ねるため)
     const targetRecordSets = [];
     const truncatedTargets = [];
-    for (let i = 0; i < config.targets.length; i += 1) {
-      const target = config.targets[i];
+    for (let i = 0; i < definition.targets.length; i += 1) {
+      const target = definition.targets[i];
       onProgress(
-        `対象アプリ(${target.label || target.appName || target.appId})を読み込んでいます... [${i + 1}/${config.targets.length}]`,
+        `対象アプリ(${target.label || target.appName || target.appId})を読み込んでいます... [${i + 1}/${definition.targets.length}]`,
       );
       const fetched = await NS.RecordsClient.fetchAllRecords(
         target.appId,
@@ -48,7 +53,8 @@
 
     onProgress('突合しています...');
     const result = NS.Reconcile.buildResult({
-      config,
+      definition,
+      labels: config.labels,
       baseRecords: base.records,
       targetRecordSets,
       runId,
@@ -91,5 +97,15 @@
     };
   };
 
-  NS.ReconcileRunner = { run };
+  // 突合定義だけをレコードへ保存する(設定UIの「保存」)。
+  // 履歴テーブルには触らないので、既存行を持ち越す必要はない。
+  const saveDefinition = (summaryAppId, summaryRecordId, definition) => {
+    const record = {};
+    record[NS.AppSchema.FIELD_CODES.definition] = {
+      value: NS.DefinitionStore.serialize(definition),
+    };
+    return NS.RecordsClient.updateRecord(summaryAppId, summaryRecordId, record);
+  };
+
+  NS.ReconcileRunner = { run, saveDefinition };
 })(typeof window !== 'undefined' ? window : globalThis);

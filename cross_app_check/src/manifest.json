@@ -6,10 +6,12 @@
   "desktop": {
     "js": [
       "js/lib/id-paging.js",
+      "js/lib/list-url.js",
       "js/lib/match-key.js",
       "js/lib/display-value.js",
       "js/lib/config-store.js",
-      "js/lib/config-validation.js",
+      "js/lib/definition-store.js",
+      "js/lib/definition-validation.js",
       "js/lib/app-schema.js",
       "js/lib/reconcile.js",
       "js/lib/result-schema.js",
@@ -20,6 +22,7 @@
       "js/records-client.js",
       "js/file-client.js",
       "js/reconcile-runner.js",
+      "js/definition-editor.js",
       "js/result-view.js",
       "js/desktop.js"
     ],
@@ -32,9 +35,7 @@
   "config": {
     "html": "html/config.html",
     "js": [
-      "js/lib/match-key.js",
       "js/lib/config-store.js",
-      "js/lib/config-validation.js",
       "js/lib/app-schema.js",
       "js/schema-writer.js",
       "js/config.js"
