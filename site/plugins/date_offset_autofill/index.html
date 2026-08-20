@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日付自動入力プラグイン｜無料のkintoneプラグイン | GovAppsプラグイン</title>
+<meta name="description" content="基準となる日付/日時フィールドに固定値または数値・計算フィールドの値(日数または秒数)をプラスマイナスして、別の日付/日時フィールドへ保存時に自動入力するkintone無料プラグイン。計算フィールドの日付演算では使えない「今日」「今月」等の動的な絞り込みに対応できます。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; 日付自動入力プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>日付自動入力プラグイン（無料）</h1>
+  <p class="plugin-lead">
+    基準となる日付/日時フィールドの値に、指定した値(日数または秒数)をプラスマイナスして、別の
+    日付/日時フィールドへレコード保存時に自動入力するプラグインです。オフセット値は設定画面で
+    固定した値、または数値フィールド・計算フィールドの値をそのつど参照する方式のどちらかを選べます。
+    計算フィールドで日付演算すると結果が固定値になり「今日」「今月」のような動的な絞り込みに
+    使えませんが、本プラグインは実際の日付/日時フィールドへ書き込むため、その問題を回避できます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">日付・書式</span>
+    <span class="badge badge-tag">#期限日自動計算</span>
+    <span class="badge badge-tag">#自動入力</span>
+  </div>
+  <a class="download-button" href="download" data-dl-plugin="date_offset_autofill">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>申請日から一定日数後の期限日を自動計算したいが、計算フィールドだと「今日以前」のような動的な絞り込みができず困っている</li>
+    <li>緊急度などの選択肢に応じて、加算する日数を変えたい</li>
+    <li>「kintone 日付 自動計算 絞り込み」を探している</li>
+    <li>期限切れレコードの一覧をビューの絞り込み条件だけで作りたい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>ユースケース</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>緊急度に応じて期限日を自動計算する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>緊急度を選ぶラジオボタンに連動する計算フィールド(緊急度「高」なら10、「中」なら20のような日数を返す計算フィールド)を用意しておき、「基準フィールド=申請日、単位=日数、オフセット値=この計算フィールドを参照、出力先=期限日」というルールを設定すると、保存のたびに期限日が自動計算されます。期限日は通常の日付フィールドなので、一覧画面で「期限日が今日以前」のような動的な絞り込みがそのまま使えます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>固定の日数・時間で通知期限やタイムアウト日時を計算する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>「受付日時+3600秒(1時間)」のような固定値でのオフセットも設定できます。日時フィールド同士であれば単位に「秒数」を選べるため、時間単位のタイムアウト管理や、承認依頼の自動リマインド日時の算出などにも利用できます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>セットアップ手順</h2>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「+ ルールを追加」でルールを作成し、①基準フィールド(日付/日時型)→②単位(日数/秒数)→③オフセット値の種類(固定値/フィールド参照)と値→④出力先フィールド(日付/日時型)の順に設定して保存する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">出力先フィールドは、追加・編集画面および一覧のインライン編集で常に編集できなくなります(基準フィールドから自動計算される値のため)。基準フィールドが空、またはオフセット参照フィールドの値が数値として読み取れない場合は、そのルールの計算はスキップされ出力先フィールドは変更されません。一覧画面のインライン編集で基準フィールドを直接変更して保存した場合は本プラグインは発動しません(通常の追加・編集画面を経由すると再計算されます)。</p>
+</section>
+
+<section class="plugin-section">
+  <h2>セキュリティレビュー結果サマリ</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>REST APIを一切使用しません。基準・オフセット参照フィールドの値はレコード保存イベント(<code>submit</code>イベント)のイベントオブジェクトからそのまま読み取るだけで、計算フィールドの値も含めてブラウザ上で既に計算済みの値を使うため、追加のAPI呼び出しは発生しません。外部サーバーへの通信・外部ライブラリの使用も一切ありません。</li>
+        <li>日付の演算は常にUTCタイムスタンプで行い、ローカルタイムゾーンや夏時間の影響を受けないように実装しています(この日付演算ロジックはユニットテストで日付・年をまたぐ境界を含めて確定的に検証しています)。</li>
+        <li>設定画面でのフィールド一覧・エラーメッセージの描画、出力先フィールドへの値の書き込みは、いずれも<code>innerHTML</code>ではなく<code>textContent</code>やkintone標準のフィールド値レンダリングを経由しており、DOMへ構造として解釈されません。</li>
+        <li>保存前のバリデーションで、基準・出力先フィールドの型不一致、単位「秒数」と日付型の組み合わせ、出力先フィールドの重複、固定値が数値でない、オフセット参照フィールドが数値以外といった不正な設定を検出して保存させません。</li>
+        <li>出力先フィールドの編集禁止はJavaScript APIによるUIレベルの制御であり、「不正操作を防ぐ」機能ではなく「自動計算される値を手動編集で不整合にさせないためのUI上の制約」です。出力先フィールドのアクセス権(誰が閲覧できるか)はアプリ管理者が別途適切に設定してください。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/date_offset_autofill/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>設定画面イメージ</h2>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="日付自動入力プラグインの設定画面。ルールごとに基準フィールド・単位(日数/秒数)・オフセット値(固定値またはフィールド参照)・出力先フィールドを設定する画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>API実行数について</h2>
+  <p class="api-usage-note">
+    このプラグインはREST APIを一切実行しません。フィールド情報の取得は<code>kintone.app.getFormFields()</code>のみで行い、
+    日付の演算処理は<code>submit</code>イベント内のイベントオブジェクトに対するローカルな計算のみで完結します。
+    API実行数制限に影響することはありません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>GitHub / 改善要望</h2>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/date_offset_autofill" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/date_offset_autofill/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

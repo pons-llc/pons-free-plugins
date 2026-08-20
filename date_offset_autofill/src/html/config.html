@@ -1,0 +1,71 @@
+<section class="settings">
+  <h2 class="settings-heading">日付自動入力プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    基準となる日付/日時フィールドの値に、指定した値(日数または秒数)をプラスマイナスして、
+    別の日付/日時フィールドへ保存時(submit時)に自動入力します。計算フィールドで日付演算すると
+    「今日」「今月」のような動的な絞り込みに使えなくなる問題を、実際の日付/日時フィールドへ
+    書き込むことで回避します。出力先フィールドは追加・編集画面で直接編集できなくなります。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="doa-errors"></div>
+
+    <div id="js-rule-list"></div>
+    <button type="button" id="js-rule-add" class="kintoneplugin-button-normal">+ ルールを追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-rule-row-template">
+  <section class="doa-section js-rule-row">
+    <div class="doa-section-heading">
+      ルール
+      <span class="doa-row-remove js-rule-remove">削除</span>
+    </div>
+
+    <table class="doa-table">
+      <tbody>
+        <tr>
+          <th>基準フィールド</th>
+          <td><select class="kintoneplugin-select js-rule-base"></select></td>
+        </tr>
+        <tr>
+          <th>単位</th>
+          <td>
+            <select class="kintoneplugin-select js-rule-unit">
+              <option value="DAYS">日数</option>
+              <option value="SECONDS">秒数</option>
+            </select>
+            <p class="doa-note">「秒数」は基準・出力先フィールドが共に日時型の場合のみ選択できます。</p>
+          </td>
+        </tr>
+        <tr>
+          <th>オフセット値</th>
+          <td>
+            <label class="doa-radio-label">
+              <input type="radio" name="offset-source" class="js-rule-source-fixed"> 固定値
+            </label>
+            <label class="doa-radio-label">
+              <input type="radio" name="offset-source" class="js-rule-source-field"> フィールド参照
+            </label>
+            <div class="js-rule-fixed-row">
+              <input type="number" step="any" class="kintoneplugin-input-text js-rule-fixed-value" placeholder="例: 10、-5、0.5">
+            </div>
+            <div class="js-rule-offset-field-row">
+              <select class="kintoneplugin-select js-rule-offset-field"></select>
+              <p class="doa-note">数値フィールド、または表示書式が数値の計算フィールドから選択します。</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>出力先フィールド</th>
+          <td><select class="kintoneplugin-select js-rule-target"></select></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</template>

@@ -675,5 +675,20 @@
       "未提出チェック",
       "名寄せ"
     ]
+  },
+  {
+    "id": "date_offset_autofill",
+    "name": "日付自動入力プラグイン",
+    "description": "基準となる日付/日時フィールドの値に、固定値または数値・計算フィールドの値(日数または秒数)をプラスマイナスして、別の日付/日時フィールドへ保存時に自動入力するプラグイン。計算フィールドの日付演算では使えない「今日」「今月」等の動的な絞り込みに対応できます。",
+    "version": "1",
+    "publishedAt": "2026-08-20",
+    "zip": "plugins/date_offset_autofill/plugin.zip",
+    "page": "plugins/date_offset_autofill/index.html",
+    "category": "日付・書式",
+    "tags": [
+      "期限日自動計算",
+      "日付演算",
+      "自動入力"
+    ]
   }
 ]

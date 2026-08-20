@@ -1,0 +1,50 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/offset-calculator.js",
+      "js/lib/config-store.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/offset-calculator.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "date_offset_autofill plugin",
+    "ja": "日付自動入力プラグイン"
+  },
+  "description": {
+    "en": "date_offset_autofill plugin",
+    "ja": "基準となる日付/日時フィールドに、固定値または数値・計算フィールドの値(日数または秒数)をプラスマイナスして、別の日付/日時フィールドへ保存時に自動入力するプラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/offset-calculator.js",
+      "js/lib/config-store.js",
+      "js/mobile.js"
+    ],
+    "css": [
+      "css/mobile.css"
+    ]
+  }
+}

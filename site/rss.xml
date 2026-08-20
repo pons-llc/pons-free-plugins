@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Mon, 17 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 19 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>日付自動入力プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/date_offset_autofill/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/date_offset_autofill/</guid>
+      <description>基準となる日付/日時フィールドの値に、固定値または数値・計算フィールドの値(日数または秒数)をプラスマイナスして、別の日付/日時フィールドへ保存時に自動入力するプラグイン。計算フィールドの日付演算では使えない「今日」「今月」等の動的な絞り込みに対応できます。</description>
+      <pubDate>Wed, 19 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>アプリ間突合プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/cross_app_check/</link>
