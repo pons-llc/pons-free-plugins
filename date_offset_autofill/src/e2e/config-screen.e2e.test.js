@@ -62,6 +62,16 @@ describe('設定画面(実環境)', () => {
     );
     expect(heading).toContain('日付自動入力プラグイン');
 
+    // このテストは繰り返し実行される(前回保存した設定が残っている)ため、既存のルールを
+    // すべて削除してから新規に1件だけ追加する状態に揃える(冪等にするため)。
+    for (;;) {
+      const removeButton = await page.$('.js-rule-remove');
+      if (!removeButton) {
+        break;
+      }
+      await removeButton.click();
+    }
+
     await page.click('#js-rule-add');
     const ruleRow = await page.$('.js-rule-row');
     expect(ruleRow).not.toBeNull();
@@ -101,8 +111,8 @@ describe('設定画面(実環境)', () => {
     expect(offsetFieldOptionValues).toContain(fixtures.CALC_NUMBER_FIELD_CODE);
     await (await ruleRow.$('.js-rule-offset-field')).select(NUMBER_FIELD_CODE);
 
-    // 単位「秒数」はDATE型の基準フィールドでは保存時に弾かれる(バリデーション確認)。
-    await (await ruleRow.$('.js-rule-unit')).select('SECONDS');
+    // 単位「分数」はDATE型の基準フィールドでは保存時に弾かれる(バリデーション確認)。
+    await (await ruleRow.$('.js-rule-unit')).select('MINUTES');
 
     expect(pageErrors).toEqual([]);
 
@@ -110,7 +120,7 @@ describe('設定画面(実環境)', () => {
 
     await page.click('.kintoneplugin-button-dialog-ok');
     const errorText = await page.$eval('#js-errors', (el) => el.textContent);
-    expect(errorText).toContain('秒数');
+    expect(errorText).toContain('分数');
 
     // 単位を「日数」に戻せば保存できる。
     await (await ruleRow.$('.js-rule-unit')).select('DAYS');

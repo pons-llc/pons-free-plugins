@@ -1,7 +1,7 @@
 (function (root) {
   'use strict';
 
-  const UNITS = ['DAYS', 'SECONDS'];
+  const UNITS = ['DAYS', 'MINUTES'];
   const OFFSET_SOURCES = ['FIXED', 'FIELD'];
   const DATE_TYPES = ['DATE', 'DATETIME'];
   const NUMERIC_CALC_FORMATS = ['NUMBER', 'NUMBER_DIGIT'];
@@ -54,7 +54,7 @@
       }
 
       if (!UNITS.includes(r.unit)) {
-        errors.push(`${label}: 単位(日数/秒数)の指定が不正です。`);
+        errors.push(`${label}: 単位(日数/分数)の指定が不正です。`);
       }
 
       if (!OFFSET_SOURCES.includes(r.offsetSource)) {
@@ -101,9 +101,9 @@
         }
       }
 
-      if (r.unit === 'SECONDS' && baseField && baseField.type !== 'DATETIME') {
+      if (r.unit === 'MINUTES' && baseField && baseField.type !== 'DATETIME') {
         errors.push(
-          `${label}: 単位「秒数」は基準フィールドが日時型の場合のみ選択できます。`,
+          `${label}: 単位「分数」は基準フィールドが日時型の場合のみ選択できます。`,
         );
       }
 

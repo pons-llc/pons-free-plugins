@@ -18,10 +18,14 @@
     });
   };
 
-  // 基準フィールドの値をオフセット計算し、出力先フィールドへ反映する。idea.mdの方針通りsubmitイベントでのみ実行する。
+  // 基準フィールドの値をオフセット計算し、出力先フィールドへ反映する。
   // 基準フィールドの型はkintone.app.getFormFields()から取得し直さず、event.recordのtype
   // (フィールド形式取得時にも含まれる)をそのまま使う(REST API呼び出し不要)。
-  const applyRules = (record) => {
+  // isInlineEditは一覧画面のインライン編集(app.record.index.edit.submit)から呼ばれたことを示す。
+  // このコンテキストでは、一覧に配置していないCALCフィールドの値が「再計算前の値」のまま返る
+  // ことがある(OffsetCalculator.isUnreliableInlineEditOffsetのコメント参照)ため、CALCフィールドを
+  // オフセット参照に使うルールは誤った日付を書き込まないようスキップする。
+  const applyRules = (record, isInlineEdit) => {
     config.rules.forEach((rule) => {
       const baseField = record[rule.baseFieldCode];
       const targetField = record[rule.targetFieldCode];
@@ -30,10 +34,23 @@
       if (!baseField || !targetField) {
         return;
       }
-      const offsetFieldRawValue =
-        rule.offsetSource === 'FIELD'
-          ? record[rule.offsetFieldCode] && record[rule.offsetFieldCode].value
-          : undefined;
+      let offsetFieldRawValue;
+      if (rule.offsetSource === 'FIELD') {
+        const offsetField = record[rule.offsetFieldCode];
+        if (!offsetField) {
+          return;
+        }
+        if (
+          isInlineEdit &&
+          NS.OffsetCalculator.isUnreliableInlineEditOffset(
+            rule,
+            offsetField.type,
+          )
+        ) {
+          return;
+        }
+        offsetFieldRawValue = offsetField.value;
+      }
       const newValue = NS.OffsetCalculator.computeTargetValue(
         rule,
         baseField.value,
@@ -59,7 +76,7 @@
   kintone.events.on(
     ['app.record.create.submit', 'app.record.edit.submit'],
     (event) => {
-      applyRules(event.record);
+      applyRules(event.record, false);
       return event;
     },
   );
@@ -69,6 +86,13 @@
   // モバイルにはインライン編集自体が存在しない。
   kintone.events.on('app.record.index.edit.show', (event) => {
     disableTargetFields(event.record);
+    return event;
+  });
+
+  // 一覧画面のインライン編集で基準フィールドを直接変更して保存した場合も、通常の追加・編集画面と
+  // 同様に出力先フィールドを再計算する(idea.md「対応画面」2026-08-21改訂)。
+  kintone.events.on('app.record.index.edit.submit', (event) => {
+    applyRules(event.record, true);
     return event;
   });
 })(window, kintone);

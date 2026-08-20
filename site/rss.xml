@@ -10,7 +10,7 @@
       <title>日付自動入力プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/date_offset_autofill/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/date_offset_autofill/</guid>
-      <description>基準となる日付/日時フィールドの値に、固定値または数値・計算フィールドの値(日数または秒数)をプラスマイナスして、別の日付/日時フィールドへ保存時に自動入力するプラグイン。計算フィールドの日付演算では使えない「今日」「今月」等の動的な絞り込みに対応できます。</description>
+      <description>基準となる日付/日時フィールドの値に、固定値または数値・計算フィールドの値(日数または分数)をプラスマイナスして、別の日付/日時フィールドへ保存時に自動入力するプラグイン。計算フィールドの日付演算では使えない「今日」「今月」等の動的な絞り込みに対応できます。</description>
       <pubDate>Wed, 19 Aug 2026 15:00:00 GMT</pubDate>
     </item>
     <item>

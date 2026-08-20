@@ -193,13 +193,13 @@ describe('ConfigValidation.validateRules', () => {
       expect(result.errors.some((e) => e.includes('型'))).toBe(true);
     });
 
-    test('accepts a DATETIME-to-DATETIME rule with SECONDS unit', () => {
+    test('accepts a DATETIME-to-DATETIME rule with MINUTES unit', () => {
       const result = ConfigValidation.validateRules(
         [
           validFixedRule({
             baseFieldCode: 'apply_datetime',
             targetFieldCode: 'due_datetime',
-            unit: 'SECONDS',
+            unit: 'MINUTES',
           }),
         ],
         fieldInfoByCode,
@@ -207,9 +207,9 @@ describe('ConfigValidation.validateRules', () => {
       expect(result).toEqual({ valid: true, errors: [] });
     });
 
-    test('rejects SECONDS unit on a DATE base field', () => {
+    test('rejects MINUTES unit on a DATE base field', () => {
       const result = ConfigValidation.validateRules(
-        [validFixedRule({ unit: 'SECONDS' })],
+        [validFixedRule({ unit: 'MINUTES' })],
         fieldInfoByCode,
       );
       expect(result.valid).toBe(false);

@@ -2,7 +2,7 @@
   'use strict';
 
   const MS_PER_DAY = 86400000;
-  const MS_PER_SECOND = 1000;
+  const MS_PER_MINUTE = 60000;
 
   const isEmpty = (v) => v === undefined || v === null || v === '';
 
@@ -52,8 +52,10 @@
     if (isEmpty(baseValue) || magnitude === null || magnitude === undefined) {
       return null;
     }
+    // kintoneのDATETIME型フィールドは入力UI上、分単位までしか扱えない(秒の入力欄が無い)ため、
+    // 単位は「日数」「分数」の2種類のみとする(idea.md参照)。
     const offsetMs =
-      unit === 'SECONDS' ? magnitude * MS_PER_SECOND : magnitude * MS_PER_DAY;
+      unit === 'MINUTES' ? magnitude * MS_PER_MINUTE : magnitude * MS_PER_DAY;
 
     if (baseFieldType === 'DATE') {
       const baseTimestamp = parseDateAsUtc(baseValue);
@@ -76,6 +78,14 @@
     return null;
   };
 
+  // 一覧画面のインライン編集(app.record.index.edit.submit)では、対象の一覧に配置していない
+  // CALC(計算)フィールドの値が「再計算前の値」(古い値)のまま返ることがある(kintoneドキュメントMCP
+  // 「レコード一覧画面のインライン編集で保存するときのイベント」の制限事項で確認済み。一覧に
+  // 配置している場合は逆に空文字列になる)。誤った日付を無言で書き込むリスクを避けるため、
+  // このコンテキストではCALCフィールドをオフセット参照に使うルールをスキップする合図として使う。
+  const isUnreliableInlineEditOffset = (rule, offsetFieldType) =>
+    rule.offsetSource === 'FIELD' && offsetFieldType === 'CALC';
+
   // resolveOffsetMagnitude + applyOffset を組み合わせた、desktop.js/mobile.jsから呼ぶ唯一の入口。
   const computeTargetValue = (
     rule,
@@ -93,6 +103,7 @@
   const OffsetCalculator = {
     resolveOffsetMagnitude,
     applyOffset,
+    isUnreliableInlineEditOffset,
     computeTargetValue,
   };
 

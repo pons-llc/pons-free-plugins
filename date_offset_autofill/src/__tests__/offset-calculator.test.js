@@ -129,26 +129,26 @@ describe('OffsetCalculator.applyOffset (DATETIME)', () => {
     ).toBe('2026-08-21T11:30:00Z');
   });
 
-  test('adds seconds to a DATETIME value', () => {
+  test('adds minutes to a DATETIME value', () => {
     expect(
       OffsetCalculator.applyOffset(
         '2026-08-20T11:30:00Z',
         'DATETIME',
         90,
-        'SECONDS',
+        'MINUTES',
       ),
-    ).toBe('2026-08-20T11:31:30Z');
+    ).toBe('2026-08-20T13:00:00Z');
   });
 
-  test('subtracts seconds crossing a minute boundary', () => {
+  test('subtracts minutes crossing an hour boundary', () => {
     expect(
       OffsetCalculator.applyOffset(
         '2026-08-20T11:30:00Z',
         'DATETIME',
-        -1,
-        'SECONDS',
+        -31,
+        'MINUTES',
       ),
-    ).toBe('2026-08-20T11:29:59Z');
+    ).toBe('2026-08-20T10:59:00Z');
   });
 
   test('supports fractional day offsets (half a day)', () => {
@@ -164,6 +164,35 @@ describe('OffsetCalculator.applyOffset (DATETIME)', () => {
 
   test('returns null when the base value is empty', () => {
     expect(OffsetCalculator.applyOffset('', 'DATETIME', 1, 'DAYS')).toBeNull();
+  });
+});
+
+describe('OffsetCalculator.isUnreliableInlineEditOffset', () => {
+  test('true when offsetSource is FIELD and the offset field is a CALC field', () => {
+    expect(
+      OffsetCalculator.isUnreliableInlineEditOffset(
+        { offsetSource: 'FIELD' },
+        'CALC',
+      ),
+    ).toBe(true);
+  });
+
+  test('false when the offset field is a NUMBER field', () => {
+    expect(
+      OffsetCalculator.isUnreliableInlineEditOffset(
+        { offsetSource: 'FIELD' },
+        'NUMBER',
+      ),
+    ).toBe(false);
+  });
+
+  test('false when offsetSource is FIXED (no offset field involved)', () => {
+    expect(
+      OffsetCalculator.isUnreliableInlineEditOffset(
+        { offsetSource: 'FIXED' },
+        'CALC',
+      ),
+    ).toBe(false);
   });
 });
 

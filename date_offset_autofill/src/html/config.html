@@ -1,7 +1,7 @@
 <section class="settings">
   <h2 class="settings-heading">日付自動入力プラグイン 設定</h2>
   <p class="kintoneplugin-desc">
-    基準となる日付/日時フィールドの値に、指定した値(日数または秒数)をプラスマイナスして、
+    基準となる日付/日時フィールドの値に、指定した値(日数または分数)をプラスマイナスして、
     別の日付/日時フィールドへ保存時(submit時)に自動入力します。計算フィールドで日付演算すると
     「今日」「今月」のような動的な絞り込みに使えなくなる問題を、実際の日付/日時フィールドへ
     書き込むことで回避します。出力先フィールドは追加・編集画面で直接編集できなくなります。
@@ -38,9 +38,9 @@
           <td>
             <select class="kintoneplugin-select js-rule-unit">
               <option value="DAYS">日数</option>
-              <option value="SECONDS">秒数</option>
+              <option value="MINUTES">分数</option>
             </select>
-            <p class="doa-note">「秒数」は基準・出力先フィールドが共に日時型の場合のみ選択できます。</p>
+            <p class="doa-note">「分数」は基準・出力先フィールドが共に日時型の場合のみ選択できます(kintoneの日時フィールドは分単位までの入力のため)。</p>
           </td>
         </tr>
         <tr>
