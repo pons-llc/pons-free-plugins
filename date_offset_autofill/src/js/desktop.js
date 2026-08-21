@@ -8,9 +8,15 @@
   const config = NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
 
   // 出力先フィールドは常にプラグインが上書きする値なので、追加・編集画面では直接入力できないように
-  // disabledにする(idea.mdの「発動タイミング・編集禁止の仕様」参照)。
-  const disableTargetFields = (record) => {
+  // disabledにする(idea.mdの「発動タイミング・編集禁止の仕様」参照)。excludeTargetFieldCodesに
+  // 含まれる出力先フィールドはdisabledにしない(一覧インライン編集で、CALCフィールド参照のため
+  // 再計算されないルールだけを手動編集できるようにする用途、下記index.edit.show参照)。
+  const disableTargetFields = (record, excludeTargetFieldCodes) => {
+    const excluded = excludeTargetFieldCodes || [];
     config.rules.forEach((rule) => {
+      if (excluded.includes(rule.targetFieldCode)) {
+        return;
+      }
       const targetField = record[rule.targetFieldCode];
       if (targetField) {
         targetField.disabled = true;
@@ -107,13 +113,16 @@
     },
   );
 
-  // 一覧画面のインライン編集では出力先フィールドをdisabledにしない(2026-08-21改訂)。
-  // CALCフィールドをオフセット参照に使うルールは再計算されないため、必要ならユーザーが
-  // 手動で編集できるようにする。代わりに、インライン編集を開始した時点でそのようなルールが
-  // あればalert()で知らせる(基準フィールドを実際に変更する前に気づけるように、保存時では
-  // なく開始時に表示する)。モバイルにはインライン編集自体が存在しない。
+  // 一覧画面のインライン編集では、CALCフィールドをオフセット参照に使うルール(この画面では
+  // 再計算されない)の出力先フィールドだけをdisabled化の対象から除外し、必要ならユーザーが
+  // 手動で編集できるようにする(2026-08-21再改訂)。それ以外(固定値・NUMBERフィールド参照)の
+  // ルールの出力先フィールドは、通常の追加・編集画面と同じくdisabledのままにする(通常どおり
+  // 再計算されるため)。あわせて、インライン編集を開始した時点でCALC参照ルールがあればalert()で
+  // 知らせる(基準フィールドを実際に変更する前に気づけるように、保存時ではなく開始時に表示する)。
+  // モバイルにはインライン編集自体が存在しない。
   kintone.events.on('app.record.index.edit.show', (event) => {
     const unreliableTargets = collectUnreliableCalcTargets(event.record);
+    disableTargetFields(event.record, unreliableTargets);
     if (unreliableTargets.length > 0) {
       alert(
         '日付自動入力プラグイン: 計算(CALC)フィールドを参照するオフセット設定のため、' +

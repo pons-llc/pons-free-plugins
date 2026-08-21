@@ -86,10 +86,11 @@ DATETIME型の値は`"2012-01-11T11:30:00Z"`(UTC、ミリ秒なしのISO8601)で
   以上、手動での不整合な値の入力を防ぐ意図)。ただし、この`disabled`化はJavaScript API
   (UIレベル)による制御であり、REST API経由での更新やアクセス権による制御ではない点を
   security-checklist.mdに明記する。
-  **一覧画面のインライン編集(`app.record.index.edit.show`)では出力先フィールドを`disabled`に
-  しない(2026-08-21再改訂)**。CALCフィールドをオフセット参照に使うルールはこの画面では
-  再計算されないため(下記「一覧インライン編集固有の注意点」参照)、必要であればユーザーが
-  手動で編集できるようにする。
+  **一覧画面のインライン編集(`app.record.index.edit.show`)では、CALCフィールドをオフセット
+  参照に使うルール(この画面では再計算されない、下記「一覧インライン編集固有の注意点」参照)の
+  出力先フィールドだけを`disabled`化の対象から除外する(2026-08-21再々改訂)**。必要であれば
+  ユーザーが手動で編集できるようにするため。固定値・NUMBERフィールド参照のルールの出力先
+  フィールドは、この画面でも通常どおり再計算されるため引き続き`disabled`のままにする。
 - 基準フィールド自体は編集を禁止しない(通常のフィールドとして自由に入力・変更できる。一覧
   インライン編集でも同様)。
 - 複数のルールが設定順に処理されるため、あるルールの出力先フィールドが別のルールの基準
@@ -144,15 +145,20 @@ kintoneドキュメントMCP「レコード一覧画面のインライン編集�
 `alert()`していたが、基準フィールドを変更する**前**に気づけるよう`index.edit.show`〈開始時〉
 に変更した)。`event.error`(画面上部エラー)は使わない(それを設定すると保存処理自体が
 キャンセルされてしまうため。基準フィールドの変更自体は正常な操作であり、あくまで一部の
-ルールが計算できないことを知らせるだけで、表示や保存自体は妨げない)。
+ルールが計算できないことを知らせるだけで、表示や保存自体は妨げない)。同じ`index.edit.show`
+ハンドラーで、この判定結果(`collectUnreliableCalcTargets()`の戻り値)をそのまま
+`disableTargetFields(record, unreliableTargets)`の除外リストとして渡し、CALC参照ルールの
+出力先フィールドだけを`disabled`化しない(上記「発動タイミング・編集禁止の仕様」参照)。
 
 ## 対応画面(確定・スコープ、2026-08-21改訂)
 
 - PC: レコード追加画面・レコード編集画面(`app.record.create.submit`/`app.record.edit.submit`、
   `app.record.create.show`/`app.record.edit.show`)に加え、一覧画面のインライン編集
-  (`app.record.index.edit.show`でCALCオフセットルールのalert表示、`app.record.index.edit.submit`
-  で再計算)にも対応する。基準・出力先フィールドのいずれも`disabled`化は行わない(一覧編集では
-  自由に編集できてよいため。出力先フィールドの`disabled`化は通常の追加・編集画面のみ)。
+  (`app.record.index.edit.show`でCALCオフセットルールのalert表示・当該出力先フィールドのみ
+  disabled化を除外、`app.record.index.edit.submit`で再計算)にも対応する。基準フィールドは
+  `disabled`化しない(一覧編集でも自由に編集できてよいため)。出力先フィールドは、CALC
+  フィールド参照ルール以外(固定値・NUMBERフィールド参照)は一覧編集でも通常どおり`disabled`に
+  する(通常どおり再計算されるため)。
 - モバイル: レコード追加画面・レコード編集画面のみ(`mobile.app.record.create.submit`/
   `mobile.app.record.edit.submit`、`mobile.app.record.create.show`/`mobile.app.record.edit.show`)。
   モバイルには一覧画面のインライン編集が存在しないため対応不要。
