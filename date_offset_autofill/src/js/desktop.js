@@ -25,7 +25,10 @@
   // このコンテキストでは、一覧に配置していないCALCフィールドの値が「再計算前の値」のまま返る
   // ことがある(OffsetCalculator.isUnreliableInlineEditOffsetのコメント参照)ため、CALCフィールドを
   // オフセット参照に使うルールは誤った日付を書き込まないようスキップする。
+  // 戻り値は、このスキップが発生した出力先フィールドコードの配列(呼び出し側でユーザーへの
+  // 注意表示に使う。設定画面のcautionと同じ判定だが、こちらは実際に発生した時点で知らせる)。
   const applyRules = (record, isInlineEdit) => {
+    const skippedTargetFieldCodes = [];
     config.rules.forEach((rule) => {
       const baseField = record[rule.baseFieldCode];
       const targetField = record[rule.targetFieldCode];
@@ -47,6 +50,7 @@
             offsetField.type,
           )
         ) {
+          skippedTargetFieldCodes.push(rule.targetFieldCode);
           return;
         }
         offsetFieldRawValue = offsetField.value;
@@ -63,6 +67,7 @@
         targetField.value = newValue;
       }
     });
+    return skippedTargetFieldCodes;
   };
 
   kintone.events.on(
@@ -91,8 +96,18 @@
 
   // 一覧画面のインライン編集で基準フィールドを直接変更して保存した場合も、通常の追加・編集画面と
   // 同様に出力先フィールドを再計算する(idea.md「対応画面」2026-08-21改訂)。
+  // CALCフィールドをオフセット参照に使うルールがスキップされた場合は、設定画面のcautionと同じ
+  // 内容をalertでその場でも知らせる(保存自体は妨げない、event.errorは使わずreturn eventする)。
   kintone.events.on('app.record.index.edit.submit', (event) => {
-    applyRules(event.record, true);
+    const skippedTargetFieldCodes = applyRules(event.record, true);
+    if (skippedTargetFieldCodes.length > 0) {
+      alert(
+        '日付自動入力プラグイン: 計算(CALC)フィールドを参照するオフセット設定のため、' +
+          '一覧画面のインライン編集では次の出力先フィールドは再計算されませんでした: ' +
+          skippedTargetFieldCodes.join('、') +
+          '\n通常の追加・編集画面から保存すると正しく計算されます。',
+      );
+    }
     return event;
   });
 })(window, kintone);
