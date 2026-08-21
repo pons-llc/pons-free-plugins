@@ -6,6 +6,11 @@
     「今日」「今月」のような動的な絞り込みに使えなくなる問題を、実際の日付/日時フィールドへ
     書き込むことで回避します。出力先フィールドは追加・編集画面で直接編集できなくなります。
   </p>
+  <p class="kintoneplugin-desc doa-desc-caution">
+    ⚠ オフセット参照フィールドに計算(CALC)フィールドを選択したルールは、kintoneの仕様上、
+    一覧画面のインライン編集では最新の計算結果を取得できないため再計算されません
+    (通常の追加・編集画面からの保存では正しく動作します)。
+  </p>
 
   <form class="js-submit-settings">
     <div id="js-errors" class="doa-errors"></div>
@@ -58,6 +63,7 @@
             <div class="js-rule-offset-field-row">
               <select class="kintoneplugin-select js-rule-offset-field"></select>
               <p class="doa-note">数値フィールド、または表示書式が数値の計算フィールドから選択します。</p>
+              <p class="doa-caution js-rule-calc-caution" hidden>⚠ 計算(CALC)フィールドを選択しています。一覧画面のインライン編集で基準フィールドを直接変更して保存しても、kintoneの仕様上この計算フィールドの最新値を取得できないため、出力先フィールドは更新されません。通常の追加・編集画面からの保存では正しく動作します。</p>
             </div>
           </td>
         </tr>

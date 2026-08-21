@@ -62,6 +62,7 @@
       const fixedValueEl = rowEl.querySelector('.js-rule-fixed-value');
       const offsetFieldRowEl = rowEl.querySelector('.js-rule-offset-field-row');
       const offsetFieldEl = rowEl.querySelector('.js-rule-offset-field');
+      const calcCautionEl = rowEl.querySelector('.js-rule-calc-caution');
       const targetEl = rowEl.querySelector('.js-rule-target');
       const removeEl = rowEl.querySelector('.js-rule-remove');
 
@@ -69,6 +70,19 @@
         const isFixed = rule.offsetSource === 'FIXED';
         fixedRowEl.style.display = isFixed ? '' : 'none';
         offsetFieldRowEl.style.display = isFixed ? 'none' : '';
+      };
+
+      // オフセット参照フィールドが計算(CALC)フィールドの場合、一覧画面のインライン編集では
+      // 再計算されない(desktop.jsのisUnreliableInlineEditOffsetによりスキップされる)ため、
+      // 同じ判定関数を使って設定画面にもその旨のcautionを表示する(idea.md「一覧インライン編集
+      // 固有の注意点」参照)。
+      const applyCalcCautionVisibility = () => {
+        const offsetFieldInfo = fieldInfoByCode[rule.offsetFieldCode];
+        const isUnreliable = NS.OffsetCalculator.isUnreliableInlineEditOffset(
+          rule,
+          offsetFieldInfo && offsetFieldInfo.type,
+        );
+        calcCautionEl.hidden = !isUnreliable;
       };
 
       buildOptions(
@@ -97,6 +111,7 @@
         '(選択してください)',
       );
       applySourceVisibility();
+      applyCalcCautionVisibility();
 
       baseEl.addEventListener('change', () => {
         rule.baseFieldCode = baseEl.value;
@@ -108,12 +123,14 @@
         if (sourceFixedEl.checked) {
           rule.offsetSource = 'FIXED';
           applySourceVisibility();
+          applyCalcCautionVisibility();
         }
       });
       sourceFieldEl.addEventListener('change', () => {
         if (sourceFieldEl.checked) {
           rule.offsetSource = 'FIELD';
           applySourceVisibility();
+          applyCalcCautionVisibility();
         }
       });
       fixedValueEl.addEventListener('input', () => {
@@ -122,6 +139,7 @@
       });
       offsetFieldEl.addEventListener('change', () => {
         rule.offsetFieldCode = offsetFieldEl.value;
+        applyCalcCautionVisibility();
       });
       targetEl.addEventListener('change', () => {
         rule.targetFieldCode = targetEl.value;

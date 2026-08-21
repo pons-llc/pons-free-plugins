@@ -109,7 +109,24 @@ describe('設定画面(実環境)', () => {
     );
     expect(offsetFieldOptionValues).toContain(NUMBER_FIELD_CODE);
     expect(offsetFieldOptionValues).toContain(fixtures.CALC_NUMBER_FIELD_CODE);
+
+    // 計算(CALC)フィールドを選ぶと、一覧インライン編集では再計算されない旨のcautionが表示される。
+    await (
+      await ruleRow.$('.js-rule-offset-field')
+    ).select(fixtures.CALC_NUMBER_FIELD_CODE);
+    const calcCautionHiddenForCalc = await ruleRow.$eval(
+      '.js-rule-calc-caution',
+      (el) => el.hidden,
+    );
+    expect(calcCautionHiddenForCalc).toBe(false);
+
+    // 数値フィールドに切り替えるとcautionは消える。
     await (await ruleRow.$('.js-rule-offset-field')).select(NUMBER_FIELD_CODE);
+    const calcCautionHiddenForNumber = await ruleRow.$eval(
+      '.js-rule-calc-caution',
+      (el) => el.hidden,
+    );
+    expect(calcCautionHiddenForNumber).toBe(true);
 
     // 単位「分数」はDATE型の基準フィールドでは保存時に弾かれる(バリデーション確認)。
     await (await ruleRow.$('.js-rule-unit')).select('MINUTES');
