@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Wed, 19 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 20 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>帳票ビルダープラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/report_prompt_builder/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/report_prompt_builder/</guid>
+      <description>kintoneのレコード情報から見積書・請求書などの帳票を、外部の生成AIを使わずドラッグ&amp;ドロップでノーコード作成できるプラグイン。PDF出力・添付ファイルへの自動保存、テーブル明細の単位・桁区切り表示にも対応しています。</description>
+      <pubDate>Thu, 20 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>日付自動入力プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/date_offset_autofill/</link>

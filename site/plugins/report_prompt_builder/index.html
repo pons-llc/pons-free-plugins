@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>帳票ビルダープラグイン｜kintoneで見積書・請求書をノーコード作成 | GovAppsプラグイン</title>
+<meta name="description" content="kintoneのレコード情報から見積書・請求書などの帳票を、外部の生成AIを使わずドラッグ&ドロップでノーコード作成できる無料プラグイン。PDF出力・添付ファイルへの自動保存、テーブル明細の単位・桁区切り表示にも対応しています。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; 帳票ビルダープラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>帳票ビルダープラグイン（無料）</h1>
+  <p class="plugin-lead">
+    kintoneのレコード情報をもとに、見積書・請求書・発注書などの帳票をノーコードで作成できる
+    プラグインです。設定画面はkintoneのフォーム設定画面と同じように左にフィールド一覧・右に
+    配置キャンバスを並べたレイアウトで、フィールドをA4サイズの12列グリッドへドラッグ&ドロップ
+    するだけでレイアウトを組み立てられます。数値・計算フィールドは単位表示や桁区切りをフィールド
+    ごと(サブテーブルの列ごと)に設定でき、社印・ロゴの画像を他の項目に重ねて配置することも
+    できます。個別出力(レコード詳細画面のボタン)・一括出力(レコード一覧に表示中の行をまとめて
+    出力)に対応するほか、生成したPDFをレコードの添付ファイルフィールドへ自動保存することも
+    できます(任意)。外部の生成AIは一切使わず、プラグイン自身が帳票を直接描画します。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">帳票・出力</span>
+    <span class="badge badge-tag">#見積書作成</span>
+    <span class="badge badge-tag">#PDF出力</span>
+    <span class="badge badge-tag">#ノーコード</span>
+  </div>
+  <a class="download-button" href="download" data-dl-plugin="report_prompt_builder">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>kintoneのレコードから見積書・請求書・発注書をワンクリックで出力したい</li>
+    <li>帳票のレイアウトを、コードを書かずドラッグ&ドロップで自由に組み立てたい</li>
+    <li>「kintone 見積書 作成 プラグイン」「kintone 帳票 PDF出力」を探している</li>
+    <li>生成した帳票(PDF)をレコードの添付ファイルフィールドに自動保存したい</li>
+    <li>サブテーブルの明細(単価・数量・小計など)に単位や桁区切りを付けて出力したい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>ユースケース</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>見積書・請求書をノーコードで作成する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>取引先名・見積日・金額などのフィールドと、明細用のサブテーブルをA4サイズの12列グリッドへドラッグ&ドロップで配置するだけで、見積書・請求書・発注書のレイアウトを組み立てられます。文字サイズ・折返し・文字位置(左/中央/右)・枠線の有無は項目ごとの歯車アイコンから設定でき、レコードに紐付かない社名・見出しなどの固定文言は「自由テキスト」項目として自由な位置に配置できます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>サブテーブルの明細を単位・桁区切り付きで出力する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>サブテーブル内の数値・計算フィールド(単価・数量・小計など)は、通常のフィールドと同じように列ごとに単位表示("円"「個」など、kintone側のフィールド設定を踏襲)・桁区切り(1,000円のようなカンマ区切り)を選べます。単位・桁区切りの設定は、保存(Save)ボタンを押すたびに最新のkintoneフィールド定義で自動的に同期されるため、後から単位を追加・変更した場合も設定を保存し直すだけで反映されます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>生成した帳票をPDFとして添付ファイルフィールドに自動保存する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>個別出力時に、生成した帳票をPDFとしてレコード自身の添付ファイルフィールドへ保存できます(任意機能)。ファイル名は「固定テキスト+保存日時」で自動的に組み立てられ、固定テキスト部分は設定画面で自由に決められます。既に添付されているファイルは残したまま追加されるため、見積り改訂のたびにPDFを蓄積していく、といった使い方もできます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>セットアップ手順</h2>
+  <ol class="setup-steps">
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「対応する出力方法」で個別出力・一括出力のうち使うものにチェックを入れ、「+ ページを追加」でページを作成する。</li>
+    <li>左のフィールド一覧(フィールド・テーブル・自由テキスト)から、右のキャンバス(12列グリッド)へドラッグ&ドロップで配置する(配置直後の幅は1列。項目右端のハンドルをマウスでドラッグして幅を調整する)。</li>
+    <li>配置した項目の歯車アイコンから、文字サイズ・折返し・文字位置・(数値/計算フィールドの場合は)単位表示・桁区切りを設定する。テーブルは列ごとに同じ設定を持てる。</li>
+    <li>社印・ロゴなどの画像を配置する場合は「画像配置」タブに切り替え、他の項目に重ねて配置する。</li>
+    <li>「プレビュー」ボタンで、最新レコード1件を使った表示結果を確認する。</li>
+    <li>PDFを添付ファイルフィールドへ保存する場合は「添付ファイルへの保存」にチェックを入れ、保存先の添付ファイルフィールドとファイル名(固定部分)を設定する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">用紙サイズはA4縦で固定です。一括出力はレコード一覧に現在表示されている行のみが対象で、絞り込み条件に一致する全件をREST APIで追加取得することはありません。テーブルを添付ファイルへのPDF保存機能で複数ページにまたがるほど長くした場合、2ページ目以降でテーブルのヘッダー行が繰り返されない既知の制限があります(ブラウザの「帳票を出力」からの印刷では繰り返されます)。</p>
+</section>
+
+<section class="plugin-section">
+  <h2>セキュリティレビュー結果サマリ</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>帳票の出力(<code>desktop.js</code>)はREST APIを一切使用せず、JavaScript APIのみで実装しています。一括出力もレコード一覧に現在表示されている行(<code>event.records</code>)のみを使い、絞り込み条件に一致する全件をREST APIで追加取得することはありません。</li>
+        <li>config画面のプレビュー表示に限り、最新レコード1件を<code>kintone.api()</code>(kintone自身への呼び出し専用の内部ラッパー)で1回だけ取得します。生の<code>fetch</code>/<code>XMLHttpRequest</code>は使用していません。</li>
+        <li>レコードの値(フィールド値・テーブルの値)をDOMへ挿入する箇所はすべて<code>textContent</code>への代入のみで行い、文字列結合による<code>innerHTML</code>は一切使用していません。</li>
+        <li>添付ファイルへの保存機能(任意)に限り、外部ライブラリ(jsPDF・html2canvas)をリポジトリへローカルに同梱して使用しています。CDN等の外部URLからは読み込まず、追加のネットワーク通信は発生しません。ファイルアップロードAPIはkintone公式ドキュメントで<code>kintone.api()</code>非対応と明記されているため、この1箇所のみ同一オリジンへの<code>fetch</code>を直接使用し、CSRFトークンを付与しています。</li>
+        <li>社印・ロゴ画像の<code>&lt;img src="..."&gt;</code>は、選択したファイルを<code>FileReader</code>と<code>&lt;canvas&gt;</code>で自前で再生成したdata URLのみを使い、外部URLや任意のバイト列がそのまま<code>src</code>に渡ることはありません。</li>
+        <li>プラグイン設定の保存容量(kintoneの上限である合計256KB)に対する自前のチェックを実装しており、超過が見込まれる場合は保存自体を止めます。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/report_prompt_builder/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>設定画面イメージ</h2>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="帳票ビルダープラグインの設定画面。左にフィールド一覧、右に12列グリッドの配置キャンバスを並べたレイアウトで、フィールドをドラッグ&ドロップして帳票のレイアウトを組み立てる画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>API実行数について</h2>
+  <p class="api-usage-note">
+    個別出力・一括出力ともに、実際の帳票描画はJavaScript APIのみで行うためREST APIは使用しません。
+    config画面(設定時のみ)は、右側のプレビュー表示のために最新レコード1件を<code>kintone.api()</code>で
+    1回だけ取得します。添付ファイルへの保存機能を有効にした場合のみ、「PDFを添付ファイルに保存」ボタンを
+    押すたびに、ファイルアップロードAPIとレコード更新API(1件)をそれぞれ1回ずつ実行します。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>GitHub / 改善要望</h2>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/report_prompt_builder" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/report_prompt_builder/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

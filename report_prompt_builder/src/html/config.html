@@ -1,0 +1,143 @@
+<section class="settings">
+  <h2 class="settings-heading">帳票ビルダープラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    見積書などの帳票を、外部の生成AIを使わずこのプラグインだけで直接出力します(ノーコード)。
+    ページごとに12列のグリッドへフィールド・テーブル・自由テキストをドラッグ&ドロップで配置してください。
+    用紙サイズはA4縦で固定です。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="rpb-errors"></div>
+
+    <section class="rpb-section">
+      <div class="rpb-section-heading">対応する出力方法<span class="kintoneplugin-require">必須</span></div>
+      <p class="kintoneplugin-desc">少なくとも1つ選択してください。</p>
+      <label class="rpb-checkbox-label">
+        <input type="checkbox" class="js-output-individual">
+        個別出力(レコード詳細画面のボタンで、そのレコード1件を帳票出力)
+      </label>
+      <label class="rpb-checkbox-label">
+        <input type="checkbox" class="js-output-bulk">
+        一括出力(レコード一覧画面のボタンで、<strong>現在一覧に表示されている行のみ</strong>を連続して帳票出力。
+        REST APIでの追加取得は行いません)
+      </label>
+    </section>
+
+    <section class="rpb-section">
+      <div class="rpb-section-heading">添付ファイルへの保存(任意)</div>
+      <p class="kintoneplugin-desc">
+        個別出力時に、生成した帳票をPDFとしてレコードの添付ファイルフィールドにも保存できます。
+      </p>
+      <label class="rpb-checkbox-label">
+        <input type="checkbox" class="js-save-to-attachment-enabled">
+        個別出力時にPDFを添付ファイルフィールドへ保存する
+      </label>
+      <p id="js-no-file-fields-warning" class="kintoneplugin-alert" style="display:none;">
+        このアプリには添付ファイルフィールドがありません。
+      </p>
+      <label class="rpb-attachment-field-label">
+        保存先の添付ファイルフィールド
+        <select class="kintoneplugin-select js-attachment-field"></select>
+      </label>
+      <label class="rpb-attachment-field-label">
+        ファイル名(固定部分)
+        <input type="text" class="kintoneplugin-input-text js-attachment-filename-prefix">
+      </label>
+      <p class="kintoneplugin-desc">
+        実際のファイル名は「固定部分+保存日時」になります(例: 「帳票」なら「帳票_20260305093000.pdf」)。
+      </p>
+    </section>
+
+    <section class="rpb-section">
+      <div class="rpb-section-heading">ページ構成<span class="kintoneplugin-require">必須</span></div>
+      <p id="js-no-fields-warning" class="kintoneplugin-alert" style="display:none;">
+        このアプリには帳票に使えるフィールドがありません。
+      </p>
+      <div id="js-page-list"></div>
+      <button type="button" id="js-page-add" class="kintoneplugin-button-normal">+ ページを追加</button>
+    </section>
+
+    <p id="js-size-indicator" class="kintoneplugin-desc"></p>
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-page-template">
+  <section class="rpb-page js-page">
+    <div class="rpb-section-heading">
+      <span class="js-page-title"></span>
+      <span class="rpb-row-remove js-page-remove">ページを削除</span>
+    </div>
+
+    <div class="rpb-mode-tabs">
+      <button type="button" class="rpb-mode-tab is-active js-mode-tab" data-mode="layout">レイアウト編集</button>
+      <button type="button" class="rpb-mode-tab js-mode-tab" data-mode="image">画像配置</button>
+    </div>
+    <p class="rpb-mode-note kintoneplugin-desc">
+      画像(社印・ロゴなど)は他の項目に重ねて配置できます。「画像配置」タブに切り替えると、
+      画像だけを操作でき、他の項目は薄く表示された参考表示になります。
+    </p>
+
+    <div class="rpb-canvas-toolbar">
+      <label>
+        表示倍率:
+        <select class="kintoneplugin-select js-zoom">
+          <option value="1">100%</option>
+          <option value="0.75">75%</option>
+          <option value="0.5">50%</option>
+          <option value="fit">画面に合わせる</option>
+        </select>
+      </label>
+      <button type="button" class="kintoneplugin-button-normal js-preview-button">プレビュー</button>
+    </div>
+
+    <div class="rpb-builder-layout">
+      <div class="rpb-field-sidebar">
+        <div class="js-layout-palette">
+          <div class="rpb-palette-heading">フィールド(ドラッグして右へ配置)</div>
+          <div class="js-field-palette rpb-palette-column"></div>
+          <div class="rpb-palette-heading">テーブル</div>
+          <p class="js-no-tables-note kintoneplugin-desc" style="display:none;">このアプリにはテーブルがありません。</p>
+          <div class="js-table-palette rpb-palette-column"></div>
+          <div class="rpb-palette-heading">自由テキスト</div>
+          <div class="rpb-palette-column">
+            <div class="rpb-chip rpb-chip-text js-text-chip" draggable="true">+ 自由テキスト</div>
+          </div>
+        </div>
+        <div class="js-image-palette" style="display:none;">
+          <div class="rpb-palette-heading">画像(社印・ロゴなど。他の項目に重ねて配置できます)</div>
+          <div class="rpb-palette-column">
+            <div class="rpb-chip rpb-chip-image js-image-chip" draggable="true">+ 画像を追加</div>
+          </div>
+        </div>
+      </div>
+      <div class="js-canvas-scroll rpb-canvas-scroll">
+        <div class="js-canvas rpb-canvas"></div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<div id="js-preview-modal" class="rpb-modal-overlay js-modal-overlay" style="display:none;">
+  <div class="rpb-modal">
+    <div class="rpb-modal-header">
+      <span>プレビュー(最新レコード1件)</span>
+      <span class="rpb-modal-close js-preview-modal-close">×</span>
+    </div>
+    <p class="js-preview-modal-note kintoneplugin-desc"></p>
+    <iframe class="js-preview-modal-frame rpb-modal-preview-frame" title="プレビュー"></iframe>
+  </div>
+</div>
+
+<div id="js-item-settings-modal" class="rpb-modal-overlay js-modal-overlay" style="display:none;">
+  <div class="rpb-modal">
+    <div class="rpb-modal-header">
+      <span class="js-item-settings-title"></span>
+      <span class="rpb-modal-close js-item-settings-close">×</span>
+    </div>
+    <div class="js-item-settings-body rpb-modal-body"></div>
+  </div>
+</div>

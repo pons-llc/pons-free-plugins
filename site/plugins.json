@@ -690,5 +690,20 @@
       "日付演算",
       "自動入力"
     ]
+  },
+  {
+    "id": "report_prompt_builder",
+    "name": "帳票ビルダープラグイン",
+    "description": "kintoneのレコード情報から見積書・請求書などの帳票を、外部の生成AIを使わずドラッグ&ドロップでノーコード作成できるプラグイン。PDF出力・添付ファイルへの自動保存、テーブル明細の単位・桁区切り表示にも対応しています。",
+    "version": "1",
+    "publishedAt": "2026-08-21",
+    "zip": "plugins/report_prompt_builder/plugin.zip",
+    "page": "plugins/report_prompt_builder/index.html",
+    "category": "帳票・出力",
+    "tags": [
+      "見積書作成",
+      "PDF出力",
+      "ノーコード"
+    ]
   }
 ]

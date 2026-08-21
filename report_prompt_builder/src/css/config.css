@@ -1,0 +1,420 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.rpb-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.rpb-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.rpb-checkbox-label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.rpb-attachment-field-label {
+  display: block;
+  margin-top: 0.5em;
+}
+
+.rpb-attachment-field-label select {
+  margin-left: 0.5em;
+}
+
+.rpb-errors {
+  color: #e74c3c;
+  white-space: pre-wrap;
+  margin-bottom: 1em;
+}
+
+.rpb-row-remove {
+  color: #e74c3c;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.rpb-page {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+  background: #fbfcfc;
+}
+
+/* レイアウト編集/画像配置の切り替えタブ。画像は他の項目に重ねて配置できるため、通常の
+   レイアウト編集(重なり禁止)と混在させず、モードを切り替えて操作対象を限定する。 */
+.rpb-mode-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 0.4em;
+}
+
+.rpb-mode-tab {
+  border: 1px solid #ccc;
+  background: #f5f6f7;
+  color: #555;
+  border-radius: 4px 4px 0 0;
+  padding: 0.4em 0.9em;
+  font-size: 0.85em;
+  cursor: pointer;
+}
+
+.rpb-mode-tab.is-active {
+  background: #fff;
+  border-color: #6b90b3;
+  color: #234;
+  font-weight: bold;
+}
+
+.rpb-mode-note {
+  margin-bottom: 0.75em;
+}
+
+/* キャンバスツールバー(表示倍率・プレビューボタン) */
+.rpb-canvas-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin: 0.75em 0 0.5em;
+}
+
+/* kintoneのフォーム設定画面と同様、左にフィールド一覧、右に配置キャンバスを並べる
+   (ユーザー指示「kintoneライクに左にフィールド、右に帳票配置画面にしよう」)。 */
+.rpb-builder-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 1em;
+}
+
+.rpb-field-sidebar {
+  flex: 0 0 220px;
+  max-height: 640px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.75em;
+  background: #fafbfc;
+}
+
+.rpb-builder-layout .rpb-canvas-scroll {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* パレット(ドラッグ元のチップ一覧)。フィールドは縦一列に並べる(ユーザー指示)。 */
+.rpb-palette-heading {
+  font-weight: bold;
+  margin: 0.75em 0 0.4em;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.rpb-palette-heading:first-child {
+  margin-top: 0;
+}
+
+.rpb-palette-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  margin-bottom: 0.5em;
+}
+
+.rpb-chip {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #6b90b3;
+  background: #eef4fa;
+  color: #234;
+  border-radius: 4px;
+  padding: 0.4em 0.6em;
+  font-size: 0.85em;
+  cursor: grab;
+  user-select: none;
+}
+
+.rpb-chip:active {
+  cursor: grabbing;
+}
+
+.rpb-chip.rpb-chip-table {
+  border-color: #7a6bb3;
+  background: #f1eefa;
+}
+
+.rpb-chip.rpb-chip-text {
+  border-color: #4a9a6a;
+  background: #eaf7ee;
+}
+
+.rpb-chip.rpb-chip-image {
+  border-color: #b3892e;
+  background: #faf3e6;
+}
+
+/* キャンバス */
+.rpb-canvas-scroll {
+  overflow: auto;
+  border: 1px solid #ddd;
+  background: #f5f6f7;
+  padding: 0.75em;
+}
+
+.rpb-canvas {
+  width: 780px;
+  transform-origin: top left;
+}
+
+.rpb-canvas-row {
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.rpb-row-label {
+  font-size: 0.75em;
+  color: #999;
+  margin-bottom: 2px;
+}
+
+.rpb-row-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  min-height: 64px;
+  background: #fff;
+}
+
+.rpb-row-grid.rpb-row-grid-over {
+  background: #eaf3ff;
+}
+
+.rpb-grid-guide {
+  grid-row: 1;
+  border: 1px dashed #ddd;
+  pointer-events: none;
+}
+
+/* ドラッグ中、実際にどの列へ配置されるかを示すハイライト(ユーザー指示
+   「どのセルに配置されるか分かりやすく表示してほしい」)。 */
+.rpb-grid-guide.rpb-grid-guide-drop-target {
+  background: #cfe6ff;
+  border-color: #6b90b3;
+}
+
+.rpb-placed-item {
+  grid-row: 1;
+  position: relative;
+  border: 2px solid #6b90b3;
+  background: #fff;
+  border-radius: 3px;
+  padding: 4px 6px;
+  z-index: 1;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.rpb-placed-item:active {
+  cursor: grabbing;
+}
+
+.rpb-placed-item.rpb-placed-item-table {
+  border-color: #7a6bb3;
+}
+
+/* 現在のモードで操作対象ではない項目(画像配置モード中の他の項目/レイアウト編集モード中の画像)は、
+   参考表示のみのゴースト表示にする。クリックを透過させ、重なっているもう一方の項目を
+   邪魔なく操作できるようにする。 */
+.rpb-placed-item-ghost {
+  pointer-events: none;
+  opacity: 0.4;
+  border-style: dashed;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  color: #666;
+  text-align: center;
+  cursor: default;
+}
+
+.rpb-placed-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.3em;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.rpb-placed-item-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rpb-placed-item-gear,
+.rpb-placed-item-remove {
+  cursor: pointer;
+  font-weight: normal;
+  padding: 0 0.2em;
+  flex-shrink: 0;
+}
+
+.rpb-placed-item-remove {
+  color: #e74c3c;
+}
+
+/* 幅を変更するリサイズハンドル(右端をマウスでドラッグ、ユーザー指示
+   「幅を広げる操作はマウス操作」)。 */
+.rpb-resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  cursor: ew-resize;
+}
+
+.rpb-resize-handle:hover {
+  background: rgba(107, 144, 179, 0.35);
+}
+
+/* 歯車アイコンで開く設定ポップアップの中身(項目ごとの入力コントロール一式)。 */
+.rpb-placed-item-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75em;
+  font-size: 0.85em;
+  color: #444;
+}
+
+.rpb-placed-item-controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  white-space: nowrap;
+}
+
+.rpb-placed-item-controls input[type='number'] {
+  width: 3.5em;
+}
+
+.rpb-table-columns {
+  margin-top: 0.75em;
+  padding-top: 0.75em;
+  border-top: 1px dashed #ccc;
+  font-size: 0.85em;
+}
+
+.rpb-table-columns input[type='text'] {
+  width: 8em;
+  margin-left: 0.3em;
+}
+
+/* 列ごとに、選択チェックボックスとその列の表示設定(文字位置・文字pt・折返し・単位・桁区切り)を
+   まとめる(ユーザー指示「テーブルのフィールドも通常フィールド同様に...表示できるように」)。 */
+.rpb-table-column {
+  padding: 0.5em 0;
+  border-bottom: 1px solid #eee;
+}
+
+.rpb-table-column:last-child {
+  border-bottom: none;
+}
+
+.rpb-table-column .js-column-controls-host {
+  margin: 0.4em 0 0 1.4em;
+}
+
+.rpb-text-content {
+  margin-top: 0.75em;
+  padding-top: 0.75em;
+  border-top: 1px dashed #ccc;
+}
+
+.rpb-text-content textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 0.9em;
+  resize: vertical;
+}
+
+.rpb-image-uploader {
+  margin-top: 0.75em;
+  padding-top: 0.75em;
+  border-top: 1px dashed #ccc;
+  font-size: 0.85em;
+}
+
+.rpb-image-uploader img {
+  max-width: 100%;
+  max-height: 120px;
+  display: block;
+  margin-bottom: 0.5em;
+  background: repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 50% / 12px 12px;
+}
+
+.rpb-image-uploader .rpb-image-placeholder {
+  color: #999;
+  font-style: italic;
+  margin-bottom: 0.5em;
+}
+
+/* プレビュー・項目設定の共通モーダル。ボタン押下時だけ表示する
+   (ユーザー指示「プレビューはボタン押すとモーダルで表示」)。 */
+.rpb-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.rpb-modal {
+  background: #fff;
+  border-radius: 6px;
+  padding: 1em;
+  width: min(90vw, 900px);
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+}
+
+.rpb-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.rpb-modal-close {
+  cursor: pointer;
+  font-size: 1.2em;
+  line-height: 1;
+  padding: 0 0.3em;
+}
+
+.rpb-modal-preview-frame {
+  display: block;
+  width: 100%;
+  height: 70vh;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+.rpb-modal-body {
+  overflow-y: auto;
+}

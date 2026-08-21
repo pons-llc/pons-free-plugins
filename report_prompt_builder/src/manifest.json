@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "icon": "image/icon.png",
+  "desktop": {
+    "js": [
+      "js/vendor/jspdf.umd.min.js",
+      "js/vendor/html2canvas.min.js",
+      "js/lib/field-catalog.js",
+      "js/lib/field-value-formatter.js",
+      "js/lib/report-model.js",
+      "js/lib/report-dom.js",
+      "js/lib/config-store.js",
+      "js/lib/attachment-field.js",
+      "js/desktop.js"
+    ],
+    "css": ["css/51-modern-default.css"]
+  },
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/field-catalog.js",
+      "js/lib/field-value-formatter.js",
+      "js/lib/report-model.js",
+      "js/lib/report-dom.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/config.css"],
+    "required_params": []
+  },
+  "name": {
+    "en": "report_prompt_builder plugin",
+    "ja": "帳票ビルダープラグイン"
+  },
+  "description": {
+    "en": "Drag fields/tables/text onto a 12-column A4 grid with a live preview, and this plugin renders the report directly - no external AI needed.",
+    "ja": "フィールド・テーブル・自由テキストをA4用紙の12列グリッドへドラッグ配置し、プレビューを見ながら設定するだけで、このプラグイン自身が帳票を直接出力する。生成AIは使わない。"
+  }
+}
