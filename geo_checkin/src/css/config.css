@@ -1,0 +1,36 @@
+.settings-heading {
+  padding: 1em 0;
+}
+
+.geoc-caution {
+  color: #b45f06;
+}
+
+.geoc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+.geoc-table th,
+.geoc-table td {
+  border: 1px solid #e3e7e8;
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
+
+.geoc-table th {
+  width: 16em;
+  background: #f7f9f9;
+}
+
+.geoc-errors {
+  color: #e74c3c;
+  white-space: pre-wrap;
+  margin-bottom: 1em;
+}
+
+.geoc-warning {
+  color: #b45f06;
+  margin-bottom: 1em;
+}

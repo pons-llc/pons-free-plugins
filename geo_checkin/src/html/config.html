@@ -1,0 +1,48 @@
+<section class="settings">
+  <h2 class="settings-heading">位置情報強制登録プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコードの追加・更新を保存するタイミングで、端末の位置情報(緯度・経度)を自動取得して
+    指定した数値フィールドへ書き込みます。緯度・経度フィールドは追加・編集・詳細画面で常に
+    非表示になり、編集画面・レコード一覧のインライン編集では直接編集できなくなります。
+  </p>
+  <p class="kintoneplugin-desc geoc-caution">
+    ご注意: この非表示・編集不可はJavaScript APIによる画面表示上の制限であり、REST API経由の
+    更新やアクセス権による制御ではありません。位置情報を証跡として運用する場合は、アプリの
+    設定で「レコードの変更履歴」を有効にすることをおすすめします。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="geoc-errors"></div>
+    <p id="js-no-number-warning" class="geoc-warning" style="display: none;">
+      このアプリには数値フィールドがありません。先にフォームへ数値フィールドを2つ追加してください。
+    </p>
+
+    <table class="geoc-table">
+      <tbody>
+        <tr>
+          <th>緯度を保存するフィールド</th>
+          <td><select class="kintoneplugin-select" id="js-latitude-field"></select></td>
+        </tr>
+        <tr>
+          <th>経度を保存するフィールド</th>
+          <td><select class="kintoneplugin-select" id="js-longitude-field"></select></td>
+        </tr>
+        <tr>
+          <th>地図を表示する</th>
+          <td>
+            <label>
+              <input type="checkbox" id="js-show-map">
+              追加・編集・詳細画面のヘッダー(パンくずリストの下)にGoogleマップを埋め込んで、
+              登録済みの位置情報にピンを表示する
+            </label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>

@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 20 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 21 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>位置情報強制登録プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/geo_checkin/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/geo_checkin/</guid>
+      <description>レコード保存時に端末の位置情報(緯度・経度)を自動取得し、指定した数値フィールドへ書き込むプラグイン。出退勤や現場作業の証跡取得に使えます。緯度・経度フィールドは常に非表示になり、地図表示にも対応しています。</description>
+      <pubDate>Fri, 21 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>帳票ビルダープラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/report_prompt_builder/</link>

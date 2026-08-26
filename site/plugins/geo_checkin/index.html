@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>位置情報強制登録プラグイン｜無料のkintoneプラグイン | GovAppsプラグイン</title>
+<meta name="description" content="レコード保存時に端末の位置情報(緯度・経度)を自動取得し、数値フィールドへ書き込むkintone無料プラグイン。出退勤や現場作業の証跡取得に。緯度・経度フィールドは常に非表示になり、地図表示にも対応。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; 位置情報強制登録プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>位置情報強制登録プラグイン（無料）</h1>
+  <p class="plugin-lead">
+    レコードの追加・更新を保存するタイミングで、端末のブラウザ位置情報(緯度・経度)を自動取得し、
+    指定した数値フィールドへ書き込むプラグインです。出退勤の打刻や現場作業の証跡(「本当にその場所で
+    操作したか」)を残す用途に使えます。緯度・経度フィールドはフォーム上で常に非表示になり、編集画面・
+    レコード一覧のインライン編集では直接編集もできなくなります。地図表示をONにすると、登録済みの
+    位置情報をGoogleマップにピン表示できます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">入力制御</span>
+    <span class="badge badge-tag">#位置情報取得</span>
+    <span class="badge badge-tag">#出退勤</span>
+  </div>
+  <a class="download-button" href="download" data-dl-plugin="geo_checkin">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>kintoneで出退勤の打刻に位置情報の証跡を残したい</li>
+    <li>現場作業の報告レコードに「実際にその場所にいたか」の裏付けを残したい</li>
+    <li>「kintone 位置情報 自動取得」「kintone GPS 打刻」を探している</li>
+    <li>緯度・経度をフォーム上で直接見せず、手入力もさせたくない</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>ユースケース</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>出退勤アプリで、打刻と同時に位置情報を証跡として記録する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>出勤・退勤レコードを保存するたびに、その瞬間の緯度・経度が自動で記録されます。緯度・経度フィールドはフォーム上で常に非表示になるため、打刻者が値を意識したり手を加えたりする必要はありません。位置情報の取得に失敗した場合でも打刻自体はブロックされず、その旨がその場で通知されます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>現場作業の報告レコードに、実際の作業地点を地図で確認できるようにする</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>「地図を表示する」を設定すると、レコード詳細画面などのヘッダーにGoogleマップが埋め込まれ、登録済みの位置情報にピンが立ちます。管理者は現場から送られた報告が実際にどこで作成されたかを地図上で確認できます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>セットアップ手順</h2>
+  <ol class="setup-steps">
+    <li>アプリのフォーム編集で、緯度・経度を保存する数値フィールドを2つ用意する(既存の数値フィールドを流用してもよい)。</li>
+    <li>プラグインをアプリに追加し、設定画面を開く。</li>
+    <li>「緯度を保存するフィールド」「経度を保存するフィールド」を選び、必要であれば「地図を表示する」にチェックを入れて保存する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">緯度・経度フィールドは追加・編集・詳細画面で常に非表示になり、編集画面・レコード一覧のインライン編集では編集もできなくなります。これはJavaScript APIによる画面表示上の制限であり、REST API経由の更新やアクセス権による制御ではないため、位置情報を証跡として運用する場合はアプリの「レコードの変更履歴(リビジョン)」を有効にすることをおすすめします。位置情報の取得に失敗した場合でも、レコードの登録・更新自体はブロックされず、その旨がアラートで通知されます。</p>
+</section>
+
+<section class="plugin-section">
+  <h2>セキュリティレビュー結果サマリ</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>位置情報の取得はブラウザ標準のGeolocation APIのみで行い、kintoneへのREST通信は一切発生しません。地図表示もAPIキー不要の公開埋め込みURLをiframeに設定するだけで、外部への<code>fetch</code>/<code>XMLHttpRequest</code>通信は一切行いません。外部ライブラリも使用していません。</li>
+        <li>地図の埋め込みURLは、緯度・経度フィールドの値をそのまま連結せず、数値として解釈できて有効範囲内(緯度-90〜90・経度-180〜180)であることを確認したうえで組み立てており、任意の文字列がURLに混入する余地をコード上排除しています。</li>
+        <li>設定画面のフィールド一覧・エラーメッセージの描画は<code>innerHTML</code>ではなく<code>textContent</code>のみを使用しており、DOMへ構造として解釈されません。</li>
+        <li>位置情報の取得に失敗しても登録・更新自体は継続する設計です(証跡が取れない場合でも業務を止めないための仕様上の判断)。取得失敗はアラートで必ず利用者に通知したうえで、緯度・経度フィールドは空のまま保存されます。</li>
+        <li>緯度・経度フィールドの非表示化・編集不可化はJavaScript APIによるUIレベルの制御であり、「不正な書き換えを技術的に防ぐ」機能ではありません。証跡として運用する場合はアプリの変更履歴(リビジョン)を有効にすることを設定画面上で案内しています。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/geo_checkin/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>設定画面イメージ</h2>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="位置情報強制登録プラグインの設定画面。緯度を保存するフィールド・経度を保存するフィールド(いずれも数値フィールドのみ選択可)・地図を表示するかどうかのチェックボックスを設定する画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>API実行数について</h2>
+  <p class="api-usage-note">
+    このプラグインは、位置情報の取得にブラウザ標準のGeolocation APIのみを使用しており、kintoneのAPIは実行しません。地図表示もGoogleマップの公開埋め込みURLをiframeで表示するだけで、追加のAPI呼び出しは発生しません。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>GitHub / 改善要望</h2>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/geo_checkin" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/geo_checkin/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

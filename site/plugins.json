@@ -705,5 +705,20 @@
       "PDF出力",
       "ノーコード"
     ]
+  },
+  {
+    "id": "geo_checkin",
+    "name": "位置情報強制登録プラグイン",
+    "description": "レコード保存時に端末の位置情報(緯度・経度)を自動取得し、指定した数値フィールドへ書き込むプラグイン。出退勤や現場作業の証跡取得に使えます。緯度・経度フィールドは常に非表示になり、地図表示にも対応しています。",
+    "version": "1",
+    "publishedAt": "2026-08-22",
+    "zip": "plugins/geo_checkin/plugin.zip",
+    "page": "plugins/geo_checkin/index.html",
+    "category": "入力制御",
+    "tags": [
+      "位置情報取得",
+      "出退勤",
+      "証跡"
+    ]
   }
 ]

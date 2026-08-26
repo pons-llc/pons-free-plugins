@@ -1,0 +1,11 @@
+/* ヘッダー下の要素(kintone.mobile.app.getHeaderSpaceElement())に埋め込む地図(js/mobile.js参照)。 */
+
+.geoc-map-iframe {
+  display: block;
+  margin: 0.5em 0;
+}
+
+.geoc-map-message {
+  color: #888;
+  margin: 0.5em 0;
+}
