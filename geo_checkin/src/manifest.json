@@ -7,6 +7,7 @@
     "js": [
       "js/lib/config-store.js",
       "js/lib/geo-error-message.js",
+      "js/lib/geo-retry.js",
       "js/lib/map-embed-url.js",
       "js/desktop.js"
     ],
@@ -35,6 +36,7 @@
     "js": [
       "js/lib/config-store.js",
       "js/lib/geo-error-message.js",
+      "js/lib/geo-retry.js",
       "js/lib/map-embed-url.js",
       "js/mobile.js"
     ],

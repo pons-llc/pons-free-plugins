@@ -27,11 +27,18 @@
   `enableHighAccuracy: true`・`maximumAge: 0`(キャッシュされた古い位置情報を使わず、常に
   その場で取得する。「保存の瞬間の証跡」という目的上、追加・編集どちらの保存でも都度フレッシュに
   取得し、既存の緯度・経度を保存の都度上書きする)。
-- **取得に失敗してもレコードの登録・更新は継続する(`event.error`は設定しない)。** 緯度・経度は
-  空のまま保存され、`alert()`で利用者にエラー内容を通知する(`js/lib/geo-error-message.js`が
-  `GeolocationPositionError.code`に応じた日本語メッセージを組み立てる: 1=許可されなかった、
-  2=取得不可、3=タイムアウト、その他=汎用メッセージ)。`alert()`は同期的にブロックするため、
-  保存処理(kintoneへの実際の登録・更新)が先に進む前に必ず利用者に通知できる。
+- **`GeolocationPositionError.code`が`POSITION_UNAVAILABLE`(2)・`TIMEOUT`(3)の場合は、最大3回まで
+  (1秒間隔で)自動的に再試行する(`js/lib/geo-retry.js`の`withGeoRetry()`)。** macOSの
+  CoreLocationフレームワークが一時的に位置情報を解決できない(`kCLErrorLocationUnknown`)場合など、
+  一度失敗してもすぐ次の試行で成功することが多いための対応。`PERMISSION_DENIED`(1、位置情報の
+  利用が許可されなかった場合)と、Geolocation非対応ブラウザのエラー(codeなし)は、同じ保存操作の
+  中で状況が変わることはないため再試行せず即座に諦める。
+- **すべての再試行を使い切っても取得に失敗した場合、レコードの登録・更新は継続する(`event.error`は
+  設定しない)。** 緯度・経度は空のまま保存され、`alert()`で利用者にエラー内容を通知する
+  (`js/lib/geo-error-message.js`が`GeolocationPositionError.code`に応じた日本語メッセージを
+  組み立てる: 1=許可されなかった、2=取得不可、3=タイムアウト、その他=汎用メッセージ)。
+  `alert()`は同期的にブロックするため、保存処理(kintoneへの実際の登録・更新)が先に進む前に
+  必ず利用者に通知できる。
 - 緯度・経度フィールドの値は`String(position.coords.latitude)`/`String(position.coords.longitude)`
   として書き込む(数値フィールドは文字列表現の数値を受け付ける、kintoneドキュメントMCP
   「数値フィールド」参照)。
@@ -90,6 +97,9 @@
 - `config-validation.js` — 設定(緯度・経度フィールド・地図表示)のバリデーション
 - `geo-error-message.js` — `GeolocationPositionError`(またはGeolocation非対応時の`Error`)から
   利用者向け日本語メッセージを組み立てる
+- `geo-retry.js` — `POSITION_UNAVAILABLE`/`TIMEOUT`のみを対象に、注入した`sleep()`で実際の
+  タイマーを使わず確定的に自動リトライのオーケストレーションをテストする
+  (`PERMISSION_DENIED`・非対応ブラウザは1回で即座に諦めることも検証)
 - `map-embed-url.js` — 緯度・経度からGoogleマップの埋め込みURLを組み立てる(範囲外・非数値は
   `null`を返す)
 

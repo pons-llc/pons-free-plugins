@@ -2,7 +2,7 @@
 
 [secureCodingGuideline.md](../secureCodingGuideline.md)の一般項目([box_gdrive_iframe/security-checklist.md](../box_gdrive_iframe/security-checklist.md)参照、UTF-8/BOMなし・名前空間分離・`'use strict'`・外部スクリプト不使用などは同様に満たしている)は重複記載を省略し、本プラグイン固有の項目のみ記載する。
 
-最終確認日: 2026-08-26(モバイル対応の追加を反映)
+最終確認日: 2026-08-26(モバイル対応・位置情報取得の自動リトライの追加を反映)
 
 ## コーディング作法
 
@@ -35,6 +35,7 @@
 
 - [x] Geolocation APIの取得に失敗しても`event.error`は設定せず、レコードの登録・更新自体は継続する(緯度・経度は空のまま保存される)。「証跡が取れない場合でも業務(出退勤の打刻等)自体は止めない」という利用者向けの仕様上の判断であり、`alert()`(同期的にブロックする)で保存前に必ず利用者へ通知する
 - [x] `navigator.geolocation`が存在しないブラウザでも例外にせず、`GeolocationPositionError`と同様にエラーメッセージへ変換して`alert()`する(`js/lib/geo-error-message.js`)
+- [x] `POSITION_UNAVAILABLE`・`TIMEOUT`は最大3回まで自動リトライする(`js/lib/geo-retry.js`)。無限リトライではなく上限を設けているため、位置情報が恒常的に取得できない環境で保存処理が完了しなくなることはない。`PERMISSION_DENIED`・非対応ブラウザはリトライ対象から明示的に除外しており、無駄な待機時間を発生させない
 
 ## 表示・編集の制限(セキュリティというより運用上の注意)
 

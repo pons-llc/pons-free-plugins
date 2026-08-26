@@ -25,6 +25,15 @@
       );
     });
 
+  // desktop.jsと同じ自動リトライ(js/lib/geo-retry.js参照)。
+  const RETRY_OPTIONS = {
+    maxAttempts: 3,
+    delayMs: 1000,
+    sleep: (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
+  };
+  const getCurrentPositionWithRetry = () =>
+    NS.GeoRetry.withGeoRetry(getCurrentPosition, RETRY_OPTIONS);
+
   const isConfigured = () =>
     !!(config.latitudeFieldCode && config.longitudeFieldCode);
 
@@ -130,7 +139,7 @@
         return event;
       }
       try {
-        const position = await getCurrentPosition();
+        const position = await getCurrentPositionWithRetry();
         const latField = event.record[config.latitudeFieldCode];
         const lngField = event.record[config.longitudeFieldCode];
         if (latField) {

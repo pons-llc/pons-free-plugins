@@ -27,6 +27,18 @@
       );
     });
 
+  // POSITION_UNAVAILABLE(macOSのkCLErrorLocationUnknown等、位置情報プロバイダー側の一時的な
+  // 解決失敗を含む)・TIMEOUTは、少し待って再試行すると成功することが多いため自動リトライする
+  // (js/lib/geo-retry.js参照)。PERMISSION_DENIEDや非対応ブラウザは再試行しても無駄なので
+  // 1回で諦める。
+  const RETRY_OPTIONS = {
+    maxAttempts: 3,
+    delayMs: 1000,
+    sleep: (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
+  };
+  const getCurrentPositionWithRetry = () =>
+    NS.GeoRetry.withGeoRetry(getCurrentPosition, RETRY_OPTIONS);
+
   const isConfigured = () =>
     !!(config.latitudeFieldCode && config.longitudeFieldCode);
 
@@ -138,7 +150,7 @@
         return event;
       }
       try {
-        const position = await getCurrentPosition();
+        const position = await getCurrentPositionWithRetry();
         const latField = event.record[config.latitudeFieldCode];
         const lngField = event.record[config.longitudeFieldCode];
         if (latField) {
