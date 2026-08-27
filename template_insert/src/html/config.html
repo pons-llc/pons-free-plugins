@@ -5,6 +5,13 @@
     挿入します。本文中に<code>{フィールドコード}</code>と書くと、挿入時にそのフィールドの現在値へ
     置換されます。挿入は既存の内容の末尾への追記です(カーソル位置への挿入ではありません)。
   </p>
+  <p class="kintoneplugin-desc">
+    サブテーブルの行を繰り返し挿入したい場合は、繰り返したい部分を<code>[[</code>と<code>]]</code>で
+    囲んでください。例:<code>[[{品名}様　備考:{備考}]]</code>のように書くと、その部分がテーブルの
+    行数ぶん繰り返され、改行で連結されて挿入されます。<code>[[ ]]</code>の外側の部分は通常どおり
+    1回だけ解決されるため、繰り返す部分だけをテーブルの列のプレースホルダーとともに囲めば、
+    前後に固定の文章を組み合わせられます。
+  </p>
 
   <form class="js-submit-settings">
     <div id="js-errors" class="tmpi-errors"></div>
@@ -66,25 +73,15 @@
           <td><select class="kintoneplugin-select js-template-target"></select></td>
         </tr>
         <tr>
-          <th>種別</th>
-          <td>
-            <select class="kintoneplugin-select js-template-kind">
-              <option value="NORMAL">通常</option>
-              <option value="SUBTABLE_REPEAT">サブテーブル繰り返し</option>
-            </select>
-            <span class="js-template-subtable-wrap">
-              対象サブテーブル:
-              <select class="kintoneplugin-select js-template-subtable"></select>
-            </span>
-          </td>
-        </tr>
-        <tr>
           <th>本文</th>
           <td>
             <div class="tmpi-placeholder-toolbar">
               <select class="kintoneplugin-select js-template-placeholder-field"></select>
               <button type="button" class="kintoneplugin-button-normal js-template-placeholder-insert">
                 本文にプレースホルダーを挿入
+              </button>
+              <button type="button" class="kintoneplugin-button-normal js-template-wrap-repeat">
+                選択範囲を[[ ]]で囲む(繰り返し指定)
               </button>
             </div>
             <textarea class="kintoneplugin-textarea js-template-body" rows="6"></textarea>

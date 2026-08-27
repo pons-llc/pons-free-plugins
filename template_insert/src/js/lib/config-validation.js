@@ -1,18 +1,58 @@
 (function (root) {
   'use strict';
 
-  // 設定画面の保存前バリデーション(idea.md「設定画面」参照)。fieldInfoByCodeは
-  // { フィールドコード: { type } } の形(kintone.app.getFormFields()から作る、
-  // CLAUDE.mdの既知の落とし穴コメントは呼び出し側のconfig.jsに記載)。
+  const TemplateBodyResolver =
+    typeof module !== 'undefined' && module.exports
+      ? require('./template-body-resolver')
+      : root.TemplateInsert.TemplateBodyResolver;
+
+  // 設定画面の保存前バリデーション(idea.md「設定画面」参照)。fieldCatalogは
+  // { フィールドコード: { type, subtableFieldCode } } の形(js/lib/field-catalog.js参照)。
 
   const TARGET_FIELD_TYPES = ['MULTI_LINE_TEXT', 'RICH_TEXT'];
+  const BLOCK_PATTERN = /\[\[([\s\S]*?)\]\]/g;
 
-  const validateTemplate = (template, index, fieldInfoByCode, errors) => {
+  // "[["・"]]"の出現回数が一致しているか(対応が崩れていないか)を確認する。
+  // ネストは想定しないシンプルな数合わせのチェック。
+  const hasBalancedBrackets = (body) => {
+    const openCount = (body.match(/\[\[/g) || []).length;
+    const closeCount = (body.match(/\]\]/g) || []).length;
+    return openCount === closeCount;
+  };
+
+  const validateTemplateBody = (template, index, fieldCatalog, errors) => {
+    const label = `テンプレート${index + 1}`;
+    const body = template.body || '';
+
+    if (!hasBalancedBrackets(body)) {
+      errors.push(
+        `${label}: 本文の[[と]]の対応が取れていません(繰り返しブロックの開始・終了を確認してください)。`,
+      );
+      return;
+    }
+
+    const pattern = new RegExp(BLOCK_PATTERN);
+    let match;
+    while ((match = pattern.exec(body))) {
+      const blockContent = match[1];
+      const tableCode = TemplateBodyResolver.resolveBlockTableCode(
+        blockContent,
+        fieldCatalog,
+      );
+      if (!tableCode) {
+        errors.push(
+          `${label}: 繰り返しブロック「[[${blockContent}]]」がどのテーブルの繰り返しか特定できません。ブロック内に、そのテーブルの列を指すプレースホルダーを1つ以上含めてください。`,
+        );
+      }
+    }
+  };
+
+  const validateTemplate = (template, index, fieldCatalog, errors) => {
     const label = `テンプレート${index + 1}`;
     if (!template.name || !template.name.trim()) {
       errors.push(`${label}: テンプレート名を入力してください。`);
     }
-    const targetField = fieldInfoByCode[template.targetFieldCode];
+    const targetField = fieldCatalog[template.targetFieldCode];
     if (!template.targetFieldCode || !targetField) {
       errors.push(`${label}: 挿入先フィールドを選択してください。`);
     } else if (TARGET_FIELD_TYPES.indexOf(targetField.type) === -1) {
@@ -22,20 +62,12 @@
     }
     if (!template.body || !template.body.trim()) {
       errors.push(`${label}: 本文を入力してください。`);
-    }
-    if (template.kind === 'SUBTABLE_REPEAT') {
-      const subtableField = fieldInfoByCode[template.subtableFieldCode];
-      if (!template.subtableFieldCode || !subtableField) {
-        errors.push(`${label}: 対象サブテーブルを選択してください。`);
-      } else if (subtableField.type !== 'SUBTABLE') {
-        errors.push(
-          `${label}: 対象サブテーブルにはテーブル項目を選択してください。`,
-        );
-      }
+    } else {
+      validateTemplateBody(template, index, fieldCatalog, errors);
     }
   };
 
-  const validateConfig = (config, fieldInfoByCode) => {
+  const validateConfig = (config, fieldCatalog) => {
     const errors = [];
 
     if (config.mode !== 'DROPDOWN' && config.mode !== 'RADIO_LINKED') {
@@ -43,7 +75,7 @@
     }
 
     if (config.mode === 'RADIO_LINKED') {
-      const radioField = fieldInfoByCode[config.radioFieldCode];
+      const radioField = fieldCatalog[config.radioFieldCode];
       if (!config.radioFieldCode || !radioField) {
         errors.push('連動するラジオボタンフィールドを選択してください。');
       } else if (radioField.type !== 'RADIO_BUTTON') {
@@ -58,7 +90,7 @@
       errors.push('テンプレートを1件以上追加してください。');
     }
     templates.forEach((template, index) =>
-      validateTemplate(template, index, fieldInfoByCode, errors),
+      validateTemplate(template, index, fieldCatalog, errors),
     );
 
     if (config.mode === 'RADIO_LINKED') {

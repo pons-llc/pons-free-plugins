@@ -30,12 +30,10 @@
   // REST APIドキュメントで確認済み。
   const buildFieldCatalogs = (formFields) => {
     const topLevelFields = Object.values(formFields);
-    const fieldInfoByCode = {};
-    topLevelFields.forEach((f) => {
-      fieldInfoByCode[f.code] = { type: f.type };
-    });
     return {
-      fieldInfoByCode,
+      // js/lib/config-validation.jsへ渡すフィールドコード→{type, subtableFieldCode}のカタログ
+      // (js/lib/field-catalog.js参照)。
+      fieldCatalog: NS.FieldCatalog.buildFieldCatalog(formFields),
       targetFieldOptions: topLevelFields.filter((f) =>
         TARGET_FIELD_TYPES.includes(f.type),
       ),
@@ -67,7 +65,7 @@
 
   const formFields = await kintone.app.getFormFields();
   const {
-    fieldInfoByCode,
+    fieldCatalog,
     targetFieldOptions,
     subtableFieldOptions,
     radioFieldOptions,
@@ -105,6 +103,42 @@
     });
   };
 
+  // プレースホルダー選択は、レコード直下の項目と、各サブテーブルの列を<optgroup>で分けて
+  // 表示する(idea.md「繰り返しブロック([[ ]]構文)」参照。テーブルの列は[[ ]]で囲んだ
+  // 部分に使うことで、そのテーブルの行を繰り返す対象になる)。挿入先フィールド自身は
+  // 自己参照防止のため候補から除く。
+  const buildPlaceholderOptions = (selectEl, excludeFieldCode) => {
+    selectEl.innerHTML = '';
+    const placeholderOptionEl = document.createElement('option');
+    placeholderOptionEl.value = '';
+    placeholderOptionEl.textContent = '(フィールドを選択)';
+    selectEl.appendChild(placeholderOptionEl);
+
+    const recordGroupEl = document.createElement('optgroup');
+    recordGroupEl.label = 'レコードの項目';
+    placeholderFieldOptions
+      .filter((f) => f.code !== excludeFieldCode)
+      .forEach((f) => {
+        const optionEl = document.createElement('option');
+        optionEl.value = f.code;
+        optionEl.textContent = `${f.label} (${f.code})`;
+        recordGroupEl.appendChild(optionEl);
+      });
+    selectEl.appendChild(recordGroupEl);
+
+    subtableFieldOptions.forEach((tableField) => {
+      const tableGroupEl = document.createElement('optgroup');
+      tableGroupEl.label = `テーブル: ${tableField.label}`;
+      Object.values(tableField.fields).forEach((column) => {
+        const optionEl = document.createElement('option');
+        optionEl.value = column.code;
+        optionEl.textContent = `${column.label} (${column.code})`;
+        tableGroupEl.appendChild(optionEl);
+      });
+      selectEl.appendChild(tableGroupEl);
+    });
+  };
+
   const applyModeVisibility = () => {
     const isRadioLinked = config.mode === 'RADIO_LINKED';
     radioFieldRowEl.style.display = isRadioLinked ? '' : 'none';
@@ -134,31 +168,27 @@
     );
   };
 
-  // プレースホルダー候補は、レコード直下のフィールドに加えて、種別がサブテーブル繰り返しの
-  // ときだけ対象サブテーブルの列も含める(idea.md参照)。挿入先フィールド自身は自己参照防止の
-  // ため候補から除く。
-  const collectPlaceholderOptions = (template) => {
-    let options = placeholderFieldOptions.filter(
-      (f) => f.code !== template.targetFieldCode,
-    );
-    if (
-      template.kind === 'SUBTABLE_REPEAT' &&
-      template.subtableFieldCode &&
-      formFields[template.subtableFieldCode]
-    ) {
-      options = options.concat(
-        Object.values(formFields[template.subtableFieldCode].fields),
-      );
+  // 本文のテキストエリアで選択中の範囲を[[ ]]で囲む(繰り返しブロックの指定を補助する)。
+  // 選択範囲が無い場合はカーソル位置に[[]]を挿入し、カーソルをその内側に置く。
+  const wrapSelectionWithRepeatBrackets = (bodyEl, template) => {
+    const start = bodyEl.selectionStart || 0;
+    const end = bodyEl.selectionEnd || 0;
+    const selected = bodyEl.value.slice(start, end);
+    const wrapped = `[[${selected}]]`;
+    bodyEl.value =
+      bodyEl.value.slice(0, start) + wrapped + bodyEl.value.slice(end);
+    template.body = bodyEl.value;
+    bodyEl.focus();
+    if (selected) {
+      bodyEl.setSelectionRange(start, start + wrapped.length);
+    } else {
+      bodyEl.setSelectionRange(start + 2, start + 2);
     }
-    return options;
   };
 
   const bindTemplateRowFields = (rowEl, template, index) => {
     const nameEl = rowEl.querySelector('.js-template-name');
     const targetEl = rowEl.querySelector('.js-template-target');
-    const kindEl = rowEl.querySelector('.js-template-kind');
-    const subtableWrapEl = rowEl.querySelector('.js-template-subtable-wrap');
-    const subtableEl = rowEl.querySelector('.js-template-subtable');
     const bodyEl = rowEl.querySelector('.js-template-body');
     const placeholderFieldEl = rowEl.querySelector(
       '.js-template-placeholder-field',
@@ -166,6 +196,7 @@
     const placeholderInsertButtonEl = rowEl.querySelector(
       '.js-template-placeholder-insert',
     );
+    const wrapRepeatButtonEl = rowEl.querySelector('.js-template-wrap-repeat');
     const removeEl = rowEl.querySelector('.js-template-remove');
 
     nameEl.value = template.name || '';
@@ -175,46 +206,15 @@
       template.targetFieldCode,
       '(選択してください)',
     );
-    kindEl.value = template.kind || 'NORMAL';
-    buildOptions(
-      subtableEl,
-      subtableFieldOptions,
-      template.subtableFieldCode,
-      '(選択してください)',
-    );
     bodyEl.value = template.body || '';
-
-    const applyKindVisibility = () => {
-      subtableWrapEl.style.display =
-        kindEl.value === 'SUBTABLE_REPEAT' ? '' : 'none';
-    };
-    applyKindVisibility();
-
-    const renderPlaceholderFieldOptions = () => {
-      buildOptions(
-        placeholderFieldEl,
-        collectPlaceholderOptions(template),
-        '',
-        '(フィールドを選択)',
-      );
-    };
-    renderPlaceholderFieldOptions();
+    buildPlaceholderOptions(placeholderFieldEl, template.targetFieldCode);
 
     nameEl.addEventListener('input', () => {
       template.name = nameEl.value;
     });
     targetEl.addEventListener('change', () => {
       template.targetFieldCode = targetEl.value;
-      renderPlaceholderFieldOptions();
-    });
-    kindEl.addEventListener('change', () => {
-      template.kind = kindEl.value;
-      applyKindVisibility();
-      renderPlaceholderFieldOptions();
-    });
-    subtableEl.addEventListener('change', () => {
-      template.subtableFieldCode = subtableEl.value;
-      renderPlaceholderFieldOptions();
+      buildPlaceholderOptions(placeholderFieldEl, template.targetFieldCode);
     });
     bodyEl.addEventListener('input', () => {
       template.body = bodyEl.value;
@@ -233,6 +233,9 @@
       const caret = start + token.length;
       bodyEl.focus();
       bodyEl.setSelectionRange(caret, caret);
+    });
+    wrapRepeatButtonEl.addEventListener('click', () => {
+      wrapSelectionWithRepeatBrackets(bodyEl, template);
     });
     removeEl.addEventListener('click', () => {
       config.templates.splice(index, 1);
@@ -321,8 +324,6 @@
       id: NS.ConfigStore.createTemplateId(),
       name: '',
       targetFieldCode: '',
-      kind: 'NORMAL',
-      subtableFieldCode: '',
       body: '',
     });
     renderTemplateList();
@@ -336,10 +337,7 @@
   formEl.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const validation = NS.ConfigValidation.validateConfig(
-      config,
-      fieldInfoByCode,
-    );
+    const validation = NS.ConfigValidation.validateConfig(config, fieldCatalog);
     if (!validation.valid) {
       // 設定画面でアプリ管理者自身が選択した値の検証結果のみを表示しており外部入力ではないが、
       // 念のためinnerHTMLではなくtextContentで出力する。

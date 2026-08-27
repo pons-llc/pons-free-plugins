@@ -6,9 +6,13 @@
 
   const config = NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
 
-  // desktop.jsと同じロジック(kintone.mobile.app.record.get()/set()もPC版と同じ形式のレコード
-  // オブジェクトを扱う)。
-  const buildValuesMap = (record, excludeFieldCode) => {
+  // desktop.jsと同じロジック(kintone.app.getFormFields()はPC/モバイル共通。
+  // kintone.mobile.app.record.get()/set()もPC版と同じ形式のレコードオブジェクトを扱う)。
+  const fieldCatalogPromise = kintone.app
+    .getFormFields()
+    .then((formFields) => NS.FieldCatalog.buildFieldCatalog(formFields));
+
+  const buildOuterValuesMap = (record, excludeFieldCode) => {
     const map = {};
     Object.keys(record).forEach((code) => {
       if (code === excludeFieldCode) {
@@ -26,44 +30,40 @@
     return map;
   };
 
-  const buildRowValuesMap = (outerValuesMap, rowValue) => {
-    const map = Object.assign({}, outerValuesMap);
-    Object.keys(rowValue).forEach((code) => {
-      map[code] = NS.FieldValueFormatter.formatFieldValueForPlaceholder(
-        rowValue[code],
-      );
+  const buildRowColumnMapsByTable = (record) => {
+    const result = {};
+    Object.keys(record).forEach((code) => {
+      const field = record[code];
+      if (!field || field.type !== 'SUBTABLE' || !Array.isArray(field.value)) {
+        return;
+      }
+      result[code] = field.value.map((row) => {
+        const rowMap = {};
+        Object.keys(row.value).forEach((columnCode) => {
+          rowMap[columnCode] =
+            NS.FieldValueFormatter.formatFieldValueForPlaceholder(
+              row.value[columnCode],
+            );
+        });
+        return rowMap;
+      });
     });
-    return map;
+    return result;
   };
 
-  const resolveInsertText = (template, record) => {
+  const resolveInsertText = (template, record, fieldCatalog) => {
     const targetField = record[template.targetFieldCode];
     const targetFieldType = targetField ? targetField.type : undefined;
-
-    if (template.kind === 'SUBTABLE_REPEAT') {
-      const tableField = record[template.subtableFieldCode];
-      const outerValuesMap = buildValuesMap(record, template.targetFieldCode);
-      const rows =
-        tableField && Array.isArray(tableField.value) ? tableField.value : [];
-      const rowValuesMaps = rows.map((row) =>
-        buildRowValuesMap(outerValuesMap, row.value),
-      );
-      return NS.SubtableTemplate.buildRepeatedTemplateText({
-        body: template.body,
-        rowValuesMaps,
-        targetFieldType,
-      });
-    }
-
-    const valuesMap = buildValuesMap(record, template.targetFieldCode);
-    return NS.PlaceholderResolver.resolveTemplate({
+    return NS.TemplateBodyResolver.resolveTemplateBody({
       body: template.body,
-      valuesMap,
+      fieldCatalog,
+      outerValuesMap: buildOuterValuesMap(record, template.targetFieldCode),
+      rowColumnMapsByTable: buildRowColumnMapsByTable(record),
       targetFieldType,
     });
   };
 
-  const insertTemplate = (template) => {
+  const insertTemplate = async (template) => {
     const record = kintone.mobile.app.record.get().record;
     const targetField = record[template.targetFieldCode];
     if (!targetField) {
@@ -71,7 +71,8 @@
       return;
     }
 
-    const insertText = resolveInsertText(template, record);
+    const fieldCatalog = await fieldCatalogPromise;
+    const insertText = resolveInsertText(template, record, fieldCatalog);
     if (!insertText) {
       alert(
         '挿入する内容がありません(対象のテーブルに行が無い可能性があります)。',

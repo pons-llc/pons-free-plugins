@@ -6,9 +6,18 @@
 
   const config = NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
 
+  // フィールドコード→{type, subtableFieldCode}のカタログは、本文中の[[...]]ブロックが
+  // どのテーブルの繰り返しかを判定するために必要(idea.md「繰り返しブロック」参照)。
+  // テーブルの行数が0件でも判定できるよう、レコードの値ではなくスキーマ
+  // (kintone.app.getFormFields())から組み立てる。kintone.events.on()の登録をブロックしない
+  // よう、ここではawaitせずPromiseを保持しておき、挿入時に待つ(self_lookupと同じ理由)。
+  const fieldCatalogPromise = kintone.app
+    .getFormFields()
+    .then((formFields) => NS.FieldCatalog.buildFieldCatalog(formFields));
+
   // レコード直下のフィールドから、プレースホルダー用の値マップ({フィールドコード: 整形済み文字列})
   // を組み立てる。挿入先フィールド自身は自己参照防止のため除外する(idea.md参照)。
-  const buildValuesMap = (record, excludeFieldCode) => {
+  const buildOuterValuesMap = (record, excludeFieldCode) => {
     const map = {};
     Object.keys(record).forEach((code) => {
       if (code === excludeFieldCode) {
@@ -26,47 +35,43 @@
     return map;
   };
 
-  // サブテーブルの1行分(rowValue: {列コード: フィールド})を、レコード直下の値マップに
-  // マージした値マップを作る(idea.mdの「本文中のプレースホルダーには...列コードも使える」)。
-  const buildRowValuesMap = (outerValuesMap, rowValue) => {
-    const map = Object.assign({}, outerValuesMap);
-    Object.keys(rowValue).forEach((code) => {
-      map[code] = NS.FieldValueFormatter.formatFieldValueForPlaceholder(
-        rowValue[code],
-      );
+  // レコード内のすべてのテーブル(SUBTABLE)フィールドについて、行ごとの列値マップの配列を
+  // 組み立てる({テーブルのフィールドコード: [{列コード: 整形済み文字列}, ...]})。
+  // TemplateBodyResolver.resolveTemplateBody()のrowColumnMapsByTableに渡す。
+  const buildRowColumnMapsByTable = (record) => {
+    const result = {};
+    Object.keys(record).forEach((code) => {
+      const field = record[code];
+      if (!field || field.type !== 'SUBTABLE' || !Array.isArray(field.value)) {
+        return;
+      }
+      result[code] = field.value.map((row) => {
+        const rowMap = {};
+        Object.keys(row.value).forEach((columnCode) => {
+          rowMap[columnCode] =
+            NS.FieldValueFormatter.formatFieldValueForPlaceholder(
+              row.value[columnCode],
+            );
+        });
+        return rowMap;
+      });
     });
-    return map;
+    return result;
   };
 
-  // テンプレートを解決し、挿入先フィールドへ追記する文字列を組み立てる。
-  const resolveInsertText = (template, record) => {
+  const resolveInsertText = (template, record, fieldCatalog) => {
     const targetField = record[template.targetFieldCode];
     const targetFieldType = targetField ? targetField.type : undefined;
-
-    if (template.kind === 'SUBTABLE_REPEAT') {
-      const tableField = record[template.subtableFieldCode];
-      const outerValuesMap = buildValuesMap(record, template.targetFieldCode);
-      const rows =
-        tableField && Array.isArray(tableField.value) ? tableField.value : [];
-      const rowValuesMaps = rows.map((row) =>
-        buildRowValuesMap(outerValuesMap, row.value),
-      );
-      return NS.SubtableTemplate.buildRepeatedTemplateText({
-        body: template.body,
-        rowValuesMaps,
-        targetFieldType,
-      });
-    }
-
-    const valuesMap = buildValuesMap(record, template.targetFieldCode);
-    return NS.PlaceholderResolver.resolveTemplate({
+    return NS.TemplateBodyResolver.resolveTemplateBody({
       body: template.body,
-      valuesMap,
+      fieldCatalog,
+      outerValuesMap: buildOuterValuesMap(record, template.targetFieldCode),
+      rowColumnMapsByTable: buildRowColumnMapsByTable(record),
       targetFieldType,
     });
   };
 
-  const insertTemplate = (template) => {
+  const insertTemplate = async (template) => {
     const record = kintone.app.record.get().record;
     const targetField = record[template.targetFieldCode];
     if (!targetField) {
@@ -74,7 +79,8 @@
       return;
     }
 
-    const insertText = resolveInsertText(template, record);
+    const fieldCatalog = await fieldCatalogPromise;
+    const insertText = resolveInsertText(template, record, fieldCatalog);
     if (!insertText) {
       alert(
         '挿入する内容がありません(対象のテーブルに行が無い可能性があります)。',

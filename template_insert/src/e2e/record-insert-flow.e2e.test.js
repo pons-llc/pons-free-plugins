@@ -37,7 +37,9 @@ const TABLE_COLUMN_CODE = '文字列__複数行__2';
 const NORMAL_TEMPLATE_NAME = 'あいさつ';
 const NORMAL_TEMPLATE_BODY = `こんにちは、{${SOURCE_FIELD_CODE}}さん`;
 const SUBTABLE_TEMPLATE_NAME = '明細';
-const SUBTABLE_TEMPLATE_BODY = `・{${TABLE_COLUMN_CODE}}`;
+// [[ ]]で囲んだ部分だけがテーブルの行数ぶん繰り返される(idea.md「繰り返しブロック」参照)。
+// 前後の固定テキストと組み合わせられることも合わせて確認する。
+const SUBTABLE_TEMPLATE_BODY = `明細:\n[[・{${TABLE_COLUMN_CODE}}]]\n以上`;
 
 // kintone.app.record.set()でテーブルの行を書き換える際は、公式ドキュメント
 // (「テーブルへの追加、更新時には、既存のすべての行の値を指定してください」)のとおり、
@@ -80,12 +82,6 @@ const fillTemplateRow = (page, rowIndex, fields) =>
       if (targetFields.targetFieldCode !== undefined) {
         setValue('.js-template-target', targetFields.targetFieldCode);
       }
-      if (targetFields.kind !== undefined) {
-        setValue('.js-template-kind', targetFields.kind);
-      }
-      if (targetFields.subtableFieldCode !== undefined) {
-        setValue('.js-template-subtable', targetFields.subtableFieldCode);
-      }
       if (targetFields.body !== undefined) {
         setValue('.js-template-body', targetFields.body);
       }
@@ -121,8 +117,31 @@ describe('通常モード: レコード画面での挿入(実環境)', () => {
       GEO_CHECKIN_DISPLAY_NAME,
     );
 
-    // 通常テンプレート+サブテーブル繰り返しテンプレートの2件を設定して保存する。
+    // TEST_APP_ID_1は他のe2eテストとも共有しており、過去の実行分のテンプレートが蓄積したまま
+    // 残ってしまう(setConfig()に上書き保存のたびに古い内容が消えるわけではなく、このプラグイン
+    // 自身が毎回新しい行を追加していくため)。config-validationの65,535文字/256KB上限に
+    // いずれ抵触しないよう、このテストで使う設定を組み立てる前に一度空の状態へリセットする。
     await common.openPluginConfig(page, env, env.TEST_APP_ID_1, pluginId);
+    await page.evaluate(
+      (id) =>
+        new Promise((resolve) => {
+          kintone.plugin.app.setConfig(
+            {
+              mode: 'DROPDOWN',
+              radioFieldCode: '',
+              radioMappings: '[]',
+              templates: '[]',
+            },
+            resolve,
+          );
+        }),
+      pluginId,
+    );
+    // config.js冒頭で読み込んだconfig変数へ反映させるため、プラグイン一覧からの再遷移
+    // (common.openPluginConfig)より軽いpage.reload()で読み直す。
+    await page.reload({ waitUntil: 'networkidle0' });
+
+    // 通常テンプレート+サブテーブル繰り返しテンプレートの2件を設定して保存する。
     await page.select('.js-mode', 'DROPDOWN');
 
     await page.click('#js-template-add');
@@ -140,8 +159,6 @@ describe('通常モード: レコード画面での挿入(実環境)', () => {
     await fillTemplateRow(page, rowIndex2, {
       name: SUBTABLE_TEMPLATE_NAME,
       targetFieldCode: TARGET_FIELD_CODE,
-      kind: 'SUBTABLE_REPEAT',
-      subtableFieldCode: TABLE_FIELD_CODE,
       body: SUBTABLE_TEMPLATE_BODY,
     });
 
@@ -181,13 +198,16 @@ describe('通常モード: レコード画面での挿入(実環境)', () => {
       .catch(() => {});
   };
 
+  // TEST_APP_ID_1は他のe2eテスト実行の積み重ねで同名のテンプレートが複数残っていることが
+  // あるため(共有の検証環境アプリ、過去の実行分は保存されたまま蓄積する)、最後に一致した
+  // 選択肢(=このテスト実行のbeforeAllで直前に追加したもの)を選ぶ。
   const selectTemplateByName = (name) =>
     page.evaluate((targetName) => {
       const selectEl = document.querySelector('.tmpi-select');
-      const optionEl = Array.from(selectEl.options).find((o) =>
+      const matches = Array.from(selectEl.options).filter((o) =>
         o.textContent.startsWith(targetName),
       );
-      selectEl.value = optionEl.value;
+      selectEl.value = matches[matches.length - 1].value;
     }, name);
 
   test('通常テンプレートを選んで挿入すると、プレースホルダーが解決されて末尾に追記される', async () => {
@@ -253,7 +273,9 @@ describe('通常モード: レコード画面での挿入(実環境)', () => {
         kintone.app.record.get().record[fieldCode].value.includes(expected),
       {},
       TARGET_FIELD_CODE,
-      '・商品A\n・商品B',
+      // [[ ]]の外側の固定テキスト(「明細:」「以上」)と、繰り返し展開された行の両方が
+      // 含まれることを確認する(idea.md「繰り返しブロック」参照)。
+      '明細:\n・商品A\n・商品B\n以上',
     );
 
     expect(pageErrors).toEqual([]);

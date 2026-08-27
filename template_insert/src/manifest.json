@@ -6,8 +6,10 @@
   "desktop": {
     "js": [
       "js/lib/field-value-formatter.js",
+      "js/lib/field-catalog.js",
       "js/lib/placeholder-resolver.js",
       "js/lib/subtable-template.js",
+      "js/lib/template-body-resolver.js",
       "js/lib/insert-composer.js",
       "js/lib/radio-template-mapping.js",
       "js/lib/config-store.js",
@@ -20,6 +22,10 @@
     "html": "html/config.html",
     "js": [
       "js/lib/field-value-formatter.js",
+      "js/lib/field-catalog.js",
+      "js/lib/placeholder-resolver.js",
+      "js/lib/subtable-template.js",
+      "js/lib/template-body-resolver.js",
       "js/lib/config-store.js",
       "js/lib/config-validation.js",
       "js/config.js"
@@ -38,8 +44,10 @@
   "mobile": {
     "js": [
       "js/lib/field-value-formatter.js",
+      "js/lib/field-catalog.js",
       "js/lib/placeholder-resolver.js",
       "js/lib/subtable-template.js",
+      "js/lib/template-body-resolver.js",
       "js/lib/insert-composer.js",
       "js/lib/radio-template-mapping.js",
       "js/lib/config-store.js",

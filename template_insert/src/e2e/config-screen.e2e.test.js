@@ -101,17 +101,26 @@ describe('設定画面(実環境)', () => {
     );
     expect(bodyValue).toBe('{文字列__1行_}');
 
-    // サブテーブル繰り返し種別に切り替えると、対象サブテーブルの列もプレースホルダー候補に加わる。
-    await page.select(
-      `${NEW_ROW_SELECTOR} .js-template-kind`,
-      'SUBTABLE_REPEAT',
-    );
-    await page.select(`${NEW_ROW_SELECTOR} .js-template-subtable`, 'テーブル');
+    // プレースホルダー候補には、種別選択なしでも常にサブテーブルの列がoptgroupとして含まれる
+    // (idea.md「繰り返しブロック([[ ]]構文)」参照)。
     const placeholderOptionValues = await page.$$eval(
       `${NEW_ROW_SELECTOR} .js-template-placeholder-field option`,
       (options) => options.map((o) => o.value),
     );
     expect(placeholderOptionValues).toContain('文字列__複数行__2');
+
+    // 「選択範囲を[[ ]]で囲む」ボタン: 本文全体を選択してから押すと[[ ]]で囲まれる。
+    await page.evaluate((selector) => {
+      const el = document.querySelector(selector);
+      el.focus();
+      el.setSelectionRange(0, el.value.length);
+    }, `${NEW_ROW_SELECTOR} .js-template-body`);
+    await page.click(`${NEW_ROW_SELECTOR} .js-template-wrap-repeat`);
+    const wrappedBodyValue = await page.$eval(
+      `${NEW_ROW_SELECTOR} .js-template-body`,
+      (el) => el.value,
+    );
+    expect(wrappedBodyValue).toBe('[[{文字列__1行_}]]');
 
     expect(pageErrors).toEqual([]);
 

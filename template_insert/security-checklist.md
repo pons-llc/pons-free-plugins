@@ -2,12 +2,12 @@
 
 [secureCodingGuideline.md](../secureCodingGuideline.md)の一般項目([box_gdrive_iframe/security-checklist.md](../box_gdrive_iframe/security-checklist.md)参照、UTF-8/BOMなし・名前空間分離・`'use strict'`・外部スクリプト不使用などは同様に満たしている)は重複記載を省略し、本プラグイン固有の項目のみ記載する。
 
-最終確認日: 2026-08-27
+最終確認日: 2026-08-27(繰り返しブロック([[ ]]構文)への設計変更後に再確認)
 
 ## コーディング作法
 
 - [x] 文字コードはUTF-8(BOMなし)
-- [x] グローバル変数を作らず、即時関数(IIFE)+名前空間オブジェクト(`window.TemplateInsert`)のみを公開している(`js/lib/field-value-formatter.js`, `js/lib/placeholder-resolver.js`, `js/lib/subtable-template.js`, `js/lib/insert-composer.js`, `js/lib/radio-template-mapping.js`, `js/lib/config-store.js`, `js/lib/config-validation.js`)
+- [x] グローバル変数を作らず、即時関数(IIFE)+名前空間オブジェクト(`window.TemplateInsert`)のみを公開している(`js/lib/field-value-formatter.js`, `js/lib/field-catalog.js`, `js/lib/placeholder-resolver.js`, `js/lib/subtable-template.js`, `js/lib/template-body-resolver.js`, `js/lib/insert-composer.js`, `js/lib/radio-template-mapping.js`, `js/lib/config-store.js`, `js/lib/config-validation.js`)
 - [x] 既存のkintoneグローバルオブジェクトを書き換え・参照していない
 - [x] `'use strict'`を全JSファイルの先頭で使用している
 - [x] kintone内部のid/class属性やDOM構造に依存せず、JavaScript API(`kintone.app.record.get()`/`set()`、`kintone.app.record.getHeaderMenuSpaceElement()`、`kintone.mobile.app.getHeaderSpaceElement()`、`kintone.app.getFormFields()`)のみを使用している。REST APIは一切使用していない
@@ -29,7 +29,10 @@
   `escapeHtml()`(`&`/`<`/`>`/`"`/`'`をエンティティ化)してから連結する。値に
   `<script>`・`onerror=`等が含まれていてもタグとして解釈されない
   (`__tests__/placeholder-resolver.test.js`「置換された値はHTMLエスケープされる(XSS対策)」で
-  確定的に検証済み)
+  確定的に検証済み)。`[[ ]]`の繰り返しブロック内も`js/lib/template-body-resolver.js`が同じ
+  `resolveTemplate()`を行ごとに呼び出すため、同じエスケープが適用される
+  (`__tests__/template-body-resolver.test.js`「RICH_TEXT挿入先では...HTMLエスケープされ」で
+  ブロック内外どちらの値もエスケープされることを確定的に検証済み)
 - [x] 挿入先が文字列複数行(`MULTI_LINE_TEXT`)の場合はプレーンテキストとして扱われ、kintone標準の
   フィールド値レンダリングを経由するためHTMLとして解釈されない(エスケープ不要)
 - [x] `desktop.js`/`mobile.js`から`js/lib`への値の受け渡しはすべて`record.get()`で取得した
@@ -49,9 +52,11 @@
 ## 設定の妥当性検証
 
 - [x] 保存前に`js/lib/config-validation.js`でチェックし、不正な設定(テンプレート名・本文の未入力、
-  挿入先フィールドが文字列複数行/リッチエディター以外、サブテーブル繰り返し型で対象サブテーブル未選択
-  またはSUBTABLE型以外、ラジオボタン連動モードで連動フィールド未選択またはRADIO_BUTTON型以外、
-  ラジオ対応が削除済みテンプレートIDを参照)は保存させない
+  挿入先フィールドが文字列複数行/リッチエディター以外、本文中の`[[`と`]]`の対応が崩れている、
+  繰り返しブロック内のプレースホルダーがどのテーブルの列も指していない(または複数の異なる
+  テーブルにまたがる)ため対象テーブルを一意に決定できない、ラジオボタン連動モードで連動
+  フィールド未選択またはRADIO_BUTTON型以外、ラジオ対応が削除済みテンプレートIDを参照)は
+  保存させない
 - [x] `kintone.plugin.app.getConfig()`が`null`/`undefined`を返す場合でも、`js/lib/config-store.js`の
   `load()`は例外を投げず既定値を返す(`__tests__/config-store.test.js`で検証済み)。保存済みの
   JSON文字列が壊れている場合も既定値にフォールバックする

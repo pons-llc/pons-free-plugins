@@ -65,7 +65,28 @@ describe('ラジオボタン連動モード(実環境)', () => {
       GEO_CHECKIN_DISPLAY_NAME,
     );
 
+    // TEST_APP_ID_1は他のe2eテストとも共有しており、テンプレートが蓄積したまま残ってしまう
+    // ため、このテストで使う設定を組み立てる前に一度空の状態へリセットする
+    // (record-insert-flow.e2e.test.jsと同じ理由)。
     await common.openPluginConfig(page, env, env.TEST_APP_ID_1, pluginId);
+    await page.evaluate(
+      (id) =>
+        new Promise((resolve) => {
+          kintone.plugin.app.setConfig(
+            {
+              mode: 'DROPDOWN',
+              radioFieldCode: '',
+              radioMappings: '[]',
+              templates: '[]',
+            },
+            resolve,
+          );
+        }),
+      pluginId,
+    );
+    // config.js冒頭で読み込んだconfig変数へ反映させるため、プラグイン一覧からの再遷移
+    // (common.openPluginConfig)より軽いpage.reload()で読み直す。
+    await page.reload({ waitUntil: 'networkidle0' });
 
     await page.click('#js-template-add');
     const rowIndex =
@@ -107,10 +128,12 @@ describe('ラジオボタン連動モード(実環境)', () => {
             optionValue,
         );
         const selectEl = targetRow.querySelector('.js-radio-mapping-template');
-        const optionEl = Array.from(selectEl.options).find((o) =>
+        // TEST_APP_ID_1は他のe2eテスト実行の積み重ねで同名のテンプレートが複数残っていることが
+        // あるため、最後に一致した選択肢(=直前に追加したもの)を選ぶ。
+        const matches = Array.from(selectEl.options).filter((o) =>
           o.textContent.startsWith(templateName),
         );
-        selectEl.value = optionEl.value;
+        selectEl.value = matches[matches.length - 1].value;
         selectEl.dispatchEvent(new Event('change', { bubbles: true }));
       },
       DEFAULT_RADIO_VALUE,
