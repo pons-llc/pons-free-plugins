@@ -60,4 +60,36 @@ describe('composeInsertedValue', () => {
       }),
     ).toBe('');
   });
+
+  test('mode: OVERWRITEの場合、既存値を破棄してinsertTextに置き換える', () => {
+    expect(
+      composeInsertedValue({
+        currentValue: '既存の内容',
+        insertText: '新しい内容',
+        targetFieldType: 'MULTI_LINE_TEXT',
+        mode: 'OVERWRITE',
+      }),
+    ).toBe('新しい内容');
+  });
+
+  test('mode: OVERWRITEでもinsertTextが空文字列の場合は既存値をそのまま返す', () => {
+    expect(
+      composeInsertedValue({
+        currentValue: '既存の内容',
+        insertText: '',
+        targetFieldType: 'MULTI_LINE_TEXT',
+        mode: 'OVERWRITE',
+      }),
+    ).toBe('既存の内容');
+  });
+
+  test('modeを指定しない場合は従来どおりAPPEND(追記)として扱う', () => {
+    expect(
+      composeInsertedValue({
+        currentValue: '既存の内容',
+        insertText: '追記する内容',
+        targetFieldType: 'MULTI_LINE_TEXT',
+      }),
+    ).toBe('既存の内容\n追記する内容');
+  });
 });

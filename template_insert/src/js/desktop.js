@@ -71,7 +71,7 @@
     });
   };
 
-  const insertTemplate = async (template) => {
+  const insertTemplate = async (template, insertMode) => {
     const record = kintone.app.record.get().record;
     const targetField = record[template.targetFieldCode];
     if (!targetField) {
@@ -92,8 +92,26 @@
       currentValue: targetField.value,
       insertText,
       targetFieldType: targetField.type,
+      mode: insertMode,
     });
     kintone.app.record.set({ record });
+  };
+
+  // 追加(末尾に追記)/上書き(既存値を破棄して置き換え)を切り替えるセレクトを作る。
+  // 既定は追加(既存の挙動を維持)。
+  const createInsertModeSelectEl = () => {
+    const selectEl = document.createElement('select');
+    selectEl.className = 'kintoneplugin-select tmpi-insert-mode';
+    [
+      ['APPEND', '追加'],
+      ['OVERWRITE', '上書き'],
+    ].forEach(([value, label]) => {
+      const optionEl = document.createElement('option');
+      optionEl.value = value;
+      optionEl.textContent = label;
+      selectEl.appendChild(optionEl);
+    });
+    return selectEl;
   };
 
   // === 通常モード(ドロップダウン+挿入ボタン) ===
@@ -111,18 +129,21 @@
       selectEl.appendChild(optionEl);
     });
 
+    const insertModeSelectEl = createInsertModeSelectEl();
+
     const buttonEl = document.createElement('button');
     buttonEl.type = 'button';
     buttonEl.className = 'kintoneplugin-button-normal tmpi-button';
-    buttonEl.textContent = '挿入';
+    buttonEl.textContent = 'テンプレ挿入';
     buttonEl.addEventListener('click', () => {
       const template = config.templates.find((t) => t.id === selectEl.value);
       if (template) {
-        insertTemplate(template);
+        insertTemplate(template, insertModeSelectEl.value);
       }
     });
 
     spaceEl.appendChild(selectEl);
+    spaceEl.appendChild(insertModeSelectEl);
     spaceEl.appendChild(buttonEl);
   };
 
@@ -134,10 +155,12 @@
       return null;
     }
 
+    const insertModeSelectEl = createInsertModeSelectEl();
+
     const buttonEl = document.createElement('button');
     buttonEl.type = 'button';
     buttonEl.className = 'kintoneplugin-button-normal tmpi-button';
-    buttonEl.textContent = '挿入';
+    buttonEl.textContent = 'テンプレ挿入';
     buttonEl.addEventListener('click', () => {
       const record = kintone.app.record.get().record;
       const radioField = record[config.radioFieldCode];
@@ -150,9 +173,10 @@
         alert('現在の選択肢に対応するテンプレートがありません。');
         return;
       }
-      insertTemplate(template);
+      insertTemplate(template, insertModeSelectEl.value);
     });
 
+    spaceEl.appendChild(insertModeSelectEl);
     spaceEl.appendChild(buttonEl);
 
     return (record) => {

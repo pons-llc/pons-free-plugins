@@ -226,12 +226,51 @@ describe('通常モード: レコード画面での挿入(実環境)', () => {
       'テスト太郎',
     );
 
+    const buttonLabel = await page.$eval(
+      '.tmpi-button',
+      (el) => el.textContent,
+    );
+    expect(buttonLabel).toBe('テンプレ挿入');
+
     await selectTemplateByName(NORMAL_TEMPLATE_NAME);
     await page.click('.tmpi-button');
 
     await page.waitForFunction(
       (fieldCode, expected) =>
         kintone.app.record.get().record[fieldCode].value.includes(expected),
+      {},
+      TARGET_FIELD_CODE,
+      'こんにちは、テスト太郎さん',
+    );
+
+    expect(pageErrors).toEqual([]);
+  });
+
+  test('「上書き」を選ぶと、既存の内容を破棄してテンプレートの内容だけになる', async () => {
+    const pageErrors = [];
+    page.on('pageerror', (err) => pageErrors.push(err.message));
+
+    await openAddScreen();
+
+    await page.evaluate(
+      (fieldCode, sourceFieldCode, value) => {
+        const record = kintone.app.record.get().record;
+        record[fieldCode].value = '既存の内容(消えるはず)';
+        record[sourceFieldCode].value = value;
+        kintone.app.record.set({ record });
+      },
+      TARGET_FIELD_CODE,
+      SOURCE_FIELD_CODE,
+      'テスト太郎',
+    );
+
+    await selectTemplateByName(NORMAL_TEMPLATE_NAME);
+    await page.select('.tmpi-insert-mode', 'OVERWRITE');
+    await page.click('.tmpi-button');
+
+    await page.waitForFunction(
+      (fieldCode, expected) =>
+        kintone.app.record.get().record[fieldCode].value === expected,
       {},
       TARGET_FIELD_CODE,
       'こんにちは、テスト太郎さん',

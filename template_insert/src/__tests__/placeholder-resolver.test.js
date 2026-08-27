@@ -56,14 +56,14 @@ describe('resolveTemplate (RICH_TEXT)', () => {
     ).toBe('入力値: &lt;script&gt;alert(1)&lt;/script&gt;');
   });
 
-  test('本文中のHTML特殊文字もエスケープされる', () => {
+  test('本文中に書いたHTMLタグはエスケープされずそのまま反映される(信頼できるテンプレート)', () => {
     expect(
       resolveTemplate({
-        body: 'A<B & C>D',
-        valuesMap: {},
+        body: '<b>{名前}</b>様、<a href="https://example.com">詳細</a>',
+        valuesMap: { 名前: '田中' },
         targetFieldType: 'RICH_TEXT',
       }),
-    ).toBe('A&lt;B &amp; C&gt;D');
+    ).toBe('<b>田中</b>様、<a href="https://example.com">詳細</a>');
   });
 
   test('改行は<br>に変換される(本文由来・値由来のどちらも)', () => {
@@ -76,14 +76,14 @@ describe('resolveTemplate (RICH_TEXT)', () => {
     ).toBe('1行目<br>2行目<br>3行目');
   });
 
-  test('本文中の{}はエスケープされずプレースホルダーとして機能する', () => {
+  test('プレースホルダーの値に含まれるHTMLタグはエスケープされる(本文とは異なる扱い、XSS対策)', () => {
     expect(
       resolveTemplate({
-        body: '{名前}<br>のテスト',
-        valuesMap: { 名前: '田中' },
+        body: '入力値: {危険な値}',
+        valuesMap: { 危険な値: '<img src=x onerror=alert(1)>' },
         targetFieldType: 'RICH_TEXT',
       }),
-    ).toBe('田中&lt;br&gt;のテスト');
+    ).toBe('入力値: &lt;img src=x onerror=alert(1)&gt;');
   });
 });
 

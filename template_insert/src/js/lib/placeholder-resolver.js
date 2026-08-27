@@ -24,18 +24,21 @@
     });
 
   // targetFieldType: 'MULTI_LINE_TEXT'は生のテキストとして扱い、改行(\n)はそのまま。
-  // 'RICH_TEXT'はHTMLとして扱うため、本文自体と置換される値の両方をHTMLエスケープしたうえで、
-  // 改行を<br>に変換する(idea.md「リッチエディターへ挿入する場合...必ずHTMLエスケープする」参照。
-  // 置換前にエスケープすると本文中の`{`/`}`はエスケープされないため、プレースホルダーの
-  // マッチには影響しない)。
+  // 'RICH_TEXT'はHTMLとして扱うため、改行を<br>に変換したうえで解決する。
+  //
+  // 本文自体はエスケープしない(=本文中に書いたHTMLタグはそのままリッチエディターへ反映される)。
+  // 本文はkintoneのプラグイン設定画面(アプリ管理権限を持つユーザーのみ編集可能)で入力する、
+  // アプリ管理者にとって信頼できる文字列だからで、一般的なテンプレートエンジンにおける
+  // 「テンプレート(コード相当)は信頼し、差し込むデータは信頼しない」という区別と同じ考え方。
+  // 一方、置換される各プレースホルダーの値は、他ユーザーが入力した可能性のあるレコードの実データ
+  // であるため、`escapeHtml()`で必ずエスケープする(XSS対策、idea.md「プレースホルダー記法」参照)。
   const resolveTemplate = ({ body, valuesMap, targetFieldType }) => {
     const safeBody = body || '';
     const safeValuesMap = valuesMap || {};
 
     if (targetFieldType === 'RICH_TEXT') {
-      const escapedBody = escapeHtml(safeBody);
       const substituted = substitutePlaceholders(
-        escapedBody,
+        safeBody,
         safeValuesMap,
         (value) => escapeHtml(value),
       );

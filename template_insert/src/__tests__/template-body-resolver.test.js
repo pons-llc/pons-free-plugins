@@ -128,7 +128,7 @@ describe('resolveTemplateBody', () => {
     expect(result).toBe('明細:\n\n以上');
   });
 
-  test('RICH_TEXT挿入先では、ブロック内外どちらの値もHTMLエスケープされ改行が<br>になる', () => {
+  test('RICH_TEXT挿入先では、本文のHTMLタグ(ブロック内外とも)はそのまま反映され、プレースホルダーの値だけHTMLエスケープされる', () => {
     const result = resolveTemplateBody({
       body: '<b>明細</b>\n[[{item_name}<i>強調</i>]]',
       fieldCatalog,
@@ -139,7 +139,7 @@ describe('resolveTemplateBody', () => {
       targetFieldType: 'RICH_TEXT',
     });
     expect(result).toBe(
-      '&lt;b&gt;明細&lt;/b&gt;<br>&lt;script&gt;alert(1)&lt;/script&gt;&lt;i&gt;強調&lt;/i&gt;',
+      '<b>明細</b><br>&lt;script&gt;alert(1)&lt;/script&gt;<i>強調</i>',
     );
   });
 
