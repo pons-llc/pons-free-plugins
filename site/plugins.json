@@ -720,5 +720,20 @@
       "出退勤",
       "証跡"
     ]
+  },
+  {
+    "id": "template_insert",
+    "name": "テンプレート挿入プラグイン",
+    "description": "文字列(複数行)またはリッチエディターフィールドに、他フィールドの値を埋め込める定型文(テンプレート)を挿入するプラグイン。ラジオボタンの選択肢に応じた自動選択や、サブテーブルの行を展開して繰り返し挿入する機能にも対応しています。",
+    "version": "1",
+    "publishedAt": "2026-08-27",
+    "zip": "plugins/template_insert/plugin.zip",
+    "page": "plugins/template_insert/index.html",
+    "category": "文字列処理",
+    "tags": [
+      "定型文挿入",
+      "プレースホルダー",
+      "自動入力"
+    ]
   }
 ]

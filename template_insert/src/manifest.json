@@ -1,0 +1,50 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/field-value-formatter.js",
+      "js/lib/placeholder-resolver.js",
+      "js/lib/subtable-template.js",
+      "js/lib/insert-composer.js",
+      "js/lib/radio-template-mapping.js",
+      "js/lib/config-store.js",
+      "js/desktop.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/desktop.css"]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/field-value-formatter.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/config.css"],
+    "required_params": []
+  },
+  "name": {
+    "en": "template_insert plugin",
+    "ja": "テンプレート挿入プラグイン"
+  },
+  "description": {
+    "en": "template_insert plugin",
+    "ja": "文字列(複数行)またはリッチエディターフィールドに、他フィールドの値を埋め込める定型文(テンプレート)を挿入するプラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/field-value-formatter.js",
+      "js/lib/placeholder-resolver.js",
+      "js/lib/subtable-template.js",
+      "js/lib/insert-composer.js",
+      "js/lib/radio-template-mapping.js",
+      "js/lib/config-store.js",
+      "js/mobile.js"
+    ],
+    "css": ["css/mobile.css"]
+  }
+}

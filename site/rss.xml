@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Fri, 21 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 26 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>テンプレート挿入プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/template_insert/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/template_insert/</guid>
+      <description>文字列(複数行)またはリッチエディターフィールドに、他フィールドの値を埋め込める定型文(テンプレート)を挿入するプラグイン。ラジオボタンの選択肢に応じた自動選択や、サブテーブルの行を展開して繰り返し挿入する機能にも対応しています。</description>
+      <pubDate>Wed, 26 Aug 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>位置情報強制登録プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/geo_checkin/</link>

@@ -1,0 +1,104 @@
+<section class="settings">
+  <h2 class="settings-heading">テンプレート挿入プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    文字列(複数行)またはリッチエディターフィールドへ、あらかじめ登録した定型文(テンプレート)を
+    挿入します。本文中に<code>{フィールドコード}</code>と書くと、挿入時にそのフィールドの現在値へ
+    置換されます。挿入は既存の内容の末尾への追記です(カーソル位置への挿入ではありません)。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="tmpi-errors"></div>
+    <div id="js-warnings" class="tmpi-warnings"></div>
+
+    <table class="tmpi-table">
+      <tbody>
+        <tr>
+          <th>表示モード</th>
+          <td>
+            <select class="kintoneplugin-select js-mode">
+              <option value="DROPDOWN">通常モード(ドロップダウンから選んで挿入)</option>
+              <option value="RADIO_LINKED">ラジオボタン連動モード(選択肢に応じて自動で決まる)</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="js-radio-field-row">
+          <th>連動するラジオボタンフィールド</th>
+          <td>
+            <select class="kintoneplugin-select js-radio-field"></select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tmpi-section-heading">テンプレート一覧</div>
+    <div id="js-template-list"></div>
+    <button type="button" id="js-template-add" class="kintoneplugin-button-normal">
+      + テンプレートを追加
+    </button>
+
+    <div class="js-radio-mapping-section">
+      <div class="tmpi-section-heading">ラジオボタンの選択肢 → テンプレートの対応</div>
+      <div id="js-radio-mapping-list"></div>
+    </div>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-template-row-template">
+  <section class="tmpi-section js-template-row">
+    <div class="tmpi-section-heading">
+      テンプレート
+      <span class="tmpi-row-remove js-template-remove">削除</span>
+    </div>
+
+    <table class="tmpi-table">
+      <tbody>
+        <tr>
+          <th>テンプレート名</th>
+          <td><input type="text" class="kintoneplugin-input-text js-template-name"></td>
+        </tr>
+        <tr>
+          <th>挿入先フィールド</th>
+          <td><select class="kintoneplugin-select js-template-target"></select></td>
+        </tr>
+        <tr>
+          <th>種別</th>
+          <td>
+            <select class="kintoneplugin-select js-template-kind">
+              <option value="NORMAL">通常</option>
+              <option value="SUBTABLE_REPEAT">サブテーブル繰り返し</option>
+            </select>
+            <span class="js-template-subtable-wrap">
+              対象サブテーブル:
+              <select class="kintoneplugin-select js-template-subtable"></select>
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <th>本文</th>
+          <td>
+            <div class="tmpi-placeholder-toolbar">
+              <select class="kintoneplugin-select js-template-placeholder-field"></select>
+              <button type="button" class="kintoneplugin-button-normal js-template-placeholder-insert">
+                本文にプレースホルダーを挿入
+              </button>
+            </div>
+            <textarea class="kintoneplugin-textarea js-template-body" rows="6"></textarea>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</template>
+
+<template id="js-radio-mapping-row-template">
+  <div class="tmpi-radio-mapping-row js-radio-mapping-row">
+    <span class="js-radio-mapping-option-label"></span>
+    <span class="tmpi-arrow">→</span>
+    <select class="kintoneplugin-select js-radio-mapping-template"></select>
+  </div>
+</template>
