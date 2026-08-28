@@ -161,3 +161,241 @@ https://api.info.gbiz.go.jp/hojin/swagger-ui/index.html?urls.primaryName=v2&_gl=
 config画面でセーブするだけでサブテーブルを作成する。
 サブテーブルはindexからもrecordからも編集不可。
 公文書の外部保存を視野にいれた際に残らない決裁履歴を保存する。
+
+## サイドバー（コメント欄・履歴）開閉プラグイン
+レコードの状態によってレコード詳細画面のコメント欄を最小化するプラグイン
+https://cybozu.dev/ja/kintone/docs/js-api/record/show-or-hide-side-bar/
+日時、ラジオ・ドロップダウン・チェックボックス,プロセス管理ステータスの複数条件の状態によってサイドバーの状態を切り替える。常にという選択肢もあり。
+
+## グループフィールド開閉プラグイン
+https://cybozu.dev/ja/kintone/docs/js-api/record/open-field-group/
+サイドバー開閉プラグインと同様。グループフィールドごとに設定。
+
+## 追加・編集・コピーボタン非表示プラグイン
+サイドバーと同様で追加編集コピーを制御する。
+
+## レーダーチャートプラグイン
+レコード一覧画面から３角形−６角形のレーダーチャートを表示する。
+一覧画面に設置したボタン押下で、表示中のレコードか、現在の絞り込みの条件レコード全件かを選択すると、別タブにhtmlファイルが作成される。
+configではグルーピング単位(レコードごと、radioまたはdropdownごと。１項目だけ指定)、集計用フィールド（数値フィールドを3−８選択）、目盛数、タイトル、表示するバッチフィールドを設定する。
+目盛の合計値、平均値の作成や絞り込み、並べ替えもできると良い。
+
+## 削除バックアッププラグイン
+app.record.detail.delete.submit,app.record.index.delete.submitで発動
+zipにしてファイルをブラウザからダウンロードするか、特定のアプリにアーカイブするかを選択。特定アプリへのアーカイブの場合は、アプリIDと、文字列フィールド、添付ファイルフィールドを指定して、レコードのjson情報とファイルキーを保存する。この際、ファイルの再アップロードではなく、ファイルキーのコピーを行うものとする。
+
+## 詳細カレンダープラグイン
+グループ分けするフィールドを指定して、週と日で指定してカレンダー表示する。プラグインでは縦と横でデザインを選べるように。タイトルとホバー項目が表示可能でクリックでレコード詳細へ。ドラッグアンドドロップで編集可能。REST APIは使わずjavascriptAPIのみで実現。このため最大表示数は100であることをユーザーにもわかるようにヘッダースペースなどに表示しておくこと。
+
+##　プロセス作業者絞り込みプラグイン
+プロセスの作業者の条件は複数条件を設定できない。このため、アクションごとにユーザーフィールドを作成して、レコードにある組織フィールド、グループフィールド、またユーザー情報の役職情報を元にレコード作成、編集ごとに自動入力することで、そのアクションの作業者の条件をそのフィールドに設定することでプロセス作業者を絞り込むことが可能となる。
+
+## ルックアップ元更新プラグイン
+レコードを新規作成した際に、ルックアップが設定されているフィールドのルックアップ元アプリの値を修正するプラグイン。例えば全体台帳からレコードコピーして個別台帳を作成する際に、個別台帳を作成したことを全体台帳に記録するようなことを想定。ルックアップ元の更新するフィールドタイプは文字列１行、ドロップダウン、ラジオ、チェックボックス、数値、日時を想定。複数設定できる。日時フィールドなら作成日時または日時フィールドのコピー。
+
+## notebookLM用設計ファイルダウンロードプラグイン
+アプリ市民開発者の引き継ぎのための設計書をnotebookLMで作成するためのツール。
+notebookLMは.mdや.jsonが入れらないため.txtでダウンロードする。
+
+kintoneの設計情報、カスタマイズファイルを.txt形式で出力する。
+ルックアップや関連レコードを再帰的に取得して、関連するアプリごとに.txtファイルを作成する。
+またメタデータファイルを作成して、ファイルの関係やファイル内の構造もまとめる.txtも作成すること。
+.txtの中身はマークダウンで整備する。
+ファイルは.zipでまとめる。
+
+取得する設計情報対象は以下
+- /k/v1/preview/app/form/fields.json
+- /k/v1/preview/app/settings.json
+- /k/v1/preview/app/status.json
+- /k/v1/preview/app/customize.json
+    - ここで取得するファイルキーからファイルをダウンロードして.txtに記述する
+- /k/v1/preview/app/notifications/general.json
+- /k/v1/preview/app/notifications/perRecord.json
+- /k/v1/preview/app/notifications/reminder.json
+- /k/v1/preview/app/acl.json
+- /k/v1/preview/record/acl.json
+- /k/v1/field/acl.json
+- /k/v1/preview/app/actions.json
+
+ダウンロードボタンはプラグインconfigに用意する。特段アプリユーザー側に特別な機能は不要。
+.mdでダウンロードも可能とする。
+
+## 年齢・学年フィールド計算用フィールド更新プラグイン
+indexにボタンを設置し、指定された日付or日時フィールドに現在の値を入力するプラグイン。
+設定画面では実行可能グループ(ロール)の設定、対象フィールド、クエリ条件を設定可能。
+ボタン押下時はkintone.showConfirmDialogで実行確認する。
+モバイル版でもできるように。kintone.mobile.showConfirmBottomSheet(config)。
+
+## 生成AIアプリ共有プラグイン
+html,js,cssを入力する文字列複数行フィールドを作成。
+詳細画面ではそれらのフィールドは隠され、Blobで別タブで開くリンクが作成される。（作成者信頼の注意かんき必要）
+イメージはgeminiCanvasなどで作られたものをコピペすると動く。できればReactにも対応したい。
+詳細画面ではhtml,js,cssの入力フィールドは非表示。作成、編集画面ではリンクを非表示。
+フィールドの追加は自由なので、ユーザーフィールドやラジオなどの状態管理で権限管理をすることを推奨。
+
+## 一括承認プラグイン
+一括承認プラグイン。作業者が自分の一覧に一括承認ボタンを配置して、押すとモーダルで対象レコードが表示、チェックボックスで対象を選択して、実行可能なプロセスアクションを選択して、最終確認、実行。コンフィグではモーダルに表示する項目を選択することができる。
+
+## プラグインAI検索作成プラグイン
+社内アプリ作成者が現在インストールされているプラグインを把握し、自分のやりたいことに適したプラグインを探すことができるアプリを作成するプラグイン。
+
+
+
+configセーブで以下のフィールドを作成する。
+```
+{
+    "plugin_id": {
+        "type": "SINGLE_LINE_TEXT",
+        "code": "plugin_id",
+        "label": "プラグインID",
+        "noLabel": false,
+        "required": true,
+        "minLength": "",
+        "maxLength": "64",
+        "expression": "",
+        "hideExpression": false,
+        "unique": true,
+        "defaultValue": ""
+    },
+    "テーブル": {
+        "type": "SUBTABLE",
+        "code": "テーブル",
+        "noLabel": false,
+        "label": "テーブル",
+        "fields": {
+            "app_name": {
+                "type": "SINGLE_LINE_TEXT",
+                "code": "app_name",
+                "label": "アプリ名",
+                "noLabel": false,
+                "required": false,
+                "minLength": "",
+                "maxLength": "",
+                "expression": "",
+                "hideExpression": false,
+                "unique": false,
+                "defaultValue": ""
+            },
+            "app_id": {
+                "type": "NUMBER",
+                "code": "app_id",
+                "label": "appid",
+                "noLabel": false,
+                "required": false,
+                "minValue": "",
+                "maxValue": "",
+                "digit": false,
+                "unique": false,
+                "defaultValue": "",
+                "displayScale": "",
+                "unit": "",
+                "unitPosition": "BEFORE"
+            },
+            "app_detail": {
+                "type": "MULTI_LINE_TEXT",
+                "code": "app_detail",
+                "label": "アプリ説明",
+                "noLabel": false,
+                "required": false,
+                "defaultValue": ""
+            }
+        }
+    },
+    "レコード番号": {
+        "type": "RECORD_NUMBER",
+        "code": "レコード番号",
+        "label": "レコード番号",
+        "noLabel": false
+    },
+    "作業者": {
+        "type": "STATUS_ASSIGNEE",
+        "code": "作業者",
+        "label": "作業者",
+        "enabled": false
+    },
+    "plugin_version": {
+        "type": "SINGLE_LINE_TEXT",
+        "code": "plugin_version",
+        "label": "バージョン",
+        "noLabel": false,
+        "required": false,
+        "minLength": "",
+        "maxLength": "",
+        "expression": "",
+        "hideExpression": false,
+        "unique": false,
+        "defaultValue": ""
+    },
+    "更新者": {
+        "type": "MODIFIER",
+        "code": "更新者",
+        "label": "更新者",
+        "noLabel": false
+    },
+    "作成者": {
+        "type": "CREATOR",
+        "code": "作成者",
+        "label": "作成者",
+        "noLabel": false
+    },
+    "ステータス": {
+        "type": "STATUS",
+        "code": "ステータス",
+        "label": "ステータス",
+        "enabled": false
+    },
+    "plugin_name": {
+        "type": "SINGLE_LINE_TEXT",
+        "code": "plugin_name",
+        "label": "プラグイン名称",
+        "noLabel": false,
+        "required": false,
+        "minLength": "",
+        "maxLength": "",
+        "expression": "",
+        "hideExpression": false,
+        "unique": false,
+        "defaultValue": ""
+    },
+    "更新日時": {
+        "type": "UPDATED_TIME",
+        "code": "更新日時",
+        "label": "更新日時",
+        "noLabel": false
+    },
+    "カテゴリー": {
+        "type": "CATEGORY",
+        "code": "カテゴリー",
+        "label": "カテゴリー",
+        "enabled": false
+    },
+    "作成日時": {
+        "type": "CREATED_TIME",
+        "code": "作成日時",
+        "label": "作成日時",
+        "noLabel": false
+    },
+    "plugin_detail": {
+        "type": "MULTI_LINE_TEXT",
+        "code": "plugin_detail",
+        "label": "プラグイン詳細",
+        "noLabel": false,
+        "required": false,
+        "defaultValue": ""
+    }
+}
+```
+
+REST APIを使ってこの情報を取得してupsertしていく。
+upsertはグループ（ロール）で実行者を絞る。
+
+簡易AI検索のON/OFFを設定でき。ONにするとsiteディレクトリのAI検索と同様の検索をできるようにする。
+このプラグインは例外的に外部ライブラリをCDN経由で利用する。注意事項に強く記載すること。
+
+簡易AI検索がオフでも、ダウンロードボタンでレコード全件のjsonを.txtでダウンロード可能で、そのファイルをnotebookLMやchatGPTなどに渡すことでAI検索を可能とする。
+
+## マイルストーン設定プラグイン
+複数の「マイルストーン」(名称+日付/日時フィールドの参照)を設定画面で登録できる。config保存時に、time_band_aggregatorと同様の自動フィールド生成(POST /k/v1/preview/app/form/fields.json→POST /k/v1/preview/app/deploy.json、既存フィールドは再利用、コード衝突時は連番で回避)で、出力用にドロップダウン(直近の未達成マイルストーン名)と数値(そこまでの残日数、超過はマイナス)の2フィールドを1組作成する。
+絞り込みやグラフはこの2フィールドに対してkintone標準の一覧・レポート機能をユーザー自身が使う想定とし、プラグイン独自の可視化UIは持たない(kintoneの計算フィールドでも同等のことは可能だが、計算式を書けない市民開発者向けに設定画面だけでフィールドを自動生成できる点に価値を置く)。
+発動タイミングはtime_band_aggregatorと同様、保存時は常に再計算し、change/submitの選択は保存前リアルタイムプレビューの有無のみに影響する。ただし残日数は日付経過だけでもズレるため、age_grade_field_updateと同じ一覧画面ボタンによる一括再計算(グループ制限、カーソル列挙+バッチ書き戻し)が実質必須の機能となる。
+マイルストーンの日付フィールドが空の行はその回の比較から除外する。未達成(今日以降)のものがあれば最も近いものを採用し、すべて超過済みなら最も直近に超過したもの(残日数が最も0に近いマイナス値)を採用する。
