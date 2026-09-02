@@ -10,6 +10,23 @@
     <div id="js-errors" class="atl-errors"></div>
 
     <div class="atl-section">
+      <div class="atl-section-heading">発動タイミング</div>
+      <p class="kintoneplugin-desc">
+        未選択の場合は、これまでどおりレコード編集画面を表示したときのみ発動します。
+      </p>
+      <div class="atl-checkbox-list">
+        <label class="atl-checkbox-item">
+          <input type="checkbox" id="js-trigger-create-show">
+          <span>レコード追加画面を表示したとき</span>
+        </label>
+        <label class="atl-checkbox-item">
+          <input type="checkbox" id="js-trigger-edit-show">
+          <span>レコード編集画面を表示したとき</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="atl-section">
       <div class="atl-section-heading">ルックアップフィールド</div>
       <div id="js-lookup-field-list" class="atl-checkbox-list"></div>
     </div>

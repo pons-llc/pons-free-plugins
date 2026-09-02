@@ -11,6 +11,8 @@
   const checkboxItemTemplateEl = document.getElementById(
     'js-checkbox-item-template',
   );
+  const triggerCreateShowEl = document.getElementById('js-trigger-create-show');
+  const triggerEditShowEl = document.getElementById('js-trigger-edit-show');
 
   // kintone.app.getFormFields() は REST APIレスポンスの properties と同様の値
   // (フィールドコードをキーにした平坦なオブジェクト。ルックアップフィールドはlookupプロパティを持つ)を
@@ -24,6 +26,9 @@
 
   const config = NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
   const selected = new Set(config.targetFieldCodes);
+
+  triggerCreateShowEl.checked = config.triggerEvents.includes('create.show');
+  triggerEditShowEl.checked = config.triggerEvents.includes('edit.show');
 
   const renderCheckboxList = (containerEl, items) => {
     containerEl.innerHTML = '';
@@ -68,8 +73,16 @@
     }
     errorsEl.textContent = '';
 
+    const triggerEvents = [];
+    if (triggerCreateShowEl.checked) {
+      triggerEvents.push('create.show');
+    }
+    if (triggerEditShowEl.checked) {
+      triggerEvents.push('edit.show');
+    }
+
     kintone.plugin.app.setConfig(
-      NS.ConfigStore.serialize({ targetFieldCodes }),
+      NS.ConfigStore.serialize({ targetFieldCodes, triggerEvents }),
       () => {
         alert('プラグインの設定を保存しました。アプリを更新してください。');
         window.location.href = '../../flow?app=' + kintone.app.getId();
