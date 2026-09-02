@@ -25,9 +25,9 @@
 
 ## 設定の妥当性検証
 
-- [x] 保存前に`js/lib/config-validation.js`でチェックし、対象フィールドコードの重複を除去してから保存する
-- [x] `kintone.plugin.app.getConfig()`が`null`/`undefined`を返す場合でも、`js/lib/config-store.js`の`load()`は例外を投げず既定値(`{ targetFieldCodes: [], triggerEvents: ['edit.show'] }`)を返す
-- [x] 発動タイミング機能追加時、`triggerEvents`キー自体を持たない(この機能追加より前に保存された)既存設定を読み込んでも既定値`['edit.show']`にフォールバックし、既存ユーザーの挙動を変えないことをテストで確認した(`__tests__/config-store.test.js`)
+- [x] 保存前に`js/lib/config-validation.js`の`validateFieldTriggers()`でチェックし、設定(フィールドコードごとの発動タイミングのマップ`fieldTriggers`)がオブジェクトであること、各フィールドの発動タイミング配列が空でないこと、許可された値(`create.show`/`edit.show`)以外を含まないことを確認する
+- [x] `kintone.plugin.app.getConfig()`が`null`/`undefined`を返す場合でも、`js/lib/config-store.js`の`load()`は例外を投げず既定値(`{ fieldTriggers: {} }`)を返す
+- [x] 発動タイミングをフィールド単位に変更した際、過去の設定形式(`targetFieldCodes`のみ、または`targetFieldCodes`+アプリ全体の`triggerEvents`)で保存された既存設定を読み込んでも`fieldTriggers`形式へ自動移行し(対象フィールドすべてに元のタイミングを割り当てる)、既存ユーザーの挙動を変えないことをテストで確認した(`__tests__/config-store.test.js`)
 - [x] レコード画面側(`desktop.js`/`mobile.js`)でも、設定に含まれる対象フィールドが実際のフォームに存在しない場合(フィールド削除・設定の食い違い等)は`js/lib/lookup-target-resolver.js`が該当フィールドをスキップし、画面をクラッシュさせない
 
 ## 通信・認証情報の取り扱い

@@ -521,7 +521,7 @@
       <title>自動ルックアッププラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/auto_lookup/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/auto_lookup/</guid>
-      <description>レコード編集画面を開いたとき、選んだルックアップフィールド(サブテーブル内含む)を自動的に再取得(再ルックアップ)するプラグイン</description>
+      <description>レコード追加・編集画面を開いたとき、選んだルックアップフィールド(サブテーブル内含む)を自動的に再取得(再ルックアップ)するプラグイン。発動タイミングはフィールドごとに選択可能</description>
       <pubDate>Sun, 12 Jul 2026 15:00:00 GMT</pubDate>
     </item>
     <item>

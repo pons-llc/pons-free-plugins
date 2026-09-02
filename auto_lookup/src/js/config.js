@@ -8,11 +8,9 @@
   const errorsEl = document.getElementById('js-errors');
   const lookupFieldListEl = document.getElementById('js-lookup-field-list');
   const subtableListEl = document.getElementById('js-subtable-list');
-  const checkboxItemTemplateEl = document.getElementById(
-    'js-checkbox-item-template',
+  const fieldTriggerRowTemplateEl = document.getElementById(
+    'js-field-trigger-row-template',
   );
-  const triggerCreateShowEl = document.getElementById('js-trigger-create-show');
-  const triggerEditShowEl = document.getElementById('js-trigger-edit-show');
 
   // kintone.app.getFormFields() は REST APIレスポンスの properties と同様の値
   // (フィールドコードをキーにした平坦なオブジェクト。ルックアップフィールドはlookupプロパティを持つ)を
@@ -25,64 +23,67 @@
   );
 
   const config = NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
-  const selected = new Set(config.targetFieldCodes);
 
-  triggerCreateShowEl.checked = config.triggerEvents.includes('create.show');
-  triggerEditShowEl.checked = config.triggerEvents.includes('edit.show');
-
-  const renderCheckboxList = (containerEl, items) => {
+  // フィールド(またはサブテーブル)ごとに発動タイミングを2つのチェックボックスで選ぶ。
+  const renderFieldTriggerList = (containerEl, items) => {
     containerEl.innerHTML = '';
     items.forEach((item) => {
-      const fragment = checkboxItemTemplateEl.content.cloneNode(true);
-      const inputEl = fragment.querySelector('.js-checkbox-input');
-      const labelEl = fragment.querySelector('.js-checkbox-label');
+      const fragment = fieldTriggerRowTemplateEl.content.cloneNode(true);
+      const rowEl = fragment.querySelector('.js-field-trigger-row');
+      const labelEl = fragment.querySelector('.js-field-trigger-row-label');
+      const createShowEl = fragment.querySelector('.js-trigger-create-show');
+      const editShowEl = fragment.querySelector('.js-trigger-edit-show');
 
-      inputEl.checked = selected.has(item.code);
+      rowEl.dataset.fieldCode = item.code;
       labelEl.textContent = `${item.label} (${item.code})`;
 
-      inputEl.addEventListener('change', () => {
-        if (inputEl.checked) {
-          selected.add(item.code);
-        } else {
-          selected.delete(item.code);
-        }
-      });
+      const triggerEvents = config.fieldTriggers[item.code] || [];
+      createShowEl.checked = triggerEvents.includes('create.show');
+      editShowEl.checked = triggerEvents.includes('edit.show');
 
       containerEl.appendChild(fragment);
     });
   };
 
-  renderCheckboxList(lookupFieldListEl, lookupFields);
-  renderCheckboxList(subtableListEl, subtablesWithLookup);
+  renderFieldTriggerList(lookupFieldListEl, lookupFields);
+  renderFieldTriggerList(subtableListEl, subtablesWithLookup);
 
   cancelButtonEl.addEventListener('click', () => {
     window.location.href = '../../' + kintone.app.getId() + '/plugin/';
   });
 
+  const collectFieldTriggers = () => {
+    const fieldTriggers = {};
+    document.querySelectorAll('.js-field-trigger-row').forEach((rowEl) => {
+      const triggerEvents = [];
+      if (rowEl.querySelector('.js-trigger-create-show').checked) {
+        triggerEvents.push('create.show');
+      }
+      if (rowEl.querySelector('.js-trigger-edit-show').checked) {
+        triggerEvents.push('edit.show');
+      }
+      if (triggerEvents.length > 0) {
+        fieldTriggers[rowEl.dataset.fieldCode] = triggerEvents;
+      }
+    });
+    return fieldTriggers;
+  };
+
   formEl.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const targetFieldCodes = Array.from(selected);
-    const validation =
-      NS.ConfigValidation.validateTargetFieldCodes(targetFieldCodes);
+    const fieldTriggers = collectFieldTriggers();
+    const validation = NS.ConfigValidation.validateFieldTriggers(fieldTriggers);
     if (!validation.valid) {
-      // チェックボックスの選択結果(フィールドコード)のみを表示しており、外部からの入力ではないが、
-      // 念のためinnerHTMLではなくtextContentで出力する。
+      // チェックボックスの選択結果(フィールドコード・発動タイミング)のみを表示しており、外部からの
+      // 入力ではないが、念のためinnerHTMLではなくtextContentで出力する。
       errorsEl.textContent = validation.errors.join('\n');
       return;
     }
     errorsEl.textContent = '';
 
-    const triggerEvents = [];
-    if (triggerCreateShowEl.checked) {
-      triggerEvents.push('create.show');
-    }
-    if (triggerEditShowEl.checked) {
-      triggerEvents.push('edit.show');
-    }
-
     kintone.plugin.app.setConfig(
-      NS.ConfigStore.serialize({ targetFieldCodes, triggerEvents }),
+      NS.ConfigStore.serialize({ fieldTriggers }),
       () => {
         alert('プラグインの設定を保存しました。アプリを更新してください。');
         window.location.href = '../../flow?app=' + kintone.app.getId();

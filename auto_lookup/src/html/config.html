@@ -1,39 +1,23 @@
 <section class="settings">
   <h2 class="settings-heading">自動ルックアッププラグイン 設定</h2>
   <p class="kintoneplugin-desc">
-    レコード編集画面を開いたとき、選択したルックアップフィールドを自動的に再取得します。サブテーブルを
-    選ぶと、そのサブテーブル内のすべてのルックアップ列について、全行分を自動ルックアップします。
-    参照先で一致するレコードが複数件ある場合は、kintone標準の仕様により自動実行されません。
+    フィールド(またはサブテーブル)ごとに、レコード追加画面・編集画面のどちらを表示したときに自動的に
+    再取得するかを選べます。どちらも選ばないフィールドは対象外です。サブテーブルを選ぶと、そのサブテーブル
+    内のすべてのルックアップ列について、全行分を自動ルックアップします。参照先で一致するレコードが複数件
+    ある場合は、kintone標準の仕様により自動実行されません。
   </p>
 
   <form class="js-submit-settings">
     <div id="js-errors" class="atl-errors"></div>
 
     <div class="atl-section">
-      <div class="atl-section-heading">発動タイミング</div>
-      <p class="kintoneplugin-desc">
-        未選択の場合は、これまでどおりレコード編集画面を表示したときのみ発動します。
-      </p>
-      <div class="atl-checkbox-list">
-        <label class="atl-checkbox-item">
-          <input type="checkbox" id="js-trigger-create-show">
-          <span>レコード追加画面を表示したとき</span>
-        </label>
-        <label class="atl-checkbox-item">
-          <input type="checkbox" id="js-trigger-edit-show">
-          <span>レコード編集画面を表示したとき</span>
-        </label>
-      </div>
-    </div>
-
-    <div class="atl-section">
       <div class="atl-section-heading">ルックアップフィールド</div>
-      <div id="js-lookup-field-list" class="atl-checkbox-list"></div>
+      <div id="js-lookup-field-list" class="atl-field-trigger-list"></div>
     </div>
 
     <div class="atl-section">
       <div class="atl-section-heading">ルックアップ列を含むサブテーブル</div>
-      <div id="js-subtable-list" class="atl-checkbox-list"></div>
+      <div id="js-subtable-list" class="atl-field-trigger-list"></div>
     </div>
 
     <p class="kintoneplugin-row">
@@ -43,9 +27,16 @@
   </form>
 </section>
 
-<template id="js-checkbox-item-template">
-  <label class="atl-checkbox-item">
-    <input type="checkbox" class="js-checkbox-input">
-    <span class="js-checkbox-label"></span>
-  </label>
+<template id="js-field-trigger-row-template">
+  <div class="atl-field-trigger-row js-field-trigger-row">
+    <div class="atl-field-trigger-row-label js-field-trigger-row-label"></div>
+    <label class="atl-checkbox-item">
+      <input type="checkbox" class="js-trigger-create-show">
+      <span>追加画面表示時</span>
+    </label>
+    <label class="atl-checkbox-item">
+      <input type="checkbox" class="js-trigger-edit-show">
+      <span>編集画面表示時</span>
+    </label>
+  </div>
 </template>

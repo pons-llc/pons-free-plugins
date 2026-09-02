@@ -28,6 +28,29 @@
   cursor: pointer;
 }
 
+.atl-field-trigger-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.atl-field-trigger-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.2em;
+  padding: 0.5em 0;
+  border-bottom: 1px solid #e3e7e8;
+}
+
+.atl-field-trigger-row:last-child {
+  border-bottom: none;
+}
+
+.atl-field-trigger-row-label {
+  flex: 1 1 auto;
+  min-width: 14em;
+}
+
 .atl-errors {
   color: #e74c3c;
   white-space: pre-wrap;

@@ -3,14 +3,15 @@
 
   // kintone.plugin.app.getConfig()/setConfig() のペイロード(キーごとに文字列)の読み書きと、
   // 未保存時のデフォルト値を管理する。
-  // triggerEventsの既定値は['edit.show'](このプラグインの元々の唯一の発動タイミング)。
-  // この機能追加より前に保存された設定にはtriggerEventsキー自体が存在しないため、load()は
-  // saved.triggerEventsがundefinedのケースをこの既定値にフォールバックさせ、既存ユーザーの
-  // 挙動(edit.showのみで発動)を変えない。
+  //
+  // 設定の中心は fieldTriggers: { [フィールドコード]: 発動タイミングの配列 } で、フィールド
+  // (またはサブテーブル)ごとに発動タイミング('create.show'/'edit.show')を個別に選べる。
+  // マップに含まれないフィールドコードは対象外(このプラグインを一切適用しない)を意味する。
   const DEFAULTS = {
-    targetFieldCodes: [],
-    triggerEvents: ['edit.show'],
+    fieldTriggers: {},
   };
+
+  const LEGACY_DEFAULT_TRIGGER_EVENTS = ['edit.show'];
 
   const parseJsonOr = (raw, fallback) => {
     if (!raw) {
@@ -23,22 +24,42 @@
     }
   };
 
+  // 過去の設定形式(フィールドごとの発動タイミングを導入する前)からの移行。
+  // - 本当に古い形式(targetFieldCodesのみ、triggerEventsキー自体がない): 全対象フィールドを
+  //   edit.showのみで発動していたため、そのままedit.showを割り当てる。
+  // - 発動タイミングをフィールド単位ではなく全体で1つだけ選ぶ形式だった期間の設定
+  //   (targetFieldCodes + 全体用のtriggerEvents): 対象フィールドすべてに同じtriggerEventsを
+  //   割り当てる(既存ユーザーの保存内容を維持したまま新形式に変換するだけで、動作は変えない)。
+  const migrateLegacyConfig = (saved) => {
+    const targetFieldCodes = parseJsonOr(saved.targetFieldCodes, []);
+    const legacyTriggerEvents = parseJsonOr(
+      saved.triggerEvents,
+      LEGACY_DEFAULT_TRIGGER_EVENTS,
+    );
+    const fieldTriggers = {};
+    targetFieldCodes.forEach((code) => {
+      fieldTriggers[code] = legacyTriggerEvents;
+    });
+    return fieldTriggers;
+  };
+
   // getConfig()はプラグインが未設定の(あるいは何らかの理由で取得できなかった)アプリでは
   // null を返すことがあるため、saved自体がnull/undefinedでも例外にせず既定値を返す。
   const load = (rawSaved) => {
     const saved = rawSaved || {};
-    return {
-      targetFieldCodes: parseJsonOr(
-        saved.targetFieldCodes,
-        DEFAULTS.targetFieldCodes,
-      ),
-      triggerEvents: parseJsonOr(saved.triggerEvents, DEFAULTS.triggerEvents),
-    };
+    if (saved.fieldTriggers) {
+      return {
+        fieldTriggers: parseJsonOr(saved.fieldTriggers, DEFAULTS.fieldTriggers),
+      };
+    }
+    if (saved.targetFieldCodes) {
+      return { fieldTriggers: migrateLegacyConfig(saved) };
+    }
+    return { fieldTriggers: DEFAULTS.fieldTriggers };
   };
 
   const serialize = (config) => ({
-    targetFieldCodes: JSON.stringify(config.targetFieldCodes),
-    triggerEvents: JSON.stringify(config.triggerEvents),
+    fieldTriggers: JSON.stringify(config.fieldTriggers),
   });
 
   const ConfigStore = { DEFAULTS, load, serialize };

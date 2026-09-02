@@ -3,68 +3,65 @@
 const ConfigStore = require('../js/lib/config-store');
 
 describe('ConfigStore.load', () => {
-  test('returns the defaults (targetFieldCodes: [], triggerEvents: [edit.show]) when saved is null (unconfigured app)', () => {
-    expect(ConfigStore.load(null)).toEqual({
-      targetFieldCodes: [],
-      triggerEvents: ['edit.show'],
-    });
+  test('returns an empty fieldTriggers map when saved is null (unconfigured app)', () => {
+    expect(ConfigStore.load(null)).toEqual({ fieldTriggers: {} });
   });
 
-  test('returns the defaults when saved is undefined', () => {
-    expect(ConfigStore.load(undefined)).toEqual({
-      targetFieldCodes: [],
-      triggerEvents: ['edit.show'],
-    });
+  test('returns an empty fieldTriggers map when saved is undefined', () => {
+    expect(ConfigStore.load(undefined)).toEqual({ fieldTriggers: {} });
   });
 
-  test('parses a previously saved targetFieldCodes JSON string', () => {
+  test('parses a previously saved fieldTriggers JSON string', () => {
     const saved = {
+      fieldTriggers: JSON.stringify({
+        lookup_customer: ['edit.show'],
+        history: ['create.show', 'edit.show'],
+      }),
+    };
+    expect(ConfigStore.load(saved).fieldTriggers).toEqual({
+      lookup_customer: ['edit.show'],
+      history: ['create.show', 'edit.show'],
+    });
+  });
+
+  test('falls back to an empty fieldTriggers map when the saved JSON is malformed', () => {
+    expect(ConfigStore.load({ fieldTriggers: '{not valid json' })).toEqual({
+      fieldTriggers: {},
+    });
+  });
+
+  test('migrates a config saved before per-field timing existed (targetFieldCodes only, no triggerEvents key) to edit.show for every target field', () => {
+    const veryOldSaved = {
       targetFieldCodes: JSON.stringify(['lookup_customer', 'history']),
     };
-    const config = ConfigStore.load(saved);
-    expect(config.targetFieldCodes).toEqual(['lookup_customer', 'history']);
-  });
-
-  test('falls back to the default when the saved JSON is malformed', () => {
-    expect(ConfigStore.load({ targetFieldCodes: '{not valid json' })).toEqual({
-      targetFieldCodes: [],
-      triggerEvents: ['edit.show'],
+    expect(ConfigStore.load(veryOldSaved).fieldTriggers).toEqual({
+      lookup_customer: ['edit.show'],
+      history: ['edit.show'],
     });
   });
 
-  test('defaults triggerEvents to [edit.show] when a config saved before this feature existed has no triggerEvents key (backward compatibility)', () => {
-    const savedByOlderVersion = {
-      targetFieldCodes: JSON.stringify(['lookup_customer']),
-    };
-    expect(ConfigStore.load(savedByOlderVersion).triggerEvents).toEqual([
-      'edit.show',
-    ]);
-  });
-
-  test('parses a previously saved triggerEvents JSON string', () => {
-    const saved = {
-      targetFieldCodes: JSON.stringify([]),
+  test('migrates a config saved when timing was a single app-wide setting (targetFieldCodes + triggerEvents) by applying it to every target field', () => {
+    const appWideTimingSaved = {
+      targetFieldCodes: JSON.stringify(['lookup_customer', 'history']),
       triggerEvents: JSON.stringify(['create.show', 'edit.show']),
     };
-    expect(ConfigStore.load(saved).triggerEvents).toEqual([
-      'create.show',
-      'edit.show',
-    ]);
+    expect(ConfigStore.load(appWideTimingSaved).fieldTriggers).toEqual({
+      lookup_customer: ['create.show', 'edit.show'],
+      history: ['create.show', 'edit.show'],
+    });
   });
 });
 
 describe('ConfigStore.serialize', () => {
-  test('serializes the targetFieldCodes and triggerEvents arrays into JSON string payloads', () => {
+  test('serializes the fieldTriggers map into a JSON string payload', () => {
     const config = {
-      targetFieldCodes: ['lookup_customer'],
-      triggerEvents: ['create.show', 'edit.show'],
+      fieldTriggers: {
+        lookup_customer: ['edit.show'],
+        history: ['create.show', 'edit.show'],
+      },
     };
     const payload = ConfigStore.serialize(config);
-    expect(typeof payload.targetFieldCodes).toBe('string');
-    expect(typeof payload.triggerEvents).toBe('string');
-    expect(JSON.parse(payload.targetFieldCodes)).toEqual(
-      config.targetFieldCodes,
-    );
-    expect(JSON.parse(payload.triggerEvents)).toEqual(config.triggerEvents);
+    expect(typeof payload.fieldTriggers).toBe('string');
+    expect(JSON.parse(payload.fieldTriggers)).toEqual(config.fieldTriggers);
   });
 });
