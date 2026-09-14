@@ -1,0 +1,40 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/mobile-url.js",
+      "js/lib/panel-state.js",
+      "js/lib/config-store.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/desktop.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "sidebar_mobile_view plugin",
+    "ja": "サイドパネルモバイル表示プラグイン"
+  },
+  "description": {
+    "en": "sidebar_mobile_view plugin",
+    "ja": "レコード詳細・編集画面のサイドパネルに、コメント・変更履歴の代わりにモバイル版レコード画面をiframeで表示できるプラグイン(PC専用)。設定画面で既定の表示を選び、レコード画面上のボタンでいつでも切り替えられる。"
+  }
+}

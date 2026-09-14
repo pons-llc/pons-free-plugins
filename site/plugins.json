@@ -752,5 +752,20 @@
       "ワークフロー"
     ],
     "video": "https://vimeo.com/1226516637"
+  },
+  {
+    "id": "sidebar_mobile_view",
+    "name": "サイドパネルモバイル表示プラグイン",
+    "description": "レコード詳細・編集画面のサイドパネルに、コメント・変更履歴の代わりにモバイル版のレコード画面をiframeで表示できるプラグイン(PC専用)。設定画面で既定の表示を選び、レコード画面上のボタンでいつでも切り替えられます。",
+    "version": "1",
+    "publishedAt": "2026-09-14",
+    "zip": "plugins/sidebar_mobile_view/plugin.zip",
+    "page": "plugins/sidebar_mobile_view/index.html",
+    "category": "レイアウト・表示",
+    "tags": [
+      "サイドパネル",
+      "モバイル表示",
+      "表示切替"
+    ]
   }
 ]

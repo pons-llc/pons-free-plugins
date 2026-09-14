@@ -1,0 +1,63 @@
+<section class="settings">
+  <h2 class="settings-heading">サイドパネルモバイル表示プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコード詳細・編集画面(PC専用)のサイドパネルに、コメント・変更履歴の代わりにモバイル版の
+    レコード画面をiframeで表示できます。ここで選んだ表示を画面表示時の初期状態とし、レコード画面
+    上部のボタンでいつでも切り替えられます。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="smv-errors"></div>
+
+    <table class="kintoneplugin-table">
+      <tbody>
+        <tr>
+          <th>初期表示</th>
+          <td>
+            <select class="kintoneplugin-select js-default-view">
+              <option value="NATIVE">コメント・変更履歴</option>
+              <option value="IFRAME">モバイル版(iframe)</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>「コメント・変更履歴」選択時に開くタブ</th>
+          <td>
+            <select class="kintoneplugin-select js-default-native-state">
+              <option value="COMMENTS">コメント</option>
+              <option value="HISTORY">変更履歴</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>パネルの幅(px)</th>
+          <td>
+            <input
+              type="number"
+              class="kintoneplugin-input-text js-panel-width"
+              step="10"
+            />
+            <p class="kintoneplugin-desc">240〜900pxの範囲で指定してください。</p>
+          </td>
+        </tr>
+        <tr>
+          <th>対象アプリID(モバイル版URL用)</th>
+          <td>
+            <input type="text" class="kintoneplugin-input-text js-target-app-id" />
+            <p class="kintoneplugin-desc">
+              通常は変更不要です。このアプリのIDが自動的に入力されます
+              (未入力のまま保存した場合、実行時に現在のアプリIDを自動的に使用します)。
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">
+        Cancel
+      </button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>

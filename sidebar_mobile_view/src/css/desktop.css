@@ -1,0 +1,53 @@
+/* [hidden]属性は素のブラウザ既定スタイルの詳細度が低く、同じ要素にdisplayを指定する
+   クラス(.smv-panel)が併用されると上書きされて効かなくなることがあるため、
+   ここで明示的に優先させる(他プラグインで実際に踏んだ不具合と同種の対策)。 */
+[hidden] {
+  display: none !important;
+}
+
+.smv-panel {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-left: 1px solid #ddd;
+  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.15);
+}
+
+.smv-panel-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-bottom: 1px solid #ddd;
+  background: #f5f5f5;
+  flex: none;
+}
+
+.smv-panel-title {
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+}
+
+.smv-panel-close {
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.smv-panel-iframe {
+  flex: 1 1 auto;
+  width: 100%;
+  border: 0;
+}
+
+.smv-toggle-button {
+  margin: 4px 0;
+}
