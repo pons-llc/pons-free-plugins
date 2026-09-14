@@ -2,7 +2,7 @@
 
 [secureCodingGuideline.md](../secureCodingGuideline.md)の一般項目([box_gdrive_iframe/security-checklist.md](../box_gdrive_iframe/security-checklist.md)参照、UTF-8/BOMなし・名前空間分離・`'use strict'`・外部スクリプト不使用などは同様に満たしている)は重複記載を省略し、本プラグイン固有の項目のみ記載する。
 
-最終確認日: 2026-09-15 / 対象: 新規作成画面対応・対象アプリを別アプリに変更できる機能の追加時
+最終確認日: 2026-09-15 / 対象: レコード詳細画面の初期表示をOFF固定にする不具合修正時(新規作成画面対応・対象アプリを別アプリに変更できる機能の追加も含む)
 
 ## コーディング作法
 
@@ -31,6 +31,7 @@
 - [x] `kintone.plugin.app.getConfig()`が`null`/`undefined`を返す場合でも、`js/lib/config-store.js`の`load()`は例外を投げず既定値(`defaultView: 'NATIVE'`, `panelWidth: 400`等)を返す
 - [x] `js/lib/mobile-url.js`の`buildRecordUrl()`/`buildListUrl()`は、アプリID・レコードIDが数値として不正な場合に例外を投げず`null`を返し、`desktop.js`側は`null`の場合パネルを表示しない(画面をクラッシュさせない)
 - [x] 新規作成画面では`kintone.app.record.getId()`・`kintone.app.record.showSideBar()`・`kintone.app.record.getSideBarDisplayState()`(いずれも公式ドキュメント上、新規作成画面が「利用できる画面」に含まれないAPI)を一切呼び出さない。`desktop.js`は`kintone.events.on()`のイベント配列に渡した`event.type`で新規作成画面かどうかを判定し(`currentHasNativeSideBar`)、呼び出しを分岐する
+- [x] レコード詳細画面の初期表示(`OFF`)では`showSideBar()`を一切呼び出さない(自作パネルが編集ボタン等に重なる不具合の修正、idea.md「エッジケース・既知の制約」参照)。ユーザーが切り替えボタンを操作した場合のみ`showSideBar('CLOSED')`(モバイル版プレビュー表示時)を呼び出す。設定値に関わらず詳細画面では自動的にサイドバーの状態を変更しないため、呼び出し範囲はむしろ縮小している(新たなAPI呼び出しの追加は無い)
 
 ## 通信・認証情報の取り扱い
 

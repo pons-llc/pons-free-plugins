@@ -2,9 +2,11 @@
   <h2 class="settings-heading">サイドパネルモバイル表示プラグイン 設定</h2>
   <p class="kintoneplugin-desc">
     レコード詳細・編集・新規作成画面(PC専用)のサイドパネルに、コメント・変更履歴の代わりに
-    モバイル版のレコード画面をiframeで表示できます。ここで選んだ表示を画面表示時の初期状態とし、
-    レコード画面上部のボタンでいつでも切り替えられます。新規作成画面にはコメント・変更履歴が
-    存在しないため、モバイル版プレビューの表示/非表示のみ切り替えられます。
+    モバイル版のレコード画面をiframeで表示できます。レコード画面上部のボタンでいつでも
+    切り替えられます。<br />
+    <strong>レコード詳細画面は、自作パネルが編集ボタン等に重なってしまうため、初期表示は常に
+    「表示しない」で固定です</strong>(下記の初期表示設定は詳細画面には適用されません)。
+    編集・新規作成画面のみ、下記で選んだ表示が初期状態になります。
   </p>
 
   <form class="js-submit-settings">
@@ -13,16 +15,21 @@
     <table class="kintoneplugin-table">
       <tbody>
         <tr>
-          <th>初期表示</th>
+          <th>初期表示(編集・新規作成画面のみ)</th>
           <td>
             <select class="kintoneplugin-select js-default-view">
               <option value="NATIVE">コメント・変更履歴</option>
               <option value="IFRAME">モバイル版(iframe)</option>
             </select>
+            <p class="kintoneplugin-desc">
+              レコード詳細画面には適用されません(常に「表示しない」で固定)。新規作成画面には
+              コメント・変更履歴が存在しないため、「コメント・変更履歴」を選んだ場合は
+              「表示しない」と同じ扱いになります。
+            </p>
           </td>
         </tr>
         <tr>
-          <th>「コメント・変更履歴」選択時に開くタブ</th>
+          <th>「コメント・変更履歴」選択時に開くタブ(編集画面のみ)</th>
           <td>
             <select class="kintoneplugin-select js-default-native-state">
               <option value="COMMENTS">コメント</option>

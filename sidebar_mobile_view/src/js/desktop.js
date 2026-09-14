@@ -4,15 +4,24 @@
   const NS = global.SidebarMobileView;
   const PLUGIN_ID = kintone.$PLUGIN_ID;
   const PANEL_ID = 'smv-panel';
+  const SCREEN_KIND_BY_EVENT_TYPE = {
+    'app.record.detail.show': 'DETAIL',
+    'app.record.edit.show': 'EDIT',
+    'app.record.create.show': 'CREATE',
+  };
 
   // このプラグインの設定はレコード画面の表示中には変わらないため、画面読み込み時に一度だけ読み込む。
   const config = NS.ConfigStore.load(kintone.plugin.app.getConfig(PLUGIN_ID));
 
-  let currentView = NS.PanelState.resolveInitialView(config);
+  let currentView = 'OFF';
   // 新規作成画面ではkintone.app.record.showSideBar()・getSideBarDisplayState()が
   // 利用できないAPI(公式ドキュメントの「利用できる画面」にレコード詳細・編集画面のみ記載され
   // 追加画面が含まれない)なので、これらを呼んでよいかどうかをイベントの種類ごとに切り替える。
   let currentHasNativeSideBar = true;
+  // トグルボタン・パネルの閉じるボタンでモバイル版プレビューを閉じたときに戻る先の状態。
+  // レコード詳細画面ではOFF(サイドパネルには一切触らない)、編集・新規作成画面では設定の
+  // 初期表示(NATIVE/IFRAME)に戻す(js/lib/panel-state.jsのresolveInitialView()参照)。
+  let currentOffState = 'NATIVE';
   let toggleButtonEl = null;
 
   // カスタムパネルはkintone標準のサイドバー(コメント欄・変更履歴)とは別に、画面右端に
@@ -44,7 +53,7 @@
     closeButtonEl.className = 'smv-panel-close';
     closeButtonEl.textContent = '閉じる';
     closeButtonEl.addEventListener('click', () =>
-      applyView('NATIVE', currentHasNativeSideBar),
+      applyView(currentOffState, currentHasNativeSideBar),
     );
 
     barEl.appendChild(titleEl);
@@ -125,7 +134,11 @@
       panelEl.hidden = true;
       // 非表示中もiframeの読み込みが裏で走り続けないよう、URLを空にしておく。
       iframeEl.src = 'about:blank';
-      if (hasNativeSideBar) {
+      // NATIVE(コメント・変更履歴を明示的に開く)のときのみshowSideBar()を呼ぶ。
+      // OFF(レコード詳細画面の初期表示)ではサイドバーの状態には一切触れない
+      // (自作パネルが編集ボタン等の他の画面要素に重なって隠してしまう不具合の対応として、
+      // 詳細画面の初期表示ではkintone標準の状態をそのまま残す設計に変更した)。
+      if (hasNativeSideBar && currentView === 'NATIVE') {
         kintone.app.record.showSideBar(
           NS.PanelState.resolveNativeSideBarState(config),
         );
@@ -147,7 +160,7 @@
         'kintoneplugin-button-normal smv-toggle-button';
       toggleButtonEl.addEventListener('click', () => {
         applyView(
-          NS.PanelState.toggleView(currentView),
+          NS.PanelState.toggleView(currentView, currentOffState),
           currentHasNativeSideBar,
         );
       });
@@ -161,8 +174,8 @@
   // 新規作成画面(app.record.create.show)もPCの「利用できる画面」に含まれる
   // getHeaderMenuSpaceElement()は使えるが、showSideBar()・getSideBarDisplayState()・
   // record.getId()は使えない(公式ドキュメント確認済み、idea.md参照)。そのため
-  // event.typeで実際に発火したイベントを判定し、新規作成画面かどうかで
-  // ネイティブサイドバー関連のAPI呼び出しを行うかを切り替える。
+  // event.typeで実際に発火したイベントを判定し、画面の種類ごとに
+  // ネイティブサイドバー関連のAPI呼び出しと初期表示を切り替える。
   kintone.events.on(
     [
       'app.record.detail.show',
@@ -170,12 +183,11 @@
       'app.record.create.show',
     ],
     (event) => {
-      currentHasNativeSideBar = event.type !== 'app.record.create.show';
+      const screenKind = SCREEN_KIND_BY_EVENT_TYPE[event.type] || 'EDIT';
+      currentHasNativeSideBar = screenKind !== 'CREATE';
+      currentOffState = NS.PanelState.resolveInitialView(config, screenKind);
       ensureToggleButton();
-      applyView(
-        NS.PanelState.resolveInitialView(config),
-        currentHasNativeSideBar,
-      );
+      applyView(currentOffState, currentHasNativeSideBar);
       return event;
     },
   );

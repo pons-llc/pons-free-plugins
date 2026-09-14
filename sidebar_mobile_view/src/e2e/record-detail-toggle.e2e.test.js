@@ -77,7 +77,7 @@ describe('レコード詳細画面(実環境, サイドパネル切り替え)', 
     }
   });
 
-  test('初期表示はコメント・変更履歴で、ボタンでモバイル版プレビューに切り替えられる', async () => {
+  test('詳細画面の初期表示は常にOFF(サイドバーは触らない)で、ボタンでモバイル版プレビューに切り替えられる', async () => {
     const pageErrors = [];
     page.on('pageerror', (err) => pageErrors.push(err.message));
 
@@ -86,8 +86,10 @@ describe('レコード詳細画面(実環境, サイドパネル切り替え)', 
       { waitUntil: 'networkidle0' },
     );
 
-    // 初期表示: コメント・変更履歴(ネイティブのサイドバー)が開いており、切り替えボタンは
-    // 「モバイル版を表示」ラベルになっている。
+    // 詳細画面は設定(初期表示=コメント・変更履歴)に関わらず常にOFFから始まる
+    // (自作パネルが編集ボタン等に重なる不具合の対応、idea.md「対応画面」参照)。
+    // ネイティブのサイドバーの状態には一切触れないため、ここではgetSideBarDisplayState()の
+    // 値を断定的にassertしない(kintone側の既定・前回の利用者操作に依存するため)。
     await page.waitForSelector('.smv-toggle-button');
     const initialLabel = await page.$eval(
       '.smv-toggle-button',
@@ -95,18 +97,13 @@ describe('レコード詳細画面(実環境, サイドパネル切り替え)', 
     );
     expect(initialLabel).toBe('モバイル版を表示');
 
-    const initialSideBarState = await page.evaluate(() =>
-      kintone.app.record.getSideBarDisplayState(),
-    );
-    expect(initialSideBarState).toBe('COMMENTS');
-
     const panelHiddenInitially = await page.$eval(
       '#smv-panel',
       (el) => el.hidden,
     );
     expect(panelHiddenInitially).toBe(true);
 
-    // ボタンをクリックしてモバイル版プレビューに切り替える。
+    // ボタンをクリックしてモバイル版プレビューに切り替える(ネイティブのサイドバーは閉じる)。
     await page.click('.smv-toggle-button');
     await page.waitForFunction(
       () => document.getElementById('smv-panel').hidden === false,
@@ -131,7 +128,8 @@ describe('レコード詳細画面(実環境, サイドパネル切り替え)', 
     );
     expect(labelAfterToggle).toBe('コメント・変更履歴を表示');
 
-    // もう一度クリックしてコメント・変更履歴に戻す。
+    // もう一度クリックしてOFF(サイドバーには触れない)に戻す。閉じたときにCLOSEDにした
+    // ネイティブのサイドバーは、OFF状態では明示的に開き直さないためCLOSEDのまま残る。
     await page.click('.smv-toggle-button');
     await page.waitForFunction(
       () => document.getElementById('smv-panel').hidden === true,
@@ -140,7 +138,46 @@ describe('レコード詳細画面(実環境, サイドパネル切り替え)', 
     const sideBarStateAfterToggleBack = await page.evaluate(() =>
       kintone.app.record.getSideBarDisplayState(),
     );
-    expect(sideBarStateAfterToggleBack).toBe('COMMENTS');
+    expect(sideBarStateAfterToggleBack).toBe('CLOSED');
+
+    const labelAfterToggleBack = await page.$eval(
+      '.smv-toggle-button',
+      (el) => el.textContent,
+    );
+    expect(labelAfterToggleBack).toBe('モバイル版を表示');
+
+    expect(pageErrors).toEqual([]);
+  });
+
+  test('編集画面は詳細画面と異なり、設定の初期表示(コメント・変更履歴)に従って自動的に開く', async () => {
+    const pageErrors = [];
+    page.on('pageerror', (err) => pageErrors.push(err.message));
+
+    // 詳細画面からユーザー導線通り「編集」アイコンをクリックして編集画面へ遷移する
+    // (scripts/e2e/common.jsのgoToEditScreenFromDetail()コメント参照。編集画面は
+    // `/show`のまま`mode=edit`ハッシュが付与されるだけでページ自体は再読み込みされない)。
+    await page.goto(
+      `https://${env.KINTONE_DOMAIN}/k/${appId}/show#record=${recordId}`,
+      { waitUntil: 'networkidle0' },
+    );
+    await common.goToEditScreenFromDetail(page);
+
+    // 編集画面は詳細画面と異なり(このプラグインの新仕様)、設定の初期表示
+    // (このテストではNATIVE/コメント)に従って自動的にサイドバーが開く。
+    await page.waitForSelector('.smv-toggle-button');
+    const sideBarState = await page.evaluate(() =>
+      kintone.app.record.getSideBarDisplayState(),
+    );
+    expect(sideBarState).toBe('COMMENTS');
+
+    const label = await page.$eval(
+      '.smv-toggle-button',
+      (el) => el.textContent,
+    );
+    expect(label).toBe('モバイル版を表示');
+
+    const panelHidden = await page.$eval('#smv-panel', (el) => el.hidden);
+    expect(panelHidden).toBe(true);
 
     expect(pageErrors).toEqual([]);
   });

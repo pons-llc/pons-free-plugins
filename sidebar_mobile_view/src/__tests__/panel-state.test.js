@@ -3,17 +3,35 @@
 const PanelState = require('../js/lib/panel-state');
 
 describe('PanelState.resolveInitialView', () => {
-  test('defaultViewがIFRAMEならIFRAMEを返す', () => {
+  test('レコード詳細画面(DETAIL)では、設定に関わらず常にOFF(サイドパネルは触らない)', () => {
+    expect(
+      PanelState.resolveInitialView({ defaultView: 'IFRAME' }, 'DETAIL'),
+    ).toBe('OFF');
+    expect(
+      PanelState.resolveInitialView({ defaultView: 'NATIVE' }, 'DETAIL'),
+    ).toBe('OFF');
+  });
+
+  test('編集画面(EDIT)・新規作成画面(CREATE)では、設定のdefaultViewに従う', () => {
+    expect(
+      PanelState.resolveInitialView({ defaultView: 'IFRAME' }, 'EDIT'),
+    ).toBe('IFRAME');
+    expect(
+      PanelState.resolveInitialView({ defaultView: 'NATIVE' }, 'EDIT'),
+    ).toBe('NATIVE');
+    expect(
+      PanelState.resolveInitialView({ defaultView: 'IFRAME' }, 'CREATE'),
+    ).toBe('IFRAME');
+    expect(
+      PanelState.resolveInitialView({ defaultView: 'unknown' }, 'CREATE'),
+    ).toBe('NATIVE');
+  });
+
+  test('screenKindを省略した場合は従来通りdefaultViewに従う(後方互換)', () => {
     expect(PanelState.resolveInitialView({ defaultView: 'IFRAME' })).toBe(
       'IFRAME',
     );
-  });
-
-  test('defaultViewがNATIVEまたは不正な値ならNATIVEを返す', () => {
     expect(PanelState.resolveInitialView({ defaultView: 'NATIVE' })).toBe(
-      'NATIVE',
-    );
-    expect(PanelState.resolveInitialView({ defaultView: 'unknown' })).toBe(
       'NATIVE',
     );
     expect(PanelState.resolveInitialView({})).toBe('NATIVE');
@@ -21,9 +39,15 @@ describe('PanelState.resolveInitialView', () => {
 });
 
 describe('PanelState.toggleView', () => {
-  test('NATIVEとIFRAMEを反転する', () => {
+  test('IFRAME以外からはIFRAMEへ切り替わる', () => {
     expect(PanelState.toggleView('NATIVE')).toBe('IFRAME');
+    expect(PanelState.toggleView('OFF')).toBe('IFRAME');
+  });
+
+  test('IFRAMEからは指定したoffStateへ戻る(既定はNATIVE、後方互換)', () => {
     expect(PanelState.toggleView('IFRAME')).toBe('NATIVE');
+    expect(PanelState.toggleView('IFRAME', 'OFF')).toBe('OFF');
+    expect(PanelState.toggleView('IFRAME', 'NATIVE')).toBe('NATIVE');
   });
 });
 
@@ -43,7 +67,10 @@ describe('PanelState.resolveNativeSideBarState', () => {
 });
 
 describe('PanelState.resolveToggleButtonLabel', () => {
-  test('現在NATIVE表示中はモバイル版に切り替えるラベルを返す(ネイティブサイドバーの有無に関わらず)', () => {
+  test('IFRAME以外(OFF・NATIVE)はモバイル版に切り替えるラベルを返す(ネイティブサイドバーの有無に関わらず)', () => {
+    expect(PanelState.resolveToggleButtonLabel('OFF', true)).toMatch(
+      /モバイル/,
+    );
     expect(PanelState.resolveToggleButtonLabel('NATIVE', true)).toMatch(
       /モバイル/,
     );

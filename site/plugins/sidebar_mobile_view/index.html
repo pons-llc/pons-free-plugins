@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>サイドパネルモバイル表示プラグイン｜無料のkintoneプラグイン | GovAppsプラグイン</title>
-<meta name="description" content="レコード詳細・編集・新規作成画面のサイドパネルに、コメント・変更履歴の代わりにモバイル版のレコード画面(または別アプリのモバイル版一覧)をiframeで表示できるkintone無料プラグイン(PC専用)。設定画面で既定の表示を選び、レコード画面上のボタンでいつでも切り替えられます。">
+<meta name="description" content="関連する顧客マスタや過去の履歴を確認したいだけなのに、別アプリ・別タブをいちいち開き直すのは面倒じゃないですか?このkintone無料プラグインなら、レコード編集・新規作成画面のサイドパネルにそのままモバイル版画面を表示でき、関連アプリを見ながら手元の作業を進められます(PC専用)。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -44,12 +44,11 @@
 <div class="plugin-hero">
   <h1>サイドパネルモバイル表示プラグイン（無料）</h1>
   <p class="plugin-lead">
-    レコード詳細・編集・新規作成画面(PC専用)のサイドパネルに、コメント・変更履歴の代わりに
-    同じレコードのモバイル版画面をiframeで表示できるプラグインです。設定画面で画面表示時の
-    既定表示(コメント・変更履歴/モバイル版)を選べるほか、レコード画面上部のボタンでいつでも
-    切り替えられます。パネルの幅も設定画面から調整できます。対象アプリIDを別アプリに変更すれば、
-    そのアプリのモバイル版一覧をパネルに表示することもでき、関連する別アプリ(例: 顧客マスタ)を
-    見ながら今のアプリ(例: 案件管理)を操作する、といった使い方もできます。
+    顧客の連絡先、事業者の登録情報、過去の対応履歴……。今開いているレコードを登録・更新する
+    ついでに確認したいだけなのに、そのたびに別アプリを開き直したり、別タブを行き来したりするのは
+    地味に面倒です。このプラグインを使うと、レコードの編集・新規作成画面のサイドパネルに、
+    見たいアプリのモバイル版画面をそのまま表示できます。別アプリを開き直す手間なく、
+    画面を見比べながら手元の作業を進められます(PC専用)。
   </p>
   <div class="plugin-hero-badges">
     <span class="badge badge-category">レイアウト・表示</span>
@@ -57,7 +56,7 @@
     <span class="badge badge-tag">#モバイル表示</span>
     <span class="badge badge-tag">#表示切替</span>
   </div>
-  <a class="download-button" href="download" data-dl-plugin="sidebar_mobile_view">ダウンロード(v2)</a>
+  <a class="download-button" href="download" data-dl-plugin="sidebar_mobile_view">ダウンロード(v3)</a>
   <p class="author-bio">
     執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
     kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
@@ -66,13 +65,20 @@
 </div>
 
 <section class="plugin-section">
+  <h2>紹介動画</h2>
+  <div class="video-frame">
+    <iframe src="https://player.vimeo.com/video/1226738176" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+</section>
+
+<section class="plugin-section">
   <h2>こんな方におすすめ</h2>
   <ul class="recommend-list">
-    <li>PCでレコードを確認しながら、モバイル版の見え方も画面遷移なしですぐ確認したい</li>
-    <li>フォームレイアウトを調整するたびに、スマートフォンでの表示崩れをその場でチェックしたい</li>
-    <li>「kintone モバイル 表示確認」「kintone サイドバー iframe」を探している</li>
-    <li>アプリによってコメント欄・変更履歴とモバイルプレビューのどちらを優先したいかが違う</li>
-    <li>顧客マスタなど関連する別アプリを見ながら、今のアプリのレコードを登録・更新したい</li>
+    <li>案件を登録・更新するたびに、顧客マスタを別タブで開いて連絡先を確認し直している</li>
+    <li>住民からの新しい問い合わせを受け付けるとき、過去の相談履歴をいちいち検索し直している</li>
+    <li>契約更新の手続き中に、事業者台帳を開いて登録情報を確認するのが手間だと感じている</li>
+    <li>請求書を登録するたび、取引先マスタで請求先情報を調べ直している</li>
+    <li>申請内容を確認しながら、職員名簿や社員名簿で所属・役職を確認したい</li>
   </ul>
 </section>
 
@@ -80,38 +86,47 @@
   <h2>ユースケース</h2>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
-      <span>フォーム調整中に、モバイル版の見た目をその場で確認する</span>
+      <span>顧客マスタを見ながら、案件のレコードを登録・更新する</span>
       <span class="accordion-icon">▶</span>
     </button>
     <div class="accordion-panel" id="usecase-1">
-      <p>設定画面で初期表示を「モバイル版(iframe)」にしておくと、レコード詳細画面を開くたびに右側のパネルへ同じレコードのモバイル版がそのまま表示されます。PC版のフォームレイアウトを変更した後、別タブやスマートフォン実機を用意しなくても崩れがないかをすぐ確認できます。</p>
+      <p>案件管理アプリで新しい案件を登録するとき、これまでは顧客マスタを別タブで開いて連絡先や取引条件を確認し、また案件管理のタブに戻って入力する、を繰り返していませんでしたか。設定画面の「対象アプリID」を顧客マスタのIDにしておけば、案件のレコード画面のサイドパネルに顧客マスタのモバイル版一覧がそのまま表示されます。タブを行き来せず、見ながらそのまま入力を進められます。</p>
     </div>
   </div>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
-      <span>普段はコメント欄・変更履歴を使い、必要なときだけモバイル版を確認する</span>
+      <span>過去の相談履歴を見ながら、新しい問い合わせを登録する</span>
       <span class="accordion-icon">▶</span>
     </button>
     <div class="accordion-panel" id="usecase-2" hidden>
-      <p>初期表示を「コメント・変更履歴」のままにしておけば、通常の運用は今まで通りです。モバイル版の見え方を確認したいときだけ、レコード画面上部のボタンを押してモバイルプレビューに切り替え、確認が終わったらもう一度ボタンを押してコメント欄に戻せます。</p>
+      <p>窓口や電話で住民・顧客から新しい相談を受けたとき、「この人、前にも似たような相談をしていなかったか」を確認したくなることがあります。相談履歴アプリを対象アプリIDに指定しておけば、新規登録画面を開いた時点でサイドパネルに履歴の一覧が表示され、別アプリで検索し直す手間なく過去のやり取りを確認しながら登録できます。</p>
     </div>
   </div>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
-      <span>パネル幅を調整して、モバイル実機に近いプレビューにする</span>
+      <span>事業者台帳を見ながら、契約更新の手続きを進める</span>
       <span class="accordion-icon">▶</span>
     </button>
     <div class="accordion-panel" id="usecase-3" hidden>
-      <p>パネルの幅は設定画面で240〜900pxの範囲から指定できます。実際のスマートフォンに近い幅に調整すれば、折り返しや余白の見え方をより実機に近い状態で確認できます。</p>
+      <p>契約更新のレコードを編集するとき、その事業者の登録情報(担当者・連絡先・過去の契約条件)を事業者台帳アプリで確認したくなります。台帳アプリを対象アプリIDに指定しておけば、契約更新の編集画面を開いたまま、サイドパネルで台帳の情報を確認・検索できます。</p>
     </div>
   </div>
   <div class="accordion-item">
     <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-4">
-      <span>顧客マスタを見ながら、案件管理のレコードを登録・更新する</span>
+      <span>取引先マスタの請求先情報を見ながら、請求書を登録する</span>
       <span class="accordion-icon">▶</span>
     </button>
     <div class="accordion-panel" id="usecase-4" hidden>
-      <p>設定画面の「対象アプリID」を、今開いているアプリとは別のアプリ(例: 顧客マスタ)のIDに変更すると、パネルにはそのアプリのモバイル版レコード一覧が表示されます。現在編集中のレコードとは連動しませんが、パネル内のiframeは実際に動くモバイル版画面そのものなので、顧客情報を確認しながら案件管理側のレコードを登録・更新するといった、2つのアプリを同時に操作する使い方ができます。新規作成画面でも同様に、対象アプリを変更していない場合はこのアプリ自身のモバイル版一覧が表示され、登録前に類似レコードの有無を確認する、といった使い方もできます。</p>
+      <p>請求書を登録するたびに、取引先マスタで請求先の宛名・住所・締め日を調べ直すのは地味に手間がかかります。取引先マスタを対象アプリIDに指定しておけば、請求書の新規作成画面のサイドパネルにそのまま取引先マスタの一覧が表示され、確認しながら入力できます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-5">
+      <span>職員名簿を見ながら、申請内容を確認する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-5" hidden>
+      <p>休暇申請や旅費精算のレコードを確認するとき、申請者の所属・役職を職員名簿で確認したくなることがあります。編集画面であれば、初期表示を「モバイル版」にしておくだけで、開いた瞬間からサイドパネルに職員名簿(対象アプリIDで指定)が表示され、別アプリを開き直さずに確認できます。</p>
     </div>
   </div>
 </section>
@@ -120,11 +135,11 @@
   <h2>セットアップ手順</h2>
   <ol class="setup-steps">
     <li>アプリにプラグインを追加し、設定画面を開く。</li>
-    <li>「初期表示」で、レコード画面を開いたときの既定表示(コメント・変更履歴/モバイル版)を選ぶ。</li>
-    <li>「コメント・変更履歴」を選んだ場合、開くタブ(コメント/変更履歴)を選ぶ。パネルの幅(px)も必要に応じて調整する。</li>
-    <li>対象アプリIDは、このアプリ自身のモバイル版レコードを表示したい場合は変更不要(このアプリのIDが自動入力されます)。関連する別アプリのモバイル版一覧を見ながら操作したい場合は、そのアプリのIDに変更する。</li>
+    <li>「対象アプリID」を、サイドパネルで見たいアプリのIDに変更する(このアプリ自身のレコードを見たい場合は変更不要。このアプリのIDが自動入力されています)。</li>
+    <li>「初期表示(編集・新規作成画面のみ)」で、編集・新規作成画面を開いたときの既定表示(コメント・変更履歴/モバイル版)を選ぶ。レコード詳細画面には適用されず、常に「表示しない」で固定(編集ボタン等と重ならないようにするため)。</li>
+    <li>「コメント・変更履歴」を選んだ場合は開くタブ(コメント/変更履歴)を、パネルの幅(px)も必要に応じて調整する。</li>
     <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
-    <li>レコード詳細・編集・新規作成画面を開くと、パンくずの下にボタンが表示され、いつでも表示を切り替えられる(新規作成画面はコメント・変更履歴が存在しないため、モバイル版プレビューの表示/非表示のみ切り替えられる)。</li>
+    <li>レコード詳細・編集・新規作成画面を開くと、パンくずの下にボタンが表示され、いつでも表示を切り替えられる。</li>
   </ol>
   <p class="download-note">本プラグインはPC専用です(利用するJavaScript API<code>kintone.app.record.showSideBar()</code>・<code>kintone.app.record.getHeaderMenuSpaceElement()</code>がいずれもPC専用のため)。モバイル画面向けの動作は行いません。</p>
 </section>
@@ -144,6 +159,7 @@
         <li>設定画面・レコード画面のDOM構築は<code>innerHTML</code>を使わず、<code>document.createElement()</code>と<code>textContent</code>のみで行っています。</li>
         <li>保存前のバリデーションで、初期表示・タブ種別の指定不正、パネル幅(240〜900px)の範囲外、対象アプリIDの形式不正などを検出して保存させません。</li>
         <li>新規作成画面では<code>showSideBar()</code>・<code>getSideBarDisplayState()</code>・<code>kintone.app.record.getId()</code>(いずれも公式ドキュメント上、新規作成画面では利用できないAPI)を一切呼び出しません。</li>
+        <li>レコード詳細画面の初期表示では<code>showSideBar()</code>を一切呼び出さず、kintone標準のサイドバーの状態には触れません(自作パネルが編集ボタン等に重なる不具合の修正として、初期表示の自動変更そのものをやめました)。</li>
         <li>サイドパネルの表示切り替えはUIレベルの表示状態の切り替えであり、レコードデータそのものやアクセス権には一切影響しません。対象アプリIDを別アプリに変更した場合も、表示されるのはログイン中のユーザー自身が元々アクセス権を持つ範囲のみで、プラグインが権限を昇格させることはありません。</li>
       </ul>
       <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
