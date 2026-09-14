@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>プロセスアクション自動入力プラグイン｜無料のkintoneプラグイン | GovAppsプラグイン</title>
+<meta name="description" content="プロセス管理のアクションボタンを実行したとき、指定した条件(アクション名・変更前ステータス・変更後ステータス)に一致する場合のみ、対象フィールドの値を自動的に設定・クリアするkintone無料プラグイン。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; プロセスアクション自動入力プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>プロセスアクション自動入力プラグイン（無料）</h1>
+  <p class="plugin-lead">
+    プロセス管理のアクションボタンを実行したとき(アクションの実行前)に、指定した条件(アクション名・
+    変更前ステータス・変更後ステータス)に一致する場合のみ、対象フィールドの値を自動的に設定・
+    クリアするプラグインです。フィルター条件は同じ項目内で複数チェックすればいずれかに一致(OR)、
+    異なる項目間はすべて一致(AND)で判定します。日付/日時フィールドは実行時点だけでなく、
+    作成日時・更新日時・特定の日付/日時フィールドを基準に加減算できます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">データ連携</span>
+    <span class="badge badge-tag">#プロセス管理</span>
+    <span class="badge badge-tag">#自動入力</span>
+    <span class="badge badge-tag">#ワークフロー</span>
+  </div>
+  <a class="download-button" href="download" data-dl-plugin="process_action_autofill">ダウンロード(v2)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>プロセス管理のアクションを実行したときに、関連フィールドを自動的に更新したい</li>
+    <li>承認・却下・差し戻しなどのアクション実行時に、日付や担当者を毎回手入力するのをやめたい</li>
+    <li>「kintone プロセス管理 自動入力」を探している</li>
+    <li>アクションごとに異なる値を設定するルールを、コードを書かずに複数管理したい</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>紹介動画</h2>
+  <div class="video-frame">
+    <iframe src="https://player.vimeo.com/video/1226516637" title="紹介動画" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>ユースケース</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>承認アクション実行時に、承認日と承認者を自動記録する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>「承認する」アクションを対象にしたルールを作り、承認日(DATE型)フィールドへ実行時点の日付を、承認者(ユーザー選択フィールド)へアクション実行者を自動設定できます。同じフィルター条件で複数のルールを組み合わせられるため、承認のたびに手入力していた記録作業をなくせます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>変更後ステータスが「差し戻し」のときだけ、理由フィールドを自動でクリアする</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>フィルター条件の「変更後ステータス」だけを絞り込んだルールを作ることで、特定のステータス遷移のときだけフィールドをクリアできます。前回の差し戻し理由が次の申請に残ってしまう、といった混乱を防げます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>受付アクション実行時に、作成日時から3日後を対応期限日として自動設定する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>日付/日時フィールドの基準に「作成日時」を選び、オフセットを「+3日」に設定すると、レコードが作成されてからの経過日数に応じた期限日を自動入力できます。基準は実行時点・作成日時・更新日時・特定の日付/日時フィールドから選べます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>セットアップ手順</h2>
+  <ol class="setup-steps">
+    <li>プロセス管理を有効にしたアプリにプラグインを追加し、設定画面を開く。</li>
+    <li>「+ ルールを追加」でルールを作成し、フィルター条件(アクション名・変更前ステータス・変更後ステータス)を、必要な項目だけチェックする(未チェックの項目は「いずれでも」として扱われる)。</li>
+    <li>対象フィールドを選び、動作(値を設定/値をクリア)を選ぶ。「値を設定」の場合は、フィールドの型に応じたソース(固定値・別フィールドのコピー・選択肢・実行時点や作成日時等からのオフセット・アクション実行者・組織/グループコード)を設定する。</li>
+    <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+  </ol>
+  <p class="download-note">フィルター条件は、同じ項目内で複数チェックするといずれかに一致(OR)、異なる項目間はすべて一致(AND)で判定されます。ラジオボタンフィールドへの「値をクリア」は、kintoneの仕様上、初期値に設定されている選択肢に戻ります(空にはなりません)。「特定の日付/日時フィールド」を基準にする場合、対象フィールドと同じ型(日付は日付、日時は日時)のみ選択できます。</p>
+</section>
+
+<section class="plugin-section">
+  <h2>セキュリティレビュー結果サマリ</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>設定画面でのプロセス管理の状態・アクション一覧の取得は、JavaScript API(<code>kintone.app.getStatus()</code>)がプラグイン設定画面では使えないため、kintone自身への呼び出し専用の内部ラッパー<code>kintone.api()</code>経由でのみREST APIを呼び出します。生の<code>fetch</code>/<code>XMLHttpRequest</code>は使用しません。</li>
+        <li>レコード詳細画面(実行時)は、プロセス管理のアクション実行イベントに含まれる情報だけでフィルター判定でき、追加のREST API呼び出しを行いません。「アクション実行者の優先する組織」を使うルールがある場合のみ、JavaScript APIの<code>kintone.user.getOrganizations()</code>を呼び出します(REST APIではありません)。</li>
+        <li>設定画面でのフィールド一覧・アクション名・選択肢の描画は<code>innerHTML</code>ではなく<code>textContent</code>やDOM生成のみを使用しており、対象フィールドへの値書き込みもkintone標準のフィールド値としての代入のみでDOM操作は行いません。</li>
+        <li>保存前のバリデーションで、対象フィールド未選択・非対応型、値ソースの必須項目欠落、コピー元/基準フィールドの型不一致、現在の選択肢に存在しない値などの不正な設定を検出して保存させません。</li>
+        <li><code>kintone.api()</code>/<code>kintone.user.getOrganizations()</code>はログイン中のセッション情報を自動的に使用するため、認証情報をコード・設定に含めません。外部サーバーへの通信・外部ライブラリは一切使用していません。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/process_action_autofill/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>設定画面イメージ</h2>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="プロセスアクション自動入力プラグインの設定画面。フィルター条件(アクション名・変更前ステータス・変更後ステータスのチェックボックス)、対象フィールド、動作(値を設定/値をクリア)、値のソースを設定する画面のスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>API実行数について</h2>
+  <p class="api-usage-note">
+    設定画面を開いたときに、プロセス管理のプレビュー設定を取得するため<code>kintone.api()</code>による
+    REST API呼び出し(<code>GET /k/v1/preview/app/status.json</code>)を1回実行します。レコード詳細画面
+    でのアクション実行時は、通常は追加のAPI呼び出しを行いません。ただし「アクション実行者の優先する
+    組織」をソースに使うルールが1件でも一致した場合のみ、JavaScript APIの
+    <code>kintone.user.getOrganizations()</code>を1回実行します(REST APIの実行数には数えられません)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>GitHub / 改善要望</h2>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/process_action_autofill" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/process_action_autofill/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて読みたい記事</h2>
+  <div class="related-services">
+    <a class="related-service-card" href="/solutions/approval/">kintoneで決裁・承認プロセスを管理する方法(解決策ページ)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

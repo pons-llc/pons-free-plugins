@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Wed, 26 Aug 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 13 Sep 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>プロセスアクション自動入力プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/process_action_autofill/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/process_action_autofill/</guid>
+      <description>プロセス管理のアクションボタンを実行したとき、指定した条件(アクション名・変更前ステータス・変更後ステータス、各項目内はOR・項目間はAND)に一致する場合のみ、対象フィールドの値を自動的に設定・クリアするプラグイン。日付/日時フィールドは実行時点・作成日時・更新日時・特定のフィールドを基準に加減算できます。</description>
+      <pubDate>Sun, 13 Sep 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>テンプレート挿入プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/template_insert/</link>

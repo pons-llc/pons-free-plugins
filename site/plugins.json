@@ -736,5 +736,21 @@
       "自動入力"
     ],
     "video": "https://vimeo.com/1221690544"
+  },
+  {
+    "id": "process_action_autofill",
+    "name": "プロセスアクション自動入力プラグイン",
+    "description": "プロセス管理のアクションボタンを実行したとき、指定した条件(アクション名・変更前ステータス・変更後ステータス、各項目内はOR・項目間はAND)に一致する場合のみ、対象フィールドの値を自動的に設定・クリアするプラグイン。日付/日時フィールドは実行時点・作成日時・更新日時・特定のフィールドを基準に加減算できます。",
+    "version": "2",
+    "publishedAt": "2026-09-14",
+    "zip": "plugins/process_action_autofill/plugin.zip",
+    "page": "plugins/process_action_autofill/index.html",
+    "category": "データ連携",
+    "tags": [
+      "プロセス管理",
+      "自動入力",
+      "ワークフロー"
+    ],
+    "video": "https://vimeo.com/1226516637"
   }
 ]
