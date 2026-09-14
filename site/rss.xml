@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Mon, 14 Sep 2026 08:04:31 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>サイドパネルモバイル表示プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/sidebar_mobile_view/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/sidebar_mobile_view/</guid>
+      <description>レコード詳細・編集・新規作成画面のサイドパネルに、コメント・変更履歴の代わりにモバイル版のレコード画面(または別アプリのモバイル版一覧)をiframeで表示できるプラグイン(PC専用)。設定画面で既定の表示を選び、レコード画面上のボタンでいつでも切り替えられます。</description>
+      <pubDate>Mon, 14 Sep 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>kintoneで決裁・承認プロセスを管理する方法｜決裁履歴記録の無料プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/solutions/approval/</link>
@@ -18,13 +25,6 @@
       <link>https://govapps-plugin.pons-llc.com/plugins/process_action_autofill/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/process_action_autofill/</guid>
       <description>プロセス管理のアクションボタンを実行したとき、指定した条件(アクション名・変更前ステータス・変更後ステータス、各項目内はOR・項目間はAND)に一致する場合のみ、対象フィールドの値を自動的に設定・クリアするプラグイン。日付/日時フィールドは実行時点・作成日時・更新日時・特定のフィールドを基準に加減算できます。</description>
-      <pubDate>Sun, 13 Sep 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>サイドパネルモバイル表示プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/sidebar_mobile_view/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/sidebar_mobile_view/</guid>
-      <description>レコード詳細・編集画面のサイドパネルに、コメント・変更履歴の代わりにモバイル版のレコード画面をiframeで表示できるプラグイン(PC専用)。設定画面で既定の表示を選び、レコード画面上のボタンでいつでも切り替えられます。</description>
       <pubDate>Sun, 13 Sep 2026 15:00:00 GMT</pubDate>
     </item>
     <item>

@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>サイドパネルモバイル表示プラグイン｜無料のkintoneプラグイン | GovAppsプラグイン</title>
-<meta name="description" content="レコード詳細・編集画面のサイドパネルに、コメント・変更履歴の代わりにモバイル版のレコード画面をiframeで表示できるkintone無料プラグイン(PC専用)。設定画面で既定の表示を選び、レコード画面上のボタンでいつでも切り替えられます。">
+<meta name="description" content="レコード詳細・編集・新規作成画面のサイドパネルに、コメント・変更履歴の代わりにモバイル版のレコード画面(または別アプリのモバイル版一覧)をiframeで表示できるkintone無料プラグイン(PC専用)。設定画面で既定の表示を選び、レコード画面上のボタンでいつでも切り替えられます。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -44,10 +44,12 @@
 <div class="plugin-hero">
   <h1>サイドパネルモバイル表示プラグイン（無料）</h1>
   <p class="plugin-lead">
-    レコード詳細・編集画面(PC専用)のサイドパネルに、コメント・変更履歴の代わりに同じレコードの
-    モバイル版画面をiframeで表示できるプラグインです。設定画面で画面表示時の既定表示(コメント・
-    変更履歴/モバイル版)を選べるほか、レコード画面上部のボタンでいつでも切り替えられます。
-    パネルの幅も設定画面から調整できます。
+    レコード詳細・編集・新規作成画面(PC専用)のサイドパネルに、コメント・変更履歴の代わりに
+    同じレコードのモバイル版画面をiframeで表示できるプラグインです。設定画面で画面表示時の
+    既定表示(コメント・変更履歴/モバイル版)を選べるほか、レコード画面上部のボタンでいつでも
+    切り替えられます。パネルの幅も設定画面から調整できます。対象アプリIDを別アプリに変更すれば、
+    そのアプリのモバイル版一覧をパネルに表示することもでき、関連する別アプリ(例: 顧客マスタ)を
+    見ながら今のアプリ(例: 案件管理)を操作する、といった使い方もできます。
   </p>
   <div class="plugin-hero-badges">
     <span class="badge badge-category">レイアウト・表示</span>
@@ -55,7 +57,7 @@
     <span class="badge badge-tag">#モバイル表示</span>
     <span class="badge badge-tag">#表示切替</span>
   </div>
-  <a class="download-button" href="download" data-dl-plugin="sidebar_mobile_view">ダウンロード(v1)</a>
+  <a class="download-button" href="download" data-dl-plugin="sidebar_mobile_view">ダウンロード(v2)</a>
   <p class="author-bio">
     執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
     kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
@@ -70,6 +72,7 @@
     <li>フォームレイアウトを調整するたびに、スマートフォンでの表示崩れをその場でチェックしたい</li>
     <li>「kintone モバイル 表示確認」「kintone サイドバー iframe」を探している</li>
     <li>アプリによってコメント欄・変更履歴とモバイルプレビューのどちらを優先したいかが違う</li>
+    <li>顧客マスタなど関連する別アプリを見ながら、今のアプリのレコードを登録・更新したい</li>
   </ul>
 </section>
 
@@ -102,6 +105,15 @@
       <p>パネルの幅は設定画面で240〜900pxの範囲から指定できます。実際のスマートフォンに近い幅に調整すれば、折り返しや余白の見え方をより実機に近い状態で確認できます。</p>
     </div>
   </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-4">
+      <span>顧客マスタを見ながら、案件管理のレコードを登録・更新する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-4" hidden>
+      <p>設定画面の「対象アプリID」を、今開いているアプリとは別のアプリ(例: 顧客マスタ)のIDに変更すると、パネルにはそのアプリのモバイル版レコード一覧が表示されます。現在編集中のレコードとは連動しませんが、パネル内のiframeは実際に動くモバイル版画面そのものなので、顧客情報を確認しながら案件管理側のレコードを登録・更新するといった、2つのアプリを同時に操作する使い方ができます。新規作成画面でも同様に、対象アプリを変更していない場合はこのアプリ自身のモバイル版一覧が表示され、登録前に類似レコードの有無を確認する、といった使い方もできます。</p>
+    </div>
+  </div>
 </section>
 
 <section class="plugin-section">
@@ -109,9 +121,10 @@
   <ol class="setup-steps">
     <li>アプリにプラグインを追加し、設定画面を開く。</li>
     <li>「初期表示」で、レコード画面を開いたときの既定表示(コメント・変更履歴/モバイル版)を選ぶ。</li>
-    <li>「コメント・変更履歴」を選んだ場合、開くタブ(コメント/変更履歴)を選ぶ。パネルの幅(px)も必要に応じて調整する。対象アプリIDは通常変更不要(このアプリのIDが自動入力されます)。</li>
+    <li>「コメント・変更履歴」を選んだ場合、開くタブ(コメント/変更履歴)を選ぶ。パネルの幅(px)も必要に応じて調整する。</li>
+    <li>対象アプリIDは、このアプリ自身のモバイル版レコードを表示したい場合は変更不要(このアプリのIDが自動入力されます)。関連する別アプリのモバイル版一覧を見ながら操作したい場合は、そのアプリのIDに変更する。</li>
     <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
-    <li>レコード詳細・編集画面を開くと、パンくずの下にボタンが表示され、いつでも表示を切り替えられる。</li>
+    <li>レコード詳細・編集・新規作成画面を開くと、パンくずの下にボタンが表示され、いつでも表示を切り替えられる(新規作成画面はコメント・変更履歴が存在しないため、モバイル版プレビューの表示/非表示のみ切り替えられる)。</li>
   </ol>
   <p class="download-note">本プラグインはPC専用です(利用するJavaScript API<code>kintone.app.record.showSideBar()</code>・<code>kintone.app.record.getHeaderMenuSpaceElement()</code>がいずれもPC専用のため)。モバイル画面向けの動作は行いません。</p>
 </section>
@@ -130,7 +143,8 @@
         <li>REST APIは一切使用せず、JavaScript API(<code>kintone.app.record.showSideBar()</code>、<code>kintone.app.record.getHeaderMenuSpaceElement()</code>、<code>kintone.app.record.getId()</code>、<code>kintone.app.getId()</code>)のみで完結します。</li>
         <li>設定画面・レコード画面のDOM構築は<code>innerHTML</code>を使わず、<code>document.createElement()</code>と<code>textContent</code>のみで行っています。</li>
         <li>保存前のバリデーションで、初期表示・タブ種別の指定不正、パネル幅(240〜900px)の範囲外、対象アプリIDの形式不正などを検出して保存させません。</li>
-        <li>サイドパネルの表示切り替えはUIレベルの表示状態の切り替えであり、レコードデータそのものやアクセス権には一切影響しません。</li>
+        <li>新規作成画面では<code>showSideBar()</code>・<code>getSideBarDisplayState()</code>・<code>kintone.app.record.getId()</code>(いずれも公式ドキュメント上、新規作成画面では利用できないAPI)を一切呼び出しません。</li>
+        <li>サイドパネルの表示切り替えはUIレベルの表示状態の切り替えであり、レコードデータそのものやアクセス権には一切影響しません。対象アプリIDを別アプリに変更した場合も、表示されるのはログイン中のユーザー自身が元々アクセス権を持つ範囲のみで、プラグインが権限を昇格させることはありません。</li>
       </ul>
       <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
       <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/sidebar_mobile_view/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>

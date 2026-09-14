@@ -43,11 +43,28 @@ describe('PanelState.resolveNativeSideBarState', () => {
 });
 
 describe('PanelState.resolveToggleButtonLabel', () => {
-  test('現在NATIVE表示中はモバイル版に切り替えるラベルを返す', () => {
-    expect(PanelState.resolveToggleButtonLabel('NATIVE')).toMatch(/モバイル/);
+  test('現在NATIVE表示中はモバイル版に切り替えるラベルを返す(ネイティブサイドバーの有無に関わらず)', () => {
+    expect(PanelState.resolveToggleButtonLabel('NATIVE', true)).toMatch(
+      /モバイル/,
+    );
+    expect(PanelState.resolveToggleButtonLabel('NATIVE', false)).toMatch(
+      /モバイル/,
+    );
   });
 
-  test('現在IFRAME表示中はコメント・履歴に戻すラベルを返す', () => {
+  test('ネイティブサイドバーがある画面(詳細・編集)でIFRAME表示中は、コメント・履歴に戻すラベルを返す', () => {
+    expect(PanelState.resolveToggleButtonLabel('IFRAME', true)).toMatch(
+      /コメント|履歴/,
+    );
+  });
+
+  test('ネイティブサイドバーが無い画面(新規作成)でIFRAME表示中は、閉じるラベルを返す', () => {
+    expect(PanelState.resolveToggleButtonLabel('IFRAME', false)).toBe(
+      'モバイル版を閉じる',
+    );
+  });
+
+  test('hasNativeSideBarを省略した場合は既定でtrue扱い(後方互換)', () => {
     expect(PanelState.resolveToggleButtonLabel('IFRAME')).toMatch(
       /コメント|履歴/,
     );

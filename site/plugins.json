@@ -756,9 +756,9 @@
   {
     "id": "sidebar_mobile_view",
     "name": "サイドパネルモバイル表示プラグイン",
-    "description": "レコード詳細・編集画面のサイドパネルに、コメント・変更履歴の代わりにモバイル版のレコード画面をiframeで表示できるプラグイン(PC専用)。設定画面で既定の表示を選び、レコード画面上のボタンでいつでも切り替えられます。",
-    "version": "1",
-    "publishedAt": "2026-09-14",
+    "description": "レコード詳細・編集・新規作成画面のサイドパネルに、コメント・変更履歴の代わりにモバイル版のレコード画面(または別アプリのモバイル版一覧)をiframeで表示できるプラグイン(PC専用)。設定画面で既定の表示を選び、レコード画面上のボタンでいつでも切り替えられます。",
+    "version": "2",
+    "publishedAt": "2026-09-15",
     "zip": "plugins/sidebar_mobile_view/plugin.zip",
     "page": "plugins/sidebar_mobile_view/index.html",
     "category": "レイアウト・表示",

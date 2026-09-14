@@ -15,8 +15,16 @@
     config && config.defaultNativeState === 'HISTORY' ? 'HISTORY' : 'COMMENTS';
 
   // 現在の表示状態から「押すと切り替わる先」を示すボタンラベルを返す。
-  const resolveToggleButtonLabel = (currentView) =>
-    currentView === 'IFRAME' ? 'コメント・変更履歴を表示' : 'モバイル版を表示';
+  // hasNativeSideBar: このレコード画面でkintone標準のサイドバー(コメント欄・変更履歴)が
+  // 利用できるか(レコード詳細・編集画面ではtrue、新規作成画面ではfalse。showSideBar()自体が
+  // 新規作成画面では利用できないAPIのため)。falseの画面には「コメント・変更履歴に戻す」という
+  // 選択肢自体が存在しないため、単純な開閉ラベルにする。
+  const resolveToggleButtonLabel = (currentView, hasNativeSideBar = true) => {
+    if (currentView !== 'IFRAME') {
+      return 'モバイル版を表示';
+    }
+    return hasNativeSideBar ? 'コメント・変更履歴を表示' : 'モバイル版を閉じる';
+  };
 
   const PanelState = {
     VIEWS,
