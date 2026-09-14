@@ -9,17 +9,30 @@
 
   const isNonEmpty = (v) => v !== undefined && v !== null && v !== '';
 
+  // recordの中から、指定した型(CREATED_TIME/UPDATED_TIME)を持つフィールドを1件探す。
+  // これらはアプリに必ず1つだけ存在するシステムフィールドだが、フィールドコード自体は
+  // アプリごとに変更可能(既定値はラベルと同じ)なため、コード決め打ちにせずrecordの各エントリの
+  // typeで探す(kintoneドキュメントMCP「フィールド形式」で、システムフィールドもtype情報を
+  // 持つことを確認済み)。
+  const findFieldByType = (record, fieldType) =>
+    Object.values(record || {}).find((f) => f && f.type === fieldType) || null;
+
   // ルール(動作=設定)の対象フィールド型・ソース設定・実行時コンテキストから、書き込む値を解決する。
   // 解決できない場合はnullを返し、呼び出し側はそのルールをスキップする(対象フィールドを変更しない)。
   //
   // context:
-  //   record — event.record相当(フィールドコード→{type, value}のオブジェクト)。COPY_FIELDで使う。
+  //   record — event.record相当(フィールドコード→{type, value}のオブジェクト)。COPY_FIELD・
+  //     CREATED_TIME_OFFSET・UPDATED_TIME_OFFSET・FIELD_OFFSETで使う。
   //   loginUserCode — アクション実行者のログイン名(kintone.getLoginUser().code)。USER_SELECTで使う。
   //   primaryOrgCode — アクション実行者の優先する組織コード(kintone.user.getOrganizations()の
   //     organization.primary===trueの1件)。無ければnull。ORGANIZATION_SELECTで使う。
-  //   computeNowOffsetValue(targetFieldType, magnitude, unit) — NowOffsetCalculator.
-  //     computeNowOffsetValueを「今」に束縛した関数。呼び出し側(desktop.js/mobile.js)が注入する
-  //     (この関数自体をkintone非依存に保ち、Jestで日時をモックしやすくするための依存性注入)。
+  //   nowMs — 実行時点のエポックミリ秒。NOW_OFFSETで使う。
+  //   computeInstantOffsetValue(instantMs, targetFieldType, magnitude, unit) — DateOffsetCalculator.
+  //     computeInstantOffsetValue。NOW_OFFSET/CREATED_TIME_OFFSET/UPDATED_TIME_OFFSETで使う。
+  //   computeFieldOffsetValue(baseValue, baseFieldType, magnitude, unit) — DateOffsetCalculator.
+  //     computeFieldOffsetValue。FIELD_OFFSETで使う。
+  //   (計算関数自体を呼び出し側〈desktop.js/mobile.js〉から注入する設計にすることで、この関数を
+  //   kintone非依存に保ち、Jestで日時をモックしやすくしている)
   const resolveSetValue = (targetFieldType, source, context) => {
     const src = source || {};
     const ctx = context || {};
@@ -58,16 +71,54 @@
 
     if (DATE_TIME_TYPES.includes(targetFieldType)) {
       if (
-        src.type !== 'NOW_OFFSET' ||
-        typeof ctx.computeNowOffsetValue !== 'function'
+        typeof ctx.computeInstantOffsetValue !== 'function' ||
+        typeof ctx.computeFieldOffsetValue !== 'function'
       ) {
         return null;
       }
-      return ctx.computeNowOffsetValue(
-        targetFieldType,
-        src.magnitude,
-        src.unit,
-      );
+
+      if (src.type === 'NOW_OFFSET') {
+        return ctx.computeInstantOffsetValue(
+          ctx.nowMs,
+          targetFieldType,
+          src.magnitude,
+          src.unit,
+        );
+      }
+
+      if (
+        src.type === 'CREATED_TIME_OFFSET' ||
+        src.type === 'UPDATED_TIME_OFFSET'
+      ) {
+        const systemType =
+          src.type === 'CREATED_TIME_OFFSET' ? 'CREATED_TIME' : 'UPDATED_TIME';
+        const baseField = findFieldByType(record, systemType);
+        if (!baseField) {
+          return null;
+        }
+        const instantMs = new Date(baseField.value).getTime();
+        return ctx.computeInstantOffsetValue(
+          instantMs,
+          targetFieldType,
+          src.magnitude,
+          src.unit,
+        );
+      }
+
+      if (src.type === 'FIELD_OFFSET') {
+        const baseField = record[src.fieldCode];
+        if (!baseField) {
+          return null;
+        }
+        return ctx.computeFieldOffsetValue(
+          baseField.value,
+          baseField.type,
+          src.magnitude,
+          src.unit,
+        );
+      }
+
+      return null;
     }
 
     if (targetFieldType === 'USER_SELECT') {

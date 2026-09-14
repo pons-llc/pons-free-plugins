@@ -67,6 +67,43 @@
     });
   };
 
+  // チェックボックスの一覧を描画する(フィルター条件の3項目、およびCHECK_BOX/MULTI_SELECT対象
+  // フィールドの選択肢入力で共用する)。チェックボックスは同じnameを共有しても(ラジオボタンと
+  // 異なり)互いの選択状態に影響しないため、ルール行ごとに一意なname属性を付ける必要はない。
+  const renderCheckboxGroup = (
+    containerEl,
+    optionLabels,
+    selectedValues,
+    onToggle,
+  ) => {
+    containerEl.innerHTML = '';
+    const selected = selectedValues || [];
+    optionLabels.forEach((label) => {
+      const wrapperEl = document.createElement('label');
+      wrapperEl.className = 'paf-checkbox-label';
+      const checkboxEl = document.createElement('input');
+      checkboxEl.type = 'checkbox';
+      checkboxEl.value = label;
+      checkboxEl.checked = selected.includes(label);
+      checkboxEl.addEventListener('change', () =>
+        onToggle(label, checkboxEl.checked),
+      );
+      wrapperEl.appendChild(checkboxEl);
+      wrapperEl.appendChild(document.createTextNode(label));
+      containerEl.appendChild(wrapperEl);
+    });
+  };
+
+  const toggleInArray = (arr, value, checked) => {
+    const set = new Set(arr || []);
+    if (checked) {
+      set.add(value);
+    } else {
+      set.delete(value);
+    }
+    return Array.from(set);
+  };
+
   const optionLabelsOf = (fieldInfo) => {
     if (!fieldInfo || !fieldInfo.options) {
       return [];
@@ -104,10 +141,20 @@
     config.rules.forEach((rule, ruleIndex) => {
       const fragment = ruleRowTemplateEl.content.cloneNode(true);
       const rowEl = fragment.querySelector('.js-rule-row');
+      // ラジオボタンのname属性はルール行ごとに一意にする。<template>をcloneNode()すると
+      // name属性の値はそのまま複製されるため、同じ<form>内に複数ルールを並べると
+      // 「値を設定/値をクリア」等のラジオボタンが行をまたいで1つのグループとして扱われ、
+      // 別の行を操作すると他の行の選択状態が(見た目上)リセットされる不具合があった。
+      // 行ごとに一意な接尾辞を付けて、行内でのみ排他になるようにする。
+      const rowUid = String(ruleIndex);
 
-      const filterActionEl = rowEl.querySelector('.js-filter-action');
-      const filterFromEl = rowEl.querySelector('.js-filter-from');
-      const filterToEl = rowEl.querySelector('.js-filter-to');
+      const filterActionOptionsEl = rowEl.querySelector(
+        '.js-filter-action-options',
+      );
+      const filterFromOptionsEl = rowEl.querySelector(
+        '.js-filter-from-options',
+      );
+      const filterToOptionsEl = rowEl.querySelector('.js-filter-to-options');
       const targetEl = rowEl.querySelector('.js-target');
       const opSetEl = rowEl.querySelector('.js-op-set');
       const opClearEl = rowEl.querySelector('.js-op-clear');
@@ -157,6 +204,22 @@
         '.js-source-multi-choice-options',
       );
 
+      const sourceDateBaseNowEl = rowEl.querySelector(
+        '.js-source-date-base-now',
+      );
+      const sourceDateBaseCreatedEl = rowEl.querySelector(
+        '.js-source-date-base-created',
+      );
+      const sourceDateBaseUpdatedEl = rowEl.querySelector(
+        '.js-source-date-base-updated',
+      );
+      const sourceDateBaseFieldEl = rowEl.querySelector(
+        '.js-source-date-base-field',
+      );
+      const sourceDateFieldRowEl = rowEl.querySelector(
+        '.js-source-date-field-row',
+      );
+      const sourceDateFieldEl = rowEl.querySelector('.js-source-date-field');
       const sourceDateUnitEl = rowEl.querySelector('.js-source-date-unit');
       const sourceDateMagnitudeEl = rowEl.querySelector(
         '.js-source-date-magnitude',
@@ -170,6 +233,17 @@
       const sourceOrgCodeEl = rowEl.querySelector('.js-source-org-code');
 
       const sourceGroupCodeEl = rowEl.querySelector('.js-source-group-code');
+
+      opSetEl.name = opClearEl.name = `op-${rowUid}`;
+      sourceTextFixedEl.name = sourceTextCopyEl.name = `text-src-${rowUid}`;
+      sourceNumberFixedEl.name =
+        sourceNumberCopyEl.name = `number-src-${rowUid}`;
+      sourceOrgFixedEl.name = sourceOrgActorEl.name = `org-src-${rowUid}`;
+      sourceDateBaseNowEl.name =
+        sourceDateBaseCreatedEl.name =
+        sourceDateBaseUpdatedEl.name =
+        sourceDateBaseFieldEl.name =
+          `date-src-${rowUid}`;
 
       const currentCategory = () =>
         NS.FieldEligibility.categoryOf(
@@ -193,6 +267,45 @@
         Object.entries(CATEGORY_BLOCK_SELECTOR).forEach(([cat, selector]) => {
           rowEl.querySelector(selector).hidden = cat !== category;
         });
+      };
+
+      const renderFilterControls = () => {
+        renderCheckboxGroup(
+          filterActionOptionsEl,
+          actionNames,
+          rule.filter.actionNames,
+          (label, checked) => {
+            rule.filter.actionNames = toggleInArray(
+              rule.filter.actionNames,
+              label,
+              checked,
+            );
+          },
+        );
+        renderCheckboxGroup(
+          filterFromOptionsEl,
+          statusNames,
+          rule.filter.fromStatuses,
+          (label, checked) => {
+            rule.filter.fromStatuses = toggleInArray(
+              rule.filter.fromStatuses,
+              label,
+              checked,
+            );
+          },
+        );
+        renderCheckboxGroup(
+          filterToOptionsEl,
+          statusNames,
+          rule.filter.toStatuses,
+          (label, checked) => {
+            rule.filter.toStatuses = toggleInArray(
+              rule.filter.toStatuses,
+              label,
+              checked,
+            );
+          },
+        );
       };
 
       const renderTextSourceControls = () => {
@@ -248,30 +361,46 @@
 
       const renderMultiChoiceSourceControls = () => {
         const targetField = formFields[rule.targetFieldCode];
-        sourceMultiChoiceOptionsEl.innerHTML = '';
-        optionLabelsOf(targetField).forEach((label) => {
-          const wrapperEl = document.createElement('label');
-          wrapperEl.className = 'paf-checkbox-label';
-          const checkboxEl = document.createElement('input');
-          checkboxEl.type = 'checkbox';
-          checkboxEl.value = label;
-          checkboxEl.checked = (rule.source.values || []).includes(label);
-          checkboxEl.addEventListener('change', () => {
-            const values = new Set(rule.source.values || []);
-            if (checkboxEl.checked) {
-              values.add(label);
-            } else {
-              values.delete(label);
-            }
-            rule.source.values = Array.from(values);
-          });
-          wrapperEl.appendChild(checkboxEl);
-          wrapperEl.appendChild(document.createTextNode(label));
-          sourceMultiChoiceOptionsEl.appendChild(wrapperEl);
-        });
+        renderCheckboxGroup(
+          sourceMultiChoiceOptionsEl,
+          optionLabelsOf(targetField),
+          rule.source.values,
+          (label, checked) => {
+            rule.source.values = toggleInArray(
+              rule.source.values,
+              label,
+              checked,
+            );
+          },
+        );
       };
 
+      // 基準日時の種別ごとに、選べる型(DATE_TIME_BASE_TO_TYPEには無いが)ではなく対象フィールドの
+      // 型を使う。CREATED_TIME/UPDATED_TIMEはアプリに必ず1つだけ存在するシステムフィールドで、
+      // ルール保存時にフィールドコードを持たせる必要が無い(実行時にrecordの中からtypeで探す、
+      // value-resolver.js参照)ため、ここでは基準の種別を選ぶだけでよい。
       const renderDateSourceControls = () => {
+        const srcType = rule.source.type || 'NOW_OFFSET';
+        sourceDateBaseNowEl.checked = srcType === 'NOW_OFFSET';
+        sourceDateBaseCreatedEl.checked = srcType === 'CREATED_TIME_OFFSET';
+        sourceDateBaseUpdatedEl.checked = srcType === 'UPDATED_TIME_OFFSET';
+        sourceDateBaseFieldEl.checked = srcType === 'FIELD_OFFSET';
+        sourceDateFieldRowEl.hidden = srcType !== 'FIELD_OFFSET';
+
+        const targetField = formFields[rule.targetFieldCode];
+        const candidates = targetField
+          ? Object.values(formFields).filter((f) => f.type === targetField.type)
+          : [];
+        buildSelectOptions(
+          sourceDateFieldEl,
+          candidates.map((f) => ({
+            value: f.code,
+            label: `${f.label} (${f.code})`,
+          })),
+          rule.source.fieldCode,
+          '(選択してください)',
+        );
+
         sourceDateUnitEl.value = rule.source.unit || 'DAYS';
         sourceDateMagnitudeEl.value =
           rule.source.magnitude === null || rule.source.magnitude === undefined
@@ -311,24 +440,8 @@
       };
 
       // --- 初期描画 ---
-      buildSelectOptions(
-        filterActionEl,
-        actionNames.map((n) => ({ value: n, label: n })),
-        rule.filter.actionName,
-        '(いずれでも)',
-      );
-      buildSelectOptions(
-        filterFromEl,
-        statusNames.map((n) => ({ value: n, label: n })),
-        rule.filter.fromStatus,
-        '(いずれでも)',
-      );
-      buildSelectOptions(
-        filterToEl,
-        statusNames.map((n) => ({ value: n, label: n })),
-        rule.filter.toStatus,
-        '(いずれでも)',
-      );
+      rule.filter = rule.filter || {};
+      renderFilterControls();
       buildSelectOptions(
         targetEl,
         eligibleFields.map((f) => ({
@@ -345,15 +458,6 @@
       renderSourceControls();
 
       // --- イベント配線 ---
-      filterActionEl.addEventListener('change', () => {
-        rule.filter.actionName = filterActionEl.value;
-      });
-      filterFromEl.addEventListener('change', () => {
-        rule.filter.fromStatus = filterFromEl.value;
-      });
-      filterToEl.addEventListener('change', () => {
-        rule.filter.toStatus = filterToEl.value;
-      });
       targetEl.addEventListener('change', () => {
         rule.targetFieldCode = targetEl.value;
         refreshForTargetChange();
@@ -405,6 +509,30 @@
         rule.source.value = sourceChoiceValueEl.value;
       });
 
+      const setDateSource = (type) => {
+        rule.source = {
+          type,
+          fieldCode: type === 'FIELD_OFFSET' ? '' : undefined,
+          unit: rule.source.unit || 'DAYS',
+          magnitude: rule.source.magnitude,
+        };
+        renderDateSourceControls();
+      };
+      sourceDateBaseNowEl.addEventListener('change', () =>
+        setDateSource('NOW_OFFSET'),
+      );
+      sourceDateBaseCreatedEl.addEventListener('change', () =>
+        setDateSource('CREATED_TIME_OFFSET'),
+      );
+      sourceDateBaseUpdatedEl.addEventListener('change', () =>
+        setDateSource('UPDATED_TIME_OFFSET'),
+      );
+      sourceDateBaseFieldEl.addEventListener('change', () =>
+        setDateSource('FIELD_OFFSET'),
+      );
+      sourceDateFieldEl.addEventListener('change', () => {
+        rule.source.fieldCode = sourceDateFieldEl.value;
+      });
       sourceDateUnitEl.addEventListener('change', () => {
         rule.source.unit = sourceDateUnitEl.value;
       });
@@ -443,7 +571,7 @@
 
   ruleAddButtonEl.addEventListener('click', () => {
     config.rules.push({
-      filter: { actionName: '', fromStatus: '', toStatus: '' },
+      filter: { actionNames: [], fromStatuses: [], toStatuses: [] },
       targetFieldCode: '',
       operation: 'SET',
       source: {},

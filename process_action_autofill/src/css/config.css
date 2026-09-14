@@ -39,14 +39,30 @@
 .paf-filter-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 1em;
+  gap: 1.5em;
 }
 
-.paf-filter-row label {
+.paf-filter-group {
+  min-width: 12em;
+}
+
+.paf-filter-group-heading {
+  font-size: 0.85em;
+  font-weight: bold;
+  color: #4a5658;
+  margin-bottom: 0.3em;
+}
+
+.paf-filter-group-hint {
+  font-weight: normal;
+  color: #7b8a8f;
+  margin-left: 0.3em;
+}
+
+.paf-checkbox-group {
   display: flex;
   flex-direction: column;
-  font-size: 0.85em;
-  color: #4a5658;
+  gap: 0.15em;
 }
 
 .paf-radio-label,
@@ -57,6 +73,10 @@
 
 .paf-source-block {
   margin-bottom: 0.5em;
+}
+
+.paf-source-date-offset-row {
+  margin-top: 0.5em;
 }
 
 .paf-note {

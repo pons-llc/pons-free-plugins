@@ -1,29 +1,34 @@
 (function (root) {
   'use strict';
 
-  // process.proceedイベントの action.value / status.value / nextStatus.value と、
-  // ルールのフィルター条件(actionName/fromStatus/toStatus)を照合する純粋関数。
-  // フィルターの各項目はnull/undefined/空文字列なら「いずれでも」として扱う(ワイルドカード)。
-  // 指定した項目のみをAND条件で一致判定する。
-  const isWildcard = (v) => v === undefined || v === null || v === '';
+  // フィルター条件は3種類(アクション名/変更前ステータス/変更後ステータス)。それぞれ複数選択でき、
+  // 同じ種類の中では「いずれかに一致(OR)」、異なる種類の間では「すべてに一致(AND)」という
+  // 一般的な絞り込みUI(ファセット検索)の意味論にしている。空配列/未指定はその種類を判定に
+  // 使わない(=いずれでも)。
+  const isAnyMatch = (selectedValues, actualValue) => {
+    if (!Array.isArray(selectedValues) || selectedValues.length === 0) {
+      return true;
+    }
+    return selectedValues.includes(actualValue);
+  };
 
   const matchesFilter = (filter, eventContext) => {
     const f = filter || {};
     const ctx = eventContext || {};
-    if (!isWildcard(f.actionName) && f.actionName !== ctx.actionName) {
+    if (!isAnyMatch(f.actionNames, ctx.actionName)) {
       return false;
     }
-    if (!isWildcard(f.fromStatus) && f.fromStatus !== ctx.fromStatus) {
+    if (!isAnyMatch(f.fromStatuses, ctx.fromStatus)) {
       return false;
     }
-    if (!isWildcard(f.toStatus) && f.toStatus !== ctx.toStatus) {
+    if (!isAnyMatch(f.toStatuses, ctx.toStatus)) {
       return false;
     }
     return true;
   };
 
-  // 設定順のまま、条件に一致したルールだけを返す(date_offset_autofillと同様、複数ルールが
-  // 一致した場合は設定順に処理され、同じ対象フィールドへの書き込みは後続ルールが上書きする)。
+  // 設定順のまま、条件に一致したルールだけを返す(複数ルールが一致した場合は設定順に処理され、
+  // 同じ対象フィールドへの書き込みは後続ルールが上書きする)。
   const matchRules = (rules, eventContext) =>
     (rules || []).filter((rule) =>
       matchesFilter(rule && rule.filter, eventContext),

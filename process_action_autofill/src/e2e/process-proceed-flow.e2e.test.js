@@ -1,7 +1,8 @@
 'use strict';
 
 // プロセス管理のアクションボタンを実際に実行し、設定したルールに従ってフィールドの値が
-// 設定・クリアされることを検証する実環境テスト(config-screen.e2e.test.jsでは設定画面のUIのみを
+// 設定・クリアされること、および日付/日時フィールドの新しい基準(作成日時)からのオフセットが
+// 正しく反映されることを検証する実環境テスト(config-screen.e2e.test.jsでは設定画面のUIのみを
 // 確認しており、実際のprocess.proceedイベント発火・値の反映まではカバーしていないため)。
 //
 // 事前準備は config-screen.e2e.test.js と同じ(pnpm run build && pnpm run upload 済みであること)。
@@ -16,6 +17,7 @@ const fixtures = require('./fixtures');
 
 const PLUGIN_SRC_DIR = path.join(__dirname, '..');
 const FIXED_TEXT_VALUE = '自動入力テスト';
+const { clickFilterCheckbox } = fixtures;
 
 // kintoneのプロセス管理アクションボタンをクリックし、確認ポップオーバーの「実行」ボタンまで
 // 押し切る。DOM構造は実際に検証環境(process_action_autofillテスト用アプリ)で確認済み
@@ -83,6 +85,14 @@ const waitForRecordField = async (
   }
 };
 
+// DATETIMEフィールドへの「瞬間+オフセット」計算を、date-offset-calculator.jsのcomputeInstantOffsetValue
+// (DATETIME分岐)と同じ手法で独立に再現する(絶対時刻なのでタイムゾーンの概念が無く、
+// ミリ秒をそのまま加算してミリ秒なしISO8601に整形するだけ)。
+const addDaysToDatetimeValue = (isoValue, days) =>
+  new Date(new Date(isoValue).getTime() + days * 86400000)
+    .toISOString()
+    .replace(/\.\d{3}Z$/, 'Z');
+
 describe('プロセスアクション実行時のフィールド自動更新(実環境)', () => {
   let browser;
   let page;
@@ -114,10 +124,11 @@ describe('プロセスアクション実行時のフィールド自動更新(実
     }
   });
 
-  test('「処理を開始する」アクション実行で、条件に一致するルールの対象フィールドが設定・クリアされる', async () => {
+  test('「処理を開始する」アクション実行で、条件に一致するルールの対象フィールドが設定・クリア・オフセット計算される', async () => {
     // --- 1. ルールを組み立てて保存する ---
-    // ルール1: filter.actionName=処理を開始する / target=文字列 / SET 固定値
-    // ルール2: filter.actionName=処理を開始する / target=チェックボックス / CLEAR
+    // ルール1: filter.actionNames=[処理を開始する] / target=文字列 / SET 固定値
+    // ルール2: filter.actionNames=[処理を開始する] / target=チェックボックス / CLEAR
+    // ルール3: filter.actionNames=[処理を開始する] / target=日時 / SET 作成日時+1日(CREATED_TIME_OFFSET)
     await common.openPluginConfig(
       page,
       env,
@@ -135,9 +146,11 @@ describe('プロセスアクション実行時のフィールド自動更新(実
 
     await page.click('#js-rule-add');
     const textRuleRow = await page.$('.js-rule-row');
-    await (
-      await textRuleRow.$('.js-filter-action')
-    ).select(fixtures.PROCESS_ACTIONS.start.name);
+    await clickFilterCheckbox(
+      textRuleRow,
+      '.js-filter-action-options',
+      fixtures.PROCESS_ACTIONS.start.name,
+    );
     await (
       await textRuleRow.$('.js-target')
     ).select(fixtures.FIELD_CODES.textTarget);
@@ -146,15 +159,32 @@ describe('プロセスアクション実行時のフィールド自動更新(実
     ).type(FIXED_TEXT_VALUE);
 
     await page.click('#js-rule-add');
-    const rows = await page.$$('.js-rule-row');
+    let rows = await page.$$('.js-rule-row');
     const checkboxRuleRow = rows[1];
-    await (
-      await checkboxRuleRow.$('.js-filter-action')
-    ).select(fixtures.PROCESS_ACTIONS.start.name);
+    await clickFilterCheckbox(
+      checkboxRuleRow,
+      '.js-filter-action-options',
+      fixtures.PROCESS_ACTIONS.start.name,
+    );
     await (
       await checkboxRuleRow.$('.js-target')
     ).select(fixtures.FIELD_CODES.checkboxTarget);
     await (await checkboxRuleRow.$('.js-op-clear')).click();
+
+    await page.click('#js-rule-add');
+    rows = await page.$$('.js-rule-row');
+    const datetimeRuleRow = rows[2];
+    await clickFilterCheckbox(
+      datetimeRuleRow,
+      '.js-filter-action-options',
+      fixtures.PROCESS_ACTIONS.start.name,
+    );
+    await (
+      await datetimeRuleRow.$('.js-target')
+    ).select(fixtures.FIELD_CODES.datetimeTarget);
+    await (await datetimeRuleRow.$('.js-source-date-base-created')).click();
+    await (await datetimeRuleRow.$('.js-source-date-unit')).select('DAYS');
+    await (await datetimeRuleRow.$('.js-source-date-magnitude')).type('1');
 
     await Promise.all([
       page.waitForFunction(() => !location.href.includes('plugin/config')),
@@ -202,6 +232,21 @@ describe('プロセスアクション実行時のフィールド自動更新(実
       FIXED_TEXT_VALUE,
     );
     expect(record[fixtures.FIELD_CODES.checkboxTarget].value).toEqual([]);
+
+    // 作成日時(CREATED_TIME型)フィールドをコード決め打ちせずtypeで探す(value-resolver.jsの
+    // findFieldByTypeと同じ考え方)。
+    const createdTimeEntry = Object.values(record).find(
+      (f) => f.type === 'CREATED_TIME',
+    );
+    expect(createdTimeEntry).toBeDefined();
+    const expectedDatetimeValue = addDaysToDatetimeValue(
+      createdTimeEntry.value,
+      1,
+    );
+    expect(record[fixtures.FIELD_CODES.datetimeTarget].value).toBe(
+      expectedDatetimeValue,
+    );
+
     expect(pageErrors).toEqual([]);
   });
 });

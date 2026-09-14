@@ -93,9 +93,46 @@ const ensureFields = (env, appId) =>
     },
   });
 
+// フィルター条件のチェックボックス一覧(.js-filter-action-options等)から、指定したラベルの
+// チェックボックスをクリックする。config-screen.e2e.test.js/process-proceed-flow.e2e.test.jsの
+// 両方で使う共通ヘルパー。
+const clickFilterCheckbox = async (rowHandle, containerSelector, label) => {
+  const checkboxHandle = await rowHandle.evaluateHandle(
+    (row, selector, text) => {
+      const checkboxes = Array.from(
+        row.querySelectorAll(`${selector} input[type=checkbox]`),
+      );
+      return checkboxes.find((el) => el.value === text);
+    },
+    containerSelector,
+    label,
+  );
+  const checkboxEl = checkboxHandle.asElement();
+  if (!checkboxEl) {
+    throw new Error(
+      `チェックボックス「${label}」(${containerSelector})が見つかりません。`,
+    );
+  }
+  await checkboxEl.click();
+};
+
+const isFilterCheckboxChecked = (rowHandle, containerSelector, label) =>
+  rowHandle.evaluate(
+    (row, selector, text) => {
+      const el = Array.from(
+        row.querySelectorAll(`${selector} input[type=checkbox]`),
+      ).find((c) => c.value === text);
+      return el ? el.checked : null;
+    },
+    containerSelector,
+    label,
+  );
+
 module.exports = {
   PAF_TEST_APP_ID,
   FIELD_CODES,
   PROCESS_ACTIONS,
   ensureFields,
+  clickFilterCheckbox,
+  isFilterCheckboxChecked,
 };

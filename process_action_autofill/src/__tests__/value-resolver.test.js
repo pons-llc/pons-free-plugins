@@ -92,25 +92,137 @@ describe('resolveSetValue - MULTI_CHOICE', () => {
 });
 
 describe('resolveSetValue - DATE/DATETIME', () => {
-  test('NOW_OFFSETはcomputeNowOffsetValueへ委譲する', () => {
-    const computeNowOffsetValue = jest.fn().mockReturnValue('2024-01-08');
-    const context = { computeNowOffsetValue };
+  const makeCalcSpies = () => ({
+    computeInstantOffsetValue: jest.fn().mockReturnValue('2024-01-08'),
+    computeFieldOffsetValue: jest.fn().mockReturnValue('2024-02-01'),
+  });
+
+  test('NOW_OFFSETはnowMsをcomputeInstantOffsetValueへ渡して委譲する', () => {
+    const spies = makeCalcSpies();
+    const context = { nowMs: 1000, ...spies };
     const result = resolveSetValue(
       'DATE',
       { type: 'NOW_OFFSET', unit: 'DAYS', magnitude: 7 },
       context,
     );
     expect(result).toBe('2024-01-08');
-    expect(computeNowOffsetValue).toHaveBeenCalledWith('DATE', 7, 'DAYS');
+    expect(spies.computeInstantOffsetValue).toHaveBeenCalledWith(
+      1000,
+      'DATE',
+      7,
+      'DAYS',
+    );
   });
 
-  test('ソース種別がNOW_OFFSETでない場合はnull', () => {
+  test('CREATED_TIME_OFFSETはrecordからCREATED_TIME型フィールドを探し、その瞬間を基準に計算する', () => {
+    const spies = makeCalcSpies();
+    const context = {
+      record: {
+        作成日時: { type: 'CREATED_TIME', value: '2024-01-01T00:00:00Z' },
+        text_0: { type: 'SINGLE_LINE_TEXT', value: 'x' },
+      },
+      ...spies,
+    };
+    const result = resolveSetValue(
+      'DATETIME',
+      { type: 'CREATED_TIME_OFFSET', unit: 'DAYS', magnitude: 3 },
+      context,
+    );
+    expect(result).toBe('2024-01-08');
+    expect(spies.computeInstantOffsetValue).toHaveBeenCalledWith(
+      new Date('2024-01-01T00:00:00Z').getTime(),
+      'DATETIME',
+      3,
+      'DAYS',
+    );
+  });
+
+  test('UPDATED_TIME_OFFSETはrecordからUPDATED_TIME型フィールドを探す', () => {
+    const spies = makeCalcSpies();
+    const context = {
+      record: {
+        更新日時: { type: 'UPDATED_TIME', value: '2024-05-01T00:00:00Z' },
+      },
+      ...spies,
+    };
+    resolveSetValue(
+      'DATE',
+      { type: 'UPDATED_TIME_OFFSET', unit: 'DAYS', magnitude: 1 },
+      context,
+    );
+    expect(spies.computeInstantOffsetValue).toHaveBeenCalledWith(
+      new Date('2024-05-01T00:00:00Z').getTime(),
+      'DATE',
+      1,
+      'DAYS',
+    );
+  });
+
+  test('CREATED_TIME型フィールドがrecordに無い場合はnull', () => {
+    const spies = makeCalcSpies();
+    const context = { record: {}, ...spies };
     expect(
-      resolveSetValue('DATE', { type: 'FIXED', value: '2024-01-01' }, {}),
+      resolveSetValue(
+        'DATE',
+        { type: 'CREATED_TIME_OFFSET', unit: 'DAYS', magnitude: 1 },
+        context,
+      ),
     ).toBeNull();
   });
 
-  test('computeNowOffsetValueが注入されていない場合はnull', () => {
+  test('FIELD_OFFSETはrecordの指定フィールドの値・型をcomputeFieldOffsetValueへ渡す', () => {
+    const spies = makeCalcSpies();
+    const context = {
+      record: { due_date: { type: 'DATE', value: '2024-01-01' } },
+      ...spies,
+    };
+    const result = resolveSetValue(
+      'DATE',
+      {
+        type: 'FIELD_OFFSET',
+        fieldCode: 'due_date',
+        unit: 'DAYS',
+        magnitude: 5,
+      },
+      context,
+    );
+    expect(result).toBe('2024-02-01');
+    expect(spies.computeFieldOffsetValue).toHaveBeenCalledWith(
+      '2024-01-01',
+      'DATE',
+      5,
+      'DAYS',
+    );
+  });
+
+  test('FIELD_OFFSETで基準フィールドがrecordに存在しない場合はnull', () => {
+    const spies = makeCalcSpies();
+    expect(
+      resolveSetValue(
+        'DATE',
+        {
+          type: 'FIELD_OFFSET',
+          fieldCode: 'missing',
+          unit: 'DAYS',
+          magnitude: 5,
+        },
+        { record: {}, ...spies },
+      ),
+    ).toBeNull();
+  });
+
+  test('ソース種別が不正な場合はnull', () => {
+    const spies = makeCalcSpies();
+    expect(
+      resolveSetValue(
+        'DATE',
+        { type: 'FIXED', value: '2024-01-01' },
+        { record: {}, ...spies },
+      ),
+    ).toBeNull();
+  });
+
+  test('計算関数が注入されていない場合はnull', () => {
     expect(
       resolveSetValue(
         'DATE',

@@ -3,7 +3,10 @@
   <p class="kintoneplugin-desc">
     プロセス管理のアクションボタンを実行したとき(アクションの実行前)に、指定した条件(アクション名・
     変更前ステータス・変更後ステータス)に一致する場合のみ、対象フィールドの値を自動的に設定・
-    クリアします。条件は指定した項目だけがAND判定され、未指定の項目は「いずれでも」として扱われます。
+    クリアします。<strong>アクション名・変更前ステータス・変更後ステータスの3項目は、指定した項目を
+    すべて満たす場合のみ実行します(AND)</strong>。それぞれの項目の中で複数チェックした場合は、
+    <strong>いずれかにチェックが一致すれば条件を満たします(OR)</strong>。すべて未チェックの項目は
+    「いずれでも」として扱われます。
   </p>
   <p id="js-process-warning" class="kintoneplugin-desc paf-caution" hidden>
     ⚠ このアプリはプロセス管理が有効になっていません。プロセス管理を設定してから、本プラグインの
@@ -36,17 +39,20 @@
           <th>フィルター条件</th>
           <td>
             <div class="paf-filter-row">
-              <label>アクション名
-                <select class="kintoneplugin-select js-filter-action"></select>
-              </label>
-              <label>変更前ステータス
-                <select class="kintoneplugin-select js-filter-from"></select>
-              </label>
-              <label>変更後ステータス
-                <select class="kintoneplugin-select js-filter-to"></select>
-              </label>
+              <div class="paf-filter-group">
+                <div class="paf-filter-group-heading">アクション名<span class="paf-filter-group-hint">(いずれかにOR一致)</span></div>
+                <div class="js-filter-action-options paf-checkbox-group"></div>
+              </div>
+              <div class="paf-filter-group">
+                <div class="paf-filter-group-heading">変更前ステータス<span class="paf-filter-group-hint">(いずれかにOR一致)</span></div>
+                <div class="js-filter-from-options paf-checkbox-group"></div>
+              </div>
+              <div class="paf-filter-group">
+                <div class="paf-filter-group-heading">変更後ステータス<span class="paf-filter-group-hint">(いずれかにOR一致)</span></div>
+                <div class="js-filter-to-options paf-checkbox-group"></div>
+              </div>
             </div>
-            <p class="paf-note">指定した項目のみで判定します(すべて「(いずれでも)」のままにすると、常に発動します)。</p>
+            <p class="paf-note">上の3項目は<strong>すべてAND</strong>判定です。未チェックの項目は「いずれでも」として扱われます。</p>
           </td>
         </tr>
         <tr>
@@ -102,12 +108,22 @@
             </div>
 
             <div class="js-source-date paf-source-block">
-              <select class="kintoneplugin-select js-source-date-unit">
-                <option value="DAYS">日数</option>
-                <option value="MINUTES">分数</option>
-              </select>
-              <input type="number" step="any" class="kintoneplugin-input-text js-source-date-magnitude" placeholder="例: 7、-3">
-              <p class="paf-note">実行時点(アクション実行時刻)に加減算します。「分数」は対象フィールドが日時型の場合のみ選択できます。</p>
+              <label class="paf-radio-label"><input type="radio" class="js-source-date-base-now"> 実行時点(アクション実行時刻)</label>
+              <label class="paf-radio-label"><input type="radio" class="js-source-date-base-created"> 作成日時</label>
+              <label class="paf-radio-label"><input type="radio" class="js-source-date-base-updated"> 更新日時</label>
+              <label class="paf-radio-label"><input type="radio" class="js-source-date-base-field"> 特定の日付/日時フィールド</label>
+              <div class="js-source-date-field-row">
+                <select class="kintoneplugin-select js-source-date-field"></select>
+                <p class="paf-note">対象フィールドと同じ型(対象が日付なら日付、日時なら日時)のフィールドのみ選択できます。</p>
+              </div>
+              <div class="paf-source-date-offset-row">
+                <select class="kintoneplugin-select js-source-date-unit">
+                  <option value="DAYS">日数</option>
+                  <option value="MINUTES">分数</option>
+                </select>
+                <input type="number" step="any" class="kintoneplugin-input-text js-source-date-magnitude" placeholder="例: 7、-3">
+              </div>
+              <p class="paf-note">選んだ基準の日時に加減算します。「分数」は対象フィールドが日時型の場合のみ選択できます。</p>
             </div>
 
             <div class="js-source-user paf-source-block">

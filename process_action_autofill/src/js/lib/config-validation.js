@@ -11,6 +11,12 @@
   const CHOICE_TYPES = ['RADIO_BUTTON', 'DROP_DOWN'];
   const MULTI_CHOICE_TYPES = ['CHECK_BOX', 'MULTI_SELECT'];
   const DATE_TIME_TYPES = ['DATE', 'DATETIME'];
+  const DATE_OFFSET_SOURCE_TYPES = [
+    'NOW_OFFSET',
+    'CREATED_TIME_OFFSET',
+    'UPDATED_TIME_OFFSET',
+    'FIELD_OFFSET',
+  ];
   const UNITS = ['DAYS', 'MINUTES'];
   const OPERATIONS = ['SET', 'CLEAR'];
 
@@ -105,9 +111,21 @@
     }
 
     if (DATE_TIME_TYPES.includes(targetFieldType)) {
-      if (src.type !== 'NOW_OFFSET') {
+      if (!DATE_OFFSET_SOURCE_TYPES.includes(src.type)) {
         errors.push(`${label}: 値のソース種別が不正です。`);
         return;
+      }
+      if (src.type === 'FIELD_OFFSET') {
+        if (!isNonEmptyString(src.fieldCode)) {
+          errors.push(`${label}: 基準フィールドが選択されていません。`);
+        } else if (fieldInfoByCode) {
+          const baseField = fieldInfoByCode[src.fieldCode];
+          if (!baseField || baseField.type !== targetFieldType) {
+            errors.push(
+              `${label}: 基準フィールド「${src.fieldCode}」は対象フィールドと同じ型(日付は日付、日時は日時)ではありません。`,
+            );
+          }
+        }
       }
       if (!UNITS.includes(src.unit)) {
         errors.push(`${label}: 単位(日数/分数)の指定が不正です。`);

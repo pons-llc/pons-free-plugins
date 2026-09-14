@@ -50,14 +50,13 @@
       return event;
     }
 
-    const now = new Date();
-    const computeNowOffsetValue = (targetFieldType, magnitude, unit) =>
-      NS.NowOffsetCalculator.computeNowOffsetValue(
-        now,
-        targetFieldType,
-        magnitude,
-        unit,
-      );
+    // value-resolver.jsは基準となる瞬間(実行時点/作成日時/更新日時)ごとに異なるinstantMsで
+    // computeInstantOffsetValueを呼び分けるため、ここではnowMsに束縛せず関数そのものを渡す。
+    const nowMs = Date.now();
+    const computeInstantOffsetValue =
+      NS.DateOffsetCalculator.computeInstantOffsetValue;
+    const computeFieldOffsetValue =
+      NS.DateOffsetCalculator.computeFieldOffsetValue;
     const loginUser = kintone.getLoginUser();
 
     if (needsPrimaryOrg(matched)) {
@@ -73,7 +72,9 @@
             primaryOrgCode: primaryEntry
               ? primaryEntry.organization.code
               : null,
-            computeNowOffsetValue,
+            nowMs,
+            computeInstantOffsetValue,
+            computeFieldOffsetValue,
           });
           return event;
         });
@@ -83,7 +84,9 @@
       record: event.record,
       loginUserCode: loginUser.code,
       primaryOrgCode: null,
-      computeNowOffsetValue,
+      nowMs,
+      computeInstantOffsetValue,
+      computeFieldOffsetValue,
     });
     return event;
   };

@@ -32,9 +32,9 @@ describe('ConfigStore', () => {
       rules: [
         {
           filter: {
-            actionName: '承認する',
-            fromStatus: null,
-            toStatus: '承認済',
+            actionNames: ['承認する'],
+            fromStatuses: [],
+            toStatuses: ['承認済'],
           },
           targetFieldCode: 'date_0',
           operation: 'SET',

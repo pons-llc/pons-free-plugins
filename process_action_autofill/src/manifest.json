@@ -1,12 +1,12 @@
 {
   "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
   "manifest_version": 1,
-  "version": 1,
+  "version": 2,
   "type": "APP",
   "desktop": {
     "js": [
       "js/lib/rule-matcher.js",
-      "js/lib/now-offset-calculator.js",
+      "js/lib/date-offset-calculator.js",
       "js/lib/value-resolver.js",
       "js/lib/clear-value.js",
       "js/lib/config-store.js",
@@ -38,12 +38,12 @@
   },
   "description": {
     "en": "process_action_autofill plugin",
-    "ja": "プロセス管理のアクションボタンを実行したとき、指定した条件(アクション名・変更前ステータス・変更後ステータス)に一致する場合のみ、対象フィールドの値を自動的に設定・クリアするプラグイン"
+    "ja": "プロセス管理のアクションボタンを実行したとき、指定した条件(アクション名・変更前ステータス・変更後ステータス、各項目内はOR・項目間はAND)に一致する場合のみ、対象フィールドの値を自動的に設定・クリアするプラグイン。日付/日時フィールドは実行時点・作成日時・更新日時・特定のフィールドを基準に加減算できる"
   },
   "mobile": {
     "js": [
       "js/lib/rule-matcher.js",
-      "js/lib/now-offset-calculator.js",
+      "js/lib/date-offset-calculator.js",
       "js/lib/value-resolver.js",
       "js/lib/clear-value.js",
       "js/lib/config-store.js",
