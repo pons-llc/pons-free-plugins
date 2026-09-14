@@ -1,0 +1,138 @@
+<section class="settings">
+  <h2 class="settings-heading">プロセスアクション自動入力プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    プロセス管理のアクションボタンを実行したとき(アクションの実行前)に、指定した条件(アクション名・
+    変更前ステータス・変更後ステータス)に一致する場合のみ、対象フィールドの値を自動的に設定・
+    クリアします。条件は指定した項目だけがAND判定され、未指定の項目は「いずれでも」として扱われます。
+  </p>
+  <p id="js-process-warning" class="kintoneplugin-desc paf-caution" hidden>
+    ⚠ このアプリはプロセス管理が有効になっていません。プロセス管理を設定してから、本プラグインの
+    ルールを設定してください。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="paf-errors"></div>
+
+    <div id="js-rule-list"></div>
+    <button type="button" id="js-rule-add" class="kintoneplugin-button-normal">+ ルールを追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-rule-row-template">
+  <section class="paf-section js-rule-row">
+    <div class="paf-section-heading">
+      ルール
+      <span class="paf-row-remove js-rule-remove">削除</span>
+    </div>
+
+    <table class="paf-table">
+      <tbody>
+        <tr>
+          <th>フィルター条件</th>
+          <td>
+            <div class="paf-filter-row">
+              <label>アクション名
+                <select class="kintoneplugin-select js-filter-action"></select>
+              </label>
+              <label>変更前ステータス
+                <select class="kintoneplugin-select js-filter-from"></select>
+              </label>
+              <label>変更後ステータス
+                <select class="kintoneplugin-select js-filter-to"></select>
+              </label>
+            </div>
+            <p class="paf-note">指定した項目のみで判定します(すべて「(いずれでも)」のままにすると、常に発動します)。</p>
+          </td>
+        </tr>
+        <tr>
+          <th>対象フィールド</th>
+          <td><select class="kintoneplugin-select js-target"></select></td>
+        </tr>
+        <tr>
+          <th>動作</th>
+          <td>
+            <label class="paf-radio-label">
+              <input type="radio" name="operation" class="js-op-set"> 値を設定
+            </label>
+            <label class="paf-radio-label">
+              <input type="radio" name="operation" class="js-op-clear"> 値をクリア
+            </label>
+          </td>
+        </tr>
+        <tr class="js-set-row">
+          <th>値のソース</th>
+          <td>
+            <div class="js-source-text paf-source-block">
+              <label class="paf-radio-label"><input type="radio" name="text-source" class="js-source-text-fixed"> 固定文字列</label>
+              <label class="paf-radio-label"><input type="radio" name="text-source" class="js-source-text-copy"> 別フィールドのコピー</label>
+              <div class="js-source-text-fixed-row">
+                <input type="text" class="kintoneplugin-input-text js-source-text-fixed-value">
+              </div>
+              <div class="js-source-text-copy-row">
+                <select class="kintoneplugin-select js-source-text-copy-field"></select>
+                <p class="paf-note">文字列(1行・複数行)フィールドのみ選択できます。</p>
+              </div>
+            </div>
+
+            <div class="js-source-number paf-source-block">
+              <label class="paf-radio-label"><input type="radio" name="number-source" class="js-source-number-fixed"> 固定数値</label>
+              <label class="paf-radio-label"><input type="radio" name="number-source" class="js-source-number-copy"> 別フィールドのコピー</label>
+              <div class="js-source-number-fixed-row">
+                <input type="number" step="any" class="kintoneplugin-input-text js-source-number-fixed-value">
+              </div>
+              <div class="js-source-number-copy-row">
+                <select class="kintoneplugin-select js-source-number-copy-field"></select>
+                <p class="paf-note">数値フィールドのみ選択できます。</p>
+              </div>
+            </div>
+
+            <div class="js-source-choice paf-source-block">
+              <select class="kintoneplugin-select js-source-choice-value"></select>
+              <p class="paf-note">対象フィールドの選択肢から1つ選びます。</p>
+            </div>
+
+            <div class="js-source-multi-choice paf-source-block">
+              <div class="js-source-multi-choice-options"></div>
+              <p class="paf-note">対象フィールドの選択肢から複数選べます。</p>
+            </div>
+
+            <div class="js-source-date paf-source-block">
+              <select class="kintoneplugin-select js-source-date-unit">
+                <option value="DAYS">日数</option>
+                <option value="MINUTES">分数</option>
+              </select>
+              <input type="number" step="any" class="kintoneplugin-input-text js-source-date-magnitude" placeholder="例: 7、-3">
+              <p class="paf-note">実行時点(アクション実行時刻)に加減算します。「分数」は対象フィールドが日時型の場合のみ選択できます。</p>
+            </div>
+
+            <div class="js-source-user paf-source-block">
+              <p class="paf-note">アクションを実行したユーザー(ログインユーザー)が設定されます。</p>
+            </div>
+
+            <div class="js-source-organization paf-source-block">
+              <label class="paf-radio-label"><input type="radio" name="org-source" class="js-source-org-fixed"> 特定の組織コード</label>
+              <label class="paf-radio-label"><input type="radio" name="org-source" class="js-source-org-actor"> アクション実行者の優先する組織</label>
+              <div class="js-source-org-fixed-row">
+                <input type="text" class="kintoneplugin-input-text js-source-org-code" placeholder="組織コード">
+              </div>
+            </div>
+
+            <div class="js-source-group paf-source-block">
+              <input type="text" class="kintoneplugin-input-text js-source-group-code" placeholder="グループコード">
+            </div>
+          </td>
+        </tr>
+        <tr class="js-clear-row">
+          <td colspan="2">
+            <p class="paf-note js-clear-radio-caution" hidden>⚠ ラジオボタンは仕様上「クリア」しても空にはならず、フィールドに設定されている初期値の選択肢に戻ります。</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</template>
