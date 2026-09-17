@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>入力規則プラグイン｜無料のkintoneプラグイン | GovAppsプラグイン</title>
-<meta name="description" content="文字列1行フィールドに、禁止する文字種(半角/全角のひらがな・カタカナ・英数字・記号)をチェックボックスで指定できるkintone無料プラグイン。値の変更時・保存時にチェックし、禁止文字が含まれていればフィールドにエラーを表示して保存をブロックします(PC・モバイル対応)。">
+<meta name="description" content="文字列1行フィールドに、禁止する文字種(半角/全角のひらがな・カタカナ・英数字・記号、全角すべて・半角すべて・スペースの計10種類)をチェックボックスで指定できるkintone無料プラグイン。値の変更時・保存時にチェックし、禁止文字が含まれていればフィールドにエラーを表示して保存をブロックします(PC・モバイル対応)。">
 <link rel="stylesheet" href="../../css/51-modern-default.css">
 <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -48,7 +48,8 @@
     見た目では気づきにくいこうした文字種の混在は、他システムへの連携時の文字化けや、
     検索・並び替えの不具合につながります。このプラグインを使うと、文字列1行フィールドごとに
     「禁止する文字種」をチェックボックスで指定でき、該当する文字が入力されるとその場でフィールドに
-    エラーを表示し、保存をブロックできます(PC・モバイル対応)。
+    エラーを表示し、保存をブロックできます。個別の文字種(ひらがな・カタカナ・英数字・記号)に加えて、
+    「全角(すべて)」「半角(すべて)」「スペース」もまとめて選べます(PC・モバイル対応)。
   </p>
   <div class="plugin-hero-badges">
     <span class="badge badge-category">入力制御</span>
@@ -56,7 +57,7 @@
     <span class="badge badge-tag">#入力規則</span>
     <span class="badge badge-tag">#バリデーション</span>
   </div>
-  <a class="download-button" href="download" data-dl-plugin="input_format_rule">ダウンロード(v1)</a>
+  <a class="download-button" href="download" data-dl-plugin="input_format_rule">ダウンロード(v2)</a>
   <p class="author-bio">
     執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
     kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
@@ -110,7 +111,16 @@
       <span class="accordion-icon">▶</span>
     </button>
     <div class="accordion-panel" id="usecase-4" hidden>
-      <p>製品コードや型番の欄に「全角ひらがな」「全角カタカナ」「全角英数字」「全角記号」「半角記号」をすべて禁止する設定を組み合わせれば、実質的に半角英数字のみを許可する運用になります。在庫管理システムとのコード連携ミスを防げます。</p>
+      <p>製品コードや型番の欄に「全角(すべて)」と「半角記号」を禁止する設定を組み合わせれば、実質的に半角英数字のみを許可する運用になります。「全角(すべて)」は漢字を含むあらゆる全角文字をまとめて禁止できるため、個別のチェックボックスを1つずつ選ぶ必要がありません。在庫管理システムとのコード連携ミスを防げます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-5">
+      <span>コピー&ペーストで紛れ込む余計なスペースを防ぐ</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-5" hidden>
+      <p>他の資料からコピー&ペーストした際、前後や単語間に半角・全角スペースが紛れ込んでいることがあります。「スペース」を禁止する設定を追加すると、半角スペース・全角スペースのどちらが混入してもその場でエラーを表示できます。検索・突合の失敗を防ぎたいコード欄・ID欄などに有効です。</p>
     </div>
   </div>
 </section>
@@ -119,7 +129,7 @@
   <h2>セットアップ手順</h2>
   <ol class="setup-steps">
     <li>アプリにプラグインを追加し、設定画面を開く。</li>
-    <li>「+ ルールを追加」で対象の文字列1行フィールドを選び、禁止したい文字種(全角ひらがな・全角カタカナ・半角カタカナ・全角英数字・半角英数字・全角記号・半角記号)をチェックボックスで選ぶ。フィールドごとに複数のルールを追加できる。</li>
+    <li>「+ ルールを追加」で対象の文字列1行フィールドを選び、禁止したい文字種(全角ひらがな・全角カタカナ・半角カタカナ・全角英数字・半角英数字・全角記号・半角記号、およびまとめて指定できる「全角(すべて)」「半角(すべて)」「スペース」)をチェックボックスで選ぶ。フィールドごとに複数のルールを追加できる。</li>
     <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
     <li>レコード追加・編集画面で対象フィールドの値を変更する(フォーカスを外す)と、その場でチェックされる。保存時にも改めて全ルールがチェックされ、禁止文字が残っていれば保存がブロックされる。</li>
   </ol>
@@ -141,6 +151,7 @@
         <li>エラーメッセージはプラグイン内で固定定義した文字種ラベルから組み立てており、レコードの値やユーザー入力をメッセージに含めません。</li>
         <li>設定画面のフィールド一覧描画は<code>innerHTML</code>を使わず、<code>document.createElement()</code>と<code>textContent</code>のみで行っています。</li>
         <li>保存前のバリデーションで、対象フィールド未選択、禁止する文字種が1つも選択されていない、同じフィールドへの重複ルールを検出して保存させません。</li>
+        <li>「全角(すべて)」は、既存の4分類(ひらがな・カタカナ・英数字・記号)を単純に組み合わせただけでは漢字がすり抜けてしまうことを確認したうえで、漢字の範囲も含めて独自に定義しています。</li>
       </ul>
       <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
       <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/input_format_rule/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
@@ -151,7 +162,7 @@
 <section class="plugin-section">
   <h2>設定画面イメージ</h2>
   <div class="screenshot-frame">
-    <img src="screenshots/config-screen.png" alt="入力規則プラグインの設定画面。対象フィールド(文字列1行)の選択と、禁止する文字種(全角ひらがな・全角カタカナ・半角カタカナ・全角英数字・半角英数字・全角記号・半角記号)のチェックボックスを設定する画面のスクリーンショット。" loading="lazy">
+    <img src="screenshots/config-screen.png" alt="入力規則プラグインの設定画面。対象フィールド(文字列1行)の選択と、禁止する文字種(全角ひらがな・全角カタカナ・半角カタカナ・全角英数字・半角英数字・全角記号・半角記号・全角すべて・半角すべて・スペース)のチェックボックスを設定する画面のスクリーンショット。" loading="lazy">
   </div>
 </section>
 

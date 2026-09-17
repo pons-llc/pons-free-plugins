@@ -5,13 +5,13 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Wed, 16 Sep 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 17 Sep 2026 15:00:00 GMT</lastBuildDate>
     <item>
       <title>入力規則プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/input_format_rule/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/input_format_rule/</guid>
-      <description>文字列1行フィールドに、禁止する文字種(半角/全角のひらがな・カタカナ・英数字・記号)をチェックボックスで指定できるプラグイン。値の変更時・保存時にチェックし、禁止文字が含まれていればフィールドにエラーを表示して保存をブロックします(PC・モバイル対応)。</description>
-      <pubDate>Wed, 16 Sep 2026 15:00:00 GMT</pubDate>
+      <description>文字列1行フィールドに、禁止する文字種(半角/全角のひらがな・カタカナ・英数字・記号、全角すべて・半角すべて・スペースの計10種類)をチェックボックスで指定できるプラグイン。値の変更時・保存時にチェックし、禁止文字が含まれていればフィールドにエラーを表示して保存をブロックします(PC・モバイル対応)。</description>
+      <pubDate>Thu, 17 Sep 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
       <title>サイドパネルモバイル表示プラグイン</title>

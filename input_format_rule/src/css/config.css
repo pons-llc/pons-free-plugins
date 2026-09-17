@@ -44,3 +44,9 @@
   margin-right: 16px;
   white-space: nowrap;
 }
+
+/* 「全角(すべて)」「半角(すべて)」「スペース」のような、まとめて禁止する系のチェックボックスを
+   個別分類のチェックボックスと見分けやすくする。 */
+.ifr-checkbox-label-strong {
+  font-weight: bold;
+}

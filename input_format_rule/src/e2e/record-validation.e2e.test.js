@@ -44,6 +44,37 @@ const getFieldErrorTexts = (page) =>
     ),
   );
 
+const removeAllRules = async (page) => {
+  for (;;) {
+    const removeEl = await page.$('.js-rule-remove');
+    if (!removeEl) {
+      break;
+    }
+    await removeEl.click();
+  }
+};
+
+// このプラグイン専用の設定(対象フィールド=TARGET_FIELD_CODE、禁止する文字種=forbidTypes)に
+// 差し替えて保存・デプロイする(他ファイル・他テストの実行順に依存しないよう、各テストの冒頭で
+// 独立に用意する)。
+const configureRule = async (page, env, appId, pluginId, forbidTypes) => {
+  await common.openPluginConfig(page, env, appId, pluginId);
+  await removeAllRules(page);
+  await page.click('#js-rule-add');
+  const ruleRow = await page.$('.js-rule-row');
+  await (await ruleRow.$('.js-rule-field')).select(TARGET_FIELD_CODE);
+  for (const type of forbidTypes) {
+    await (await ruleRow.$(`.js-rule-forbid[data-type="${type}"]`)).click();
+  }
+  await Promise.all([
+    page.waitForNavigation({ waitUntil: 'networkidle0' }),
+    page.click('.kintoneplugin-button-dialog-ok'),
+  ]);
+  // プラグイン設定の保存はプレビューにしか反映されないため、明示的にデプロイする
+  // (project_plugin_config_needs_deploy.mdの注意点)。
+  await kintoneAdmin.deployApp(env, appId);
+};
+
 describe('レコード追加・編集画面(実環境, 禁止文字チェック)', () => {
   let browser;
   let page;
@@ -66,30 +97,7 @@ describe('レコード追加・編集画面(実環境, 禁止文字チェック)
     page.on('dialog', (dialog) => dialog.accept());
     await common.login(page, env);
 
-    // このテスト専用の既知の設定(対象フィールド=文字列__1行_、禁止=半角英数字のみ)を
-    // 保存する(他ファイルのテスト実行順に依存しないよう、ここで独立に用意する)。
-    await common.openPluginConfig(page, env, appId, pluginId);
-    for (;;) {
-      const removeEl = await page.$('.js-rule-remove');
-      if (!removeEl) {
-        break;
-      }
-      await removeEl.click();
-    }
-    await page.click('#js-rule-add');
-    const ruleRow = await page.$('.js-rule-row');
-    await (await ruleRow.$('.js-rule-field')).select(TARGET_FIELD_CODE);
-    await (
-      await ruleRow.$('.js-rule-forbid[data-type="halfWidthAlnum"]')
-    ).click();
-    await Promise.all([
-      page.waitForNavigation({ waitUntil: 'networkidle0' }),
-      page.click('.kintoneplugin-button-dialog-ok'),
-    ]);
-
-    // プラグイン設定の保存はプレビューにしか反映されないため、明示的にデプロイする
-    // (project_plugin_config_needs_deploy.mdの注意点)。
-    await kintoneAdmin.deployApp(env, appId);
+    await configureRule(page, env, appId, pluginId, ['halfWidthAlnum']);
   }, 120000);
 
   afterAll(async () => {
@@ -202,4 +210,55 @@ describe('レコード追加・編集画面(実環境, 禁止文字チェック)
 
     expect(pageErrors).toEqual([]);
   });
+
+  test('新規作成画面: 「全角(すべて)」は既存の4分類に無い漢字も検知する', async () => {
+    const pageErrors = [];
+    page.on('pageerror', (err) => pageErrors.push(err.message));
+
+    // 漢字は全角ひらがな/カタカナ/英数字/記号のいずれにも該当しないため、
+    // 「全角(すべて)」を追加する前は検知できなかった文字種(ユーザー指摘により追加した機能)。
+    await configureRule(page, env, appId, pluginId, ['fullWidthAll']);
+    await gotoCreateScreen();
+
+    await setFieldValue(page, TARGET_FIELD_CODE, '漢字');
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    expect(await getFieldErrorTexts(page)).toEqual([
+      '全角(すべて)は使用できません。',
+    ]);
+
+    await setFieldValue(page, TARGET_FIELD_CODE, 'abc123');
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    expect(await getFieldErrorTexts(page)).toEqual([]);
+
+    expect(pageErrors).toEqual([]);
+  });
+
+  test('新規作成画面: 「スペース」は半角・全角どちらのスペースも検知する', async () => {
+    const pageErrors = [];
+    page.on('pageerror', (err) => pageErrors.push(err.message));
+
+    await configureRule(page, env, appId, pluginId, ['space']);
+    await gotoCreateScreen();
+
+    await setFieldValue(page, TARGET_FIELD_CODE, 'a b'); // 半角スペース
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    expect(await getFieldErrorTexts(page)).toEqual([
+      'スペースは使用できません。',
+    ]);
+
+    await setFieldValue(page, TARGET_FIELD_CODE, 'a　b'); // 全角スペース
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    expect(await getFieldErrorTexts(page)).toEqual([
+      'スペースは使用できません。',
+    ]);
+
+    await setFieldValue(page, TARGET_FIELD_CODE, 'abc');
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    expect(await getFieldErrorTexts(page)).toEqual([]);
+
+    expect(pageErrors).toEqual([]);
+
+    // 後続の実行・他プラグインのE2Eへ影響を残さないよう、元の設定に戻す。
+    await configureRule(page, env, appId, pluginId, ['halfWidthAlnum']);
+  }, 120000);
 });

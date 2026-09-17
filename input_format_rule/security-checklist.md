@@ -2,7 +2,7 @@
 
 [secureCodingGuideline.md](../secureCodingGuideline.md)の一般項目([box_gdrive_iframe/security-checklist.md](../box_gdrive_iframe/security-checklist.md)参照、UTF-8/BOMなし・名前空間分離・`'use strict'`・外部スクリプト不使用などは同様に満たしている)は重複記載を省略し、本プラグイン固有の項目のみ記載する。
 
-最終確認日: 2026-09-17 / 対象: 初回実装時点
+最終確認日: 2026-09-18 / 対象: 「全角(すべて)」「半角(すべて)」「スペース」の3種類追加時(ユーザー要望対応)
 
 ## コーディング作法
 
@@ -29,6 +29,7 @@
 - [x] `kintone.plugin.app.getConfig()`が`null`/`undefined`を返す場合でも、`js/lib/config-store.js`の`load()`は例外を投げず既定値(`{ rules: [] }`)を返す
 - [x] `js/lib/record-validator.js`は、レコードに対象フィールドが存在しない場合(型変更等での不整合)や`rule`が`null`/`undefined`の場合でも例外を投げず`null`/空の結果を返す(画面をクラッシュさせない)
 - [x] `js/lib/char-type.js`の`detectForbiddenTypes()`は`forbid`が未指定・空オブジェクトでも例外を投げず空配列を返す
+- [x] 追加した「全角(すべて)」「半角(すべて)」「スペース」も既存の7種類と同じ仕組み(`RANGES`に正規表現を追加し`TYPES`/`LABELS`に登録するだけ)で実装しており、新たな入力経路・外部通信・DOM操作は追加していない(既存のXSS対策・妥当性検証の項目がそのまま適用される)
 
 ## 通信・認証情報の取り扱い
 

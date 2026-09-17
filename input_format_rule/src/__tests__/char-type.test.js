@@ -3,7 +3,7 @@
 const CharType = require('../js/lib/char-type');
 
 describe('CharType.TYPES', () => {
-  test('7種類の文字種キーを持つ', () => {
+  test('10種類の文字種キーを持つ', () => {
     expect(CharType.TYPES.sort()).toEqual(
       [
         'fullWidthHiragana',
@@ -13,6 +13,9 @@ describe('CharType.TYPES', () => {
         'halfWidthAlnum',
         'fullWidthSymbol',
         'halfWidthSymbol',
+        'fullWidthAll',
+        'halfWidthAll',
+        'space',
       ].sort(),
     );
   });
@@ -66,6 +69,33 @@ describe('CharType.matches', () => {
     expect(CharType.matches('halfWidthSymbol', 'ABC123')).toBe(false);
   });
 
+  test('全角(すべて): ひらがな・カタカナ・漢字・英数字・記号のいずれにも一致する', () => {
+    expect(CharType.matches('fullWidthAll', 'あ')).toBe(true);
+    expect(CharType.matches('fullWidthAll', 'ア')).toBe(true);
+    expect(CharType.matches('fullWidthAll', '漢')).toBe(true); // 漢字(既存の4分類には無い)
+    expect(CharType.matches('fullWidthAll', 'Ａ')).toBe(true);
+    expect(CharType.matches('fullWidthAll', '、')).toBe(true);
+    expect(CharType.matches('fullWidthAll', 'A')).toBe(false); // 半角
+    expect(CharType.matches('fullWidthAll', 'ｱ')).toBe(false); // 半角カタカナ
+  });
+
+  test('半角(すべて): 半角英数字・半角記号・半角カタカナのいずれにも一致する', () => {
+    expect(CharType.matches('halfWidthAll', 'A')).toBe(true);
+    expect(CharType.matches('halfWidthAll', '1')).toBe(true);
+    expect(CharType.matches('halfWidthAll', '!')).toBe(true);
+    expect(CharType.matches('halfWidthAll', 'ｱ')).toBe(true);
+    expect(CharType.matches('halfWidthAll', 'ﾞ')).toBe(true); // 半角濁点
+    expect(CharType.matches('halfWidthAll', 'あ')).toBe(false); // 全角
+    expect(CharType.matches('halfWidthAll', ' ')).toBe(false); // 半角スペースは対象外(space種別で扱う)
+  });
+
+  test('スペース: 半角スペース・全角スペースのいずれにも一致する', () => {
+    expect(CharType.matches('space', ' ')).toBe(true);
+    expect(CharType.matches('space', '　')).toBe(true);
+    expect(CharType.matches('space', 'a b')).toBe(true);
+    expect(CharType.matches('space', 'abc')).toBe(false);
+  });
+
   test('空文字列・未定義値はどの文字種にも一致しない', () => {
     expect(CharType.matches('fullWidthHiragana', '')).toBe(false);
     expect(CharType.matches('halfWidthAlnum', null)).toBe(false);
@@ -82,17 +112,29 @@ describe('CharType.detectForbiddenTypes', () => {
     halfWidthAlnum: true,
     fullWidthSymbol: true,
     halfWidthSymbol: true,
+    fullWidthAll: true,
+    halfWidthAll: true,
+    space: true,
   };
 
   test('禁止した文字種のうち実際に含まれるものだけを返す', () => {
     expect(
       CharType.detectForbiddenTypes('あいうABC', forbidAll).sort(),
-    ).toEqual(['fullWidthHiragana', 'halfWidthAlnum'].sort());
+    ).toEqual(
+      [
+        'fullWidthHiragana',
+        'fullWidthAll',
+        'halfWidthAlnum',
+        'halfWidthAll',
+      ].sort(),
+    );
   });
 
   test('禁止設定がfalseの文字種は含まれていても検出しない', () => {
     const forbid = { ...forbidAll, fullWidthHiragana: false };
-    expect(CharType.detectForbiddenTypes('あいう', forbid)).toEqual([]);
+    expect(CharType.detectForbiddenTypes('あいう', forbid)).toEqual([
+      'fullWidthAll',
+    ]);
   });
 
   test('該当なしなら空配列を返す', () => {

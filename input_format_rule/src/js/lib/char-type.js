@@ -25,6 +25,19 @@
     halfWidthSymbol: new RegExp(
       '[\\u0021-\\u002F\\u003A-\\u0040\\u005B-\\u0060\\u007B-\\u007E\\uFF61-\\uFF65\\uFFE8-\\uFFEE]',
     ),
+    // 全角(すべて): 上記4分類に加えて、いずれにも含まれない漢字(CJK統合漢字・拡張A・互換漢字)も
+    // 含めた「実務上の全角文字全般」。この分類だけ独自に定義しないと、漢字だけが
+    // 「全角すべて禁止」をすり抜けてしまう(ユーザー指摘により追加)。
+    fullWidthAll: new RegExp(
+      '[\\u3041-\\u3096\\u309D\\u309E\\u30A1-\\u30FA\\u30FC-\\u30FE\\u3400-\\u4DBF\\u4E00-\\u9FFF\\uF900-\\uFAFF\\uFF10-\\uFF19\\uFF21-\\uFF3A\\uFF41-\\uFF5A\\u3000-\\u303F\\uFF01-\\uFF0F\\uFF1A-\\uFF20\\uFF3B-\\uFF40\\uFF5B-\\uFF60\\uFFE0-\\uFFE6]',
+    ),
+    // 半角(すべて): 半角英数字・半角記号・半角カタカナの合併(半角スペースU+0020は含めない。
+    // スペースの禁止は独立したspace種別で扱う、ユーザー指摘により追加)。
+    halfWidthAll: new RegExp('[\\u0021-\\u007E\\uFF61-\\uFF9F\\uFFE8-\\uFFEE]'),
+    // スペース: 半角スペース(U+0020)・全角スペース(U+3000)。全角すべて禁止(fullWidthAll)には
+    // 全角スペースが既に含まれるが、半角すべて禁止(halfWidthAll)には半角スペースを含めていない
+    // ため、スペースだけを個別に禁止したい場合向けに独立の種別として用意する。
+    space: new RegExp('[\\u0020\\u3000]'),
   };
 
   const TYPES = Object.keys(RANGES);
@@ -37,6 +50,9 @@
     halfWidthAlnum: '半角英数字',
     fullWidthSymbol: '全角記号',
     halfWidthSymbol: '半角記号',
+    fullWidthAll: '全角(すべて)',
+    halfWidthAll: '半角(すべて)',
+    space: 'スペース',
   };
 
   // 指定した文字種の文字が1つでも値に含まれるか。
