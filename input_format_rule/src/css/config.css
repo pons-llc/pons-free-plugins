@@ -1,0 +1,46 @@
+.ifr-errors {
+  color: #c00;
+  white-space: pre-wrap;
+  margin-bottom: 8px;
+}
+
+.ifr-section {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+.ifr-section-heading {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.ifr-row-remove {
+  float: right;
+  color: #c00;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.ifr-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ifr-table th {
+  text-align: left;
+  vertical-align: top;
+  padding: 6px 8px 6px 0;
+  white-space: nowrap;
+}
+
+.ifr-table td {
+  padding: 6px 0;
+}
+
+.ifr-checkbox-label {
+  display: inline-block;
+  margin-right: 16px;
+  white-space: nowrap;
+}

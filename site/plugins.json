@@ -768,5 +768,20 @@
       "表示切替"
     ],
     "video": "https://vimeo.com/1226738176"
+  },
+  {
+    "id": "input_format_rule",
+    "name": "入力規則プラグイン",
+    "description": "文字列1行フィールドに、禁止する文字種(半角/全角のひらがな・カタカナ・英数字・記号)をチェックボックスで指定できるプラグイン。値の変更時・保存時にチェックし、禁止文字が含まれていればフィールドにエラーを表示して保存をブロックします(PC・モバイル対応)。",
+    "version": "1",
+    "publishedAt": "2026-09-17",
+    "zip": "plugins/input_format_rule/plugin.zip",
+    "page": "plugins/input_format_rule/index.html",
+    "category": "入力制御",
+    "tags": [
+      "文字種チェック",
+      "入力規則",
+      "バリデーション"
+    ]
   }
 ]

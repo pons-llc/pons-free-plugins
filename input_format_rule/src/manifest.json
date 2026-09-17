@@ -1,0 +1,49 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/char-type.js",
+      "js/lib/record-validator.js",
+      "js/lib/config-store.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/51-modern-default.css"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/char-type.js",
+      "js/lib/config-store.js",
+      "js/lib/config-validation.js",
+      "js/config.js"
+    ],
+    "css": [
+      "css/51-modern-default.css",
+      "css/config.css"
+    ],
+    "required_params": []
+  },
+  "name": {
+    "en": "input_format_rule plugin",
+    "ja": "入力規則プラグイン"
+  },
+  "description": {
+    "en": "input_format_rule plugin",
+    "ja": "文字列1行フィールドに、禁止する文字種(半角/全角のひらがな・カタカナ・英数字・記号)をチェックボックスで指定し、レコードの変更時・保存時にフィールドへエラーを表示するプラグイン(PC・モバイル対応)。"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/char-type.js",
+      "js/lib/record-validator.js",
+      "js/lib/config-store.js",
+      "js/mobile.js"
+    ],
+    "css": []
+  }
+}

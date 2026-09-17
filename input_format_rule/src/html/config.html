@@ -1,0 +1,72 @@
+<section class="settings">
+  <h2 class="settings-heading">入力規則プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    文字列1行フィールドに、禁止する文字種をチェックボックスで指定します。値の変更時
+    (フォーカスが外れたとき)と保存時にチェックし、禁止文字が含まれていればそのフィールドに
+    エラーを表示して保存をブロックします。対象は文字列1行フィールドのみです
+    (文字列複数行は値変更時のチェックに対応できないため対象外)。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="ifr-errors"></div>
+
+    <div id="js-rule-list"></div>
+    <button type="button" id="js-rule-add" class="kintoneplugin-button-normal">+ ルールを追加</button>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
+      <button class="kintoneplugin-button-dialog-ok">Save</button>
+    </p>
+  </form>
+</section>
+
+<template id="js-rule-row-template">
+  <section class="ifr-section js-rule-row">
+    <div class="ifr-section-heading">
+      ルール
+      <span class="ifr-row-remove js-rule-remove">削除</span>
+    </div>
+
+    <table class="ifr-table">
+      <tbody>
+        <tr>
+          <th>対象フィールド(文字列1行)</th>
+          <td><select class="kintoneplugin-select js-rule-field"></select></td>
+        </tr>
+        <tr>
+          <th>禁止する文字種</th>
+          <td>
+            <label class="ifr-checkbox-label">
+              <input type="checkbox" class="js-rule-forbid" data-type="fullWidthHiragana" />
+              全角ひらがな
+            </label>
+            <label class="ifr-checkbox-label">
+              <input type="checkbox" class="js-rule-forbid" data-type="fullWidthKatakana" />
+              全角カタカナ
+            </label>
+            <label class="ifr-checkbox-label">
+              <input type="checkbox" class="js-rule-forbid" data-type="halfWidthKatakana" />
+              半角カタカナ
+            </label>
+            <label class="ifr-checkbox-label">
+              <input type="checkbox" class="js-rule-forbid" data-type="fullWidthAlnum" />
+              全角英数字
+            </label>
+            <label class="ifr-checkbox-label">
+              <input type="checkbox" class="js-rule-forbid" data-type="halfWidthAlnum" />
+              半角英数字
+            </label>
+            <label class="ifr-checkbox-label">
+              <input type="checkbox" class="js-rule-forbid" data-type="fullWidthSymbol" />
+              全角記号
+            </label>
+            <label class="ifr-checkbox-label">
+              <input type="checkbox" class="js-rule-forbid" data-type="halfWidthSymbol" />
+              半角記号
+            </label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</template>
