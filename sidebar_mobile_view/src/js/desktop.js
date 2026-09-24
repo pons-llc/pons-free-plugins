@@ -85,17 +85,25 @@
   // 対象アプリIDが未指定・現在のアプリと同じ場合はレコード詳細を表示するが、新規作成画面など
   // レコードIDがまだ存在しない場合は、現在のアプリの一覧を表示する
   // (js/lib/mobile-url.jsのresolve()参照)。
-  const resolveMobileUrl = (hasNativeSideBar) => {
+  // ゲストスペース内のアプリはURLが通常と異なるため、URLは自前で組み立てず
+  // kintone.buildPageUrl()(対象アプリがゲストスペース内なら自動でゲストスペース用URLを返す、
+  // 公式ドキュメントで確認済み)で取得する。取得に失敗した場合(1分50回の上限超過等)のみ、
+  // 通常スペース用の自前のURL組み立てにフォールバックする。
+  const resolveMobileUrl = async (hasNativeSideBar) => {
     const currentAppId = kintone.app.getId();
     // 新規作成画面ではkintone.app.record.getId()が利用できない(未保存のレコードにはIDが
     // 存在しない)ため呼び出さない。
     const recordId = hasNativeSideBar ? kintone.app.record.getId() : null;
-    return NS.MobileUrl.resolve({
-      origin: location.origin,
-      currentAppId,
-      targetAppId: config.targetAppId,
-      recordId,
-    });
+    const args = { currentAppId, targetAppId: config.targetAppId, recordId };
+    const target = NS.MobileUrl.resolvePage(args);
+    if (!target) {
+      return null;
+    }
+    try {
+      return await kintone.buildPageUrl(target.page, target.params);
+    } catch {
+      return NS.MobileUrl.resolve({ origin: location.origin, ...args });
+    }
   };
 
   const updateToggleButtonLabel = (hasNativeSideBar) => {
@@ -107,14 +115,14 @@
     }
   };
 
-  const applyView = (view, hasNativeSideBar) => {
+  const applyView = async (view, hasNativeSideBar) => {
     currentView = view;
     const panelEl = getOrCreatePanel();
     panelEl.style.width = `${config.panelWidth}px`;
     const iframeEl = panelEl.querySelector('.smv-panel-iframe');
 
     if (currentView === 'IFRAME') {
-      const url = resolveMobileUrl(hasNativeSideBar);
+      const url = await resolveMobileUrl(hasNativeSideBar);
       if (url) {
         if (hasNativeSideBar) {
           // レコード詳細/編集画面ではネイティブのサイドバーと自作パネルが同じ右側の領域を

@@ -5,20 +5,20 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 17 Sep 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 23 Sep 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>サイドパネルモバイル表示プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/sidebar_mobile_view/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/sidebar_mobile_view/</guid>
+      <description>関連する顧客マスタや過去の履歴を確認したいだけなのに、別アプリ・別タブをいちいち開き直すのは面倒じゃないですか?このプラグインなら、レコード編集・新規作成画面のサイドパネルにそのままモバイル版画面を表示でき、関連アプリを見ながら手元の作業を進められます(PC専用)。</description>
+      <pubDate>Wed, 23 Sep 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>入力規則プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/input_format_rule/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/input_format_rule/</guid>
       <description>文字列1行フィールドに、禁止する文字種(半角/全角のひらがな・カタカナ・英数字・記号、全角すべて・半角すべて・スペースの計10種類)をチェックボックスで指定できるプラグイン。値の変更時・保存時にチェックし、禁止文字が含まれていればフィールドにエラーを表示して保存をブロックします(PC・モバイル対応)。</description>
       <pubDate>Thu, 17 Sep 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>サイドパネルモバイル表示プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/plugins/sidebar_mobile_view/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/sidebar_mobile_view/</guid>
-      <description>関連する顧客マスタや過去の履歴を確認したいだけなのに、別アプリ・別タブをいちいち開き直すのは面倒じゃないですか?このプラグインなら、レコード編集・新規作成画面のサイドパネルにそのままモバイル版画面を表示でき、関連アプリを見ながら手元の作業を進められます(PC専用)。</description>
-      <pubDate>Mon, 14 Sep 2026 15:00:00 GMT</pubDate>
     </item>
     <item>
       <title>kintoneで決裁・承認プロセスを管理する方法｜決裁履歴記録の無料プラグイン</title>

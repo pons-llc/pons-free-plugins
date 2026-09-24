@@ -61,7 +61,31 @@
     return buildListUrl({ origin, appId: effectiveAppId });
   };
 
-  const MobileUrl = { buildRecordUrl, buildListUrl, resolve };
+  // resolve()と同じ切り替え判定で、URL文字列ではなくkintone.buildPageUrl()に渡す
+  // { page, params } を返す。kintone.buildPageUrl()は対象アプリがゲストスペース内にある場合、
+  // ゲストスペース用のURLを自動的に組み立てる(公式ドキュメントで確認済み)ため、ゲストスペース対応は
+  // このAPIに任せる。不正なIDの場合はnull。
+  const resolvePage = ({ currentAppId, targetAppId, recordId }) => {
+    const effectiveAppId = targetAppId || currentAppId;
+    if (!isPositiveIntLike(effectiveAppId)) {
+      return null;
+    }
+    const isSameApp =
+      isPositiveIntLike(currentAppId) &&
+      String(effectiveAppId) === String(currentAppId);
+    if (isSameApp && isPositiveIntLike(recordId)) {
+      return {
+        page: 'APP_DETAIL_MOBILE',
+        params: { appId: String(effectiveAppId), recordId: String(recordId) },
+      };
+    }
+    return {
+      page: 'APP_INDEX_MOBILE',
+      params: { appId: String(effectiveAppId) },
+    };
+  };
+
+  const MobileUrl = { buildRecordUrl, buildListUrl, resolve, resolvePage };
 
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = MobileUrl;

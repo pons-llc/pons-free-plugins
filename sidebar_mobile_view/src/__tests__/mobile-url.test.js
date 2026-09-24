@@ -157,3 +157,29 @@ describe('MobileUrl.resolve', () => {
     ).toBeNull();
   });
 });
+
+describe('MobileUrl.resolvePage', () => {
+  test('同じアプリ+レコードIDありは詳細(モバイル)', () => {
+    expect(
+      MobileUrl.resolvePage({ currentAppId: 12, targetAppId: '', recordId: 34 }),
+    ).toEqual({
+      page: 'APP_DETAIL_MOBILE',
+      params: { appId: '12', recordId: '34' },
+    });
+  });
+
+  test('別アプリ・レコードIDなしは一覧(モバイル)', () => {
+    expect(
+      MobileUrl.resolvePage({ currentAppId: 12, targetAppId: '99', recordId: 34 }),
+    ).toEqual({ page: 'APP_INDEX_MOBILE', params: { appId: '99' } });
+    expect(
+      MobileUrl.resolvePage({ currentAppId: 12, targetAppId: '', recordId: null }),
+    ).toEqual({ page: 'APP_INDEX_MOBILE', params: { appId: '12' } });
+  });
+
+  test('不正なアプリIDはnull', () => {
+    expect(
+      MobileUrl.resolvePage({ currentAppId: 'x', targetAppId: '', recordId: 1 }),
+    ).toBeNull();
+  });
+});
