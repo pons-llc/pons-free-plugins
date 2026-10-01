@@ -10,7 +10,7 @@
       <title>レコード指摘改善プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/record_review/</link>
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/record_review/</guid>
-      <description>レコード詳細画面で、フィールドやテーブルの行ごとの修正指摘を下書きし、まとめて登録できるプラグイン。未解決の指摘がある箇所には赤いバツ、解決済みには緑のチェックを表示し、指摘日時・指摘者・指摘内容・解決状況・解決内容・対応者・解決日時を「指摘履歴」サブテーブルに残します(サブテーブルは設定保存時に自動作成)。</description>
+      <description>レコード詳細画面で、フィールドやテーブルの行ごとの修正指摘と解決内容を下書きし、まとめて登録できるプラグイン(API実行は通常1回)。未解決の指摘がある箇所には赤いバツ、解決済みには緑のチェックを表示し、指摘日時・指摘者・指摘内容・解決状況・解決内容・対応者・解決日時を「指摘履歴」サブテーブルに残します(サブテーブルは設定保存時に自動作成)。</description>
       <pubDate>Wed, 30 Sep 2026 15:00:00 GMT</pubDate>
     </item>
     <item>

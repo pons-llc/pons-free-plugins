@@ -159,35 +159,49 @@
     }
   };
 
-  // 最新のレコードを取得して指摘履歴テーブルを組み立て直し、revision付きでPUTする(idea.md参照)。
-  const updateTable = async (ctx, buildTable) => {
+  // 指摘履歴テーブルを更新する(v3: API実行数を抑える設計)。
+  // 通常は、画面表示時のレコード(event.record)のテーブルとリビジョン番号でそのままPUTする(API 1回)。
+  // 表示後に他のユーザーがレコードを更新していた場合は、kintoneがリビジョン不一致(GAIA_CO02)で拒否するので、
+  // そのときだけ最新のレコードを取得(GET)してテーブルを組み立て直し、そのリビジョンでPUTし直す(計3回)。
+  // buildTable()の入力チェック(内容が空など)はAPIを呼ぶ前に例外になるため、エラーで実行数を消費しない。
+  const isRevisionConflict = (err) => !!(err && err.code === 'GAIA_CO02');
+
+  const saveTable = async (ctx, buildTable) => {
     const appId = kintone.app.getId();
+    const put = (revision, value) =>
+      kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', {
+        app: appId,
+        id: ctx.recordId,
+        revision,
+        record: { [ctx.codes.table]: { value } },
+      });
+
+    const firstValue = buildTable(ctx.tableValue);
+    try {
+      await put(ctx.revision, firstValue);
+      return;
+    } catch (err) {
+      if (!isRevisionConflict(err)) {
+        throw err;
+      }
+    }
+
     const resp = await kintone.api(
       kintone.api.url('/k/v1/record.json', true),
       'GET',
-      {
-        app: appId,
-        id: ctx.recordId,
-      },
+      { app: appId, id: ctx.recordId },
     );
-    const record = resp.record;
-    const current = record[ctx.codes.table];
+    const current = resp.record[ctx.codes.table];
     if (!current) {
       throw new Error(
         '指摘履歴テーブルが見つかりません。プラグインの設定を確認してください。',
       );
     }
-    const value = buildTable(current.value);
-    await kintone.api(kintone.api.url('/k/v1/record.json', true), 'PUT', {
-      app: appId,
-      id: ctx.recordId,
-      revision: record.$revision.value,
-      record: { [ctx.codes.table]: { value } },
-    });
+    await put(resp.record.$revision.value, buildTable(current.value));
   };
 
   const errorMessage = (err) => {
-    if (err && err.code === 'GAIA_CO02') {
+    if (isRevisionConflict(err)) {
       return '他のユーザーがこのレコードを更新しました。画面を再読み込みしてからやり直してください。';
     }
     return (err && err.message) || String(err);
@@ -249,7 +263,7 @@
     return { close, modal };
   };
 
-  const renderItemCard = (ctx, item) => {
+  const renderItemCard = (ctx, item, onAction) => {
     const card = el(
       'div',
       `rr-item ${item.resolved ? 'rr-item--resolved' : 'rr-item--unresolved'}`,
@@ -291,31 +305,22 @@
       return card;
     }
 
+    // 解決も1件ずつ即保存せず、下書きに追加して指摘とまとめて登録する(v3)。
     const form = el('div', 'rr-resolve-form');
-    const textarea = el('textarea', 'rr-textarea js-rr-resolution');
-    textarea.placeholder = '解決内容(どのように修正・対応したか)';
-    textarea.rows = 2;
+    const drafted = resolveDrafts.has(String(item.rowId));
     const button = el(
       'button',
-      'rr-btn rr-btn--primary js-rr-resolve',
-      '解決済みにする',
+      'rr-btn rr-btn--primary js-rr-add-resolve-draft',
+      drafted ? '解決の下書きを編集する' : '解決内容を下書きに追加',
     );
     button.type = 'button';
-    const errorEl = el('div', 'rr-error');
-    errorEl.hidden = true;
-    button.addEventListener('click', () =>
-      runSave(button, errorEl, () =>
-        updateTable(ctx, (tableValue) =>
-          Model.buildTableForResolve(tableValue, ctx.codes, {
-            rowId: item.rowId,
-            resolution: textarea.value,
-            userCode: kintone.getLoginUser().code,
-            nowIso: Model.toKintoneDateTime(new Date()),
-          }),
-        ),
-      ),
-    );
-    form.append(textarea, button, errorEl);
+    button.addEventListener('click', () => {
+      if (onAction) {
+        onAction();
+      }
+      addResolveDraft(ctx, item);
+    });
+    form.appendChild(button);
     card.appendChild(form);
     return card;
   };
@@ -326,11 +331,15 @@
   // 1回のPUTにまとめて登録する(idea.md「指摘の登録」)。下書きはページ内のメモリにだけ持つ。
   // ---------------------------------------------------------------------------
 
-  const drafts = new Map(); // targetKey → { targetCode, targetLabel, targetRowId, comment }
+  const drafts = new Map(); // targetKey → { targetCode, targetLabel, targetRowId, rowSummary, comment }
+  const resolveDrafts = new Map(); // 指摘履歴の行id → { rowId, label, comment, resolution }
   let draftsRecordId = null;
 
+  const draftCount = () => drafts.size + resolveDrafts.size;
+
   const hasDraftText = () =>
-    Array.from(drafts.values()).some((d) => d.comment.trim() !== '');
+    Array.from(drafts.values()).some((d) => d.comment.trim() !== '') ||
+    Array.from(resolveDrafts.values()).some((d) => d.resolution.trim() !== '');
 
   global.addEventListener('beforeunload', (e) => {
     if (hasDraftText()) {
@@ -345,7 +354,7 @@
       panel = el('div', 'rr-draft-panel');
       panel.id = 'rr-draft-panel';
       panel.setAttribute('role', 'region');
-      panel.setAttribute('aria-label', '指摘の下書き');
+      panel.setAttribute('aria-label', '指摘・解決の下書き');
       document.body.appendChild(panel);
     }
     return panel;
@@ -353,56 +362,109 @@
 
   let renderBadges = () => {};
 
-  const renderDraftPanel = (ctx, focusKey) => {
+  // 下書きパネルの1項目(見出し+削除ボタン+補足+入力欄)。
+  const buildDraftItem = (opts) => {
+    const item = el('div', `rr-draft-item ${opts.className}`);
+    Object.keys(opts.dataset).forEach((k) => {
+      item.dataset[k] = opts.dataset[k];
+    });
+    const head = el('div', 'rr-draft-item-head');
+    const label = el('strong', 'rr-draft-label');
+    if (opts.badge) {
+      label.appendChild(el('span', opts.badgeClass, opts.badge));
+    }
+    label.appendChild(document.createTextNode(opts.label));
+    head.appendChild(label);
+    const remove = el('button', 'rr-draft-remove js-rr-draft-remove', '×');
+    remove.type = 'button';
+    remove.setAttribute('aria-label', `「${opts.label}」の下書きを削除`);
+    remove.addEventListener('click', opts.onRemove);
+    head.appendChild(remove);
+    item.appendChild(head);
+    if (opts.note) {
+      item.appendChild(el('div', 'rr-meta rr-pre', opts.note));
+    }
+    const textarea = el('textarea', `rr-textarea ${opts.textareaClass}`);
+    textarea.placeholder = opts.placeholder;
+    textarea.rows = 2;
+    textarea.value = opts.value;
+    textarea.addEventListener('input', () => opts.onInput(textarea.value));
+    item.appendChild(textarea);
+    return { item, textarea };
+  };
+
+  const renderDraftPanel = (ctx, focus) => {
     const panel = getDraftPanel();
     panel.textContent = '';
-    panel.hidden = drafts.size === 0;
-    if (drafts.size === 0) {
+    panel.hidden = draftCount() === 0;
+    if (draftCount() === 0) {
       return;
     }
+    const rerender = () => {
+      renderDraftPanel(ctx);
+      renderBadges(ctx);
+    };
     panel.appendChild(
-      el('div', 'rr-draft-title', `指摘の下書き(${drafts.size}件)`),
+      el(
+        'div',
+        'rr-draft-title',
+        `下書き(指摘 ${drafts.size}件・解決 ${resolveDrafts.size}件)`,
+      ),
     );
     panel.appendChild(
       el(
         'div',
         'rr-meta',
-        '指摘したい箇所をすべて書いてから、まとめて登録してください。',
+        '指摘・解決をすべて書いてから、まとめて登録してください(1回の保存で登録します)。',
       ),
     );
     const list = el('div', 'rr-draft-list');
     let focusEl = null;
     drafts.forEach((draft, key) => {
-      const item = el('div', 'rr-draft-item');
-      item.dataset.targetKey = key;
-      const head = el('div', 'rr-draft-item-head');
-      head.appendChild(el('strong', 'rr-draft-label', draft.targetLabel));
-      const remove = el('button', 'rr-draft-remove js-rr-draft-remove', '×');
-      remove.type = 'button';
-      remove.setAttribute(
-        'aria-label',
-        `「${draft.targetLabel}」の下書きを削除`,
-      );
-      remove.addEventListener('click', () => {
-        drafts.delete(key);
-        renderDraftPanel(ctx);
-        renderBadges(ctx);
+      const { item, textarea } = buildDraftItem({
+        className: 'rr-draft-item--comment',
+        dataset: { targetKey: key },
+        badge: '指摘',
+        badgeClass: 'rr-draft-kind rr-draft-kind--comment',
+        label: draft.targetLabel,
+        note: draft.rowSummary,
+        textareaClass: 'js-rr-draft-comment',
+        placeholder: '指摘内容(どこを・どのように直してほしいか)',
+        value: draft.comment,
+        onInput: (v) => {
+          draft.comment = v;
+        },
+        onRemove: () => {
+          drafts.delete(key);
+          rerender();
+        },
       });
-      head.appendChild(remove);
-      item.appendChild(head);
-      if (draft.rowSummary) {
-        item.appendChild(el('div', 'rr-meta', draft.rowSummary));
-      }
-      const textarea = el('textarea', 'rr-textarea js-rr-draft-comment');
-      textarea.placeholder = '指摘内容(どこを・どのように直してほしいか)';
-      textarea.rows = 2;
-      textarea.value = draft.comment;
-      textarea.addEventListener('input', () => {
-        draft.comment = textarea.value;
-      });
-      item.appendChild(textarea);
       list.appendChild(item);
-      if (key === focusKey) {
+      if (focus && focus.kind === 'comment' && focus.key === key) {
+        focusEl = textarea;
+      }
+    });
+    resolveDrafts.forEach((draft, rowId) => {
+      const { item, textarea } = buildDraftItem({
+        className: 'rr-draft-item--resolve',
+        dataset: { resolveRowId: rowId },
+        badge: '解決',
+        badgeClass: 'rr-draft-kind rr-draft-kind--resolve',
+        label: draft.label,
+        note: `指摘: ${draft.comment}`,
+        textareaClass: 'js-rr-draft-resolution',
+        placeholder: '解決内容(どのように修正・対応したか)',
+        value: draft.resolution,
+        onInput: (v) => {
+          draft.resolution = v;
+        },
+        onRemove: () => {
+          resolveDrafts.delete(rowId);
+          rerender();
+        },
+      });
+      list.appendChild(item);
+      if (focus && focus.kind === 'resolve' && focus.key === rowId) {
         focusEl = textarea;
       }
     });
@@ -417,27 +479,32 @@
     clear.type = 'button';
     clear.addEventListener('click', () => {
       drafts.clear();
-      renderDraftPanel(ctx);
-      renderBadges(ctx);
+      resolveDrafts.clear();
+      rerender();
     });
     const submit = el(
       'button',
       'rr-btn rr-btn--danger js-rr-draft-submit',
-      `まとめて登録(${drafts.size}件)`,
+      `まとめて登録(${draftCount()}件)`,
     );
     submit.type = 'button';
     submit.addEventListener('click', () =>
       runSave(submit, errorEl, async () => {
-        const entries = Array.from(drafts.values());
-        await updateTable(ctx, (tableValue) =>
-          Model.buildTableForAdd(tableValue, ctx.codes, {
-            entries,
-            userCode: kintone.getLoginUser().code,
-            nowIso: Model.toKintoneDateTime(new Date()),
+        const comments = Array.from(drafts.values());
+        const resolutions = Array.from(resolveDrafts.values());
+        const nowIso = Model.toKintoneDateTime(new Date());
+        const userCode = kintone.getLoginUser().code;
+        await saveTable(ctx, (tableValue) =>
+          Model.buildTableForBatch(tableValue, ctx.codes, {
+            comments,
+            resolutions,
+            userCode,
+            nowIso,
           }),
         );
         // 保存できたので、再読み込み時に「未保存の下書き」警告を出さない。
         drafts.clear();
+        resolveDrafts.clear();
       }),
     );
     footer.append(clear, submit);
@@ -458,7 +525,21 @@
         comment: '',
       });
     }
-    renderDraftPanel(ctx, target.key);
+    renderDraftPanel(ctx, { kind: 'comment', key: target.key });
+    renderBadges(ctx);
+  };
+
+  const addResolveDraft = (ctx, item) => {
+    const rowId = String(item.rowId);
+    if (!resolveDrafts.has(rowId)) {
+      resolveDrafts.set(rowId, {
+        rowId,
+        label: ctx.describe(item),
+        comment: item.comment,
+        resolution: '',
+      });
+    }
+    renderDraftPanel(ctx, { kind: 'resolve', key: rowId });
     renderBadges(ctx);
   };
 
@@ -477,7 +558,10 @@
         el('p', 'rr-empty', 'この項目への指摘はまだありません。'),
       );
     }
-    items.forEach((item) => body.appendChild(renderItemCard(ctx, item)));
+    let closeDialog = null;
+    items.forEach((item) =>
+      body.appendChild(renderItemCard(ctx, item, () => closeDialog())),
+    );
 
     const addArea = el('div', 'rr-add-form');
     const addBtn = el(
@@ -493,12 +577,13 @@
       el(
         'div',
         'rr-meta',
-        '新しい指摘は下書きに追加し、画面右下の下書きパネルからまとめて登録します。',
+        '指摘・解決は下書きに追加し、画面右下の下書きパネルからまとめて登録します。',
       ),
     );
     body.appendChild(addArea);
 
     const { close } = openModal(`「${target.label}」への指摘`, body);
+    closeDialog = close;
     addBtn.addEventListener('click', () => {
       close();
       addDraft(ctx, target);
@@ -584,11 +669,27 @@
 
   let repositionTimer = null;
   let repositionEntries = [];
+  // 対象の要素が、スクロールでkintoneの固定ヘッダー等の下に隠れているかどうか。要素の左上の点に
+  // 実際に表示されている要素を調べ、対象要素(またはこのプラグインの表示物)でなければ隠れているとみなす。
+  // 画面外(elementFromPointがnull)の場合も表示しない(スクロールで画面内に入ると再計算される)。
+  const isCovered = (anchorEl, rect) => {
+    const hit = document.elementFromPoint(rect.left + 2, rect.top + 2);
+    if (!hit) {
+      return true;
+    }
+    return !(
+      anchorEl.contains(hit) ||
+      hit.closest('#rr-badge-layer, #rr-draft-panel, .rr-modal-backdrop')
+    );
+  };
+
   const reposition = () => {
     repositionEntries.forEach(({ anchorEl, wrap, placement }) => {
       const rect = anchorEl.getBoundingClientRect();
       const visible =
-        document.body.contains(anchorEl) && (rect.width > 0 || rect.height > 0);
+        document.body.contains(anchorEl) &&
+        (rect.width > 0 || rect.height > 0) &&
+        !isCovered(anchorEl, rect);
       wrap.hidden = !visible;
       if (!visible) {
         return;
@@ -867,10 +968,14 @@
     // 別のレコードへ移動した場合は、前のレコードの下書きを捨てる。
     if (draftsRecordId !== String(event.recordId)) {
       drafts.clear();
+      resolveDrafts.clear();
       draftsRecordId = String(event.recordId);
     }
     const ctx = {
       recordId: event.recordId,
+      // 保存時はまずこのテーブル・リビジョンでPUTする(GETを省いてAPI実行数を1回に抑える。saveTable参照)。
+      revision: event.record.$revision.value,
+      tableValue: table.value,
       codes,
       items,
       summary: Model.summarizeByTarget(items, locatableRowIds),

@@ -94,7 +94,8 @@
   left: 0;
   width: 0;
   height: 0;
-  z-index: 50;
+  /* kintoneの固定ヘッダー(スクロール時に上に残る)より下に表示する。50だとヘッダーの上に重なった(実機で確認)。 */
+  z-index: 1;
 }
 
 .rr-badge-wrap {
@@ -164,8 +165,10 @@
   text-align: left;
 }
 
-.rr-badge-wrap:hover .rr-tip,
-.rr-badge-wrap:focus-within .rr-tip {
+/* 指摘内容のツールチップは、バツマーク自体に乗せた(フォーカスした)ときだけ出す。
+   隣の「＋」に乗せたときに出すと、「＋」の説明と重なって読めないため(v3で修正)。 */
+.rr-badge--unresolved:hover ~ .rr-tip,
+.rr-badge--unresolved:focus ~ .rr-tip {
   display: block;
 }
 
@@ -436,4 +439,31 @@
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+}
+
+.rr-draft-kind {
+  display: inline-block;
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 8px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.rr-draft-kind--comment {
+  background: #fdecea;
+  color: #c0392b;
+}
+
+.rr-draft-kind--resolve {
+  background: #e6f4ea;
+  color: #1e7e34;
+}
+
+.rr-draft-item--resolve {
+  border-left: 3px solid #27ae60;
+}
+
+.rr-draft-item--comment {
+  border-left: 3px solid #e74c3c;
 }

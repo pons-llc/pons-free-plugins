@@ -47,10 +47,16 @@ describe('設定画面(実環境)', () => {
     await common.openPluginConfig(page, env, env.TEST_APP_ID_2, pluginId);
     await page.waitForSelector('.js-target-checkbox', { timeout: 15000 });
 
-    const heading = await page.$eval('.settings-heading', (el) => el.textContent);
+    const heading = await page.$eval(
+      '.settings-heading',
+      (el) => el.textContent,
+    );
     expect(heading).toContain('レコード指摘改善プラグイン');
 
-    const tableStatus = await page.$eval('#js-table-status', (el) => el.textContent);
+    const tableStatus = await page.$eval(
+      '#js-table-status',
+      (el) => el.textContent,
+    );
     expect(tableStatus.length).toBeGreaterThan(0);
 
     const targetCodes = await page.$$eval('.js-target-checkbox', (els) =>

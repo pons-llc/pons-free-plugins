@@ -5,6 +5,7 @@
   // の読み取りと、PUT record.json用のテーブル値の組み立て(idea.md「画面ごとの挙動」)。
   // PUTでは「リクエストに含めない行は削除される」「idだけを指定した行は値が保持される」(kintoneドキュメント
   // 「1件のレコードを更新する」補足)ため、変更しない行は{ id }のみ、変更行はフル値で送る。
+  // 指摘・解決とも下書きにためて、1回のPUTでまとめて登録する(API実行数を抑えるため、v3)。
   //
   // codes.targetRowId(v2で追加した「対象行ID」列)は、v1の設定のまま再保存していないアプリでは存在しない。
   // その場合は行IDを読み書きしない(フィールド単位の指摘だけが使える)。
@@ -159,65 +160,76 @@
     return value;
   };
 
-  const idOnly = (tableValue) =>
-    (tableValue || []).map((row) => ({ id: row.id }));
+  const nonEmpty = (list, key) =>
+    (list || [])
+      .map((entry) => ({ ...entry, [key]: str(entry[key]).trim() }))
+      .filter((entry) => entry[key]);
 
-  // 下書きの指摘(entries)をまとめて末尾に追加する。内容が空の下書きは無視し、1件も残らなければエラー。
-  const buildTableForAdd = (tableValue, codes, params) => {
-    const newRows = (params.entries || [])
-      .map((entry) => ({ ...entry, comment: str(entry.comment).trim() }))
-      .filter((entry) => entry.comment)
-      .map((entry) => ({
-        value: toPutValue(codes, {
-          targetCode: entry.targetCode,
-          targetLabel: entry.targetLabel,
-          targetRowId: entry.targetRowId || '',
-          pointedAt: params.nowIso,
-          pointedBy: { code: params.userCode },
-          comment: entry.comment,
-          status: STATUS_UNRESOLVED,
-          resolution: '',
-          resolvedBy: null,
-          resolvedAt: '',
-        }),
-      }));
-    if (newRows.length === 0) {
-      throw new Error('指摘内容を入力してください。');
-    }
-    return idOnly(tableValue).concat(newRows);
+  // 下書きのうち、実際に登録される(内容のある)件数。登録ボタンの表示に使う。
+  const countBatch = ({ comments, resolutions }) => {
+    const c = nonEmpty(comments, 'comment').length;
+    const r = nonEmpty(resolutions, 'resolution').length;
+    return { comments: c, resolutions: r, total: c + r };
   };
 
-  const buildTableForResolve = (tableValue, codes, params) => {
-    const resolution = str(params.resolution).trim();
-    if (!resolution) {
-      throw new Error('解決内容を入力してください。');
+  // 下書きの「新しい指摘(comments)」と「解決(resolutions)」を、1回のPUT用のテーブル値にまとめる(v3)。
+  // - 解決する行: 解決情報を入れたフル値(指摘側の情報は元の行から引き継ぐ)
+  // - それ以外の既存行: { id }のみ(値は保持される)
+  // - 新しい指摘: 末尾にフル値で追加
+  // 内容が空の下書きは無視し、1件も残らなければエラー。解決対象の行が無い・既に解決済みの場合もエラー
+  // (他のユーザーとの競合。呼び出し側は最新のテーブルで組み立て直した結果のエラーを利用者に見せる)。
+  const buildTableForBatch = (tableValue, codes, params) => {
+    const comments = nonEmpty(params.comments, 'comment');
+    const resolutions = nonEmpty(params.resolutions, 'resolution');
+    if (comments.length + resolutions.length === 0) {
+      throw new Error('指摘内容・解決内容を入力してください。');
     }
+
     const rows = tableValue || [];
-    const target = rows.find((row) => String(row.id) === String(params.rowId));
-    if (!target) {
-      throw new Error(
-        '対象の指摘が見つかりません。他のユーザーが削除した可能性があります。画面を再読み込みしてください。',
-      );
-    }
-    // 行の内容はparseRowsと同じ規則で読み取る(空行除外のfilterは通さない)。
-    const item = parseRows([target], codes)[0] || {};
-    if (item.resolved) {
-      throw new Error(
-        'この指摘は既に解決済みです。画面を再読み込みしてください。',
-      );
-    }
-    const updated = {
-      ...item,
-      status: STATUS_RESOLVED,
-      resolution,
-      resolvedBy: { code: params.userCode },
-      resolvedAt: params.nowIso,
-    };
-    return rows.map((row) =>
-      row === target
-        ? { id: row.id, value: toPutValue(codes, updated) }
+    const resolvedValues = {};
+    resolutions.forEach((res) => {
+      const target = rows.find((row) => String(row.id) === String(res.rowId));
+      if (!target) {
+        throw new Error(
+          '対象の指摘が見つかりません。他のユーザーが削除した可能性があります。画面を再読み込みしてください。',
+        );
+      }
+      // 行の内容はparseRowsと同じ規則で読み取る(空行除外のfilterは通さない)。
+      const item = parseRows([target], codes)[0] || {};
+      if (item.resolved) {
+        throw new Error(
+          `「${item.comment}」は既に解決済みです。画面を再読み込みしてください。`,
+        );
+      }
+      resolvedValues[String(target.id)] = toPutValue(codes, {
+        ...item,
+        status: STATUS_RESOLVED,
+        resolution: res.resolution,
+        resolvedBy: { code: params.userCode },
+        resolvedAt: params.nowIso,
+      });
+    });
+
+    const existing = rows.map((row) =>
+      resolvedValues[String(row.id)]
+        ? { id: row.id, value: resolvedValues[String(row.id)] }
         : { id: row.id },
     );
+    const added = comments.map((entry) => ({
+      value: toPutValue(codes, {
+        targetCode: entry.targetCode,
+        targetLabel: entry.targetLabel,
+        targetRowId: entry.targetRowId || '',
+        pointedAt: params.nowIso,
+        pointedBy: { code: params.userCode },
+        comment: entry.comment,
+        status: STATUS_UNRESOLVED,
+        resolution: '',
+        resolvedBy: null,
+        resolvedAt: '',
+      }),
+    }));
+    return existing.concat(added);
   };
 
   const ReviewModel = {
@@ -232,8 +244,8 @@
     rowSummary,
     toKintoneDateTime,
     formatDateTime,
-    buildTableForAdd,
-    buildTableForResolve,
+    countBatch,
+    buildTableForBatch,
   };
 
   if (typeof module !== 'undefined' && module.exports) {

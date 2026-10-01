@@ -24,6 +24,9 @@ const COMMENT = '正式名称(株式会社〇〇)で記載してください';
 const SECOND_COMMENT = '税込金額か税抜金額か明記してください';
 const ROW_COMMENT = '単価が見積書と一致していません';
 const RESOLUTION = '登記簿どおりの正式名称に修正しました';
+const ROW_RESOLUTION = '見積書の単価(120円)に修正しました';
+const TITLE_FIELD = '文字列__1行__1';
+const TITLE_COMMENT = '案件名は契約書の表記に合わせてください';
 
 describe('まとめて指摘と解決(実環境)', () => {
   let browser;
@@ -180,7 +183,10 @@ describe('まとめて指摘と解決(実環境)', () => {
       els.map((el) => el.dataset.targetKey),
     );
     expect(draftKeys).toEqual([TARGET_FIELD, SECOND_FIELD, rowKey(1)]);
-    const rowDraftText = await page.$eval(draftSel(rowKey(1)), (el) => el.textContent);
+    const rowDraftText = await page.$eval(
+      draftSel(rowKey(1)),
+      (el) => el.textContent,
+    );
     expect(rowDraftText).toContain(`${ITEMS_LABEL} 2行目`);
     expect(rowDraftText).toContain('コピー用紙');
 
@@ -193,11 +199,26 @@ describe('まとめて指摘と解決(実環境)', () => {
     expect((await getRecord())[TABLE_CODE].value).toHaveLength(0);
 
     await page.type(`${draftSel(TARGET_FIELD)} .js-rr-draft-comment`, COMMENT);
-    await page.type(`${draftSel(SECOND_FIELD)} .js-rr-draft-comment`, SECOND_COMMENT);
+    await page.type(
+      `${draftSel(SECOND_FIELD)} .js-rr-draft-comment`,
+      SECOND_COMMENT,
+    );
     await page.type(`${draftSel(rowKey(1))} .js-rr-draft-comment`, ROW_COMMENT);
-    const submitText = await page.$eval('.js-rr-draft-submit', (el) => el.textContent);
+    const submitText = await page.$eval(
+      '.js-rr-draft-submit',
+      (el) => el.textContent,
+    );
     expect(submitText).toContain('まとめて登録(3件)');
+    const calls = [];
+    const onRequest = (req) => {
+      if (req.url().includes('/k/v1/record.json')) {
+        calls.push(req.method());
+      }
+    };
+    page.on('request', onRequest);
     await clickAndWaitReload('.js-rr-draft-submit');
+    page.off('request', onRequest);
+    expect(calls).toEqual(['PUT']);
 
     await page.waitForSelector(badgeSel(TARGET_FIELD, 'unresolved'));
     await page.waitForSelector(badgeSel(SECOND_FIELD, 'unresolved'));
@@ -205,11 +226,15 @@ describe('まとめて指摘と解決(実環境)', () => {
     expect(await page.$(badgeSel(rowKey(0), 'unresolved'))).toBeNull();
     expect(await page.$('.rr-draft-panel:not([hidden])')).toBeNull();
 
-    const badgeText = await page.$eval(badgeSel(TARGET_FIELD, 'unresolved'), (el) =>
-      el.textContent,
+    const badgeText = await page.$eval(
+      badgeSel(TARGET_FIELD, 'unresolved'),
+      (el) => el.textContent,
     );
     expect(badgeText).toBe('✕ 1');
-    const tipText = await page.$eval(`${wrapSel(rowKey(1))} .rr-tip`, (el) => el.textContent);
+    const tipText = await page.$eval(
+      `${wrapSel(rowKey(1))} .rr-tip`,
+      (el) => el.textContent,
+    );
     expect(tipText).toContain(ROW_COMMENT);
     const outline = await page.evaluate(
       (code) => kintone.app.record.getFieldElement(code).style.outline,
@@ -239,26 +264,71 @@ describe('まとめて指摘と解決(実環境)', () => {
     expect(rows[2].rr_comment.value).toBe(ROW_COMMENT);
   });
 
-  test('バツマークから解決内容を登録すると、緑のチェックマークに変わる', async () => {
+  test('指摘内容のツールチップは、バツマークに乗せたときだけ表示される(＋では出ない)', async () => {
+    const tipShown = () =>
+      page.$eval(
+        `${wrapSel(SECOND_FIELD)} .rr-tip`,
+        (el) => getComputedStyle(el).display !== 'none',
+      );
+    await page.hover(badgeSel(SECOND_FIELD, 'add'));
+    expect(await tipShown()).toBe(false);
+    await page.hover(badgeSel(SECOND_FIELD, 'unresolved'));
+    expect(await tipShown()).toBe(true);
+    await page.mouse.move(0, 0);
+  });
+
+  test('解決2件と新しい指摘1件を、API1回(PUTのみ)でまとめて登録できる', async () => {
+    // 解決は1件ずつ即保存せず、バツのダイアログから下書きに追加する。
     await page.$eval(badgeSel(TARGET_FIELD, 'unresolved'), (el) => el.click());
-    await page.waitForSelector('.rr-modal .js-rr-resolution');
-    // ダイアログには1件ずつの登録欄は無く、下書きへの追加ボタンだけがある。
+    await page.waitForSelector('.rr-modal .js-rr-add-resolve-draft');
+    expect(await page.$('.rr-modal .js-rr-resolve')).toBeNull();
     expect(await page.$('.rr-modal .js-rr-add')).toBeNull();
-    expect(await page.$('.rr-modal .js-rr-dialog-add-draft')).not.toBeNull();
+    await page.$eval('.rr-modal .js-rr-add-resolve-draft', (el) => el.click());
+    expect(await page.$('.rr-modal')).toBeNull();
 
-    await page.$eval('.rr-modal .js-rr-resolve', (el) => el.click());
-    await page.waitForFunction(() => {
-      const err = document.querySelector('.rr-modal .rr-resolve-form .rr-error');
-      return err && !err.hidden;
-    });
+    await page.$eval(badgeSel(rowKey(1), 'unresolved'), (el) => el.click());
+    await page.waitForSelector('.rr-modal .js-rr-add-resolve-draft');
+    const title = await page.$eval('.rr-modal-title', (el) => el.textContent);
+    expect(title).toContain(`${ITEMS_LABEL} 2行目`);
+    await page.$eval('.rr-modal .js-rr-add-resolve-draft', (el) => el.click());
 
-    await page.type('.rr-modal .js-rr-resolution', RESOLUTION);
-    await clickAndWaitReload('.rr-modal .js-rr-resolve');
+    await page.$eval(badgeSel(TITLE_FIELD, 'add'), (el) => el.click());
+
+    const record = await getRecord();
+    const reviewRowIds = record[TABLE_CODE].value.map((r) => String(r.id));
+    const resolveSel = (i) =>
+      `.rr-draft-item[data-resolve-row-id="${reviewRowIds[i]}"]`;
+    const panelText = await page.$eval(
+      '.rr-draft-panel',
+      (el) => el.textContent,
+    );
+    expect(panelText).toContain('指摘 1件・解決 2件');
+    expect(await page.$eval(resolveSel(0), (el) => el.textContent)).toContain(
+      COMMENT,
+    );
+
+    await page.type(`${resolveSel(0)} .js-rr-draft-resolution`, RESOLUTION);
+    await page.type(`${resolveSel(2)} .js-rr-draft-resolution`, ROW_RESOLUTION);
+    await page.type(
+      `${draftSel(TITLE_FIELD)} .js-rr-draft-comment`,
+      TITLE_COMMENT,
+    );
+
+    const calls = [];
+    const onRequest = (req) => {
+      if (req.url().includes('/k/v1/record.json')) {
+        calls.push(req.method());
+      }
+    };
+    page.on('request', onRequest);
+    await clickAndWaitReload('.js-rr-draft-submit');
+    page.off('request', onRequest);
+    expect(calls).toEqual(['PUT']);
 
     await page.waitForSelector(badgeSel(TARGET_FIELD, 'resolved'));
-    expect(
-      await page.$eval(badgeSel(TARGET_FIELD, 'resolved'), (el) => el.textContent),
-    ).toBe('✓');
+    await page.waitForSelector(badgeSel(rowKey(1), 'resolved'));
+    await page.waitForSelector(badgeSel(TITLE_FIELD, 'unresolved'));
+    await page.waitForSelector(badgeSel(SECOND_FIELD, 'unresolved'));
     expect(
       await page.evaluate(
         (code) => kintone.app.record.getFieldElement(code).style.outline,
@@ -267,27 +337,63 @@ describe('まとめて指摘と解決(実環境)', () => {
     ).toBe('');
 
     const rows = (await getRecord())[TABLE_CODE].value.map((r) => r.value);
-    expect(rows[0].rr_status.value).toBe('解決済み');
+    expect(rows).toHaveLength(4);
+    expect(rows.map((v) => v.rr_status.value)).toEqual([
+      '解決済み',
+      '未解決',
+      '解決済み',
+      '未解決',
+    ]);
     expect(rows[0].rr_resolution.value).toBe(RESOLUTION);
-    expect(rows[0].rr_resolved_by.value[0].code).toBe(env.KINTONE_USERNAME);
-    expect(rows[0].rr_resolved_at.value).not.toBe('');
     expect(rows[0].rr_comment.value).toBe(COMMENT);
-    // 他の指摘(行単位を含む)は変わらない。
-    expect(rows[2].rr_status.value).toBe('未解決');
+    expect(rows[0].rr_resolved_by.value[0].code).toBe(env.KINTONE_USERNAME);
+    expect(rows[2].rr_resolution.value).toBe(ROW_RESOLUTION);
     expect(rows[2].rr_target_row_id.value).toBe(itemRowIds[1]);
+    expect(rows[0].rr_resolved_at.value).toBe(rows[3].rr_pointed_at.value);
+    expect(rows[3].rr_target_code.value).toBe(TITLE_FIELD);
+    expect(rows[3].rr_comment.value).toBe(TITLE_COMMENT);
   });
 
-  test('行のバツマークからは、その行への指摘が表示される', async () => {
-    await page.$eval(badgeSel(rowKey(1), 'unresolved'), (el) => el.click());
-    await page.waitForSelector('.rr-modal .rr-item--unresolved');
-    const title = await page.$eval('.rr-modal-title', (el) => el.textContent);
-    expect(title).toContain(`${ITEMS_LABEL} 2行目`);
-    const cards = await page.$$eval('.rr-modal .rr-item', (els) =>
-      els.map((el) => el.textContent),
+  test('表示後に他のユーザーが更新していても、最新を取り直して上書きせずに登録できる', async () => {
+    await page.$eval(badgeSel(SECOND_FIELD, 'unresolved'), (el) => el.click());
+    await page.waitForSelector('.rr-modal .js-rr-add-resolve-draft');
+    await page.$eval('.rr-modal .js-rr-add-resolve-draft', (el) => el.click());
+    await page.type(
+      '.rr-draft-item--resolve .js-rr-draft-resolution',
+      '税込金額である旨を追記しました',
     );
-    expect(cards).toHaveLength(1);
-    expect(cards[0]).toContain(ROW_COMMENT);
-    await page.$eval('.rr-modal-close', (el) => el.click());
+
+    // 画面を開いたあとに、別の利用者がレコードの別フィールドを更新した状況を作る。
+    await kintoneAdmin.request(env, '/k/v1/record.json', 'PUT', {
+      app: appId(),
+      id: recordId,
+      record: { [SECOND_FIELD]: { value: '1100' } },
+    });
+
+    const calls = [];
+    const onRequest = (req) => {
+      if (req.url().includes('/k/v1/record.json')) {
+        calls.push(req.method());
+      }
+    };
+    page.on('request', onRequest);
+    await clickAndWaitReload('.js-rr-draft-submit');
+    page.off('request', onRequest);
+    // 1回目のPUTはリビジョン不一致で拒否され、最新を取得して組み立て直したPUTで成功する。
+    expect(calls).toEqual(['PUT', 'GET', 'PUT']);
+
+    await page.waitForSelector(badgeSel(SECOND_FIELD, 'resolved'));
+    const record = await getRecord();
+    // 他の利用者の更新は消えていない。
+    expect(record[SECOND_FIELD].value).toBe('1100');
+    const rows = record[TABLE_CODE].value.map((r) => r.value);
+    expect(rows.map((v) => v.rr_status.value)).toEqual([
+      '解決済み',
+      '解決済み',
+      '解決済み',
+      '未解決',
+    ]);
+    expect(rows[1].rr_resolution.value).toBe('税込金額である旨を追記しました');
   });
 
   test('指摘履歴ダイアログで全件(行の指摘は「n行目」付き)を閲覧できる', async () => {
@@ -296,55 +402,86 @@ describe('まとめて指摘と解決(実環境)', () => {
     const historyRows = await page.$$eval('.rr-history-table tbody tr', (trs) =>
       trs.map((tr) => ({ cls: tr.className, target: tr.cells[0].textContent })),
     );
-    expect(historyRows).toHaveLength(3);
+    expect(historyRows).toHaveLength(4);
     expect(historyRows.map((r) => r.target)).toContain(`${ITEMS_LABEL} 2行目`);
-    expect(historyRows.filter((r) => r.cls === 'rr-row--resolved')).toHaveLength(1);
+    expect(
+      historyRows.filter((r) => r.cls === 'rr-row--resolved'),
+    ).toHaveLength(3);
     await page.$eval('.js-rr-unresolved-only', (el) => el.click());
     const visible = await page.$$eval(
       '.rr-history-table tbody tr',
-      (trs) => trs.filter((tr) => getComputedStyle(tr).display !== 'none').length,
+      (trs) =>
+        trs.filter((tr) => getComputedStyle(tr).display !== 'none').length,
     );
-    expect(visible).toBe(2);
+    expect(visible).toBe(1);
     await page.$eval('.rr-modal-close', (el) => el.click());
     expect(await page.$('.rr-modal')).toBeNull();
   });
 
-  test('公開サイト用: バツ・チェック・下書きパネルが表示された詳細画面を撮影する', async () => {
+  test('公開サイト用: バツ・チェック・下書きパネル(指摘と解決)が表示された詳細画面を撮影する', async () => {
     await ensureReviewMode();
-    await page.waitForSelector(badgeSel('文字列__1行__1', 'add'));
-    await page.$eval(badgeSel('文字列__1行__1', 'add'), (el) => el.click());
+    // 未解決の指摘への解決の下書きと、新しい指摘(フィールド・行)の下書きを混ぜる。
+    await page.$eval(badgeSel(TITLE_FIELD, 'unresolved'), (el) => el.click());
+    await page.waitForSelector('.rr-modal .js-rr-add-resolve-draft');
+    await page.$eval('.rr-modal .js-rr-add-resolve-draft', (el) => el.click());
     await page.type(
-      `${draftSel('文字列__1行__1')} .js-rr-draft-comment`,
-      '案件名は契約書の表記に合わせてください',
+      '.rr-draft-item--resolve .js-rr-draft-resolution',
+      '契約書どおりの案件名に修正しました',
+    );
+    await page.$eval(badgeSel(TARGET_FIELD, 'add'), (el) => el.click());
+    await page.type(
+      `${draftSel(TARGET_FIELD)} .js-rr-draft-comment`,
+      '「株式会社」が前株か後株か確認してください',
     );
     await page.$eval(badgeSel(rowKey(0), 'add'), (el) => el.click());
-    await page.type(`${draftSel(rowKey(0))} .js-rr-draft-comment`, '数量の単位(箱/本)を明記してください');
+    await page.type(
+      `${draftSel(rowKey(0))} .js-rr-draft-comment`,
+      '数量の単位(箱/本)を明記してください',
+    );
     await page.evaluate(() => {
       document.activeElement.blur();
       window.scrollTo(0, 0);
     });
-    await page.hover(badgeSel(SECOND_FIELD, 'unresolved'));
+    await page.hover(badgeSel(TITLE_FIELD, 'unresolved'));
     await page.screenshot({
-      path: path.join(repoRoot, 'site', 'plugins', PLUGIN_NAME, 'screenshots', 'detail-screen.png'),
+      path: path.join(
+        repoRoot,
+        'site',
+        'plugins',
+        PLUGIN_NAME,
+        'screenshots',
+        'detail-screen.png',
+      ),
       clip: { x: 0, y: 0, width: 1280, height: 1000 },
     });
 
     // テーブルの行ごとのバッジ(行の＋・未解決の行のバツ)が見える位置でも撮影する。
     await page.evaluate((code) => {
-      kintone.app.record.getFieldElement(code).scrollIntoView({ block: 'center' });
+      kintone.app.record
+        .getFieldElement(code)
+        .scrollIntoView({ block: 'center' });
     }, ITEMS_TABLE);
     await page.waitForFunction(
       (key) => {
-        const wrap = document.querySelector(`.rr-badge-wrap[data-target-key="${key}"]`);
+        const wrap = document.querySelector(
+          `.rr-badge-wrap[data-target-key="${key}"]`,
+        );
         const r = wrap && wrap.getBoundingClientRect();
         return r && r.top > 0 && r.bottom < window.innerHeight;
       },
       {},
       rowKey(1),
     );
-    await page.hover(badgeSel(rowKey(1), 'unresolved'));
+    await page.mouse.move(0, 0);
     await page.screenshot({
-      path: path.join(repoRoot, 'site', 'plugins', PLUGIN_NAME, 'screenshots', 'row-review.png'),
+      path: path.join(
+        repoRoot,
+        'site',
+        'plugins',
+        PLUGIN_NAME,
+        'screenshots',
+        'row-review.png',
+      ),
     });
 
     // 下書きを破棄して終える(未保存の下書きが残ったまま画面遷移しない)。
@@ -355,11 +492,14 @@ describe('まとめて指摘と解決(実環境)', () => {
   test('編集画面では未解決の指摘が一覧表示され、指摘履歴テーブルは編集不可', async () => {
     await common.goToEditScreenFromDetail(page);
     await page.waitForSelector('.rr-edit-panel', { timeout: 15000 });
-    const panelText = await page.$eval('.rr-edit-panel', (el) => el.textContent);
-    expect(panelText).toContain('未解決の指摘 2件');
-    expect(panelText).toContain(SECOND_COMMENT);
-    expect(panelText).toContain(`【${ITEMS_LABEL} 2行目】`);
-    expect(panelText).not.toContain(COMMENT);
+    const panelText = await page.$eval(
+      '.rr-edit-panel',
+      (el) => el.textContent,
+    );
+    expect(panelText).toContain('未解決の指摘 1件');
+    expect(panelText).toContain(TITLE_COMMENT);
+    expect(panelText).not.toContain(SECOND_COMMENT);
+    expect(panelText).not.toContain(ROW_COMMENT);
 
     const result = await page.evaluate(() => {
       const label = Array.from(
