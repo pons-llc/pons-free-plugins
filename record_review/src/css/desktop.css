@@ -467,3 +467,40 @@
 .rr-draft-item--comment {
   border-left: 3px solid #e74c3c;
 }
+
+.rr-tip-target {
+  font-weight: bold;
+  font-size: 12px;
+  color: #c0392b;
+}
+
+/* ---- テーブルのダイアログ: 行を選んで指摘する(v4) ---- */
+.rr-row-list {
+  border-top: 1px solid #e3e7e8;
+  margin-top: 12px;
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rr-row-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 8px;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+}
+
+.rr-row-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+
+.rr-row-text .rr-meta {
+  flex-basis: 100%;
+}

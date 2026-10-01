@@ -789,7 +789,7 @@
     "id": "record_review",
     "name": "レコード指摘改善プラグイン",
     "description": "レコード詳細画面で、フィールドやテーブルの行ごとの修正指摘と解決内容を下書きし、まとめて登録できるプラグイン(API実行は通常1回)。未解決の指摘がある箇所には赤いバツ、解決済みには緑のチェックを表示し、指摘日時・指摘者・指摘内容・解決状況・解決内容・対応者・解決日時を「指摘履歴」サブテーブルに残します(サブテーブルは設定保存時に自動作成)。",
-    "version": "3",
+    "version": "4",
     "publishedAt": "2026-10-01",
     "zip": "plugins/record_review/plugin.zip",
     "page": "plugins/record_review/index.html",

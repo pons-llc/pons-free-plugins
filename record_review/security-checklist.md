@@ -2,7 +2,7 @@
 
 [secureCodingGuideline.md](../secureCodingGuideline.md)の一般項目([box_gdrive_iframe/security-checklist.md](../box_gdrive_iframe/security-checklist.md)参照、UTF-8/BOMなし・名前空間分離・`'use strict'`・外部スクリプト不使用などは同様に満たしている)は重複記載を省略し、本プラグイン固有の項目のみ記載する。
 
-最終確認日: 2026-10-01(v3: 解決もまとめて登録・API実行数の削減)
+最終確認日: 2026-10-02(v4: 公式APIでの強調表示・kintone内部DOMへの依存の廃止)
 
 ## コーディング作法
 
@@ -48,9 +48,9 @@
 ## XSS・CSSインジェクション対策
 
 - [x] 指摘内容・解決内容・ユーザー名・フィールド名など、利用者が入力した値やアプリ設定由来の値は、すべて`textContent`/`createTextNode`で描画している。`innerHTML`・`insertAdjacentHTML`・`outerHTML`は一切使用していない(設定画面・詳細画面・編集画面・モバイルすべて)
-- [x] 利用者入力をCSS(`style`属性やクラス名)に埋め込んでいない。対象フィールドの赤枠は固定値の`style.outline`のみを設定している(`getFieldElement()`ドキュメントで許可されている`style`の変更)
-- [x] `getFieldElement()`で取得した要素の内部構造は変更しない(ドキュメント上非推奨)。バッジは`document.body`直下の独立したオーバーレイ層に配置している
-- [x] (v2)テーブルの行のバッジ位置は、`getFieldElement(テーブル)`が返す`<table>`の`tbody`直下の`<tr>`を**読み取って位置を測るだけ**で、DOMは変更しない(行に枠線も付けない)。`<tr>`の数がレコードの行数と一致しない場合は行のバッジを出さず、行の指摘はテーブル全体のバッジに寄せる(誤った行に表示しない安全側の動作)
+- [x] 利用者入力をCSS(`style`属性やクラス名)に埋め込んでいない。(v4)未解決の指摘があるフィールドの強調は、kintone公式の「フィールドのスタイルの設定」API(`setFieldStyle()`)に固定のカラーコードを渡して行い、`getFieldElement()`の要素の`style`は直接変更しない(`__tests__/field-highlight.test.js`、E2Eで`getFieldStyle()`により確認)
+- [x] `getFieldElement()`で取得した要素の内部構造は変更も参照もしない(ドキュメント上、内部構造の変更は非推奨)。使うのは要素の位置(`getBoundingClientRect()`)だけで、バッジは`document.body`直下の独立したオーバーレイ層に配置している。固定ヘッダーに隠れたかどうかの判定に`elementFromPoint()`を使うが、これも位置の当たり判定のみでDOMは変更しない
+- [x] (v4)テーブルの行ごとのバッジ(v2・v3でkintone内部の`<tr>`を読み取っていた)は廃止した。行への指摘はテーブルのバッジにまとめて表示し、行の一覧は`event.record`のテーブル値から作る。kintone内部のDOM構造には依存しない
 - [x] 利用者入力を`data-*`属性に入れるのはフィールドコード・行IDのみで、`querySelector`のセレクター文字列には連結していない
 
 ## 設定の妥当性検証・エラー処理

@@ -36,6 +36,21 @@
   // 追加・編集画面/一覧のインライン編集: 指摘履歴テーブルは手入力させない(idea.md「画面ごとの挙動」)
   // ---------------------------------------------------------------------------
 
+  // 未解決の指摘があるフィールドを、公式の「フィールドのスタイルの設定」APIで強調する(v4)。
+  // テーブル・関連レコード一覧などAPI非対応のフィールドはスキップする(js/lib/field-highlight.js)。
+  // 非同期APIのため、失敗しても画面表示は妨げない。
+  const highlightUnresolved = (items, formFields, screen) => {
+    NS.FieldHighlight.unresolvedFieldCodes(items).forEach((code) => {
+      const style = NS.FieldHighlight.highlightStyle(formFields[code], screen);
+      if (!style) {
+        return;
+      }
+      Promise.resolve()
+        .then(() => kintone.app.record.setFieldStyle(code, style))
+        .catch(() => {});
+    });
+  };
+
   // レコード内の全テーブルの現在の行ID(行単位の指摘の「n行目」表示・存在判定に使う)。
   const rowIdsOf = (record) => {
     const result = {};
@@ -106,7 +121,9 @@
         // getFormFields()はラップされない値(フィールドコードをキーにしたオブジェクト)を解決する。
         const formFields = await kintone.app.getFormFields();
         const rowIds = rowIdsOf(event.record);
-        renderEditPanel(Model.parseRows(table.value, codes), (item) =>
+        const editItems = Model.parseRows(table.value, codes);
+        highlightUnresolved(editItems, formFields, 'edit');
+        renderEditPanel(editItems, (item) =>
           Model.describeTarget(
             item,
             (code) => formFields[code] && formFields[code].label,
@@ -547,6 +564,9 @@
   // ダイアログ(対象ごとの指摘・解決/指摘履歴)
   // ---------------------------------------------------------------------------
 
+  const rowsOf = (ctx, target) =>
+    (ctx.tableRows && ctx.tableRows[target.code]) || [];
+
   const openTargetDialog = (ctx, target) => {
     const entry = ctx.summary[target.key] || { unresolved: [], resolved: [] };
     const body = el('div', 'rr-field-dialog');
@@ -564,13 +584,13 @@
     );
 
     const addArea = el('div', 'rr-add-form');
-    const addBtn = el(
-      'button',
-      'rr-btn js-rr-dialog-add-draft',
-      drafts.has(target.key)
-        ? '下書きを編集する'
-        : 'この項目への指摘を下書きに追加',
-    );
+    let addLabel = 'この項目への指摘を下書きに追加';
+    if (drafts.has(target.key)) {
+      addLabel = '下書きを編集する';
+    } else if (rowsOf(ctx, target).length > 0) {
+      addLabel = 'テーブル全体への指摘を下書きに追加';
+    }
+    const addBtn = el('button', 'rr-btn js-rr-dialog-add-draft', addLabel);
     addBtn.type = 'button';
     addArea.appendChild(addBtn);
     addArea.appendChild(
@@ -582,8 +602,53 @@
     );
     body.appendChild(addArea);
 
+    // テーブルの場合は、行ごとに「この行への指摘を下書きに追加」できる一覧を出す。
+    const rows = rowsOf(ctx, target);
+    const rowButtons = [];
+    if (rows.length > 0) {
+      const rowList = el('div', 'rr-row-list');
+      rowList.appendChild(el('div', 'rr-add-title', '行を選んで指摘する'));
+      rows.forEach((row) => {
+        const unresolved = ctx.items.filter(
+          (i) =>
+            !i.resolved &&
+            i.targetCode === row.code &&
+            String(i.targetRowId) === row.rowId,
+        ).length;
+        const line = el('div', 'rr-row-item');
+        line.dataset.rowId = row.rowId;
+        const text = el('div', 'rr-row-text');
+        text.appendChild(el('strong', '', row.label));
+        if (unresolved > 0) {
+          text.appendChild(
+            el('span', 'rr-chip rr-chip--unresolved', `✕ ${unresolved}`),
+          );
+        }
+        if (row.rowSummary) {
+          text.appendChild(el('div', 'rr-meta', row.rowSummary));
+        }
+        const btn = el(
+          'button',
+          'rr-btn js-rr-add-row-draft',
+          drafts.has(row.key) ? '下書きを編集' : '下書きに追加',
+        );
+        btn.type = 'button';
+        btn.dataset.rowId = row.rowId;
+        rowButtons.push({ btn, row });
+        line.append(text, btn);
+        rowList.appendChild(line);
+      });
+      body.appendChild(rowList);
+    }
+
     const { close } = openModal(`「${target.label}」への指摘`, body);
     closeDialog = close;
+    rowButtons.forEach(({ btn, row }) => {
+      btn.addEventListener('click', () => {
+        close();
+        addDraft(ctx, row);
+      });
+    });
     addBtn.addEventListener('click', () => {
       close();
       addDraft(ctx, target);
@@ -662,9 +727,11 @@
   };
 
   // ---------------------------------------------------------------------------
-  // バッジ(フィールド・テーブルの行)
+  // バッジ(フィールド単位)
   // バッジはgetFieldElement()の要素内部に挿入せず(ドキュメント上、内部構造の変更は非推奨)、
-  // body直下のオーバーレイ層に、要素の位置から計算した座標で絶対配置する。
+  // body直下のオーバーレイ層に、要素の位置(getBoundingClientRect)から計算した座標で絶対配置する。
+  // getFieldElement()が返す要素の内部構造(テーブルの<tr>など)には依存しない(v4でテーブルの行ごとの
+  // バッジを廃止。行への指摘はテーブルのバッジにまとめて表示する)。
   // ---------------------------------------------------------------------------
 
   let repositionTimer = null;
@@ -684,7 +751,7 @@
   };
 
   const reposition = () => {
-    repositionEntries.forEach(({ anchorEl, wrap, placement }) => {
+    repositionEntries.forEach(({ anchorEl, wrap }) => {
       const rect = anchorEl.getBoundingClientRect();
       const visible =
         document.body.contains(anchorEl) &&
@@ -694,14 +761,8 @@
       if (!visible) {
         return;
       }
-      if (placement === 'row') {
-        // 行はテーブルの右外側、行の高さの中央に置く。
-        wrap.style.top = `${rect.top + global.scrollY + rect.height / 2 - 13}px`;
-        wrap.style.left = `${rect.right + global.scrollX + 6}px`;
-      } else {
-        wrap.style.top = `${rect.top + global.scrollY - 10}px`;
-        wrap.style.left = `${rect.right + global.scrollX - 14}px`;
-      }
+      wrap.style.top = `${rect.top + global.scrollY - 10}px`;
+      wrap.style.left = `${rect.right + global.scrollX - 14}px`;
     });
   };
   global.addEventListener('resize', reposition);
@@ -717,10 +778,14 @@
     return layer;
   };
 
-  const buildTip = (entry) => {
+  const buildTip = (ctx, entry) => {
     const tip = el('div', 'rr-tip');
     entry.unresolved.forEach((item) => {
       const line = el('div', 'rr-tip-line');
+      // テーブルの行への指摘はテーブルのバッジにまとめて出すため、どの行かを明記する。
+      if (item.targetRowId) {
+        line.appendChild(el('div', 'rr-tip-target', ctx.describe(item)));
+      }
       line.appendChild(el('div', 'rr-pre', item.comment));
       line.appendChild(
         el(
@@ -775,12 +840,17 @@
       const action = drafted ? '下書きを編集' : '指摘を下書きに追加';
       add.setAttribute('aria-label', `「${target.label}」の${action}`);
       add.title = `「${target.label}」の${action}`;
-      add.addEventListener('click', () => addDraft(ctx, target));
+      // テーブルは、テーブル全体か、どの行への指摘かをダイアログで選ぶ(行ごとのバッジは出さない。v4)。
+      add.addEventListener('click', () =>
+        rowsOf(ctx, target).length > 0
+          ? openTargetDialog(ctx, target)
+          : addDraft(ctx, target),
+      );
       wrap.appendChild(add);
     }
 
     if (entry && entry.state === 'unresolved') {
-      wrap.appendChild(buildTip(entry));
+      wrap.appendChild(buildTip(ctx, entry));
     }
     return wrap;
   };
@@ -788,39 +858,19 @@
   renderBadges = (ctx) => {
     const layer = getLayer();
     layer.textContent = '';
-    repositionEntries.forEach(({ anchorEl, placement }) => {
-      if (placement === 'field') {
-        anchorEl.style.outline = '';
-        anchorEl.style.outlineOffset = '';
-      }
-    });
     repositionEntries = [];
-
-    const place = (target, anchorEl, placement) => {
-      const wrap = buildWrap(ctx, target);
-      if (!wrap) {
-        return;
-      }
-      wrap.classList.add(`rr-badge-wrap--${placement}`);
-      layer.appendChild(wrap);
-      repositionEntries.push({ anchorEl, wrap, placement });
-    };
 
     ctx.targets.forEach((target) => {
       const fieldEl = kintone.app.record.getFieldElement(target.code);
       if (!fieldEl) {
         return;
       }
-      const entry = ctx.summary[target.key];
-      if (entry && entry.state === 'unresolved') {
-        // ドキュメントで許可されているstyle属性の変更で、対象フィールドを赤枠で強調する。
-        fieldEl.style.outline = '2px solid #e74c3c';
-        fieldEl.style.outlineOffset = '2px';
+      const wrap = buildWrap(ctx, target);
+      if (!wrap) {
+        return;
       }
-      place(target, fieldEl, 'field');
-      (ctx.rowTargets[target.code] || []).forEach((rowTarget) => {
-        place(rowTarget, rowTarget.rowEl, 'row');
-      });
+      layer.appendChild(wrap);
+      repositionEntries.push({ anchorEl: fieldEl, wrap });
     });
 
     reposition();
@@ -829,22 +879,6 @@
     }
     // 画像の読み込み・グループの開閉などでレイアウトが変わっても追従させる。
     repositionTimer = setInterval(reposition, 800);
-  };
-
-  // テーブルの各行の要素。getFieldElement()はテーブルに対して<table>を返し、tbody直下の<tr>が
-  // レコードの行の並び順と一致する(実機で確認済み)。内部構造は読み取るだけで変更しない。
-  // 行数が一致しない(kintoneの内部構造が変わった等)場合はnullを返し、行の指摘はテーブル単位に寄せる。
-  const findRowElements = (tableEl, count) => {
-    if (!tableEl || tableEl.tagName !== 'TABLE') {
-      return null;
-    }
-    const tbody = Array.from(tableEl.children).find(
-      (child) => child.tagName === 'TBODY',
-    );
-    const rows = tbody
-      ? Array.from(tbody.children).filter((child) => child.tagName === 'TR')
-      : [];
-    return rows.length === count && count > 0 ? rows : null;
   };
 
   const renderToolbar = (ctx) => {
@@ -890,7 +924,7 @@
     };
     renderModeBtn();
     modeBtn.title =
-      'ONにすると、各フィールド・テーブルの各行に「＋」を表示し、指摘を下書きに追加できます(まとめて登録)';
+      'ONにすると、各フィールドに「＋」を表示し、指摘を下書きに追加できます(テーブルは＋から行を選べます。まとめて登録)';
     modeBtn.addEventListener('click', () => {
       ctx.reviewMode = !ctx.reviewMode;
       writeMode(ctx.reviewMode);
@@ -936,33 +970,21 @@
       config.targetFields,
     ).map((f) => ({ ...f, key: f.code, rowId: '' }));
 
-    // 行のバッジを置ける(行要素が取得できた)テーブルの行だけを、行単位の対象にする。
-    const rowTargets = {};
-    const locatableRowIds = {};
-    targets
-      .filter((t) => t.type === 'SUBTABLE')
-      .forEach((t) => {
-        const rows = event.record[t.code] ? event.record[t.code].value : [];
-        const rowEls = findRowElements(
-          kintone.app.record.getFieldElement(t.code),
-          rows.length,
-        );
-        if (!rowEls) {
-          return;
-        }
-        locatableRowIds[t.code] = rowIdsByTable[t.code];
-        rowTargets[t.code] = canRowComment
-          ? rows.map((row, i) => ({
-              code: t.code,
-              rowId: String(row.id),
-              key: Model.targetKey(t.code, String(row.id)),
-              label: Model.rowLabel(t.label, i),
-              rowSummary: Model.rowSummary(row),
-              type: 'ROW',
-              rowEl: rowEls[i],
-            }))
-          : [];
-      });
+    // テーブルの行単位の指摘の対象行(行の中身・並び順はevent.recordから取る。画面のDOMは見ない)。
+    const tableRows = {};
+    if (canRowComment) {
+      targets
+        .filter((t) => t.type === 'SUBTABLE' && event.record[t.code])
+        .forEach((t) => {
+          tableRows[t.code] = event.record[t.code].value.map((row, i) => ({
+            code: t.code,
+            rowId: String(row.id),
+            key: Model.targetKey(t.code, String(row.id)),
+            label: Model.rowLabel(t.label, i),
+            rowSummary: Model.rowSummary(row),
+          }));
+        });
+    }
 
     const items = Model.parseRows(table.value, codes);
     // 別のレコードへ移動した場合は、前のレコードの下書きを捨てる。
@@ -978,15 +1000,17 @@
       tableValue: table.value,
       codes,
       items,
-      summary: Model.summarizeByTarget(items, locatableRowIds),
+      // 行への指摘もテーブルのキーにまとめる(行ごとのバッジは出さないため、行IDの対応表は渡さない)。
+      summary: Model.summarizeByTarget(items, {}),
       targets,
-      rowTargets,
+      tableRows,
       reviewMode: readMode(),
       describe: (item) => Model.describeTarget(item, labelOf, rowIdsByTable),
     };
     renderToolbar(ctx);
     renderBadges(ctx);
     renderDraftPanel(ctx);
+    highlightUnresolved(items, formFields, 'detail');
     return event;
   });
 })(typeof window !== 'undefined' ? window : globalThis, kintone);

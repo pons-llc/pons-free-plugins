@@ -97,7 +97,20 @@
         // getFormFields()はラップされない値(フィールドコードをキーにしたオブジェクト)を解決する。
         const formFields = await kintone.app.getFormFields();
         const rowIds = rowIdsOf(event.record);
-        renderUnresolvedPanel(Model.parseRows(table.value, codes), (item) =>
+        const items = Model.parseRows(table.value, codes);
+        // 未解決の指摘があるフィールドを公式の「フィールドのスタイルの設定」APIで強調する(v4)。
+        NS.FieldHighlight.unresolvedFieldCodes(items).forEach((code) => {
+          const style = NS.FieldHighlight.highlightStyle(
+            formFields[code],
+            event.type === 'mobile.app.record.detail.show' ? 'detail' : 'edit',
+          );
+          if (style) {
+            Promise.resolve()
+              .then(() => kintone.mobile.app.record.setFieldStyle(code, style))
+              .catch(() => {});
+          }
+        });
+        renderUnresolvedPanel(items, (item) =>
           Model.describeTarget(
             item,
             (code) => formFields[code] && formFields[code].label,

@@ -69,6 +69,28 @@ describe('まとめて指摘と解決(実環境)', () => {
   const draftSel = (key) => `.rr-draft-item[data-target-key="${key}"]`;
   const rowKey = (i) => `${ITEMS_TABLE}#${itemRowIds[i]}`;
 
+  // 未解決の指摘があるフィールドの強調は、公式の「フィールドのスタイルの設定」APIで行う(v4)。
+  // 同じく公式の getFieldStyle() で、設定された枠線の色を確認する(非同期APIのため反映を待つ)。
+  const waitBorderColor = (code, expected) =>
+    page.waitForFunction(
+      async (c, exp) => {
+        const style = await kintone.app.record.getFieldStyle(c);
+        return String(style.content.borderColor).toLowerCase() === exp;
+      },
+      { timeout: 10000 },
+      code,
+      expected,
+    );
+
+  // テーブルの行への指摘は、テーブルの「＋」(またはバッジ)で開くダイアログの行一覧から追加する(v4)。
+  const addRowDraftViaTable = async (rowIndex) => {
+    await page.$eval(badgeSel(ITEMS_TABLE, 'add'), (el) => el.click());
+    const btn = `.rr-modal .js-rr-add-row-draft[data-row-id="${itemRowIds[rowIndex]}"]`;
+    await page.waitForSelector(btn);
+    await page.$eval(btn, (el) => el.click());
+    expect(await page.$('.rr-modal')).toBeNull();
+  };
+
   const ensureReviewMode = async () => {
     const pressed = await page.$eval('.js-rr-mode', (el) =>
       el.getAttribute('aria-pressed'),
@@ -168,14 +190,27 @@ describe('まとめて指摘と解決(実環境)', () => {
     expect(summary).toContain('指摘はありません');
 
     await ensureReviewMode();
-    // フィールドと、テーブルの各行に「＋」が出る。
+    // フィールドとテーブルに「＋」が出る。kintone内部のDOM(テーブルの<tr>)に依存しないよう、
+    // 行ごとのバッジは出さない(v4)。
     await page.waitForSelector(badgeSel(TARGET_FIELD, 'add'));
-    await page.waitForSelector(badgeSel(rowKey(0), 'add'));
-    await page.waitForSelector(badgeSel(rowKey(1), 'add'));
+    await page.waitForSelector(badgeSel(ITEMS_TABLE, 'add'));
+    expect(
+      await page.$(`.rr-badge-wrap[data-target-key^="${ITEMS_TABLE}#"]`),
+    ).toBeNull();
 
     await page.$eval(badgeSel(TARGET_FIELD, 'add'), (el) => el.click());
     await page.$eval(badgeSel(SECOND_FIELD, 'add'), (el) => el.click());
-    await page.$eval(badgeSel(rowKey(1), 'add'), (el) => el.click());
+    // テーブルの＋ではダイアログが開き、行を選んで下書きに追加する。
+    await page.$eval(badgeSel(ITEMS_TABLE, 'add'), (el) => el.click());
+    await page.waitForSelector('.rr-modal .rr-row-item');
+    const rowListText = await page.$$eval('.rr-modal .rr-row-item', (els) =>
+      els.map((el) => el.textContent),
+    );
+    expect(rowListText).toHaveLength(2);
+    expect(rowListText[1]).toContain(`${ITEMS_LABEL} 2行目`);
+    expect(rowListText[1]).toContain('コピー用紙');
+    await page.$eval('.rr-modal-close', (el) => el.click());
+    await addRowDraftViaTable(1);
     // 同じ対象を2回押しても下書きは増えない。
     await page.$eval(badgeSel(TARGET_FIELD, 'drafted'), (el) => el.click());
 
@@ -222,8 +257,14 @@ describe('まとめて指摘と解決(実環境)', () => {
 
     await page.waitForSelector(badgeSel(TARGET_FIELD, 'unresolved'));
     await page.waitForSelector(badgeSel(SECOND_FIELD, 'unresolved'));
-    await page.waitForSelector(badgeSel(rowKey(1), 'unresolved'));
-    expect(await page.$(badgeSel(rowKey(0), 'unresolved'))).toBeNull();
+    // 行への指摘はテーブルのバッジにまとめて表示される。
+    await page.waitForSelector(badgeSel(ITEMS_TABLE, 'unresolved'));
+    expect(
+      await page.$eval(
+        badgeSel(ITEMS_TABLE, 'unresolved'),
+        (el) => el.textContent,
+      ),
+    ).toBe('✕ 1');
     expect(await page.$('.rr-draft-panel:not([hidden])')).toBeNull();
 
     const badgeText = await page.$eval(
@@ -232,15 +273,19 @@ describe('まとめて指摘と解決(実環境)', () => {
     );
     expect(badgeText).toBe('✕ 1');
     const tipText = await page.$eval(
-      `${wrapSel(rowKey(1))} .rr-tip`,
+      `${wrapSel(ITEMS_TABLE)} .rr-tip`,
       (el) => el.textContent,
     );
     expect(tipText).toContain(ROW_COMMENT);
-    const outline = await page.evaluate(
-      (code) => kintone.app.record.getFieldElement(code).style.outline,
-      TARGET_FIELD,
-    );
-    expect(outline).toContain('solid');
+    expect(tipText).toContain(`${ITEMS_LABEL} 2行目`);
+    await waitBorderColor(TARGET_FIELD, '#e74c3c');
+    // getFieldElement()の要素のstyleは直接変更しない(v4)。
+    expect(
+      await page.evaluate(
+        (code) => kintone.app.record.getFieldElement(code).style.outline,
+        TARGET_FIELD,
+      ),
+    ).toBe('');
     expect(await page.$eval('.rr-summary', (el) => el.textContent)).toContain(
       '未解決の指摘 3件',
     );
@@ -286,16 +331,20 @@ describe('まとめて指摘と解決(実環境)', () => {
     await page.$eval('.rr-modal .js-rr-add-resolve-draft', (el) => el.click());
     expect(await page.$('.rr-modal')).toBeNull();
 
-    await page.$eval(badgeSel(rowKey(1), 'unresolved'), (el) => el.click());
-    await page.waitForSelector('.rr-modal .js-rr-add-resolve-draft');
-    const title = await page.$eval('.rr-modal-title', (el) => el.textContent);
-    expect(title).toContain(`${ITEMS_LABEL} 2行目`);
-    await page.$eval('.rr-modal .js-rr-add-resolve-draft', (el) => el.click());
+    const record = await getRecord();
+    const reviewRowIds = record[TABLE_CODE].value.map((r) => String(r.id));
+
+    // 行への指摘は、テーブルのバツから開くダイアログに「明細 2行目」として表示される。
+    await page.$eval(badgeSel(ITEMS_TABLE, 'unresolved'), (el) => el.click());
+    const rowCard = `.rr-modal .rr-item[data-row-id="${reviewRowIds[2]}"]`;
+    await page.waitForSelector(rowCard);
+    expect(await page.$eval(rowCard, (el) => el.textContent)).toContain(
+      `${ITEMS_LABEL} 2行目`,
+    );
+    await page.$eval(`${rowCard} .js-rr-add-resolve-draft`, (el) => el.click());
 
     await page.$eval(badgeSel(TITLE_FIELD, 'add'), (el) => el.click());
 
-    const record = await getRecord();
-    const reviewRowIds = record[TABLE_CODE].value.map((r) => String(r.id));
     const resolveSel = (i) =>
       `.rr-draft-item[data-resolve-row-id="${reviewRowIds[i]}"]`;
     const panelText = await page.$eval(
@@ -326,15 +375,12 @@ describe('まとめて指摘と解決(実環境)', () => {
     expect(calls).toEqual(['PUT']);
 
     await page.waitForSelector(badgeSel(TARGET_FIELD, 'resolved'));
-    await page.waitForSelector(badgeSel(rowKey(1), 'resolved'));
+    await page.waitForSelector(badgeSel(ITEMS_TABLE, 'resolved'));
     await page.waitForSelector(badgeSel(TITLE_FIELD, 'unresolved'));
     await page.waitForSelector(badgeSel(SECOND_FIELD, 'unresolved'));
-    expect(
-      await page.evaluate(
-        (code) => kintone.app.record.getFieldElement(code).style.outline,
-        TARGET_FIELD,
-      ),
-    ).toBe('');
+    // 解決したフィールドは強調されず、未解決のフィールドは強調される。
+    await waitBorderColor(TITLE_FIELD, '#e74c3c');
+    await waitBorderColor(TARGET_FIELD, 'default');
 
     const rows = (await getRecord())[TABLE_CODE].value.map((r) => r.value);
     expect(rows).toHaveLength(4);
@@ -433,7 +479,7 @@ describe('まとめて指摘と解決(実環境)', () => {
       `${draftSel(TARGET_FIELD)} .js-rr-draft-comment`,
       '「株式会社」が前株か後株か確認してください',
     );
-    await page.$eval(badgeSel(rowKey(0), 'add'), (el) => el.click());
+    await addRowDraftViaTable(0);
     await page.type(
       `${draftSel(rowKey(0))} .js-rr-draft-comment`,
       '数量の単位(箱/本)を明記してください',
@@ -455,23 +501,9 @@ describe('まとめて指摘と解決(実環境)', () => {
       clip: { x: 0, y: 0, width: 1280, height: 1000 },
     });
 
-    // テーブルの行ごとのバッジ(行の＋・未解決の行のバツ)が見える位置でも撮影する。
-    await page.evaluate((code) => {
-      kintone.app.record
-        .getFieldElement(code)
-        .scrollIntoView({ block: 'center' });
-    }, ITEMS_TABLE);
-    await page.waitForFunction(
-      (key) => {
-        const wrap = document.querySelector(
-          `.rr-badge-wrap[data-target-key="${key}"]`,
-        );
-        const r = wrap && wrap.getBoundingClientRect();
-        return r && r.top > 0 && r.bottom < window.innerHeight;
-      },
-      {},
-      rowKey(1),
-    );
+    // テーブルの行を選んで指摘するダイアログ(行一覧と、行への指摘・解決の履歴)も撮影する。
+    await page.$eval(badgeSel(ITEMS_TABLE, 'resolved'), (el) => el.click());
+    await page.waitForSelector('.rr-modal .rr-row-item');
     await page.mouse.move(0, 0);
     await page.screenshot({
       path: path.join(
@@ -483,6 +515,7 @@ describe('まとめて指摘と解決(実環境)', () => {
         'row-review.png',
       ),
     });
+    await page.$eval('.rr-modal-close', (el) => el.click());
 
     // 下書きを破棄して終える(未保存の下書きが残ったまま画面遷移しない)。
     await page.$eval('.js-rr-draft-clear', (el) => el.click());
@@ -498,6 +531,9 @@ describe('まとめて指摘と解決(実環境)', () => {
     );
     expect(panelText).toContain('未解決の指摘 1件');
     expect(panelText).toContain(TITLE_COMMENT);
+    // 編集画面でも、未解決の指摘があるフィールドを公式APIで強調する(v4)。
+    await waitBorderColor(TITLE_FIELD, '#e74c3c');
+    await waitBorderColor(SECOND_FIELD, 'default');
     expect(panelText).not.toContain(SECOND_COMMENT);
     expect(panelText).not.toContain(ROW_COMMENT);
 
