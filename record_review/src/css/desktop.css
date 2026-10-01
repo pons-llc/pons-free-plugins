@@ -99,6 +99,8 @@
 
 .rr-badge-wrap {
   position: absolute;
+  display: flex;
+  gap: 4px;
 }
 
 .rr-badge {
@@ -128,22 +130,27 @@
   color: #fff;
 }
 
-.rr-badge--none {
+.rr-badge--add {
   background: #fff;
   color: #3498db;
   border-color: #3498db;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
-.rr-badge--none:hover {
+.rr-badge--add:hover {
   opacity: 1;
+}
+
+.rr-badge--drafted {
+  background: #3498db;
+  color: #fff;
 }
 
 .rr-tip {
   display: none;
   position: absolute;
   top: 30px;
-  right: 0;
+  left: 0;
   width: 280px;
   max-height: 240px;
   overflow: auto;
@@ -364,4 +371,69 @@
 
 .rr-history-table--unresolved-only .rr-row--resolved {
   display: none;
+}
+
+.rr-item-target {
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+/* ---- 指摘の下書きパネル(まとめて登録) ---- */
+.rr-draft-panel {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9000;
+  width: min(380px, calc(100vw - 32px));
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.rr-draft-title {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.rr-draft-list {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rr-draft-item {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 6px 8px;
+}
+
+.rr-draft-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.rr-draft-remove {
+  border: none;
+  background: none;
+  font-size: 18px;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.rr-draft-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 }

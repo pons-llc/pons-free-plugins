@@ -32,30 +32,30 @@
     errorsEl.hidden = !message;
   };
 
+  const savedTableCode = config.fieldCodes && config.fieldCodes.table;
+  // 保存ボタンを押したときに行う処理(作成/v1からの更新/再利用)を、画面表示の時点でも判定しておく。
+  const plannedSpec = NS.ReviewTableSpec.buildReviewTableSpec(
+    existingFields,
+    savedTableCode,
+  );
+
   const renderTableStatus = () => {
-    const current = NS.ReviewTableSpec.currentFieldCodes(
-      existingFields,
-      config.fieldCodes,
-    );
-    if (current) {
-      tableStatusEl.textContent = `作成済みです(テーブル: ${current.table})。`;
-      fieldListEl.textContent = NS.ReviewTableSpec.INNER_FIELDS.map(
-        (f) => `${f.label}: ${current[f.key]}`,
-      ).join(' / ');
+    if (plannedSpec.needsCreate) {
+      tableStatusEl.textContent = '保存すると自動的に作成されます。';
+      fieldListEl.textContent = '';
       return;
     }
-    tableStatusEl.textContent = '保存すると自動的に作成されます。';
-    fieldListEl.textContent = '';
+    const codes = plannedSpec.fieldCodes;
+    tableStatusEl.textContent = plannedSpec.needsUpgrade
+      ? `作成済みです(テーブル: ${codes.table})。保存すると、テーブルの行単位の指摘に必要な「対象行ID」列を追加します。`
+      : `作成済みです(テーブル: ${codes.table})。`;
+    fieldListEl.textContent = NS.ReviewTableSpec.INNER_FIELDS.map(
+      (f) => `${f.label}: ${codes[f.key]}`,
+    ).join(' / ');
   };
 
-  // 指摘履歴テーブル自身は候補から外す(作成済みならそのコード、未作成なら既定コード)。
-  const tableCodeToExclude = () => {
-    const current = NS.ReviewTableSpec.currentFieldCodes(
-      existingFields,
-      config.fieldCodes,
-    );
-    return current ? current.table : NS.ReviewTableSpec.TABLE_CODE;
-  };
+  // 指摘履歴テーブル自身は候補から外す。
+  const tableCodeToExclude = () => plannedSpec.tableCode;
 
   const candidates = NS.TargetFields.listTargetFields(
     existingFields,
@@ -133,14 +133,21 @@
 
     saveButtonEl.disabled = true;
     try {
-      const spec = NS.ReviewTableSpec.buildReviewTableSpec(existingFields);
+      const spec = NS.ReviewTableSpec.buildReviewTableSpec(
+        existingFields,
+        savedTableCode,
+      );
       if (spec.warnings.length > 0) {
         tableWarningEl.textContent = spec.warnings.join('\n');
         tableWarningEl.hidden = false;
       }
 
-      if (spec.needsCreate) {
-        progressEl.textContent = '指摘履歴テーブルを作成しています...';
+      if (spec.needsCreate || spec.needsUpgrade) {
+        // 新規作成も、v1で作成済みのテーブルへの列の追加(v2で追加した「対象行ID」)も、
+        // フィールド追加APIで行う(review-table-spec.jsのupgrade()参照)。
+        progressEl.textContent = spec.needsCreate
+          ? '指摘履歴テーブルを作成しています...'
+          : '指摘履歴テーブルに列を追加しています...';
         await kintone.api(
           kintone.api.url('/k/v1/preview/app/form/fields.json', true),
           'POST',

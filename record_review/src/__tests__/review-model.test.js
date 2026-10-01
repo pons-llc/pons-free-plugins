@@ -6,6 +6,7 @@ const codes = {
   table: 'review_comment_table',
   targetCode: 'rr_target_code',
   targetLabel: 'rr_target_label',
+  targetRowId: 'rr_target_row_id',
   pointedAt: 'rr_pointed_at',
   pointedBy: 'rr_pointed_by',
   comment: 'rr_comment',
@@ -19,6 +20,7 @@ const row = (id, overrides = {}) => {
   const v = {
     rr_target_code: '氏名',
     rr_target_label: '氏名',
+    rr_target_row_id: '',
     rr_pointed_at: '2026-10-01T01:00:00Z',
     rr_pointed_by: [{ code: 'sato', name: '佐藤' }],
     rr_comment: '旧字体で記載してください',
@@ -35,14 +37,17 @@ const row = (id, overrides = {}) => {
   return { id, value };
 };
 
+const NOW = '2026-10-01T02:00:00Z';
+
 describe('parseRows', () => {
   test('テーブル行を扱いやすい形に変換する', () => {
-    const items = Model.parseRows([row('10')], codes);
+    const items = Model.parseRows([row('10', { rr_target_row_id: '55' })], codes);
     expect(items).toEqual([
       {
         rowId: '10',
         targetCode: '氏名',
         targetLabel: '氏名',
+        targetRowId: '55',
         pointedAt: '2026-10-01T01:00:00Z',
         pointedBy: { code: 'sato', name: '佐藤' },
         comment: '旧字体で記載してください',
@@ -53,6 +58,14 @@ describe('parseRows', () => {
         resolvedAt: '',
       },
     ]);
+  });
+
+  test('v1のテーブル(対象行IDの列なし)でも読める', () => {
+    const r = row('1');
+    delete r.value.rr_target_row_id;
+    const v1Codes = { ...codes };
+    delete v1Codes.targetRowId;
+    expect(Model.parseRows([r], v1Codes)[0].targetRowId).toBe('');
   });
 
   test('空行(対象フィールド・指摘内容が無い行)は無視する', () => {
@@ -76,22 +89,89 @@ describe('parseRows', () => {
   });
 });
 
-describe('summarizeByField', () => {
-  test('フィールドごとに未解決・解決済みを分け、状態を判定する', () => {
+describe('targetKey / summarizeByTarget', () => {
+  test('行指定の指摘は「テーブル#行ID」のキー、それ以外はフィールドコード', () => {
+    expect(Model.targetKey('明細', '7')).toBe('明細#7');
+    expect(Model.targetKey('氏名', '')).toBe('氏名');
+  });
+
+  test('フィールド・行ごとに未解決・解決済みを分け、状態を判定する', () => {
     const items = Model.parseRows(
       [
         row('1'),
         row('2', { rr_status: '解決済み' }),
-        row('3', { rr_target_code: '住所', rr_status: '解決済み' }),
+        row('3', { rr_target_code: '明細', rr_target_row_id: '7' }),
+        row('4', {
+          rr_target_code: '明細',
+          rr_target_row_id: '8',
+          rr_status: '解決済み',
+        }),
       ],
       codes,
     );
-    const summary = Model.summarizeByField(items);
+    const summary = Model.summarizeByTarget(items, { 明細: ['7', '8'] });
     expect(summary['氏名'].state).toBe('unresolved');
     expect(summary['氏名'].unresolved.map((i) => i.rowId)).toEqual(['1']);
     expect(summary['氏名'].resolved.map((i) => i.rowId)).toEqual(['2']);
-    expect(summary['住所'].state).toBe('resolved');
-    expect(Model.countUnresolved(items)).toBe(1);
+    expect(summary['明細#7'].state).toBe('unresolved');
+    expect(summary['明細#8'].state).toBe('resolved');
+    expect(summary['明細']).toBeUndefined();
+    expect(Model.countUnresolved(items)).toBe(2);
+  });
+
+  test('削除された行への指摘はテーブル単位に寄せる(未解決が見えなくならない)', () => {
+    const items = Model.parseRows(
+      [row('1', { rr_target_code: '明細', rr_target_row_id: '99' })],
+      codes,
+    );
+    const summary = Model.summarizeByTarget(items, { 明細: ['7'] });
+    expect(summary['明細'].state).toBe('unresolved');
+    expect(summary['明細#99']).toBeUndefined();
+  });
+});
+
+describe('describeTarget', () => {
+  const labelOf = (code) => ({ 明細: '明細', 氏名: '氏名(現在)' })[code];
+  const rowIdsByTable = { 明細: ['7', '8'] };
+
+  test('フィールドは現在のラベル、行は「テーブル名 n行目」', () => {
+    expect(
+      Model.describeTarget({ targetCode: '氏名', targetLabel: '氏名(旧)', targetRowId: '' }, labelOf, rowIdsByTable),
+    ).toBe('氏名(現在)');
+    expect(
+      Model.describeTarget({ targetCode: '明細', targetLabel: '明細 2行目', targetRowId: '8' }, labelOf, rowIdsByTable),
+    ).toBe('明細 2行目');
+  });
+
+  test('削除済みの行・フィールドは保存時のラベルを使う', () => {
+    expect(
+      Model.describeTarget({ targetCode: '明細', targetLabel: '明細 3行目', targetRowId: '99' }, labelOf, rowIdsByTable),
+    ).toBe('明細 3行目(削除された行)');
+    expect(
+      Model.describeTarget({ targetCode: '消えた', targetLabel: '旧項目', targetRowId: '' }, labelOf, rowIdsByTable),
+    ).toBe('旧項目');
+  });
+});
+
+describe('rowSummary', () => {
+  test('行の値を先頭から最大3つ、短く要約する', () => {
+    const tableRow = {
+      id: '7',
+      value: {
+        品名: { type: 'SINGLE_LINE_TEXT', value: 'ボールペン' },
+        空: { type: 'SINGLE_LINE_TEXT', value: '' },
+        数量: { type: 'NUMBER', value: '12' },
+        担当: { type: 'USER_SELECT', value: [{ code: 'sato', name: '佐藤' }] },
+        区分: { type: 'CHECK_BOX', value: ['A', 'B'] },
+      },
+    };
+    expect(Model.rowSummary(tableRow)).toBe('ボールペン / 12 / 佐藤');
+  });
+
+  test('長い要約は省略記号で切る、値が無ければ空', () => {
+    const long = { value: { a: { type: 'X', value: 'あ'.repeat(50) } } };
+    expect(Model.rowSummary(long, 10)).toBe(`${'あ'.repeat(10)}…`);
+    expect(Model.rowSummary({ value: {} })).toBe('');
   });
 });
 
@@ -103,61 +183,86 @@ describe('toKintoneDateTime', () => {
   });
 });
 
-describe('buildTableForAdd', () => {
-  test('既存行はidのみ、新規行は末尾にフル値で追加する', () => {
+describe('buildTableForAdd(まとめて登録)', () => {
+  test('既存行はidのみ、下書きの指摘をすべて末尾にフル値で追加する', () => {
     const table = Model.buildTableForAdd([row('1'), row('2')], codes, {
-      targetCode: '金額',
-      targetLabel: '金額',
-      comment: '  税込で記載  ',
+      entries: [
+        { targetCode: '金額', targetLabel: '金額', targetRowId: '', comment: '  税込で記載  ' },
+        { targetCode: '明細', targetLabel: '明細 2行目', targetRowId: '8', comment: '単価が違う' },
+      ],
       userCode: 'suzuki',
-      nowIso: '2026-10-01T02:00:00Z',
+      nowIso: NOW,
     });
-    expect(table).toEqual([
-      { id: '1' },
-      { id: '2' },
-      {
-        value: {
-          rr_target_code: { value: '金額' },
-          rr_target_label: { value: '金額' },
-          rr_pointed_at: { value: '2026-10-01T02:00:00Z' },
-          rr_pointed_by: { value: [{ code: 'suzuki' }] },
-          rr_comment: { value: '税込で記載' },
-          rr_status: { value: '未解決' },
-          rr_resolution: { value: '' },
-          rr_resolved_by: { value: [] },
-          rr_resolved_at: { value: '' },
-        },
+    expect(table.slice(0, 2)).toEqual([{ id: '1' }, { id: '2' }]);
+    expect(table).toHaveLength(4);
+    expect(table[2]).toEqual({
+      value: {
+        rr_target_code: { value: '金額' },
+        rr_target_label: { value: '金額' },
+        rr_target_row_id: { value: '' },
+        rr_pointed_at: { value: NOW },
+        rr_pointed_by: { value: [{ code: 'suzuki' }] },
+        rr_comment: { value: '税込で記載' },
+        rr_status: { value: '未解決' },
+        rr_resolution: { value: '' },
+        rr_resolved_by: { value: [] },
+        rr_resolved_at: { value: '' },
       },
-    ]);
+    });
+    expect(table[3].value.rr_target_row_id).toEqual({ value: '8' });
+    expect(table[3].value.rr_target_label).toEqual({ value: '明細 2行目' });
   });
 
-  test('指摘内容が空ならエラー', () => {
+  test('内容が空の下書きは無視し、すべて空ならエラー', () => {
+    const table = Model.buildTableForAdd([], codes, {
+      entries: [
+        { targetCode: 'a', targetLabel: 'a', comment: ' ' },
+        { targetCode: 'b', targetLabel: 'b', comment: 'x' },
+      ],
+      userCode: 'u',
+      nowIso: NOW,
+    });
+    expect(table).toHaveLength(1);
+    expect(table[0].value.rr_target_code.value).toBe('b');
     expect(() =>
       Model.buildTableForAdd([], codes, {
-        targetCode: '金額',
-        targetLabel: '金額',
-        comment: '   ',
-        userCode: 'suzuki',
-        nowIso: '2026-10-01T02:00:00Z',
+        entries: [{ targetCode: 'a', targetLabel: 'a', comment: '   ' }],
+        userCode: 'u',
+        nowIso: NOW,
       }),
     ).toThrow('指摘内容を入力してください');
+    expect(() =>
+      Model.buildTableForAdd([], codes, { entries: [], userCode: 'u', nowIso: NOW }),
+    ).toThrow('指摘内容を入力してください');
+  });
+
+  test('v1の設定(対象行IDの列なし)では行IDを送らない', () => {
+    const v1Codes = { ...codes };
+    delete v1Codes.targetRowId;
+    const table = Model.buildTableForAdd([], v1Codes, {
+      entries: [{ targetCode: 'a', targetLabel: 'a', targetRowId: '3', comment: 'x' }],
+      userCode: 'u',
+      nowIso: NOW,
+    });
+    expect(Object.keys(table[0].value)).not.toContain('undefined');
+    expect(table[0].value.rr_target_row_id).toBeUndefined();
   });
 });
 
 describe('buildTableForResolve', () => {
   test('対象行だけ解決情報を入れたフル値、他はidのみ', () => {
-    const table = Model.buildTableForResolve([row('1'), row('2')], codes, {
-      rowId: '2',
-      resolution: '修正しました',
-      userCode: 'tanaka',
-      nowIso: '2026-10-02T00:00:00Z',
-    });
+    const table = Model.buildTableForResolve(
+      [row('1'), row('2', { rr_target_row_id: '8' })],
+      codes,
+      { rowId: '2', resolution: '修正しました', userCode: 'tanaka', nowIso: '2026-10-02T00:00:00Z' },
+    );
     expect(table[0]).toEqual({ id: '1' });
     expect(table[1]).toEqual({
       id: '2',
       value: {
         rr_target_code: { value: '氏名' },
         rr_target_label: { value: '氏名' },
+        rr_target_row_id: { value: '8' },
         rr_pointed_at: { value: '2026-10-01T01:00:00Z' },
         rr_pointed_by: { value: [{ code: 'sato' }] },
         rr_comment: { value: '旧字体で記載してください' },
@@ -172,10 +277,7 @@ describe('buildTableForResolve', () => {
   test('対象行が見つからない(他ユーザーが削除済み)ならエラー', () => {
     expect(() =>
       Model.buildTableForResolve([row('1')], codes, {
-        rowId: '99',
-        resolution: 'x',
-        userCode: 'tanaka',
-        nowIso: '2026-10-02T00:00:00Z',
+        rowId: '99', resolution: 'x', userCode: 't', nowIso: NOW,
       }),
     ).toThrow('対象の指摘が見つかりません');
   });
@@ -183,10 +285,7 @@ describe('buildTableForResolve', () => {
   test('既に解決済みならエラー', () => {
     expect(() =>
       Model.buildTableForResolve([row('1', { rr_status: '解決済み' })], codes, {
-        rowId: '1',
-        resolution: 'x',
-        userCode: 'tanaka',
-        nowIso: '2026-10-02T00:00:00Z',
+        rowId: '1', resolution: 'x', userCode: 't', nowIso: NOW,
       }),
     ).toThrow('既に解決済み');
   });
@@ -194,10 +293,7 @@ describe('buildTableForResolve', () => {
   test('解決内容が空ならエラー', () => {
     expect(() =>
       Model.buildTableForResolve([row('1')], codes, {
-        rowId: '1',
-        resolution: ' ',
-        userCode: 'tanaka',
-        nowIso: '2026-10-02T00:00:00Z',
+        rowId: '1', resolution: ' ', userCode: 't', nowIso: NOW,
       }),
     ).toThrow('解決内容を入力してください');
   });

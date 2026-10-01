@@ -31,7 +31,18 @@
 
   // モバイルではテーブル等の要素がgetFieldElement()で取得できないため、フィールド横のバッジは出さず、
   // ヘッダー下に未解決の指摘一覧を表示するだけにする(閲覧のみ。idea.md「モバイル」)。
-  const renderUnresolvedPanel = (items) => {
+  const rowIdsOf = (record) => {
+    const result = {};
+    Object.keys(record).forEach((code) => {
+      const field = record[code];
+      if (field && field.type === 'SUBTABLE' && Array.isArray(field.value)) {
+        result[code] = field.value.map((row) => String(row.id));
+      }
+    });
+    return result;
+  };
+
+  const renderUnresolvedPanel = (items, describe) => {
     const space = kintone.mobile.app.getHeaderSpaceElement();
     if (!space) {
       return;
@@ -47,9 +58,7 @@
     );
     unresolved.forEach((item) => {
       const row = el('div', 'rr-m-item');
-      row.appendChild(
-        el('div', 'rr-m-label', item.targetLabel || item.targetCode),
-      );
+      row.appendChild(el('div', 'rr-m-label', describe(item)));
       row.appendChild(el('div', 'rr-m-comment', item.comment));
       const by = item.pointedBy
         ? item.pointedBy.name || item.pointedBy.code
@@ -85,7 +94,16 @@
         NS.TableDisabler.disableAllRows(table);
       }
       if (event.type !== 'mobile.app.record.create.show') {
-        renderUnresolvedPanel(Model.parseRows(table.value, codes));
+        // getFormFields()はラップされない値(フィールドコードをキーにしたオブジェクト)を解決する。
+        const formFields = await kintone.app.getFormFields();
+        const rowIds = rowIdsOf(event.record);
+        renderUnresolvedPanel(Model.parseRows(table.value, codes), (item) =>
+          Model.describeTarget(
+            item,
+            (code) => formFields[code] && formFields[code].label,
+            rowIds,
+          ),
+        );
       }
       return event;
     },

@@ -8,6 +8,7 @@ const validTable = () => ({
   fields: {
     rr_target_code: { type: 'SINGLE_LINE_TEXT' },
     rr_target_label: { type: 'SINGLE_LINE_TEXT' },
+    rr_target_row_id: { type: 'SINGLE_LINE_TEXT' },
     rr_pointed_at: { type: 'DATETIME' },
     rr_pointed_by: { type: 'USER_SELECT' },
     rr_comment: { type: 'MULTI_LINE_TEXT' },
@@ -35,6 +36,7 @@ describe('buildReviewTableSpec', () => {
     expect(Object.keys(table.fields)).toEqual([
       'rr_target_code',
       'rr_target_label',
+      'rr_target_row_id',
       'rr_pointed_at',
       'rr_pointed_by',
       'rr_comment',
@@ -53,6 +55,7 @@ describe('buildReviewTableSpec', () => {
       table: 'review_comment_table',
       targetCode: 'rr_target_code',
       targetLabel: 'rr_target_label',
+      targetRowId: 'rr_target_row_id',
       pointedAt: 'rr_pointed_at',
       pointedBy: 'rr_pointed_by',
       comment: 'rr_comment',
@@ -68,7 +71,48 @@ describe('buildReviewTableSpec', () => {
       review_comment_table: validTable(),
     });
     expect(spec.needsCreate).toBe(false);
+    expect(spec.needsUpgrade).toBe(false);
     expect(spec.propertiesToAdd).toEqual({});
+  });
+
+  test('v1のテーブル(対象行IDなし)は、不足フィールドだけを追加する更新にする', () => {
+    const v1 = validTable();
+    v1.label = '指摘履歴(変更済み)';
+    delete v1.fields.rr_target_row_id;
+    const spec = Spec.buildReviewTableSpec({ review_comment_table: v1 });
+    expect(spec.needsCreate).toBe(false);
+    expect(spec.needsUpgrade).toBe(true);
+    expect(spec.tableCode).toBe('review_comment_table');
+    const update = spec.propertiesToAdd.review_comment_table;
+    expect(update.type).toBe('SUBTABLE');
+    expect(update.label).toBe('指摘履歴(変更済み)');
+    expect(Object.keys(update.fields)).toEqual(['rr_target_row_id']);
+    expect(update.fields.rr_target_row_id.type).toBe('SINGLE_LINE_TEXT');
+    expect(spec.warnings).toEqual([]);
+    expect(Spec.isUpgradable(v1)).toBe(true);
+  });
+
+  test('v1で必須の項目まで欠けているテーブルは更新対象にしない', () => {
+    const broken = validTable();
+    delete broken.fields.rr_target_row_id;
+    delete broken.fields.rr_comment;
+    expect(Spec.isUpgradable(broken)).toBe(false);
+    const spec = Spec.buildReviewTableSpec({ review_comment_table: broken });
+    expect(spec.needsCreate).toBe(true);
+    expect(spec.tableCode).toBe('review_comment_table_2');
+  });
+
+  test('保存済みのテーブルコード(連番付き)を優先して再利用する', () => {
+    const spec = Spec.buildReviewTableSpec(
+      {
+        review_comment_table: { type: 'SINGLE_LINE_TEXT' },
+        review_comment_table_2: validTable(),
+      },
+      'review_comment_table_2',
+    );
+    expect(spec.needsCreate).toBe(false);
+    expect(spec.tableCode).toBe('review_comment_table_2');
+    expect(spec.fieldCodes.table).toBe('review_comment_table_2');
   });
 
   test('既定コードが別内容で使われていれば連番で新規作成し警告する', () => {

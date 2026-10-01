@@ -27,6 +27,15 @@
       label: '対象項目',
       type: 'SINGLE_LINE_TEXT',
     },
+    // v2で追加: テーブルの行単位の指摘で、対象行のID(kintoneのテーブル行id)を保存する。
+    // v1で作成済みのテーブルにはこの列が無いため、設定の再保存時に不足分だけ追加する(isUpgradable)。
+    {
+      key: 'targetRowId',
+      code: 'rr_target_row_id',
+      label: '対象行ID',
+      type: 'SINGLE_LINE_TEXT',
+      since: 2,
+    },
     {
       key: 'pointedAt',
       code: 'rr_pointed_at',
@@ -116,39 +125,101 @@
     return codes;
   };
 
+  const innerFieldMatches = (existing, field) => {
+    if (!existing || existing.type !== field.type) {
+      return false;
+    }
+    if (field.type === 'DROP_DOWN') {
+      const options = existing.options || {};
+      return !!(options[STATUS_UNRESOLVED] && options[STATUS_RESOLVED]);
+    }
+    return true;
+  };
+
   const hasAllInnerFields = (existingTableField) => {
     if (!existingTableField || existingTableField.type !== 'SUBTABLE') {
       return false;
     }
     const innerFields = existingTableField.fields || {};
-    return INNER_FIELDS.every((field) => {
-      const existing = innerFields[field.code];
-      if (!existing || existing.type !== field.type) {
-        return false;
-      }
-      if (field.type === 'DROP_DOWN') {
-        const options = existing.options || {};
-        return !!(options[STATUS_UNRESOLVED] && options[STATUS_RESOLVED]);
-      }
-      return true;
-    });
+    return INNER_FIELDS.every((field) =>
+      innerFieldMatches(innerFields[field.code], field),
+    );
   };
 
-  const buildReviewTableSpec = (existingFields = {}) => {
-    const warnings = [];
-    let tableCode = TABLE_CODE;
-    const existingAtDefault = existingFields[TABLE_CODE];
+  // 旧バージョンで作成されたテーブル: v1からある項目はすべて一致し、欠けているのが後から追加した項目
+  // (since >= 2)だけで、かつ欠けている項目と同じコードの別フィールドがテーブル内に無い場合。
+  const missingInnerFields = (existingTableField) => {
+    const innerFields = (existingTableField && existingTableField.fields) || {};
+    return INNER_FIELDS.filter((field) => !innerFields[field.code]);
+  };
 
-    if (existingAtDefault) {
-      if (hasAllInnerFields(existingAtDefault)) {
-        return {
-          tableCode,
-          needsCreate: false,
-          propertiesToAdd: {},
-          fieldCodes: fieldCodesFor(tableCode),
-          warnings,
-        };
+  const isUpgradable = (existingTableField) => {
+    if (!existingTableField || existingTableField.type !== 'SUBTABLE') {
+      return false;
+    }
+    const innerFields = existingTableField.fields || {};
+    const missing = missingInnerFields(existingTableField);
+    if (missing.length === 0 || missing.some((field) => !field.since)) {
+      return false;
+    }
+    return INNER_FIELDS.filter((field) => innerFields[field.code]).every(
+      (field) => innerFieldMatches(innerFields[field.code], field),
+    );
+  };
+
+  const reuse = (tableCode, warnings) => ({
+    tableCode,
+    needsCreate: false,
+    needsUpgrade: false,
+    propertiesToAdd: {},
+    fieldCodes: fieldCodesFor(tableCode),
+    warnings,
+  });
+
+  // 既存テーブルへの内包フィールドの追加は、フィールド追加API(POST /k/v1/preview/app/form/fields.json)に
+  // テーブルのコード・ラベルと、追加する内包フィールドだけを指定して行う(既存の内包フィールドは保持される。
+  // 実機で確認済み)。フィールド設定変更API(PUT)は既存フィールドの変更専用で、新しい内包フィールドを
+  // 指定すると「指定されたフィールドが見つかりません」になる(実機で確認済み)。
+  // ラベルは必須項目のため、既存テーブルの現在のラベルをそのまま指定する(名前を変えない)。
+  const upgrade = (tableCode, existingTableField, warnings) => {
+    const fields = {};
+    missingInnerFields(existingTableField).forEach((field) => {
+      fields[field.code] = buildInnerFieldProperty(field);
+    });
+    return {
+      ...reuse(tableCode, warnings),
+      needsUpgrade: true,
+      propertiesToAdd: {
+        [tableCode]: {
+          type: 'SUBTABLE',
+          code: tableCode,
+          label: existingTableField.label || TABLE_LABEL,
+          fields,
+        },
+      },
+    };
+  };
+
+  // savedTableCode: 前回保存したテーブルのコード(連番付きで作成した場合に、再保存で別テーブルを
+  // 増やさないよう最優先で照合する)。
+  const buildReviewTableSpec = (inputFields, savedTableCode) => {
+    const existingFields = inputFields || {};
+    const warnings = [];
+    const candidates = [savedTableCode, TABLE_CODE].filter(
+      (code, i, arr) => code && arr.indexOf(code) === i,
+    );
+    for (const code of candidates) {
+      const existing = existingFields[code];
+      if (hasAllInnerFields(existing)) {
+        return reuse(code, warnings);
       }
+      if (isUpgradable(existing)) {
+        return upgrade(code, existing, warnings);
+      }
+    }
+
+    let tableCode = TABLE_CODE;
+    if (existingFields[TABLE_CODE]) {
       let n = 2;
       while (existingFields[`${TABLE_CODE}_${n}`]) {
         n += 1;
@@ -165,7 +236,7 @@
     });
 
     return {
-      tableCode,
+      ...reuse(tableCode, warnings),
       needsCreate: true,
       propertiesToAdd: {
         [tableCode]: {
@@ -176,8 +247,6 @@
           fields,
         },
       },
-      fieldCodes: fieldCodesFor(tableCode),
-      warnings,
     };
   };
 
@@ -200,6 +269,7 @@
     buildReviewTableSpec,
     currentFieldCodes,
     hasAllInnerFields,
+    isUpgradable,
   };
 
   if (typeof module !== 'undefined' && module.exports) {
