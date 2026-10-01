@@ -1,0 +1,64 @@
+[hidden] {
+  display: none !important;
+}
+
+.settings-heading {
+  padding: 1em 0;
+}
+
+.rrc-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.rrc-section-heading {
+  font-weight: bold;
+  margin-bottom: 0.75em;
+}
+
+.rrc-warning {
+  color: #e74c3c;
+  margin-bottom: 0.75em;
+  white-space: pre-wrap;
+}
+
+.rrc-status {
+  color: #333;
+  margin-bottom: 0.75em;
+}
+
+.rrc-field-list {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.rrc-actions {
+  margin-bottom: 0.75em;
+}
+
+.rrc-target-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.25em 1em;
+}
+
+.rrc-target-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
+  padding: 0.25em 0;
+  cursor: pointer;
+}
+
+.rrc-target-text {
+  display: flex;
+  flex-direction: column;
+  word-break: break-word;
+}
+
+.rrc-target-type {
+  color: #999;
+  font-size: 0.8em;
+}

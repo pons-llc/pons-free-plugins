@@ -1,0 +1,37 @@
+<section class="settings">
+  <h2 class="settings-heading">レコード指摘改善プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    レコード詳細画面で、フィールドごとに修正指摘を登録できるようにします。指摘は「指摘履歴」サブテーブルに
+    記録され、未解決の指摘があるフィールドには赤いバツ、すべて解決済みのフィールドには緑のチェックが付きます。
+    指摘履歴サブテーブルは、保存ボタンを押すだけで自動的に作成されます(手動でのフィールド作成は不要です)。
+  </p>
+
+  <form class="js-submit-settings">
+    <section class="rrc-section">
+      <div class="rrc-section-heading">指摘履歴テーブル</div>
+      <p class="rrc-status" id="js-table-status"></p>
+      <p class="rrc-field-list" id="js-field-list"></p>
+      <p class="rrc-warning" id="js-table-warning" hidden></p>
+    </section>
+
+    <section class="rrc-section">
+      <div class="rrc-section-heading">指摘できるフィールド</div>
+      <p class="kintoneplugin-desc">
+        チェックしたフィールドに対して指摘を登録できます(テーブル内の個々の項目は選べないため、テーブル単位で指摘します)。
+      </p>
+      <p class="rrc-actions">
+        <button type="button" class="kintoneplugin-button-normal js-select-all">すべて選択</button>
+        <button type="button" class="kintoneplugin-button-normal js-select-none">すべて解除</button>
+      </p>
+      <div class="rrc-target-list" id="js-target-list"></div>
+    </section>
+
+    <p class="js-errors kintoneplugin-alert" id="js-errors" hidden></p>
+    <p class="kintoneplugin-desc" id="js-progress"></p>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">キャンセル</button>
+      <button class="js-save-button kintoneplugin-button-dialog-ok">保存する</button>
+    </p>
+  </form>
+</section>

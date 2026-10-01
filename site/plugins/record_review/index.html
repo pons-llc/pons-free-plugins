@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>レコード指摘改善プラグイン｜無料のkintoneプラグイン | GovAppsプラグイン</title>
+<meta name="description" content="kintoneのレコード詳細画面で、フィールドごとに修正指摘を登録できる無料プラグイン。未解決の指摘があるフィールドには赤いバツ、解決済みには緑のチェックを表示。指摘日時・指摘者・指摘内容・解決状況・解決内容・対応者・解決日時をサブテーブルに履歴として残せます。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; レコード指摘改善プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>レコード指摘改善プラグイン（無料）</h1>
+  <p class="plugin-lead">
+    申請内容のチェックや書類の校閲で、「どの項目の・何を直してほしいか」をコメント欄に書いても、
+    項目との対応があいまいになり、直したかどうかも追いかけにくくなりがちです。このプラグインを使うと、
+    レコード詳細画面で<strong>フィールドごとに修正指摘を登録</strong>できます。未解決の指摘があるフィールドには
+    <strong>赤いバツマーク</strong>が付き、マウスを乗せると指摘内容が表示されます。対応した人が解決内容を登録すると
+    <strong>緑のチェックマーク</strong>に変わります。指摘日時・指摘者・指摘内容・解決状況・解決内容・対応者・解決日時は
+    レコード内の「指摘履歴」サブテーブルに残るため、これまでのやり取りもあとから確認できます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">入力制御</span>
+    <span class="badge badge-tag">#修正指摘</span>
+    <span class="badge badge-tag">#レビュー</span>
+    <span class="badge badge-tag">#差し戻し</span>
+  </div>
+  <a class="download-button" href="download" data-dl-plugin="record_review">ダウンロード(v1)</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>申請・届出の審査で、不備のある項目を申請者や担当者に正確に伝えたい</li>
+    <li>コメント欄での差し戻しは、どの項目への指摘なのか分かりにくく、やり取りが往復しがち</li>
+    <li>指摘した箇所が直ったかどうかを、レコードを開いてひと目で確認したい</li>
+    <li>「誰が・いつ・何を指摘し、誰が・どう直したか」をレコードの記録として残したい(監査・引き継ぎ)</li>
+    <li>「kintone 項目ごと コメント」「kintone 差し戻し 理由 記録」を探している</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>ユースケース</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>補助金・助成金の申請審査で、不備のある項目を指摘する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>審査担当者が「申請金額」「事業期間」などの項目ごとに「見積書の金額と一致していません」と指摘を登録します。担当者がレコードを開くと、不備のある項目に赤いバツが付いているので、どこを直せばよいかがすぐに分かります。修正後に「見積書に合わせて修正しました」と解決内容を登録すると緑のチェックに変わり、審査担当者は残りの不備だけを確認できます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>起案文書・契約書の校閲で、上長からの指摘と対応を記録する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>決裁前の校閲で、上長が「件名」「本文」「相手方」の各項目に修正指示を登録します。起案者は編集画面の上部に表示される未解決の指摘一覧を見ながら修正でき、修正後に解決内容を登録します。指摘と対応の経緯はサブテーブルに残るため、のちの監査や担当替えのときにも、どんな修正を経て決裁されたかを確認できます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>台帳・マスタのデータ品質チェックで、要修正箇所を共有する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>顧客台帳や施設台帳の定期点検で、確認担当者が「住所が旧表記のまま」「電話番号が不通」などをフィールドごとに指摘します。レコード上部には「未解決の指摘 n件」が表示され、「指摘履歴」ボタンで全件(解決済み含む)を一覧表示し「未解決のみ」に絞り込むこともできます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-4">
+      <span>新人の入力内容を先輩がレビューする(OJT)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-4" hidden>
+      <p>新人が登録した報告書や日報を先輩がレビューし、項目ごとに書き方のアドバイスを指摘として残します。新人は解決内容に直した点を書いて登録するため、どんな指摘を受けてどう直したかが本人の振り返りにもなります。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>セットアップ手順</h2>
+  <ol class="setup-steps">
+    <li>アプリにプラグインを追加し、設定画面を開く。</li>
+    <li>「指摘できるフィールド」で、指摘の対象にしたいフィールドにチェックを入れる(既定はすべて。テーブルはテーブル単位で指摘できます)。</li>
+    <li>「保存する」を押す。指摘を記録する「指摘履歴」サブテーブル(対象フィールドコード・対象項目・指摘日時・指摘者・指摘内容・解決状況・解決内容・対応者・解決日時)が自動で作成され、アプリに反映されます(手動でのフィールド作成は不要です)。</li>
+    <li>アプリを更新する(プラグインの設定は、アプリを更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+    <li>レコード詳細画面の上部にある「指摘モード」をONにすると、各フィールドの右上に「＋」ボタンが表示されます。押して指摘内容を入力し「指摘を登録」を押します。</li>
+    <li>指摘されたフィールドには赤いバツ(件数付き)が表示されます。修正した人はバツを押し、解決内容を入力して「解決済みにする」を押すと、緑のチェックに変わります。</li>
+  </ol>
+  <p class="download-note">フィールド横のバツ・チェックの表示と、指摘の登録・解決はPCのレコード詳細画面で行います。モバイルでは、レコード詳細・編集画面の上部に未解決の指摘一覧が表示されます(閲覧のみ)。指摘履歴サブテーブルは、レコードの追加・編集画面では直接編集できないようにしています。</p>
+</section>
+
+<section class="plugin-section">
+  <h2>動作イメージ</h2>
+  <div class="screenshot-frame">
+    <img src="screenshots/detail-screen.png" alt="レコード詳細画面のスクリーンショット。上部に「未解決の指摘 1件」「指摘履歴(2件)」「指摘モード」ボタン。解決済みのフィールドには緑のチェック、未解決のフィールドには赤い枠とバツマークが付き、マウスを乗せると指摘内容(税込金額か税抜金額か明記してください)が表示されている。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>セキュリティレビュー結果サマリ</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>指摘内容・解決内容・ユーザー名などはすべて<code>textContent</code>で描画し、<code>innerHTML</code>を一切使用していません(XSS対策)。</li>
+        <li>指摘の登録・解決では最新のレコードを取得し、リビジョン番号を指定して更新します。他の人が同時に更新していた場合は上書きせず、再読み込みを促します。</li>
+        <li>更新するのは指摘履歴テーブルのみで、変更しない行はIDだけを送るため、他の指摘の内容を古い値で上書きしたり消したりしません。</li>
+        <li>REST APIは、kintone自身への<code>kintone.api()</code>のみを使用し、外部サーバーへの通信や外部ライブラリは一切ありません。</li>
+        <li>フィールド要素の内部構造は変更せず、バツ・チェックは画面上に重ねて表示しています(kintoneのバージョンアップで壊れにくい構成)。</li>
+        <li>指摘履歴テーブルの編集禁止は画面上の制約です。改ざんを確実に防ぎたい場合は、フィールドのアクセス権もあわせて設定してください。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/record_review/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>設定画面イメージ</h2>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="レコード指摘改善プラグインの設定画面。指摘履歴テーブルの作成状況と、指摘できるフィールドをチェックボックスで選ぶ一覧が表示されたスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>API実行数について</h2>
+  <p class="api-usage-note">
+    レコード詳細画面を表示するだけではREST APIを使用しません(フィールド情報はJavaScript APIで取得します)。
+    指摘の登録・解決を1回行うごとに、最新レコードの取得と更新で2回のAPIを実行します。
+    設定画面での保存時は、指摘履歴テーブルを新規作成する場合のみ、フィールド追加・アプリ反映・反映状況の確認でAPIを実行します。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>GitHub / 改善要望</h2>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/record_review" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/record_review/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

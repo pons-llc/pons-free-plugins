@@ -1,0 +1,48 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/review-table-spec.js",
+      "js/lib/config-store.js",
+      "js/lib/target-fields.js",
+      "js/lib/review-model.js",
+      "js/lib/table-disabler.js",
+      "js/desktop.js"
+    ],
+    "css": ["css/desktop.css"]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/review-table-spec.js",
+      "js/lib/config-store.js",
+      "js/lib/target-fields.js",
+      "js/lib/deploy-poller.js",
+      "js/config.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/config.css"],
+    "required_params": []
+  },
+  "name": {
+    "en": "record_review plugin",
+    "ja": "レコード指摘改善プラグイン"
+  },
+  "description": {
+    "en": "Add review comments to each field of a record and track their resolution in a subtable.",
+    "ja": "レコードのフィールドごとに修正指摘を登録し、未解決は赤いバツ・解決済みは緑のチェックで表示。指摘・解決の履歴をサブテーブルに残すプラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/review-table-spec.js",
+      "js/lib/config-store.js",
+      "js/lib/review-model.js",
+      "js/lib/table-disabler.js",
+      "js/mobile.js"
+    ],
+    "css": ["css/mobile.css"]
+  }
+}

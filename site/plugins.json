@@ -784,5 +784,20 @@
       "バリデーション"
     ],
     "video": "https://vimeo.com/1227902699"
+  },
+  {
+    "id": "record_review",
+    "name": "レコード指摘改善プラグイン",
+    "description": "レコード詳細画面で、フィールドごとに修正指摘を登録できるプラグイン。未解決の指摘があるフィールドには赤いバツ、解決済みには緑のチェックを表示し、指摘日時・指摘者・指摘内容・解決状況・解決内容・対応者・解決日時を「指摘履歴」サブテーブルに残します(サブテーブルは設定保存時に自動作成)。",
+    "version": "1",
+    "publishedAt": "2026-10-01",
+    "zip": "plugins/record_review/plugin.zip",
+    "page": "plugins/record_review/index.html",
+    "category": "入力制御",
+    "tags": [
+      "修正指摘",
+      "レビュー",
+      "差し戻し"
+    ]
   }
 ]
