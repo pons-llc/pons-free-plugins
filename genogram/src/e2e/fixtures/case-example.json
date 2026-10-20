@@ -1,0 +1,284 @@
+{
+  "format": "govapps-genogram-case",
+  "version": 1,
+  "caseName": "佐藤 美咲さん(架空のケース)",
+  "savedAt": "2026-10-20T03:00:00.000Z",
+  "genogram": {
+    "version": 1,
+    "persons": [
+      {
+        "id": "pmvg48evw0124",
+        "name": "佐藤 美咲",
+        "gender": "female",
+        "age": "38",
+        "deceased": false,
+        "isClient": true,
+        "note": "パート勤務",
+        "parentUnionId": "umvg48evw04b1",
+        "parentId": "",
+        "childType": "biological"
+      },
+      {
+        "id": "pmvg48evw02na",
+        "name": "佐藤 健一",
+        "gender": "male",
+        "age": "68",
+        "deceased": true,
+        "isClient": false,
+        "note": "3年前に死去",
+        "parentUnionId": "",
+        "parentId": "",
+        "childType": "biological"
+      },
+      {
+        "id": "pmvg48evw03za",
+        "name": "佐藤 和子",
+        "gender": "female",
+        "age": "66",
+        "deceased": false,
+        "isClient": false,
+        "note": "要介護2・独居",
+        "parentUnionId": "",
+        "parentId": "",
+        "childType": "biological"
+      },
+      {
+        "id": "pmvg48evw05dk",
+        "name": "佐藤 大輔",
+        "gender": "male",
+        "age": "35",
+        "deceased": false,
+        "isClient": false,
+        "note": "",
+        "parentUnionId": "umvg48evw04b1",
+        "parentId": "",
+        "childType": "biological"
+      },
+      {
+        "id": "pmvg48evw06j8",
+        "name": "山本 拓也",
+        "gender": "male",
+        "age": "40",
+        "deceased": false,
+        "isClient": false,
+        "note": "",
+        "parentUnionId": "",
+        "parentId": "",
+        "childType": "biological"
+      },
+      {
+        "id": "pmvg48evw08ka",
+        "name": "山本 翔太",
+        "gender": "male",
+        "age": "12",
+        "deceased": false,
+        "isClient": false,
+        "note": "中学1年",
+        "parentUnionId": "umvg48evw07ox",
+        "parentId": "",
+        "childType": "biological"
+      },
+      {
+        "id": "pmvg48evw09x9",
+        "name": "山本 結衣",
+        "gender": "female",
+        "age": "9",
+        "deceased": false,
+        "isClient": false,
+        "note": "",
+        "parentUnionId": "umvg48evw07ox",
+        "parentId": "",
+        "childType": "biological"
+      },
+      {
+        "id": "pmvg48evw0a6q",
+        "name": "中村 誠",
+        "gender": "male",
+        "age": "41",
+        "deceased": false,
+        "isClient": false,
+        "note": "",
+        "parentUnionId": "",
+        "parentId": "",
+        "childType": "biological"
+      },
+      {
+        "id": "pmvg48evw0cwq",
+        "name": "中村 恵",
+        "gender": "female",
+        "age": "40",
+        "deceased": false,
+        "isClient": false,
+        "note": "",
+        "parentUnionId": "",
+        "parentId": "",
+        "childType": "biological"
+      },
+      {
+        "id": "pmvg48evw0e3n",
+        "name": "中村 陽菜",
+        "gender": "female",
+        "age": "15",
+        "deceased": false,
+        "isClient": false,
+        "note": "母と同居",
+        "parentUnionId": "umvg48evw0dtl",
+        "parentId": "",
+        "childType": "biological"
+      },
+      {
+        "id": "pmvg48evw0fiq",
+        "name": "佐藤 由紀",
+        "gender": "female",
+        "age": "36",
+        "deceased": false,
+        "isClient": false,
+        "note": "",
+        "parentUnionId": "",
+        "parentId": "",
+        "childType": "biological"
+      },
+      {
+        "id": "pmvg48evw0hml",
+        "name": "佐藤 蓮",
+        "gender": "male",
+        "age": "6",
+        "deceased": false,
+        "isClient": false,
+        "note": "",
+        "parentUnionId": "umvg48evw0g6w",
+        "parentId": "",
+        "childType": "adopted"
+      },
+      {
+        "id": "pmvg48evw0iq3",
+        "name": "さくら",
+        "gender": "female",
+        "age": "4",
+        "deceased": false,
+        "isClient": false,
+        "note": "",
+        "parentUnionId": "umvg48evw0g6w",
+        "parentId": "",
+        "childType": "foster"
+      }
+    ],
+    "unions": [
+      {
+        "id": "umvg48evw04b1",
+        "a": "pmvg48evw02na",
+        "b": "pmvg48evw03za",
+        "status": "married",
+        "note": ""
+      },
+      {
+        "id": "umvg48evw07ox",
+        "a": "pmvg48evw0124",
+        "b": "pmvg48evw06j8",
+        "status": "divorced",
+        "note": "5年前に離婚"
+      },
+      {
+        "id": "umvg48evw0bjg",
+        "a": "pmvg48evw0124",
+        "b": "pmvg48evw0a6q",
+        "status": "cohabiting",
+        "note": ""
+      },
+      {
+        "id": "umvg48evw0dtl",
+        "a": "pmvg48evw0a6q",
+        "b": "pmvg48evw0cwq",
+        "status": "divorced",
+        "note": ""
+      },
+      {
+        "id": "umvg48evw0g6w",
+        "a": "pmvg48evw05dk",
+        "b": "pmvg48evw0fiq",
+        "status": "separated",
+        "note": ""
+      }
+    ],
+    "relations": [
+      {
+        "id": "rmvg48evw0jl2",
+        "a": "pmvg48evw0124",
+        "b": "pmvg48evw03za",
+        "kind": "close",
+        "note": ""
+      },
+      {
+        "id": "rmvg48evw0kmw",
+        "a": "pmvg48evw0124",
+        "b": "pmvg48evw06j8",
+        "kind": "conflict",
+        "note": ""
+      },
+      {
+        "id": "rmvg48evw0lhq",
+        "a": "pmvg48evw0124",
+        "b": "pmvg48evw05dk",
+        "kind": "cutoff",
+        "note": ""
+      },
+      {
+        "id": "rmvg48evw0mah",
+        "a": "pmvg48evw08ka",
+        "b": "pmvg48evw0a6q",
+        "kind": "distant",
+        "note": ""
+      }
+    ],
+    "households": [
+      {
+        "id": "hmvg48evw0nuq",
+        "label": "本人世帯",
+        "members": [
+          "pmvg48evw0124",
+          "pmvg48evw0a6q",
+          "pmvg48evw08ka",
+          "pmvg48evw09x9"
+        ]
+      },
+      {
+        "id": "hmvg48evw0oqh",
+        "label": "大輔世帯",
+        "members": [
+          "pmvg48evw05dk",
+          "pmvg48evw0hml",
+          "pmvg48evw0iq3"
+        ]
+      },
+      {
+        "id": "hmvg48evw0pr6",
+        "label": "独居",
+        "members": [
+          "pmvg48evw03za"
+        ]
+      }
+    ],
+    "memos": [
+      {
+        "id": "m1",
+        "targetId": "pmvg48evw03za",
+        "text": "訪問介護を週3回利用。美咲さんが週末に通っている",
+        "author": {
+          "code": "",
+          "name": "相談員 田中"
+        },
+        "at": "2026-10-01T01:00:00.000Z"
+      },
+      {
+        "id": "m2",
+        "targetId": "pmvg48evw08ka",
+        "text": "学校より連絡。2学期に入り欠席が増えている",
+        "author": {
+          "code": "",
+          "name": "相談員 田中"
+        },
+        "at": "2026-10-15T05:30:00.000Z"
+      }
+    ]
+  }
+}

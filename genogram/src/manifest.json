@@ -1,0 +1,49 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/model.js",
+      "js/lib/ops.js",
+      "js/lib/layout.js",
+      "js/lib/scene.js",
+      "js/lib/config-store.js",
+      "js/lib/memo-saver.js",
+      "js/renderer.js",
+      "js/viewer.js",
+      "js/editor.js",
+      "js/desktop.js"
+    ],
+    "css": ["css/desktop.css"]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": ["js/lib/config-store.js", "js/config.js"],
+    "css": ["css/51-modern-default.css", "css/config.css"],
+    "required_params": ["jsonField", "spaceId"]
+  },
+  "name": {
+    "en": "Genogram plugin",
+    "ja": "ジェノグラム作成プラグイン"
+  },
+  "description": {
+    "en": "Record family members, partnerships, parent-child relations, emotional relationships, households and memos as JSON in a multi-line text field, and draw them as a genogram in a space field.",
+    "ja": "人物・夫婦・親子・関係・同居・メモを文字列(複数行)フィールドにJSONで保存し、スペースフィールドにジェノグラム(家族関係図)として自動で描画するプラグイン"
+  },
+  "mobile": {
+    "js": [
+      "js/lib/model.js",
+      "js/lib/ops.js",
+      "js/lib/layout.js",
+      "js/lib/scene.js",
+      "js/lib/config-store.js",
+      "js/renderer.js",
+      "js/viewer.js",
+      "js/mobile.js"
+    ],
+    "css": ["css/desktop.css"]
+  }
+}

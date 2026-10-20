@@ -5,7 +5,14 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Wed, 30 Sep 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 19 Oct 2026 15:00:00 GMT</lastBuildDate>
+    <item>
+      <title>ジェノグラム作成プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/genogram/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/genogram/</guid>
+      <description>人物・婚姻・離婚・内縁・別居・養子・里子・親密/対立/疎遠/断絶・同居・メモを画面で入力すると、レコードのスペースフィールドにジェノグラム(家族関係図)を世代ごとに自動配置して描画するプラグイン。データは文字列(複数行)フィールドにJSONで保存。画像(PNG)保存・印刷に対応し、kintoneが無い環境向けにオフラインで使える1ファイルのWebアプリ版もあります。</description>
+      <pubDate>Mon, 19 Oct 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>レコード指摘改善プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/record_review/</link>

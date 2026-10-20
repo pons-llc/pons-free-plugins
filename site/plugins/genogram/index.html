@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ジェノグラム作成プラグイン｜無料のkintoneプラグイン | GovAppsプラグイン</title>
+<meta name="description" content="kintoneのレコードに、家族関係図(ジェノグラム)を作成・表示できる無料プラグイン。人物・婚姻・離婚・内縁・別居・養子・里子・親密/対立/疎遠/断絶・同居・メモを画面で入力すると、世代ごとに自動で配置して描画します。kintoneが無い環境向けに、ダウンロードしてオフラインで使える1ファイルのWebアプリ版もあります。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; ジェノグラム作成プラグイン</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>ジェノグラム作成プラグイン（無料）</h1>
+  <p class="plugin-lead">
+    相談支援・介護・児童福祉などのケース記録で欠かせない<strong>ジェノグラム(家族関係図)</strong>を、kintoneのレコードの中で作成・共有できます。
+    人物を追加し、「両親を追加」「配偶者・パートナーを追加」「子を追加」で家族を広げていくだけで、<strong>世代ごとに自動で配置</strong>して描画します。
+    離婚・内縁・別居、養子・里子、親密・対立・疎遠・断絶といった関係性、同居の範囲(世帯)も、相談支援の現場で一般的な表記で表せます。
+    人物ごとに<strong>記入者・日時つきのメモ</strong>を追記でき、図は画像(PNG)として保存・印刷できます。
+    データはレコードの「文字列(複数行)」フィールドに保存されるため、アクセス権もkintoneの設定どおりに管理できます。
+  </p>
+  <div class="plugin-hero-badges">
+    <span class="badge badge-category">レイアウト・表示</span>
+    <span class="badge badge-tag">#ジェノグラム</span>
+    <span class="badge badge-tag">#家族関係図</span>
+    <span class="badge badge-tag">#相談支援</span>
+  </div>
+  <a class="download-button" href="download" data-dl-plugin="genogram">ダウンロード(v1)</a>
+  <p class="download-note">kintoneをお使いでない方へ: ダウンロードしてオフラインで使える<a href="#offline">Webアプリ版(1つのHTMLファイル)</a>もあります。</p>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>相談記録・ケース記録に、家族構成をひと目で分かる図として残したい</li>
+    <li>手書きや描画ソフトで作ったジェノグラムが、記録システムと別々になっていて共有・更新しにくい</li>
+    <li>離婚・再婚・内縁・別居、養子・里子など、複雑な家族関係を正確に表したい</li>
+    <li>家族の誰と関係が良好か・対立しているか、誰と誰が同居しているかもあわせて記録したい</li>
+    <li>ケース会議や引き継ぎで、家族構成と支援の経過(メモ)をまとめて説明したい</li>
+    <li>kintoneは使っていないが、パソコン1台でオフラインでもジェノグラムを作りたい(<a href="#offline">Webアプリ版</a>)</li>
+    <li>「ジェノグラム 作成 ツール 無料」「kintone 家族構成 図」を探している</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>ユースケース</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="true" aria-controls="usecase-1">
+      <span>生活困窮・障害福祉の相談支援で、相談者の家族構成を記録する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-1">
+      <p>初回面談で聞き取った家族構成を、相談記録のレコードにジェノグラムとして入力します。本人を中心に「両親を追加」「配偶者・パートナーを追加」「子を追加」で広げていけば、位置は自動で整います。元配偶者との離婚、今のパートナーとの内縁関係、亡くなった家族も表記でき、同居している人を枠で囲めば、支援の対象となる世帯がひと目で分かります。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-2">
+      <span>児童相談・子ども家庭支援のケース会議で、関係性と経過を共有する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-2" hidden>
+      <p>実親・養親・里親といった複雑な親子関係を、実子(実線)・養子(破線)・里子(点線)で区別して描けます。家族の中の親密・対立・疎遠・断絶といった関係性も線で表せるため、ケース会議の資料としてそのまま使えます。学校や関係機関からの連絡は人物ごとのメモに記入者・日時つきで残し、図の件数バッジから経過をたどれます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-3">
+      <span>地域包括支援センター・ケアマネジメントで、キーパーソンを把握する</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-3" hidden>
+      <p>独居の高齢者を中心に、離れて暮らす子どもや兄弟との関係を記録します。誰が近くに住み、誰と関係が良好かを図に残しておけば、緊急時の連絡先やキーパーソンの検討に役立ちます。訪問のたびに分かったことは詳細画面からメモで追記でき、レコードを編集画面で開かずに記録を積み重ねられます。</p>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="usecase-4">
+      <span>担当者の異動・引き継ぎで、家族の状況を正確に伝える</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="usecase-4" hidden>
+      <p>家族構成と、これまでの関わりの経過(メモ)がレコードの中にまとまっているため、後任者は図を見ながら記録を読むだけで状況を把握できます。印刷や画像の保存で、紙の資料としても使えます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>セットアップ手順</h2>
+  <ol class="setup-steps">
+    <li>アプリのフォームに、データを保存する「文字列(複数行)」フィールドと、図を表示する「スペース」フィールド(要素IDを設定したもの)を配置する。図はスペースの横幅いっぱいに表示されるため、スペースは1行に単独で、幅を広めに置くのがおすすめです。</li>
+    <li>アプリにプラグインを追加し、設定画面で「データを保存するフィールド」と「図を表示するスペースフィールド」を選んで保存する。データ(JSON)のフィールドは、既定で画面に表示しない設定になります。</li>
+    <li>アプリを更新する(プラグインの設定は、アプリを更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
+    <li>レコードの追加・編集画面で「＋ 人物を追加」から本人を追加し、図の人物をクリックして表示されるパネルの「両親を追加」「配偶者・パートナーを追加」「子を追加」で家族を広げます。夫婦の関係(婚姻・内縁・別居・離婚)は下の一覧の「編集」から、関係性は「＋ 関係」から、同居の枠は人物をCtrl(Macは⌘)+クリックで複数選んで「選択した人で同居(世帯)を作る」から追加できます。</li>
+    <li>保存すると、詳細画面に図・凡例・メモが表示されます。詳細画面からもメモを追記できます。</li>
+  </ol>
+  <p class="download-note">図の作成・編集はPCのレコード追加・編集画面で行います。モバイルでは図・凡例・メモを閲覧できます。人物はドラッグで位置を微調整でき、「自動配置に戻す」でいつでも元に戻せます。</p>
+</section>
+
+<section class="plugin-section">
+  <h2>動作イメージ</h2>
+  <p>架空の相談ケース(人物・団体はすべて架空です)。死亡(×)、離婚(//)、内縁(破線)、別居(/)、養子(破線)・里子(点線)、親密(緑の太線)・対立(ジグザグ)・断絶(縦線2本)・疎遠(点線)、同居・独居の枠、メモの件数バッジを使っています。</p>
+  <div class="screenshot-frame">
+    <img src="screenshots/genogram-example.png" alt="架空の相談ケースのジェノグラム。本人(二重線の円、38歳)を中心に、死亡した父(×付きの四角)と独居の母、離婚した元夫(線に斜線2本)と2人の子、内縁のパートナー(破線)とその元妻・娘、別居中の弟夫婦(斜線1本)と養子(破線)・里子(点線)が世代ごとに並び、本人世帯・弟の世帯・母の独居が点線の枠で囲まれている。本人と母は緑の太線(親密)、本人と元夫はジグザグ線(対立)、本人と弟は縦線2本の入った線(断絶)、長男と内縁のパートナーは点線(疎遠)で結ばれている。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section" id="offline">
+  <h2>kintoneが無くても使える「Webアプリ版(オフライン版)」</h2>
+  <p>
+    kintoneをお使いでない方や、インターネットに接続できない環境でも使えるよう、<strong>1つのHTMLファイル</strong>にまとめたWebアプリ版を用意しています。
+    ダウンロードしたファイルをダブルクリックするとブラウザで開き、インストールもインターネット接続も不要です。
+    図の作り方・表記・自動配置・メモ・画像の保存はプラグイン版と同じです。
+  </p>
+  <ul class="recommend-list">
+    <li>作った図は「保存する」でケースごとのファイル(.json)としてパソコンに保存し、「ファイルを開く」(またはドラッグ&ドロップ)で続きから編集します。</li>
+    <li><strong>データはパソコンの中だけで扱われ、インターネットには一切送信されません。</strong>ファイル自体に外部との通信を禁止する設定(Content-Security-Policy)を入れているため、仕組みとしてデータが外に出ません。</li>
+    <li>共用のパソコンに個人情報が残らないよう、ブラウザにもデータを保存しません(閉じる前に「保存する」で保存してください。保存していない変更があると確認が出ます)。</li>
+    <li>印刷すると、ケース名・図・凡例・メモだけがきれいに出力されます。</li>
+    <li>プラグイン版のデータ(JSON)もそのまま開けるため、kintoneで作った図を持ち出して確認することもできます。</li>
+  </ul>
+  <a class="download-button" href="download-offline" data-dl-plugin="genogram-offline">Webアプリ版をダウンロード(HTMLファイル)</a>
+  <p class="download-note">ダウンロードせずに試す場合は、<a href="genogram-offline.html" target="_blank" rel="noopener">ブラウザで開く</a>こともできます(入力内容はどこにも送信されません)。保存したファイルには個人情報が含まれます。保存場所・持ち出しは所属先のルールに従って管理してください。</p>
+  <div class="screenshot-frame">
+    <img src="screenshots/offline-app.png" alt="Webアプリ版(オフライン版)の画面。上部に「新規」「ファイルを開く」「保存する」「印刷」のボタンとケース名・記入者の入力欄があり、その下にプラグイン版と同じジェノグラムの編集画面(図と、選択した本人の編集パネル)が表示されている。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>セキュリティレビュー結果サマリ</h2>
+  <div class="accordion-item">
+    <button type="button" class="accordion-header" aria-expanded="false" aria-controls="security-summary">
+      <span>チェック結果を見る(すべて対応済み)</span>
+      <span class="accordion-icon">▶</span>
+    </button>
+    <div class="accordion-panel" id="security-summary" hidden>
+      <p>kintoneセキュアコーディングガイドラインに沿って実装時にチェックしています。特に重要な点は次のとおりです。</p>
+      <ul class="review-checklist">
+        <li>名前・備考・メモなどの入力値はすべて<code>textContent</code>で描画し、<code>innerHTML</code>を一切使用していません。図(SVG)に設定できる属性も許可リストで限定しています(XSS対策)。</li>
+        <li>データは読み込むたびに検証・正規化し、存在しない人物を指す関係などの壊れた参照は取り除きます。JSONとして読めない値の場合は、データを消さないよう編集画面で図を出さず、保存しても上書きしません。</li>
+        <li>図の作成・保存はkintone標準の保存で行い、REST APIを使いません。詳細画面からのメモの追記のみ、リビジョン番号を指定して更新するため、他の人の更新を上書きしません。</li>
+        <li>外部ライブラリは一切使わず(図の描画も自前のSVG生成)、kintone以外の外部サーバーへの通信も行いません。ブラウザのストレージにも個人情報を保存しません。</li>
+        <li>Webアプリ版は、ファイル自体に外部との通信を禁止する設定(Content-Security-Policy)を入れ、外部へのリクエストが1件も発生しないことを自動テストで確認しています。</li>
+      </ul>
+      <p>詳細な確認項目・確認日は下記GitHubのチェックリストに全項目を掲載しています。</p>
+      <p><a href="https://github.com/pons-llc/pons-free-plugins/blob/main/genogram/security-checklist.md" target="_blank" rel="noopener">→ security-checklist.md をGitHubで見る</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>設定画面イメージ</h2>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="ジェノグラム作成プラグインの設定画面。データを保存する文字列(複数行)フィールドと、図を表示するスペースフィールドをプルダウンで選び、データ(JSON)のフィールドを画面に表示しないかどうかをチェックボックスで選ぶスクリーンショット。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>API実行数について</h2>
+  <p class="api-usage-note">
+    図の表示・作成・編集はREST APIを使用しません(保存はkintone標準のレコードの保存で行います)。
+    詳細画面からメモを追記する場合のみ、<strong>通常1回</strong>のAPI実行でデータのフィールドを更新します
+    (画面を開いたあとに他の人が同じレコードを更新していた場合のみ、最新の内容を取り直すため3回になります)。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>GitHub / 改善要望</h2>
+  <div class="plugin-links">
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/genogram" target="_blank" rel="noopener">→ ソースコード一式(GitHub)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/genogram/idea.md" target="_blank" rel="noopener">→ 仕様メモ(idea.md)</a>
+    <a href="https://github.com/pons-llc/pons-free-plugins/issues/new" target="_blank" rel="noopener">→ 不具合報告・改善要望はこちら(GitHub Issue)</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,4384 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 外部への通信を一切させない(データはこのパソコンの中だけで扱う)。スクリプト・スタイルはこのファイルに埋め込み済み -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; base-uri 'none'; form-action 'none'">
+<title>ジェノグラム作成(オフライン版)</title>
+<style>
+/* desktop.css */
+/* ジェノグラム作成プラグイン(PC・モバイル共通) */
+
+.gng-root [hidden],
+.gng-root[hidden] {
+  display: none !important;
+}
+
+.gng-root {
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 8px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.gng-root *,
+.gng-root *::before,
+.gng-root *::after {
+  box-sizing: border-box;
+}
+
+.gng-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.gng-toolbar-sep {
+  width: 1px;
+  height: 24px;
+  margin: 0 4px;
+  background: #e3e7e8;
+}
+
+.gng-button {
+  min-height: 32px;
+  padding: 4px 12px;
+  border: 1px solid #d0d6d8;
+  border-radius: 4px;
+  background: #f7f9fa;
+  color: #333;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.gng-button:hover:not(:disabled) {
+  background: #eef2f4;
+}
+
+.gng-button:disabled {
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.gng-button-primary {
+  border-color: #3498db;
+  background: #3498db;
+  color: #fff;
+}
+
+.gng-button-primary:hover:not(:disabled) {
+  background: #2d86c3;
+}
+
+.gng-button-danger {
+  border-color: #e74c3c;
+  background: #fff;
+  color: #e74c3c;
+}
+
+.gng-link-button {
+  padding: 0 4px;
+  border: none;
+  background: none;
+  color: #3498db;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.gng-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.gng-canvas {
+  flex: 1 1 480px;
+  min-width: 0;
+  max-height: 720px;
+  overflow: auto;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.gng-view .gng-canvas {
+  max-height: none;
+}
+
+.gng-svg {
+  display: block;
+}
+
+.gng-canvas [data-gtype] {
+  cursor: pointer;
+}
+
+.gng-editable [data-gtype='person'],
+.gng-editable [data-gtype='memo'] {
+  cursor: move;
+  touch-action: none;
+}
+
+.gng-panel {
+  flex: 0 1 320px;
+  min-width: 260px;
+  padding: 12px;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  background: #fafbfc;
+}
+
+.gng-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gng-panel-desc {
+  margin: 4px 0 8px;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.gng-section-title {
+  margin: 4px 0 8px;
+  font-weight: bold;
+}
+
+.gng-subtitle {
+  margin: 12px 0 4px;
+  color: #666;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.gng-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.gng-field-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.gng-field-label {
+  color: #666;
+  font-size: 12px;
+}
+
+.gng-input,
+.gng-select,
+.gng-textarea {
+  width: 100%;
+  padding: 4px 6px;
+  border: 1px solid #d0d6d8;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 14px;
+}
+
+.gng-input-short {
+  width: 6em;
+}
+
+.gng-textarea {
+  resize: vertical;
+}
+
+.gng-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 2px 0;
+  cursor: pointer;
+}
+
+.gng-member-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 200px;
+  overflow: auto;
+  margin-bottom: 8px;
+}
+
+.gng-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.gng-actions-end {
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #e3e7e8;
+}
+
+.gng-error {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border: 1px solid #e74c3c;
+  border-radius: 4px;
+  background: #fdf0ef;
+  color: #c0392b;
+  white-space: pre-wrap;
+}
+
+.gng-empty,
+.gng-hint {
+  margin: 8px;
+  color: #888;
+  font-size: 13px;
+}
+
+.gng-legend {
+  margin: 10px 0;
+}
+
+.gng-legend summary {
+  color: #3498db;
+  cursor: pointer;
+}
+
+.gng-legend-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gng-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.gng-lists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.gng-list-section {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.gng-item-list,
+.gng-memo-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gng-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid #f0f2f3;
+  font-size: 13px;
+  word-break: break-word;
+}
+
+.gng-memos,
+.gng-info {
+  margin-top: 12px;
+}
+
+.gng-info {
+  padding: 10px 12px;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  background: #fafbfc;
+}
+
+.gng-info-list {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 2px 12px;
+  margin: 0;
+}
+
+.gng-info-list dt {
+  color: #666;
+}
+
+.gng-info-list dd {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.gng-memo-item {
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f2f3;
+}
+
+.gng-memo-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.gng-memo-target {
+  padding: 0 6px;
+  border-radius: 8px;
+  background: #fdf2e3;
+  color: #b9770e;
+}
+
+.gng-memo-meta {
+  color: #888;
+}
+
+.gng-memo-text {
+  margin-top: 2px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.gng-memo-empty {
+  color: #888;
+  font-size: 13px;
+}
+
+.gng-memo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 640px;
+  margin-top: 8px;
+}
+
+.gng-memo-form .gng-button {
+  align-self: flex-start;
+}
+
+@media print {
+  .gng-canvas {
+    max-height: none;
+    overflow: visible;
+    border: none;
+  }
+}
+
+/* app.css */
+/* オフライン版の画面(ヘッダー・ケース情報・印刷)。図とエディターは kintone版の desktop.css をそのまま使う */
+
+[hidden] {
+  display: none !important;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: #f5f6f7;
+  color: #333;
+  font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+  font-size: 14px;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #e3e7e8;
+  background: #fff;
+}
+
+.app-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-logo {
+  width: 40px;
+  height: 40px;
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAABw0lEQVR4nO1awa2DMAxlBEZghB4yACN0BEZgBDbgmhsjMAIjMEAOHYER/lf1/SUrCmBDwEnrJ1lIlcvLk52Q2CkKhUKhuBvGup8zFnEcpbGuNdaNxrrJWDfDszPWVVkLNNY1xrplh6vPUqCxbmDwvaNaHhZ45X9W3tN4Al7wWw32hDTFPgOXREQgzDmclsNadGBuYpE1h0hKYOtFbjP1YPH59x85RFIC8YAbgn+F/BcOkZTAiZtyh3gFBc5nBJJX00Qi+CT4l7lFsEPvmWL7nxpsJIGVl3Lthu/D891dlE4NNuKHvvcGPuJ9J6Rl5/nMXBLprdrM4FvYG+8EBJbE/eh86FQhLRCNo4YU9U8VE2vOMQhx7nfRCaR5VWDuvCowd95vEyhlKlAFXgGp+XsbVGDuUIG54xsE4lIEr5eQMqAc/wp8zxYQzesMpQIoO1BqK2+hD+nxsnF54UgSgdYWxejdIWmszDmKpR/FQMWZY6uV7GQApb7POilgQA/9qMBjtybuxMdHsPgTuXe/Zc3y+B4GOkQU43WIJBG4DkIx+jWQFACfC6rI+I2UOwAd23ErLbOLXAggtIUzYQ/PPBYUhUJxCr+hH9YHsoVHjAAAAABJRU5ErkJggg==") center / contain no-repeat;
+}
+
+.app-title h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.app-title h1 small {
+  margin-left: 4px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: #e8f4fc;
+  color: #2980b9;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.app-sub {
+  margin: 2px 0 0;
+  color: #888;
+  font-size: 12px;
+}
+
+.app-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.app-button {
+  min-height: 36px;
+  padding: 6px 16px;
+  border: 1px solid #d0d6d8;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.app-button:hover {
+  background: #f3f6f8;
+}
+
+.app-button-primary {
+  border-color: #3498db;
+  background: #3498db;
+  color: #fff;
+}
+
+.app-button-primary:hover {
+  background: #2d86c3;
+}
+
+.app-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 20px 40px;
+}
+
+.app-case {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 20px;
+  margin-bottom: 8px;
+}
+
+.app-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 320px;
+  max-width: 480px;
+  color: #666;
+  font-size: 12px;
+}
+
+.app-field-short {
+  flex: 0 1 240px;
+}
+
+.app-field input {
+  padding: 8px 10px;
+  border: 1px solid #d0d6d8;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 15px;
+}
+
+.app-status {
+  flex: 1 1 100%;
+  min-height: 1.5em;
+  color: #27ae60;
+}
+
+.app-status.is-error {
+  color: #c0392b;
+}
+
+.app-print-title {
+  display: none;
+}
+
+.app-editor .gng-root {
+  padding-top: 0;
+}
+
+.app-editor .gng-canvas {
+  max-height: none;
+}
+
+.app-help {
+  margin-top: 24px;
+  padding: 12px 16px;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  background: #fff;
+  line-height: 1.7;
+}
+
+.app-help summary {
+  color: #2980b9;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.app-footer {
+  padding: 16px 20px 24px;
+  color: #999;
+  font-size: 12px;
+  text-align: center;
+}
+
+.app-footer-url {
+  display: block;
+}
+
+body.is-dragover::after {
+  content: 'ここにファイルをドロップして開く';
+  position: fixed;
+  inset: 12px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px dashed #3498db;
+  border-radius: 12px;
+  background: rgba(232, 244, 252, 0.9);
+  color: #2980b9;
+  font-size: 24px;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+/* 印刷: 図・凡例・メモだけを出す */
+@media print {
+  html,
+  body {
+    background: #fff;
+  }
+
+  .app-header,
+  .app-case,
+  .app-help,
+  .gng-toolbar,
+  .gng-panel,
+  .gng-lists,
+  .gng-memo-form,
+  .gng-memo-delete,
+  .gng-hint {
+    display: none !important;
+  }
+
+  .app-main {
+    max-width: none;
+    padding: 0;
+  }
+
+  .app-print-title {
+    display: block;
+    margin: 0 0 8px;
+    font-size: 18px;
+  }
+
+  .gng-body {
+    display: block;
+  }
+
+  .gng-canvas {
+    border: none;
+    overflow: visible;
+  }
+
+  .gng-svg {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .gng-legend summary {
+    display: none;
+  }
+
+  .app-footer {
+    padding: 8px 0 0;
+    text-align: left;
+  }
+}
+
+</style>
+</head>
+<body>
+<header class="app-header">
+  <div class="app-title">
+    <span class="app-logo" aria-hidden="true"></span>
+    <div>
+      <h1>ジェノグラム作成 <small>オフライン版</small></h1>
+      <p class="app-sub">kintoneが無くても、このファイルだけで使えます</p>
+    </div>
+  </div>
+  <div class="app-actions">
+    <button type="button" class="app-button js-app-new">新規</button>
+    <button type="button" class="app-button js-app-open">ファイルを開く</button>
+    <button type="button" class="app-button app-button-primary js-app-save">保存する</button>
+    <button type="button" class="app-button js-app-print">印刷</button>
+    <input type="file" class="js-app-file" accept=".json,application/json" hidden>
+  </div>
+</header>
+
+<main class="app-main">
+  <section class="app-case">
+    <label class="app-field">
+      <span>ケース名</span>
+      <input type="text" class="js-app-case-name" maxlength="100" placeholder="例) 佐藤 美咲さん">
+    </label>
+    <label class="app-field app-field-short">
+      <span>記入者(メモに記録されます)</span>
+      <input type="text" class="js-app-author" maxlength="50" placeholder="例) 相談員 田中">
+    </label>
+    <div class="app-status js-app-status" role="status" aria-live="polite"></div>
+  </section>
+
+  <h2 class="app-print-title js-app-print-title"></h2>
+  <div class="app-editor js-app-editor"></div>
+
+  <details class="app-help">
+    <summary>使い方とデータの扱い</summary>
+    <ol>
+      <li>「＋ 人物を追加」から本人(相談者)を追加し、「両親を追加」「配偶者・パートナーを追加」「子を追加」で家族を広げます。人物は図をクリックで編集、ドラッグで位置を調整できます(Ctrl/⌘/Shift+クリックで複数選択)。</li>
+      <li>作った図は「保存する」で、ケースごとのファイル(.json)としてパソコンに保存します。続きは「ファイルを開く」か、ファイルをこの画面にドラッグ&ドロップして開きます。</li>
+      <li>「画像を保存」でPNG画像に、「印刷」で図・凡例・メモを印刷できます。</li>
+    </ol>
+    <p><strong>データはこのパソコンの中だけで扱われ、インターネットには一切送信されません</strong>(このファイル自体が外部との通信を禁止しています)。ブラウザにもデータは残らないため、閉じる前に「保存する」で保存してください。保存したファイルには個人情報が含まれます。保存場所・持ち出しは所属先のルールに従って管理してください。</p>
+    <p>kintone版(ジェノグラム作成プラグイン)のデータ(JSON)も、そのまま開けます。</p>
+  </details>
+</main>
+
+<footer class="app-footer">
+  GovAppsプラグイン ジェノグラム作成(オフライン版) v1 ― 無料・広告なし・オープンソース
+  <span class="app-footer-url">https://govapps-plugin.pons-llc.com/</span>
+</footer>
+
+<script>
+// ---- src/js/lib/model.js ----
+(function (root) {
+  'use strict';
+
+  // ジェノグラムのデータ(JSON)の読み込み・正規化・書き出し。
+  // 文字列(複数行)フィールドの値は利用者が直接書き換えることもできるため、読み込むたびに必ず正規化し、
+  // 壊れた参照(存在しない人物を指す夫婦・関係・親)や未知の値を取り除いてから描画・編集する。
+
+  const VERSION = 1;
+
+  const GENDERS = ['male', 'female', 'unknown'];
+  const UNION_STATUSES = ['married', 'cohabiting', 'separated', 'divorced'];
+  const RELATION_KINDS = ['close', 'conflict', 'distant', 'cutoff'];
+  const CHILD_TYPES = ['biological', 'adopted', 'foster'];
+
+  const LABELS = {
+    gender: { male: '男性', female: '女性', unknown: '不明・その他' },
+    unionStatus: {
+      married: '婚姻',
+      cohabiting: '内縁・事実婚・交際',
+      separated: '別居',
+      divorced: '離婚',
+    },
+    relationKind: {
+      close: '親密',
+      conflict: '対立',
+      distant: '疎遠',
+      cutoff: '断絶',
+    },
+    childType: { biological: '実子', adopted: '養子', foster: '里子' },
+  };
+
+  const LIMITS = {
+    id: 40,
+    name: 100,
+    age: 20,
+    note: 500,
+    label: 100,
+    memo: 2000,
+    userCode: 128,
+    userName: 128,
+    at: 40,
+  };
+
+  const empty = () => ({
+    version: VERSION,
+    persons: [],
+    unions: [],
+    relations: [],
+    households: [],
+    memos: [],
+  });
+
+  const str = (value, limit) =>
+    typeof value === 'string' ? value.slice(0, limit) : '';
+
+  // 年齢は手書きのJSONで数値として書かれることがあるため、数値も文字列にそろえる。
+  const strOrNumber = (value, limit) =>
+    typeof value === 'number' && Number.isFinite(value)
+      ? String(value).slice(0, limit)
+      : str(value, limit);
+
+  const oneOf = (value, allowed, fallback) =>
+    allowed.includes(value) ? value : fallback;
+
+  const arr = (value) => (Array.isArray(value) ? value : []);
+
+  const isObject = (value) =>
+    value !== null && typeof value === 'object' && !Array.isArray(value);
+
+  const normalizePos = (pos) => {
+    if (!isObject(pos)) {
+      return undefined;
+    }
+    const { x, y } = pos;
+    if (
+      typeof x !== 'number' ||
+      typeof y !== 'number' ||
+      !Number.isFinite(x) ||
+      !Number.isFinite(y)
+    ) {
+      return undefined;
+    }
+    return { x, y };
+  };
+
+  const normalizePerson = (p) => {
+    const person = {
+      id: str(p.id, LIMITS.id),
+      name: str(p.name, LIMITS.name),
+      gender: oneOf(p.gender, GENDERS, 'unknown'),
+      age: strOrNumber(p.age, LIMITS.age),
+      deceased: p.deceased === true,
+      isClient: p.isClient === true,
+      note: str(p.note, LIMITS.note),
+      parentUnionId: str(p.parentUnionId, LIMITS.id),
+      parentId: str(p.parentId, LIMITS.id),
+      childType: oneOf(p.childType, CHILD_TYPES, 'biological'),
+    };
+    const pos = normalizePos(p.pos);
+    if (pos) {
+      person.pos = pos;
+    }
+    return person;
+  };
+
+  // 同じidの要素は先に出てきたものだけを残す。
+  const uniqueById = (items) => {
+    const seen = new Set();
+    return items.filter((item) => {
+      if (!item.id || seen.has(item.id)) {
+        return false;
+      }
+      seen.add(item.id);
+      return true;
+    });
+  };
+
+  const normalize = (raw) => {
+    const src = isObject(raw) ? raw : {};
+    const model = empty();
+
+    model.persons = uniqueById(
+      arr(src.persons).filter(isObject).map(normalizePerson),
+    );
+    const personIds = new Set(model.persons.map((p) => p.id));
+
+    const pairKeys = new Set();
+    model.unions = uniqueById(
+      arr(src.unions)
+        .filter(isObject)
+        .map((u) => ({
+          id: str(u.id, LIMITS.id),
+          a: str(u.a, LIMITS.id),
+          b: str(u.b, LIMITS.id),
+          status: oneOf(u.status, UNION_STATUSES, 'married'),
+          note: str(u.note, LIMITS.note),
+        })),
+    ).filter((u) => {
+      if (!personIds.has(u.a) || !personIds.has(u.b) || u.a === u.b) {
+        return false;
+      }
+      const key = [u.a, u.b].sort().join('\n');
+      if (pairKeys.has(key)) {
+        return false;
+      }
+      pairKeys.add(key);
+      return true;
+    });
+    const unionById = new Map(model.unions.map((u) => [u.id, u]));
+
+    model.persons.forEach((p) => {
+      const union = unionById.get(p.parentUnionId);
+      if (!union || union.a === p.id || union.b === p.id) {
+        p.parentUnionId = '';
+      }
+      if (
+        p.parentUnionId ||
+        !personIds.has(p.parentId) ||
+        p.parentId === p.id
+      ) {
+        p.parentId = '';
+      }
+    });
+
+    model.relations = uniqueById(
+      arr(src.relations)
+        .filter(isObject)
+        .map((r) => ({
+          id: str(r.id, LIMITS.id),
+          a: str(r.a, LIMITS.id),
+          b: str(r.b, LIMITS.id),
+          kind: oneOf(r.kind, RELATION_KINDS, 'close'),
+          note: str(r.note, LIMITS.note),
+        })),
+    ).filter((r) => personIds.has(r.a) && personIds.has(r.b) && r.a !== r.b);
+
+    model.households = uniqueById(
+      arr(src.households)
+        .filter(isObject)
+        .map((h) => ({
+          id: str(h.id, LIMITS.id),
+          label: str(h.label, LIMITS.label),
+          members: Array.from(
+            new Set(
+              arr(h.members).filter(
+                (m) => typeof m === 'string' && personIds.has(m),
+              ),
+            ),
+          ),
+        })),
+    ).filter((h) => h.members.length > 0);
+
+    model.memos = uniqueById(
+      arr(src.memos)
+        .filter(isObject)
+        .map((m) => {
+          const author = isObject(m.author) ? m.author : {};
+          const targetId = str(m.targetId, LIMITS.id);
+          return {
+            id: str(m.id, LIMITS.id),
+            targetId: personIds.has(targetId) ? targetId : '',
+            text: str(m.text, LIMITS.memo),
+            author: {
+              code: str(author.code, LIMITS.userCode),
+              name: str(author.name, LIMITS.userName),
+            },
+            at: str(m.at, LIMITS.at),
+          };
+        }),
+    ).filter((m) => m.text.trim() !== '');
+
+    return model;
+  };
+
+  // 戻り値: { ok: true, model } | { ok: false, error }
+  const parse = (raw) => {
+    if (raw === null || raw === undefined || String(raw).trim() === '') {
+      return { ok: true, model: empty() };
+    }
+    let data;
+    try {
+      data = JSON.parse(String(raw));
+    } catch (e) {
+      return { ok: false, error: e.message };
+    }
+    if (!isObject(data)) {
+      return { ok: false, error: 'JSONの最上位がオブジェクトではありません' };
+    }
+    return { ok: true, model: normalize(data) };
+  };
+
+  const serialize = (model) => JSON.stringify(normalize(model));
+
+  const pad = (n) => String(n).padStart(2, '0');
+
+  const formatDateTime = (iso) => {
+    if (!iso) {
+      return '';
+    }
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) {
+      return '';
+    }
+    return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  };
+
+  const Model = {
+    VERSION,
+    GENDERS,
+    UNION_STATUSES,
+    RELATION_KINDS,
+    CHILD_TYPES,
+    LABELS,
+    LIMITS,
+    empty,
+    normalize,
+    normalizePerson,
+    parse,
+    serialize,
+    formatDateTime,
+  };
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Model;
+  } else {
+    root.Genogram = root.Genogram || {};
+    root.Genogram.Model = Model;
+  }
+})(typeof window !== 'undefined' ? window : globalThis);
+
+// ---- src/js/lib/ops.js ----
+(function (root) {
+  'use strict';
+
+  // エディターから呼ぶモデル操作。渡したモデルをその場で書き換える(エディターは1つのモデルを持ち続け、
+  // 保存時にまとめてJSONにする)。IDの生成はテストで差し替えられるよう、最後の引数で受け取る。
+
+  const Model =
+    typeof module !== 'undefined' && module.exports
+      ? require('./model')
+      : root.Genogram.Model;
+
+  let counter = 0;
+  const defaultIdGenerator = (prefix) => {
+    counter = (counter + 1) % 1296;
+    return (
+      prefix +
+      Date.now().toString(36) +
+      counter.toString(36).padStart(2, '0') +
+      Math.floor(Math.random() * 1296)
+        .toString(36)
+        .padStart(2, '0')
+    );
+  };
+
+  const findPerson = (model, id) => model.persons.find((p) => p.id === id);
+  const hasPerson = (model, id) => !!findPerson(model, id);
+
+  const unionsOf = (model, personId) =>
+    model.unions.filter((u) => u.a === personId || u.b === personId);
+
+  // ---- 人物 ----
+
+  const addPerson = (model, fields, idGen = defaultIdGenerator) => {
+    const id = idGen('p');
+    model.persons.push(Model.normalizePerson({ ...(fields || {}), id }));
+    return id;
+  };
+
+  const updatePerson = (model, id, fields) => {
+    const index = model.persons.findIndex((p) => p.id === id);
+    if (index < 0) {
+      return;
+    }
+    const merged = { ...model.persons[index], ...(fields || {}), id };
+    model.persons[index] = Model.normalizePerson(merged);
+  };
+
+  const removePerson = (model, id) => {
+    const removedUnionIds = new Set(unionsOf(model, id).map((u) => u.id));
+    model.persons = model.persons.filter((p) => p.id !== id);
+    model.unions = model.unions.filter((u) => !removedUnionIds.has(u.id));
+    model.persons.forEach((p) => {
+      if (removedUnionIds.has(p.parentUnionId)) {
+        p.parentUnionId = '';
+      }
+      if (p.parentId === id) {
+        p.parentId = '';
+      }
+    });
+    model.relations = model.relations.filter((r) => r.a !== id && r.b !== id);
+    model.households = model.households
+      .map((h) => ({ ...h, members: h.members.filter((m) => m !== id) }))
+      .filter((h) => h.members.length > 0);
+    model.memos = model.memos.filter((m) => m.targetId !== id);
+  };
+
+  // 同じ親(夫婦/片親/親なし)の兄弟の中で、並び順を1つ前(-1)・後(+1)の兄弟と入れ替える。
+  const moveSibling = (model, id, direction) => {
+    const index = model.persons.findIndex((p) => p.id === id);
+    if (index < 0) {
+      return;
+    }
+    const key = (p) => `${p.parentUnionId}\n${p.parentId}`;
+    const myKey = key(model.persons[index]);
+    for (
+      let j = index + direction;
+      j >= 0 && j < model.persons.length;
+      j += direction
+    ) {
+      if (key(model.persons[j]) === myKey) {
+        const tmp = model.persons[j];
+        model.persons[j] = model.persons[index];
+        model.persons[index] = tmp;
+        return;
+      }
+    }
+  };
+
+  // 子孫(子・孫…)のIDの集合。循環した入力でも止まる。
+  const descendantsOf = (model, id) => {
+    const result = new Set();
+    const queue = [id];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      const unionIds = new Set(unionsOf(model, current).map((u) => u.id));
+      model.persons.forEach((p) => {
+        const isChild = p.parentId === current || unionIds.has(p.parentUnionId);
+        if (isChild && !result.has(p.id) && p.id !== id) {
+          result.add(p.id);
+          queue.push(p.id);
+        }
+      });
+    }
+    return result;
+  };
+
+  // 人物フォームの「親」の候補。自分・自分の子孫・自分か子孫を含む夫婦は除く(親子関係の循環を防ぐ)。
+  const parentOptions = (model, personId) => {
+    const excluded = descendantsOf(model, personId);
+    excluded.add(personId);
+    return {
+      unions: model.unions.filter(
+        (u) => !excluded.has(u.a) && !excluded.has(u.b),
+      ),
+      persons: model.persons.filter((p) => !excluded.has(p.id)),
+    };
+  };
+
+  // ---- 夫婦・パートナー ----
+
+  const addUnion = (model, a, b, status, idGen = defaultIdGenerator) => {
+    if (a === b || !hasPerson(model, a) || !hasPerson(model, b)) {
+      return null;
+    }
+    const existing = model.unions.find(
+      (u) => (u.a === a && u.b === b) || (u.a === b && u.b === a),
+    );
+    if (existing) {
+      return existing.id;
+    }
+    const id = idGen('u');
+    model.unions.push({
+      id,
+      a,
+      b,
+      status: Model.UNION_STATUSES.includes(status) ? status : 'married',
+      note: '',
+    });
+    return id;
+  };
+
+  const updateUnion = (model, id, fields) => {
+    const union = model.unions.find((u) => u.id === id);
+    if (!union) {
+      return;
+    }
+    if (Model.UNION_STATUSES.includes(fields.status)) {
+      union.status = fields.status;
+    }
+    if (typeof fields.note === 'string') {
+      union.note = fields.note.slice(0, Model.LIMITS.note);
+    }
+  };
+
+  const removeUnion = (model, id) => {
+    model.unions = model.unions.filter((u) => u.id !== id);
+    model.persons.forEach((p) => {
+      if (p.parentUnionId === id) {
+        p.parentUnionId = '';
+      }
+    });
+  };
+
+  const OPPOSITE = { male: 'female', female: 'male', unknown: 'unknown' };
+
+  const addPartner = (model, personId, idGen = defaultIdGenerator) => {
+    const person = findPerson(model, personId);
+    if (!person) {
+      return null;
+    }
+    const newId = addPerson(model, { gender: OPPOSITE[person.gender] }, idGen);
+    const unionId = addUnion(model, personId, newId, 'married', idGen);
+    return { personId: newId, unionId };
+  };
+
+  const addChild = (model, personId, idGen = defaultIdGenerator) => {
+    if (!hasPerson(model, personId)) {
+      return null;
+    }
+    const unions = unionsOf(model, personId);
+    const fields =
+      unions.length > 0
+        ? { parentUnionId: unions[unions.length - 1].id }
+        : { parentId: personId };
+    return addPerson(model, fields, idGen);
+  };
+
+  const addParents = (model, personId, idGen = defaultIdGenerator) => {
+    const person = findPerson(model, personId);
+    if (!person || person.parentUnionId || person.parentId) {
+      return null;
+    }
+    const fatherId = addPerson(model, { gender: 'male' }, idGen);
+    const motherId = addPerson(model, { gender: 'female' }, idGen);
+    const unionId = addUnion(model, fatherId, motherId, 'married', idGen);
+    // addPersonでpersons配列の参照は変わらないため、取得済みのpersonをそのまま書き換えられる
+    person.parentUnionId = unionId;
+    return { fatherId, motherId, unionId };
+  };
+
+  // ---- 情緒的関係 ----
+
+  const addRelation = (model, a, b, kind, idGen = defaultIdGenerator) => {
+    if (a === b || !hasPerson(model, a) || !hasPerson(model, b)) {
+      return null;
+    }
+    const id = idGen('r');
+    model.relations.push({
+      id,
+      a,
+      b,
+      kind: Model.RELATION_KINDS.includes(kind) ? kind : 'close',
+      note: '',
+    });
+    return id;
+  };
+
+  const updateRelation = (model, id, fields) => {
+    const relation = model.relations.find((r) => r.id === id);
+    if (!relation) {
+      return;
+    }
+    if (Model.RELATION_KINDS.includes(fields.kind)) {
+      relation.kind = fields.kind;
+    }
+    if (typeof fields.note === 'string') {
+      relation.note = fields.note.slice(0, Model.LIMITS.note);
+    }
+  };
+
+  const removeRelation = (model, id) => {
+    model.relations = model.relations.filter((r) => r.id !== id);
+  };
+
+  // ---- 同居(世帯) ----
+
+  const validMembers = (model, members) =>
+    Array.from(new Set((members || []).filter((m) => hasPerson(model, m))));
+
+  const addHousehold = (model, label, members, idGen = defaultIdGenerator) => {
+    const valid = validMembers(model, members);
+    if (valid.length === 0) {
+      return null;
+    }
+    const id = idGen('h');
+    model.households.push({
+      id,
+      label: String(label || '').slice(0, Model.LIMITS.label),
+      members: valid,
+    });
+    return id;
+  };
+
+  const updateHousehold = (model, id, label, members) => {
+    const household = model.households.find((h) => h.id === id);
+    if (!household) {
+      return;
+    }
+    household.label = String(label || '').slice(0, Model.LIMITS.label);
+    household.members = validMembers(model, members);
+    if (household.members.length === 0) {
+      removeHousehold(model, id);
+    }
+  };
+
+  const removeHousehold = (model, id) => {
+    model.households = model.households.filter((h) => h.id !== id);
+  };
+
+  // ---- メモ ----
+
+  const addMemo = (model, memo, idGen = defaultIdGenerator) => {
+    const text = String((memo && memo.text) || '');
+    if (text.trim() === '') {
+      return null;
+    }
+    const id = idGen('m');
+    const author = (memo && memo.author) || {};
+    model.memos.push({
+      id,
+      targetId: hasPerson(model, memo.targetId) ? memo.targetId : '',
+      text: text.slice(0, Model.LIMITS.memo),
+      author: {
+        code: String(author.code || ''),
+        name: String(author.name || ''),
+      },
+      at: String(memo.at || ''),
+    });
+    return id;
+  };
+
+  const removeMemo = (model, id) => {
+    model.memos = model.memos.filter((m) => m.id !== id);
+  };
+
+  // ---- 位置 ----
+
+  const GRID = 10;
+
+  const setPosition = (model, id, x, y) => {
+    const person = findPerson(model, id);
+    if (!person || !Number.isFinite(x) || !Number.isFinite(y)) {
+      return;
+    }
+    person.pos = {
+      x: Math.round(x / GRID) * GRID,
+      y: Math.round(y / GRID) * GRID,
+    };
+  };
+
+  // ids を渡したときはその人たちだけ、省略時は全員の手動位置を消して自動配置に戻す。
+  const clearPositions = (model, ids) => {
+    const only = ids ? new Set(ids) : null;
+    model.persons.forEach((p) => {
+      if (!only || only.has(p.id)) {
+        delete p.pos;
+      }
+    });
+  };
+
+  const MIN_POS = 30; // 図の左端・上端からの最小の余白
+
+  // 複数選択した人をまとめて動かす。startNodes は移動開始時点の表示座標({ id: { x, y } })。
+  // 相対位置を崩さないよう、各人の座標ではなく移動量を10px単位に丸める。左上にはみ出す場合は、
+  // いちばん端の人が余白で止まるよう、全員の移動量をそろえて抑える。
+  const moveGroup = (model, ids, startNodes, dx, dy) => {
+    const targets = (ids || []).filter(
+      (id) => startNodes[id] && findPerson(model, id),
+    );
+    if (targets.length === 0 || !Number.isFinite(dx) || !Number.isFinite(dy)) {
+      return;
+    }
+    const minX = Math.min(...targets.map((id) => startNodes[id].x));
+    const minY = Math.min(...targets.map((id) => startNodes[id].y));
+    const moveX = Math.max(Math.round(dx / GRID) * GRID, MIN_POS - minX);
+    const moveY = Math.max(Math.round(dy / GRID) * GRID, MIN_POS - minY);
+    targets.forEach((id) => {
+      findPerson(model, id).pos = {
+        x: startNodes[id].x + moveX,
+        y: startNodes[id].y + moveY,
+      };
+    });
+  };
+
+  const Ops = {
+    defaultIdGenerator,
+    addPerson,
+    updatePerson,
+    removePerson,
+    moveSibling,
+    descendantsOf,
+    parentOptions,
+    unionsOf,
+    addUnion,
+    updateUnion,
+    removeUnion,
+    addPartner,
+    addChild,
+    addParents,
+    addRelation,
+    updateRelation,
+    removeRelation,
+    addHousehold,
+    updateHousehold,
+    removeHousehold,
+    addMemo,
+    removeMemo,
+    setPosition,
+    clearPositions,
+    moveGroup,
+  };
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Ops;
+  } else {
+    root.Genogram = root.Genogram || {};
+    root.Genogram.Ops = Ops;
+  }
+})(typeof window !== 'undefined' ? window : globalThis);
+
+// ---- src/js/lib/layout.js ----
+(function (root) {
+  'use strict';
+
+  // ジェノグラムの自動配置。DOMに依存しない純粋な計算で、人物IDごとの中心座標を返す。
+  // 1. 世代: 子 ≥ 親+1、夫婦は同じ世代、親は子の1つ上まで引き下げる、を収束(または回数上限)まで繰り返す。
+  // 2. 同じ世代で夫婦の線でつながる人を「横並びの組(chain)」にまとめる。
+  // 3. 上の世代から: 組を親の位置の順に並べ、親の真下を希望位置として重ならないように置く。
+  //    下の世代から: 子がいる組は子の中心の真上を希望位置として置き直す。
+  // 4. 手動の位置(pos)がある人はその位置を使う。
+
+  const SLOT_W = 120; // 1人分の横幅(記号+左右の余白)
+  const CHAIN_GAP = 30; // 別の組との間に追加する余白
+  const GEN_H = 160; // 世代間の縦の間隔
+  const MARGIN_X = 70; // 左端の人の中心のx
+  const MARGIN_Y = 70; // 最上段の人の中心のy
+  const BOTTOM_SPACE = 90; // 最下段の記号の下に描く名前・備考の分
+
+  const parentsOf = (person, unionById) => {
+    const union = unionById.get(person.parentUnionId);
+    if (union) {
+      return [union.a, union.b];
+    }
+    return person.parentId ? [person.parentId] : [];
+  };
+
+  const computeGenerations = (model) => {
+    const persons = model.persons || [];
+    const unions = model.unions || [];
+    const unionById = new Map(unions.map((u) => [u.id, u]));
+    const gen = new Map(persons.map((p) => [p.id, 0]));
+    const childrenOf = new Map();
+    const parentLists = new Map();
+    persons.forEach((p) => {
+      const parents = parentsOf(p, unionById).filter((id) => gen.has(id));
+      parentLists.set(p.id, parents);
+      parents.forEach((parentId) => {
+        if (!childrenOf.has(parentId)) {
+          childrenOf.set(parentId, []);
+        }
+        childrenOf.get(parentId).push(p.id);
+      });
+    });
+
+    // 循環した入力(手で書き換えたJSON等)では値が増え続けるため、回数上限で打ち切る。
+    const maxIterations = persons.length * 4 + 10;
+    for (let iter = 0; iter < maxIterations; iter++) {
+      let changed = false;
+      const raise = (id, value) => {
+        if (gen.get(id) < value) {
+          gen.set(id, value);
+          changed = true;
+        }
+      };
+      persons.forEach((p) => {
+        const parents = parentLists.get(p.id);
+        if (parents.length > 0) {
+          raise(p.id, Math.max(...parents.map((id) => gen.get(id))) + 1);
+        }
+      });
+      unions.forEach((u) => {
+        if (gen.has(u.a) && gen.has(u.b)) {
+          const g = Math.max(gen.get(u.a), gen.get(u.b));
+          raise(u.a, g);
+          raise(u.b, g);
+        }
+      });
+      childrenOf.forEach((children, parentId) => {
+        raise(parentId, Math.min(...children.map((id) => gen.get(id))) - 1);
+      });
+      if (!changed) {
+        break;
+      }
+    }
+
+    if (gen.size > 0) {
+      const min = Math.min(...gen.values());
+      gen.forEach((value, id) => gen.set(id, value - min));
+    }
+    return gen;
+  };
+
+  // 順番を保ったまま、重ならないように各項目の左端を決める。重なった項目どうしは1つの塊にまとめ、
+  // 塊の位置を「各項目の希望位置からのずれの二乗和」が最小になる位置(希望位置の平均)に置く。
+  // items: [{ desired: 希望する左端, width }] → 左端の配列
+  const resolveOverlaps = (items) => {
+    const clusters = [];
+    items.forEach((item, index) => {
+      let cluster = {
+        first: index,
+        count: 1,
+        sum: item.desired,
+        width: item.width,
+        left: item.desired,
+      };
+      while (clusters.length > 0) {
+        const prev = clusters[clusters.length - 1];
+        if (prev.left + prev.width <= cluster.left) {
+          break;
+        }
+        clusters.pop();
+        const sum = prev.sum + (cluster.sum - cluster.count * prev.width);
+        const count = prev.count + cluster.count;
+        cluster = {
+          first: prev.first,
+          count,
+          sum,
+          width: prev.width + cluster.width,
+          left: sum / count,
+        };
+      }
+      clusters.push(cluster);
+    });
+
+    const lefts = [];
+    clusters.forEach((cluster) => {
+      let x = cluster.left;
+      for (let i = 0; i < cluster.count; i++) {
+        lefts.push(x);
+        x += items[cluster.first + i].width;
+      }
+    });
+    return lefts;
+  };
+
+  // 夫婦の線でつながる人の並び順。相手が最も多い人を中央に置き、相手を左右交互に置く。
+  // 相手のさらに別の相手は、その相手の外側に置く。2人だけの組は男性を左・女性を右にする。
+  const orderChain = (ids, unions, genderOf) => {
+    if (ids.length <= 1) {
+      return ids.slice();
+    }
+    const inChain = new Set(ids);
+    const partners = new Map(ids.map((id) => [id, []]));
+    unions.forEach((u) => {
+      if (inChain.has(u.a) && inChain.has(u.b)) {
+        partners.get(u.a).push(u.b);
+        partners.get(u.b).push(u.a);
+      }
+    });
+    if (ids.length === 2 && genderOf) {
+      const rank = { male: 0, unknown: 1, female: 2 };
+      const [x, y] = ids;
+      return rank[genderOf(y)] < rank[genderOf(x)] ? [y, x] : [x, y];
+    }
+
+    let center = ids[0];
+    ids.forEach((id) => {
+      if (partners.get(id).length > partners.get(center).length) {
+        center = id;
+      }
+    });
+
+    const order = [center];
+    const placed = new Set([center]);
+    const queue = [];
+    partners.get(center).forEach((partnerId, i) => {
+      if (placed.has(partnerId)) {
+        return;
+      }
+      const side = i % 2 === 0 ? -1 : 1;
+      if (side < 0) {
+        order.unshift(partnerId);
+      } else {
+        order.push(partnerId);
+      }
+      placed.add(partnerId);
+      queue.push([partnerId, side]);
+    });
+    while (queue.length > 0) {
+      const [id, side] = queue.shift();
+      partners.get(id).forEach((partnerId) => {
+        if (placed.has(partnerId)) {
+          return;
+        }
+        if (side < 0) {
+          order.unshift(partnerId);
+        } else {
+          order.push(partnerId);
+        }
+        placed.add(partnerId);
+        queue.push([partnerId, side]);
+      });
+    }
+    ids.forEach((id) => {
+      if (!placed.has(id)) {
+        order.push(id);
+      }
+    });
+    return order;
+  };
+
+  // 同じ世代の人を、夫婦の線でつながる組ごとに分ける(persons配列の順で最初に出てくる人の順)。
+  const buildChains = (rowIds, unions) => {
+    const inRow = new Set(rowIds);
+    const parent = new Map(rowIds.map((id) => [id, id]));
+    const find = (id) => {
+      let r = id;
+      while (parent.get(r) !== r) {
+        r = parent.get(r);
+      }
+      return r;
+    };
+    unions.forEach((u) => {
+      if (inRow.has(u.a) && inRow.has(u.b)) {
+        parent.set(find(u.a), find(u.b));
+      }
+    });
+    const groups = new Map();
+    rowIds.forEach((id) => {
+      const r = find(id);
+      if (!groups.has(r)) {
+        groups.set(r, []);
+      }
+      groups.get(r).push(id);
+    });
+    return Array.from(groups.values());
+  };
+
+  const chainWidth = (chain) => chain.length * SLOT_W + CHAIN_GAP;
+
+  const layout = (model) => {
+    const persons = model.persons || [];
+    const unions = model.unions || [];
+    if (persons.length === 0) {
+      return {
+        nodes: {},
+        width: MARGIN_X * 2,
+        height: MARGIN_Y + BOTTOM_SPACE,
+      };
+    }
+    const personById = new Map(persons.map((p) => [p.id, p]));
+    const unionById = new Map(unions.map((u) => [u.id, u]));
+    const indexOf = new Map(persons.map((p, i) => [p.id, i]));
+    const genderOf = (id) => personById.get(id).gender;
+    const gens = computeGenerations(model);
+    const maxGen = Math.max(...gens.values());
+
+    const rows = [];
+    for (let g = 0; g <= maxGen; g++) {
+      const rowIds = persons
+        .filter((p) => gens.get(p.id) === g)
+        .map((p) => p.id);
+      rows.push(
+        buildChains(rowIds, unions).map((ids) =>
+          orderChain(ids, unions, genderOf),
+        ),
+      );
+    }
+
+    const x = new Map(); // 人物の中心のx(自動配置)
+    const place = (chains, lefts) => {
+      chains.forEach((chain, i) => {
+        chain.forEach((id, j) => {
+          x.set(id, lefts[i] + j * SLOT_W + SLOT_W / 2);
+        });
+      });
+    };
+
+    const parentAnchor = (id) => {
+      const parents = parentsOf(personById.get(id), unionById);
+      if (parents.length === 0 || !parents.every((p) => x.has(p))) {
+        return null;
+      }
+      return parents.reduce((sum, p) => sum + x.get(p), 0) / parents.length;
+    };
+
+    // 上の世代から: 親の位置の順に並べ、親の真下に置く。
+    rows.forEach((chains, g) => {
+      const entries = chains.map((chain) => {
+        const anchored = [];
+        chain.forEach((id, j) => {
+          const anchor = gens.get(id) === g ? parentAnchor(id) : null;
+          if (anchor !== null) {
+            anchored.push({ anchor, offset: j * SLOT_W + SLOT_W / 2 });
+          }
+        });
+        const firstIndex = Math.min(...chain.map((id) => indexOf.get(id)));
+        if (anchored.length === 0) {
+          return { chain, key: null, firstIndex, desired: null };
+        }
+        const key =
+          anchored.reduce((s, a) => s + a.anchor, 0) / anchored.length;
+        const desired =
+          anchored.reduce((s, a) => s + (a.anchor - a.offset), 0) /
+          anchored.length;
+        return { chain, key, firstIndex, desired };
+      });
+      const withAnchor = entries
+        .filter((e) => e.key !== null)
+        .sort((p, q) => p.key - q.key || p.firstIndex - q.firstIndex);
+      const withoutAnchor = entries
+        .filter((e) => e.key === null)
+        .sort((p, q) => p.firstIndex - q.firstIndex);
+      const ordered = withAnchor.concat(withoutAnchor);
+      let prevEnd = 0;
+      const items = ordered.map((e) => {
+        const desired = e.desired !== null ? e.desired : prevEnd;
+        prevEnd = desired + chainWidth(e.chain);
+        return { desired, width: chainWidth(e.chain) };
+      });
+      rows[g] = ordered.map((e) => e.chain);
+      place(rows[g], resolveOverlaps(items));
+    });
+
+    // 子の一覧(親の位置ごと): 夫婦の子・片親の子
+    const childrenOfUnion = new Map();
+    const childrenOfPerson = new Map();
+    persons.forEach((p) => {
+      const map = p.parentUnionId ? childrenOfUnion : childrenOfPerson;
+      const key = p.parentUnionId || p.parentId;
+      if (!key) {
+        return;
+      }
+      if (!map.has(key)) {
+        map.set(key, []);
+      }
+      map.get(key).push(p.id);
+    });
+    const childCenter = (ids) => {
+      const xs = ids.map((id) => x.get(id));
+      return (Math.min(...xs) + Math.max(...xs)) / 2;
+    };
+
+    // 下の世代から: 子がいる組は、子の中心の真上に置き直す。
+    for (let g = maxGen - 1; g >= 0; g--) {
+      const chains = rows[g];
+      const items = chains.map((chain) => {
+        const position = new Map(chain.map((id, j) => [id, j]));
+        const wishes = [];
+        unions.forEach((u) => {
+          const children = childrenOfUnion.get(u.id);
+          if (children && position.has(u.a) && position.has(u.b)) {
+            const offset =
+              ((position.get(u.a) + position.get(u.b)) / 2) * SLOT_W +
+              SLOT_W / 2;
+            wishes.push(childCenter(children) - offset);
+          }
+        });
+        chain.forEach((id, j) => {
+          const children = childrenOfPerson.get(id);
+          if (children) {
+            wishes.push(childCenter(children) - (j * SLOT_W + SLOT_W / 2));
+          }
+        });
+        const currentLeft = x.get(chain[0]) - SLOT_W / 2;
+        const desired =
+          wishes.length > 0
+            ? wishes.reduce((s, w) => s + w, 0) / wishes.length
+            : currentLeft;
+        return { desired, width: chainWidth(chain) };
+      });
+      place(chains, resolveOverlaps(items));
+    }
+
+    const minX = Math.min(...x.values());
+    const nodes = {};
+    persons.forEach((p) => {
+      const g = gens.get(p.id);
+      const auto = {
+        x: x.get(p.id) - minX + MARGIN_X,
+        y: MARGIN_Y + g * GEN_H,
+      };
+      nodes[p.id] = p.pos
+        ? { x: p.pos.x, y: p.pos.y, gen: g, manual: true }
+        : { x: auto.x, y: auto.y, gen: g, manual: false };
+    });
+
+    const values = Object.values(nodes);
+    const width = Math.max(...values.map((n) => n.x)) + MARGIN_X;
+    const height = Math.max(...values.map((n) => n.y)) + BOTTOM_SPACE;
+    return { nodes, width, height };
+  };
+
+  const Layout = {
+    SLOT_W,
+    CHAIN_GAP,
+    GEN_H,
+    MARGIN_X,
+    MARGIN_Y,
+    BOTTOM_SPACE,
+    computeGenerations,
+    resolveOverlaps,
+    orderChain,
+    buildChains,
+    layout,
+  };
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Layout;
+  } else {
+    root.Genogram = root.Genogram || {};
+    root.Genogram.Layout = Layout;
+  }
+})(typeof window !== 'undefined' ? window : globalThis);
+
+// ---- src/js/lib/scene.js ----
+(function (root) {
+  'use strict';
+
+  // モデルと自動配置の結果から、SVGに描く図形の一覧(描画命令)を作る。DOMには依存しない。
+  // 各要素は { tag, attrs, text?, title?, target? }。
+  // - attrsには数値・固定の文字列(クラス名・色など)だけを入れ、利用者の入力値は入れない。
+  //   名前・備考などの入力値はtext/titleに入れ、描画側でtextContentとして設定する(XSS対策)。
+  // - targetはクリックで編集対象を特定するための { type: 'person'|'union'|'relation'|'household', id }。
+
+  const SIZE = 40; // 記号の大きさ
+  const CLIENT_GAP = 5; // 本人の二重線の間隔
+  // 記号の下端から夫婦の線までの距離。記号の下に描く名前(1行目)・備考(2行目)と重ならないよう、その下を通す。
+  const UNION_DROP = 44;
+  const SIBLING_RISE = 30; // 子の記号の上端から兄弟線までの距離
+  const NAME_MAX = 10;
+  const NOTE_MAX = 12;
+  const DASH = { dashed: '6 4', dotted: '2 4' };
+  const CHILD_DASH = {
+    biological: undefined,
+    adopted: DASH.dashed,
+    foster: DASH.dotted,
+  };
+  const MIN_WIDTH = 240;
+  const MIN_HEIGHT = 160;
+
+  const truncate = (text, max) => {
+    const chars = Array.from(text || '');
+    if (chars.length <= max) {
+      return { text: chars.join(''), truncated: false };
+    }
+    return { text: chars.slice(0, max - 1).join('') + '…', truncated: true };
+  };
+
+  const round = (n) => Math.round(n * 10) / 10;
+
+  // 描画側(renderer.js)がsetAttributeしてよい属性名の許可リスト。イベントハンドラー(on*)・
+  // href・styleは含めない。
+  const SAFE_ATTRS = new Set([
+    'class',
+    'x',
+    'y',
+    'width',
+    'height',
+    'rx',
+    'cx',
+    'cy',
+    'r',
+    'd',
+    'points',
+    'x1',
+    'y1',
+    'x2',
+    'y2',
+    'fill',
+    'stroke-dasharray',
+    'xmlns',
+    'viewBox',
+    'role',
+  ]);
+  const isSafeAttrName = (name) => SAFE_ATTRS.has(name);
+
+  const buildScene = (model, layoutResult, options) => {
+    const opts = options || {};
+    // 強調する人物(複数選択可)。selectedId(1人)も受け付ける。
+    const selectedIds = new Set(opts.selectedIds || []);
+    if (opts.selectedId) {
+      selectedIds.add(opts.selectedId);
+    }
+    const nodes = (layoutResult && layoutResult.nodes) || {};
+    const persons = model.persons || [];
+    const personById = new Map(persons.map((p) => [p.id, p]));
+    const items = [];
+    const householdLabels = [];
+    const bounds = { maxX: 0, maxY: 0 };
+    const extend = (x, y) => {
+      bounds.maxX = Math.max(bounds.maxX, x);
+      bounds.maxY = Math.max(bounds.maxY, y);
+    };
+    const halfOf = (id) =>
+      SIZE / 2 +
+      (personById.get(id) && personById.get(id).isClient ? CLIENT_GAP : 0);
+
+    // ---- 同居(世帯)の枠: いちばん下(背景)に描く ----
+    // 1つの長方形で囲むと、元配偶者など同居していない人まで枠に入ってしまうため、世代(段)ごとに
+    // メンバーの左端〜右端を囲み、段どうしを階段状につないだ1つの輪郭にする。
+    (model.households || []).forEach((h, index) => {
+      const members = h.members.filter((id) => nodes[id]);
+      if (members.length === 0) {
+        return;
+      }
+      const pad = 14 + (index % 3) * 6;
+      const rows = [];
+      members
+        .map((id) => nodes[id])
+        .sort((p, q) => p.y - q.y)
+        .forEach((n) => {
+          const row = rows[rows.length - 1];
+          if (row && Math.abs(row.y - n.y) < 1) {
+            row.left = Math.min(row.left, n.x);
+            row.right = Math.max(row.right, n.x);
+          } else {
+            rows.push({ y: n.y, left: n.x, right: n.x });
+          }
+        });
+      const l = rows.map((row) => row.left - SIZE / 2 - pad);
+      const r = rows.map((row) => row.right + SIZE / 2 + pad);
+      const top = rows[0].y - SIZE / 2 - pad - 14;
+      // b[i]: i段目の下端(最後の段は名前・備考の下まで、それ以外は次の段との中間)
+      const b = rows.map((row, i) =>
+        i < rows.length - 1
+          ? (row.y + rows[i + 1].y) / 2
+          : row.y + SIZE / 2 + pad + 46,
+      );
+      const points = [[l[0], top]];
+      rows.forEach((row, i) => {
+        points.push([r[i], i === 0 ? top : b[i - 1]]);
+        points.push([r[i], b[i]]);
+      });
+      for (let i = rows.length - 1; i >= 0; i--) {
+        points.push([l[i], b[i]]);
+        points.push([l[i], i === 0 ? top : b[i - 1]]);
+      }
+      const d =
+        points
+          .map(
+            ([px, py], i) => `${i === 0 ? 'M' : 'L'}${round(px)} ${round(py)}`,
+          )
+          .join(' ') + ' Z';
+      items.push({
+        tag: 'path',
+        attrs: { class: 'g-household', d },
+        target: { type: 'household', id: h.id },
+      });
+      const label = truncate(h.label, 16);
+      // 世帯名は関係の線などに隠れないよう、最後(最前面)に描く
+      householdLabels.push({
+        tag: 'text',
+        attrs: {
+          class: 'g-household-label',
+          x: round(l[0] + 8),
+          y: round(top + 14),
+        },
+        text: label.text,
+        title: label.truncated ? h.label : undefined,
+        target: { type: 'household', id: h.id },
+      });
+      extend(Math.max(...r), b[b.length - 1]);
+    });
+
+    // ---- 情緒的関係 ----
+    (model.relations || []).forEach((r) => {
+      const a = nodes[r.a];
+      const b = nodes[r.b];
+      if (!a || !b) {
+        return;
+      }
+      let start;
+      let end;
+      let control;
+      if (Math.abs(a.y - b.y) < 1) {
+        // 同じ段: 間の人に重ならないよう、記号の上側を弧でつなぐ
+        start = { x: a.x, y: a.y - halfOf(r.a) - 2 };
+        end = { x: b.x, y: b.y - halfOf(r.b) - 2 };
+        control = {
+          x: (a.x + b.x) / 2,
+          y: a.y - SIZE / 2 - 30 - Math.min(Math.abs(a.x - b.x) * 0.15, 60),
+        };
+      } else {
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const len = Math.hypot(dx, dy) || 1;
+        const ux = dx / len;
+        const uy = dy / len;
+        const ra = halfOf(r.a) + 6;
+        const rb = halfOf(r.b) + 6;
+        start = { x: a.x + ux * ra, y: a.y + uy * ra };
+        end = { x: b.x - ux * rb, y: b.y - uy * rb };
+        control = { x: (start.x + end.x) / 2, y: (start.y + end.y) / 2 };
+      }
+      const at = (t) => ({
+        x:
+          (1 - t) * (1 - t) * start.x +
+          2 * (1 - t) * t * control.x +
+          t * t * end.x,
+        y:
+          (1 - t) * (1 - t) * start.y +
+          2 * (1 - t) * t * control.y +
+          t * t * end.y,
+      });
+      const tangent = (t) => {
+        const tx =
+          2 * (1 - t) * (control.x - start.x) + 2 * t * (end.x - control.x);
+        const ty =
+          2 * (1 - t) * (control.y - start.y) + 2 * t * (end.y - control.y);
+        const len = Math.hypot(tx, ty) || 1;
+        return { x: tx / len, y: ty / len };
+      };
+      const samples = 24;
+      const points = [];
+      for (let i = 0; i <= samples; i++) {
+        const t = i / samples;
+        const p = at(t);
+        if (r.kind === 'conflict' && i > 0 && i < samples) {
+          const tg = tangent(t);
+          const sign = i % 2 === 0 ? 1 : -1;
+          points.push({ x: p.x - tg.y * 6 * sign, y: p.y + tg.x * 6 * sign });
+        } else {
+          points.push(p);
+        }
+      }
+      const d =
+        'M' + points.map((p) => `${round(p.x)} ${round(p.y)}`).join(' L');
+      const attrs = { class: `g-rel g-rel-${r.kind}`, d };
+      if (r.kind === 'distant') {
+        attrs['stroke-dasharray'] = DASH.dotted;
+      }
+      items.push({
+        tag: 'path',
+        attrs,
+        target: { type: 'relation', id: r.id },
+      });
+      if (r.kind === 'cutoff') {
+        const mid = at(0.5);
+        const tg = tangent(0.5);
+        [-4, 4].forEach((offset) => {
+          const cx = mid.x + tg.x * offset;
+          const cy = mid.y + tg.y * offset;
+          items.push({
+            tag: 'line',
+            attrs: {
+              class: 'g-cutoff-bar',
+              x1: round(cx - tg.y * 8),
+              y1: round(cy + tg.x * 8),
+              x2: round(cx + tg.y * 8),
+              y2: round(cy - tg.x * 8),
+            },
+            target: { type: 'relation', id: r.id },
+          });
+        });
+      }
+      items.push({
+        tag: 'path',
+        attrs: { class: 'g-hit', d },
+        target: { type: 'relation', id: r.id },
+      });
+    });
+
+    // ---- 夫婦の線 ----
+    const unionAnchor = new Map(); // 夫婦ID → 子へ下ろす線の起点
+    (model.unions || []).forEach((u) => {
+      const a = nodes[u.a];
+      const b = nodes[u.b];
+      if (!a || !b) {
+        return;
+      }
+      const wide = Math.abs(a.x - b.x) > 180 ? 12 : 0;
+      const dropY =
+        Math.max(a.y + halfOf(u.a), b.y + halfOf(u.b)) + UNION_DROP + wide;
+      const d = `M${round(a.x)} ${round(a.y + halfOf(u.a))} V${round(dropY)} H${round(b.x)} V${round(b.y + halfOf(u.b))}`;
+      const attrs = { class: 'g-union', d };
+      if (u.status === 'cohabiting') {
+        attrs['stroke-dasharray'] = DASH.dashed;
+      }
+      items.push({ tag: 'path', attrs, target: { type: 'union', id: u.id } });
+      items.push({
+        tag: 'path',
+        attrs: { class: 'g-hit', d },
+        target: { type: 'union', id: u.id },
+      });
+      const mx = (a.x + b.x) / 2;
+      const slashCount = { separated: 1, divorced: 2 }[u.status] || 0;
+      for (let i = 0; i < slashCount; i++) {
+        const dx = (i - (slashCount - 1) / 2) * 8;
+        items.push({
+          tag: 'line',
+          attrs: {
+            class: 'g-slash',
+            x1: round(mx + dx - 5),
+            y1: round(dropY + 9),
+            x2: round(mx + dx + 5),
+            y2: round(dropY - 9),
+          },
+          target: { type: 'union', id: u.id },
+        });
+      }
+      unionAnchor.set(u.id, { x: mx, y: dropY });
+      extend(Math.max(a.x, b.x), dropY);
+    });
+
+    // ---- 親子の線 ----
+    const groups = new Map(); // 起点キー → { origin, children: [] }
+    persons.forEach((p) => {
+      if (!nodes[p.id]) {
+        return;
+      }
+      let key = '';
+      let origin = null;
+      if (p.parentUnionId && unionAnchor.has(p.parentUnionId)) {
+        key = `u:${p.parentUnionId}`;
+        origin = unionAnchor.get(p.parentUnionId);
+      } else if (p.parentId && nodes[p.parentId]) {
+        key = `p:${p.parentId}`;
+        const parent = nodes[p.parentId];
+        origin = { x: parent.x, y: parent.y + halfOf(p.parentId) };
+      }
+      if (!origin) {
+        return;
+      }
+      if (!groups.has(key)) {
+        groups.set(key, { origin, children: [] });
+      }
+      groups.get(key).children.push(p);
+    });
+    groups.forEach(({ origin, children }) => {
+      const tops = children.map((c) => nodes[c.id].y - halfOf(c.id));
+      const sibY = Math.min(...tops) - SIBLING_RISE;
+      const xs = children.map((c) => nodes[c.id].x).concat([origin.x]);
+      items.push({
+        tag: 'line',
+        attrs: {
+          class: 'g-descent',
+          x1: round(origin.x),
+          y1: round(origin.y),
+          x2: round(origin.x),
+          y2: round(sibY),
+        },
+      });
+      items.push({
+        tag: 'line',
+        attrs: {
+          class: 'g-sibling',
+          x1: round(Math.min(...xs)),
+          y1: round(sibY),
+          x2: round(Math.max(...xs)),
+          y2: round(sibY),
+        },
+      });
+      children.forEach((c) => {
+        const n = nodes[c.id];
+        const attrs = {
+          class: 'g-child',
+          x1: round(n.x),
+          y1: round(sibY),
+          x2: round(n.x),
+          y2: round(n.y - halfOf(c.id)),
+        };
+        if (CHILD_DASH[c.childType]) {
+          attrs['stroke-dasharray'] = CHILD_DASH[c.childType];
+        }
+        items.push({
+          tag: 'line',
+          attrs,
+          target: { type: 'person', id: c.id },
+        });
+      });
+    });
+
+    // ---- 人物 ----
+    const memoCounts = new Map();
+    (model.memos || []).forEach((m) => {
+      if (m.targetId) {
+        memoCounts.set(m.targetId, (memoCounts.get(m.targetId) || 0) + 1);
+      }
+    });
+
+    const shape = (p, n, half, extraClass) => {
+      const cls = `g-person g-${p.gender}${extraClass}`;
+      const target = { type: 'person', id: p.id };
+      if (p.gender === 'male') {
+        return {
+          tag: 'rect',
+          attrs: {
+            class: cls,
+            x: round(n.x - half),
+            y: round(n.y - half),
+            width: half * 2,
+            height: half * 2,
+          },
+          target,
+        };
+      }
+      if (p.gender === 'female') {
+        return {
+          tag: 'circle',
+          attrs: { class: cls, cx: round(n.x), cy: round(n.y), r: half },
+          target,
+        };
+      }
+      const h = half + 3; // ひし形は同じ幅だと小さく見えるため少し大きくする
+      return {
+        tag: 'polygon',
+        attrs: {
+          class: cls,
+          points: [
+            [n.x, n.y - h],
+            [n.x + h, n.y],
+            [n.x, n.y + h],
+            [n.x - h, n.y],
+          ]
+            .map(([px, py]) => `${round(px)},${round(py)}`)
+            .join(' '),
+        },
+        target,
+      };
+    };
+
+    persons.forEach((p) => {
+      const n = nodes[p.id];
+      if (!n) {
+        return;
+      }
+      const selected = selectedIds.has(p.id) ? ' is-selected' : '';
+      if (p.isClient) {
+        items.push(
+          shape(p, n, SIZE / 2 + CLIENT_GAP, ` g-client-outer${selected}`),
+        );
+      }
+      items.push(shape(p, n, SIZE / 2, selected));
+      if (p.deceased) {
+        const h = SIZE / 2;
+        [
+          [n.x - h, n.y - h, n.x + h, n.y + h],
+          [n.x + h, n.y - h, n.x - h, n.y + h],
+        ].forEach(([x1, y1, x2, y2]) => {
+          items.push({
+            tag: 'line',
+            attrs: {
+              class: 'g-deceased',
+              x1: round(x1),
+              y1: round(y1),
+              x2: round(x2),
+              y2: round(y2),
+            },
+            target: { type: 'person', id: p.id },
+          });
+        });
+      }
+      if (p.age) {
+        items.push({
+          tag: 'text',
+          attrs: { class: 'g-age', x: round(n.x), y: round(n.y + 5) },
+          text: truncate(p.age, 5).text,
+          target: { type: 'person', id: p.id },
+        });
+      }
+      const labelTop = n.y + halfOf(p.id);
+      if (p.name) {
+        const name = truncate(p.name, NAME_MAX);
+        items.push({
+          tag: 'text',
+          attrs: { class: 'g-name', x: round(n.x), y: round(labelTop + 17) },
+          text: name.text,
+          title: name.truncated ? p.name : undefined,
+          target: { type: 'person', id: p.id },
+        });
+      }
+      if (p.note) {
+        const note = truncate(p.note, NOTE_MAX);
+        items.push({
+          tag: 'text',
+          attrs: {
+            class: 'g-note',
+            x: round(n.x),
+            y: round(labelTop + (p.name ? 33 : 17)),
+          },
+          text: note.text,
+          title: note.truncated ? p.note : undefined,
+          target: { type: 'person', id: p.id },
+        });
+      }
+      const count = memoCounts.get(p.id);
+      if (count) {
+        const bx = n.x + SIZE / 2 + 2;
+        const by = n.y - SIZE / 2 - 2;
+        items.push({
+          tag: 'circle',
+          attrs: { class: 'g-memo-badge', cx: round(bx), cy: round(by), r: 9 },
+          target: { type: 'memo', id: p.id },
+        });
+        items.push({
+          tag: 'text',
+          attrs: { class: 'g-memo-badge-text', x: round(bx), y: round(by + 4) },
+          text: String(count),
+          target: { type: 'memo', id: p.id },
+        });
+      }
+      extend(n.x + SIZE, labelTop + 45);
+    });
+
+    householdLabels.forEach((item) => items.push(item));
+
+    const width = Math.max(
+      MIN_WIDTH,
+      (layoutResult && layoutResult.width) || 0,
+      bounds.maxX + 30,
+    );
+    const height = Math.max(
+      MIN_HEIGHT,
+      (layoutResult && layoutResult.height) || 0,
+      bounds.maxY + 20,
+    );
+    return { width: Math.ceil(width), height: Math.ceil(height), items };
+  };
+
+  const Scene = { SIZE, DASH, truncate, isSafeAttrName, buildScene };
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Scene;
+  } else {
+    root.Genogram = root.Genogram || {};
+    root.Genogram.Scene = Scene;
+  }
+})(typeof window !== 'undefined' ? window : globalThis);
+
+// ---- src/js/lib/case-file.js ----
+(function (root) {
+  'use strict';
+
+  // オフライン版(webapp/)のケースファイル(.json)の書き出し・読み込み。
+  // ケース名・保存日時とジェノグラムのデータ(kintone版のフィールドの値と同じ形)を1つのJSONにまとめる。
+  // 読み込みは、このケースファイルに加えて、kintone版のフィールドの値(モデルのJSONそのもの)も受け付ける。
+  // kintone版のプラグイン本体(manifest.json)には含めない。
+
+  const Model =
+    typeof module !== 'undefined' && module.exports
+      ? require('./model')
+      : root.Genogram.Model;
+
+  const FORMAT = 'govapps-genogram-case';
+  const VERSION = 1;
+  const CASE_NAME_MAX = 100;
+
+  const serialize = (model, meta) => {
+    const info = meta || {};
+    return JSON.stringify(
+      {
+        format: FORMAT,
+        version: VERSION,
+        caseName: String(info.caseName || '').slice(0, CASE_NAME_MAX),
+        savedAt: info.savedAt || new Date().toISOString(),
+        genogram: Model.normalize(model),
+      },
+      null,
+      2,
+    );
+  };
+
+  const isObject = (value) =>
+    value !== null && typeof value === 'object' && !Array.isArray(value);
+
+  // 戻り値: { ok: true, model, caseName } | { ok: false, error }
+  const parse = (text) => {
+    let data;
+    try {
+      data = JSON.parse(String(text));
+    } catch {
+      return { ok: false, error: 'JSONとして読み込めないファイルです。' };
+    }
+    if (!isObject(data)) {
+      return { ok: false, error: 'ジェノグラムのデータではありません。' };
+    }
+    if (data.format === FORMAT) {
+      return {
+        ok: true,
+        model: Model.normalize(data.genogram),
+        caseName:
+          typeof data.caseName === 'string'
+            ? data.caseName.slice(0, CASE_NAME_MAX)
+            : '',
+      };
+    }
+    // kintone版のフィールドの値(モデルのJSONそのもの)
+    if (data.format === undefined && Array.isArray(data.persons)) {
+      return { ok: true, model: Model.normalize(data), caseName: '' };
+    }
+    return { ok: false, error: 'ジェノグラムのデータではありません。' };
+  };
+
+  const pad = (n) => String(n).padStart(2, '0');
+
+  // ファイル名に使えない文字(Windows/macOS)と制御文字を _ に置き換える
+  const fileName = (caseName, date, ext) => {
+    const base =
+      String(caseName || '')
+        // eslint-disable-next-line no-control-regex
+        .replace(/[\\/:*?"<>|\u0000-\u001f]/g, '_')
+        .trim()
+        .slice(0, 50) || 'ジェノグラム';
+    const d = date || new Date();
+    const stamp = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+    return `${base}_${stamp}.${ext || 'json'}`;
+  };
+
+  const CaseFile = {
+    FORMAT,
+    VERSION,
+    CASE_NAME_MAX,
+    serialize,
+    parse,
+    fileName,
+  };
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = CaseFile;
+  } else {
+    root.Genogram = root.Genogram || {};
+    root.Genogram.CaseFile = CaseFile;
+  }
+})(typeof window !== 'undefined' ? window : globalThis);
+
+// ---- src/js/renderer.js ----
+(function (root) {
+  'use strict';
+
+  // 描画命令(scene.js)からSVG要素を作る処理と、凡例・メモ一覧・画像の保存。PC・モバイル共通。
+  // 利用者の入力値はtextContentでのみ設定し、innerHTML等は使わない(XSS対策)。
+
+  const NS = root.Genogram;
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+
+  // 画像として保存したときも同じ見た目になるよう、スタイルはSVGの中に埋め込む(固定の文字列のみ)。
+  const SVG_STYLE = [
+    'text{font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;}',
+    '.g-person{fill:#fff;stroke:#333;stroke-width:2;}',
+    '.g-person.is-selected{stroke:#3498db;stroke-width:3.5;}',
+    '.g-union,.g-rel{fill:none;stroke:#333;stroke-width:2;}',
+    '.g-slash,.g-descent,.g-sibling,.g-child{stroke:#333;stroke-width:2;}',
+    '.g-deceased{stroke:#333;stroke-width:1.5;}',
+    '.g-hit{fill:none;stroke:transparent;stroke-width:14;}',
+    '.g-rel-close{stroke:#27ae60;stroke-width:4;}',
+    '.g-rel-conflict{stroke:#e74c3c;}',
+    '.g-rel-distant{stroke:#7f8c8d;}',
+    '.g-rel-cutoff{stroke:#8e44ad;}',
+    '.g-cutoff-bar{stroke:#8e44ad;stroke-width:2;}',
+    '.g-household{fill:rgba(52,152,219,0.06);stroke:#3498db;stroke-width:1.5;stroke-dasharray:6 4;}',
+    '.g-household-label{fill:#2980b9;font-size:12px;}',
+    '.g-age{font-size:13px;text-anchor:middle;fill:#333;}',
+    '.g-name{font-size:13px;text-anchor:middle;font-weight:bold;fill:#222;}',
+    '.g-note{font-size:11px;text-anchor:middle;fill:#666;}',
+    // 線の上に重なっても読めるよう、文字に白い縁取りを付ける
+    '.g-name,.g-note,.g-age,.g-household-label{paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round;}',
+    '.g-memo-badge{fill:#f39c12;}',
+    '.g-memo-badge-text{fill:#fff;font-size:11px;text-anchor:middle;font-weight:bold;}',
+  ].join('');
+
+  const svgEl = (tag, attrs) => {
+    const el = document.createElementNS(SVG_NS, tag);
+    Object.keys(attrs || {}).forEach((key) => {
+      const value = attrs[key];
+      if (
+        value !== undefined &&
+        value !== null &&
+        NS.Scene.isSafeAttrName(key)
+      ) {
+        el.setAttribute(key, String(value));
+      }
+    });
+    return el;
+  };
+
+  // scene: Scene.buildScene()の戻り値
+  const renderSvg = (scene) => {
+    const svg = svgEl('svg', {
+      xmlns: SVG_NS,
+      class: 'gng-svg',
+      width: scene.width,
+      height: scene.height,
+      viewBox: `0 0 ${scene.width} ${scene.height}`,
+      role: 'img',
+    });
+    const style = svgEl('style');
+    style.textContent = SVG_STYLE;
+    svg.appendChild(style);
+    const background = svgEl('rect', {
+      x: 0,
+      y: 0,
+      width: scene.width,
+      height: scene.height,
+      fill: '#fff',
+    });
+    svg.appendChild(background);
+
+    scene.items.forEach((item) => {
+      const el = svgEl(item.tag, item.attrs);
+      if (item.text !== undefined) {
+        el.textContent = item.text;
+      }
+      if (item.title) {
+        const title = svgEl('title');
+        title.textContent = item.title;
+        el.appendChild(title);
+      }
+      if (item.target) {
+        el.setAttribute('data-gtype', item.target.type);
+        el.setAttribute('data-gid', item.target.id);
+      }
+      svg.appendChild(el);
+    });
+    return svg;
+  };
+
+  // ---- 汎用のDOMヘルパー ----
+
+  // h('div', { className: 'x', onclick: fn }, [子要素 or 文字列])。文字列はテキストノードとして追加する。
+  const h = (tag, props, children) => {
+    const el = document.createElement(tag);
+    Object.keys(props || {}).forEach((key) => {
+      const value = props[key];
+      if (value === undefined || value === null) {
+        return;
+      }
+      if (key.startsWith('on') && typeof value === 'function') {
+        el.addEventListener(key.slice(2), value);
+      } else if (key === 'dataset') {
+        Object.assign(el.dataset, value);
+      } else if (key in el && typeof value !== 'string') {
+        el[key] = value;
+      } else if (
+        key === 'className' ||
+        key === 'textContent' ||
+        key === 'value'
+      ) {
+        el[key] = value;
+      } else {
+        el.setAttribute(key, value);
+      }
+    });
+    (children || []).forEach((child) => {
+      if (child === null || child === undefined || child === false) {
+        return;
+      }
+      el.appendChild(
+        typeof child === 'string' ? document.createTextNode(child) : child,
+      );
+    });
+    return el;
+  };
+
+  const personLabel = (person) => {
+    if (!person) {
+      return '(削除された人物)';
+    }
+    return (
+      person.name || `(名前未入力・${NS.Model.LABELS.gender[person.gender]})`
+    );
+  };
+
+  // ---- 凡例 ----
+
+  const legendIcon = (draw) => {
+    const svg = svgEl('svg', {
+      width: 44,
+      height: 22,
+      viewBox: '0 0 44 22',
+      class: 'gng-legend-icon',
+    });
+    const style = svgEl('style');
+    style.textContent = SVG_STYLE;
+    svg.appendChild(style);
+    draw(svg);
+    return svg;
+  };
+
+  const LEGEND = [
+    [
+      '男性',
+      (s) =>
+        s.appendChild(
+          svgEl('rect', {
+            class: 'g-person',
+            x: 14,
+            y: 3,
+            width: 16,
+            height: 16,
+          }),
+        ),
+    ],
+    [
+      '女性',
+      (s) =>
+        s.appendChild(
+          svgEl('circle', { class: 'g-person', cx: 22, cy: 11, r: 8 }),
+        ),
+    ],
+    [
+      '不明・その他',
+      (s) =>
+        s.appendChild(
+          svgEl('polygon', {
+            class: 'g-person',
+            points: '22,1 32,11 22,21 12,11',
+          }),
+        ),
+    ],
+    [
+      '本人',
+      (s) => {
+        s.appendChild(
+          svgEl('rect', {
+            class: 'g-person',
+            x: 12,
+            y: 1,
+            width: 20,
+            height: 20,
+          }),
+        );
+        s.appendChild(
+          svgEl('rect', {
+            class: 'g-person',
+            x: 15,
+            y: 4,
+            width: 14,
+            height: 14,
+          }),
+        );
+      },
+    ],
+    [
+      '死亡',
+      (s) => {
+        s.appendChild(
+          svgEl('rect', {
+            class: 'g-person',
+            x: 14,
+            y: 3,
+            width: 16,
+            height: 16,
+          }),
+        );
+        s.appendChild(
+          svgEl('line', { class: 'g-deceased', x1: 14, y1: 3, x2: 30, y2: 19 }),
+        );
+        s.appendChild(
+          svgEl('line', { class: 'g-deceased', x1: 30, y1: 3, x2: 14, y2: 19 }),
+        );
+      },
+    ],
+    [
+      '婚姻',
+      (s) =>
+        s.appendChild(
+          svgEl('path', { class: 'g-union', d: 'M4 4 V16 H40 V4' }),
+        ),
+    ],
+    [
+      '内縁・事実婚・交際',
+      (s) =>
+        s.appendChild(
+          svgEl('path', {
+            class: 'g-union',
+            d: 'M4 4 V16 H40 V4',
+            'stroke-dasharray': NS.Scene.DASH.dashed,
+          }),
+        ),
+    ],
+    [
+      '別居',
+      (s) => {
+        s.appendChild(
+          svgEl('path', { class: 'g-union', d: 'M4 4 V16 H40 V4' }),
+        );
+        s.appendChild(
+          svgEl('line', { class: 'g-slash', x1: 18, y1: 21, x2: 26, y2: 9 }),
+        );
+      },
+    ],
+    [
+      '離婚',
+      (s) => {
+        s.appendChild(
+          svgEl('path', { class: 'g-union', d: 'M4 4 V16 H40 V4' }),
+        );
+        s.appendChild(
+          svgEl('line', { class: 'g-slash', x1: 14, y1: 21, x2: 22, y2: 9 }),
+        );
+        s.appendChild(
+          svgEl('line', { class: 'g-slash', x1: 22, y1: 21, x2: 30, y2: 9 }),
+        );
+      },
+    ],
+    [
+      '実子',
+      (s) =>
+        s.appendChild(
+          svgEl('line', { class: 'g-child', x1: 22, y1: 1, x2: 22, y2: 21 }),
+        ),
+    ],
+    [
+      '養子',
+      (s) =>
+        s.appendChild(
+          svgEl('line', {
+            class: 'g-child',
+            x1: 22,
+            y1: 1,
+            x2: 22,
+            y2: 21,
+            'stroke-dasharray': NS.Scene.DASH.dashed,
+          }),
+        ),
+    ],
+    [
+      '里子',
+      (s) =>
+        s.appendChild(
+          svgEl('line', {
+            class: 'g-child',
+            x1: 22,
+            y1: 1,
+            x2: 22,
+            y2: 21,
+            'stroke-dasharray': NS.Scene.DASH.dotted,
+          }),
+        ),
+    ],
+    [
+      '親密',
+      (s) =>
+        s.appendChild(
+          svgEl('path', { class: 'g-rel g-rel-close', d: 'M4 11 H40' }),
+        ),
+    ],
+    [
+      '対立',
+      (s) =>
+        s.appendChild(
+          svgEl('path', {
+            class: 'g-rel g-rel-conflict',
+            d: 'M4 11 L8 6 L14 16 L20 6 L26 16 L32 6 L36 16 L40 11',
+          }),
+        ),
+    ],
+    [
+      '疎遠',
+      (s) =>
+        s.appendChild(
+          svgEl('path', {
+            class: 'g-rel g-rel-distant',
+            d: 'M4 11 H40',
+            'stroke-dasharray': NS.Scene.DASH.dotted,
+          }),
+        ),
+    ],
+    [
+      '断絶',
+      (s) => {
+        s.appendChild(
+          svgEl('path', { class: 'g-rel g-rel-cutoff', d: 'M4 11 H40' }),
+        );
+        s.appendChild(
+          svgEl('line', {
+            class: 'g-cutoff-bar',
+            x1: 19,
+            y1: 3,
+            x2: 19,
+            y2: 19,
+          }),
+        );
+        s.appendChild(
+          svgEl('line', {
+            class: 'g-cutoff-bar',
+            x1: 25,
+            y1: 3,
+            x2: 25,
+            y2: 19,
+          }),
+        );
+      },
+    ],
+    [
+      '同居',
+      (s) =>
+        s.appendChild(
+          svgEl('rect', {
+            class: 'g-household',
+            x: 3,
+            y: 2,
+            width: 38,
+            height: 18,
+            rx: 5,
+          }),
+        ),
+    ],
+  ];
+
+  const renderLegend = (open) => {
+    const details = h('details', { className: 'gng-legend', open: !!open }, [
+      h('summary', {}, ['凡例']),
+    ]);
+    const list = h('ul', { className: 'gng-legend-list' });
+    LEGEND.forEach(([label, draw]) => {
+      list.appendChild(
+        h('li', { className: 'gng-legend-item' }, [legendIcon(draw), label]),
+      );
+    });
+    details.appendChild(list);
+    return details;
+  };
+
+  // ---- メモ一覧 ----
+
+  // options.onDelete(memoId)を渡すと削除ボタンを出す(編集画面のみ)。
+  const renderMemoList = (model, options) => {
+    const opts = options || {};
+    const personById = new Map(model.persons.map((p) => [p.id, p]));
+    const memos = opts.filterTargetId
+      ? model.memos.filter((m) => m.targetId === opts.filterTargetId)
+      : model.memos;
+    const list = h('ul', { className: 'gng-memo-list' });
+    if (memos.length === 0) {
+      list.appendChild(
+        h('li', { className: 'gng-memo-empty' }, ['メモはまだありません。']),
+      );
+      return list;
+    }
+    memos.forEach((memo) => {
+      const target = memo.targetId
+        ? personLabel(personById.get(memo.targetId))
+        : '全体';
+      const meta = [
+        NS.Model.formatDateTime(memo.at),
+        memo.author.name || memo.author.code,
+      ]
+        .filter(Boolean)
+        .join(' ');
+      list.appendChild(
+        h('li', { className: 'gng-memo-item' }, [
+          h('div', { className: 'gng-memo-head' }, [
+            h('span', { className: 'gng-memo-target' }, [target]),
+            h('span', { className: 'gng-memo-meta' }, [meta]),
+            opts.onDelete
+              ? h(
+                  'button',
+                  {
+                    type: 'button',
+                    className: 'gng-link-button gng-memo-delete',
+                    onclick: () => opts.onDelete(memo.id),
+                  },
+                  ['削除'],
+                )
+              : null,
+          ]),
+          h('div', { className: 'gng-memo-text' }, [memo.text]),
+        ]),
+      );
+    });
+    return list;
+  };
+
+  // ---- 画像(PNG)の保存 ----
+
+  const exportPng = (svg, filename) =>
+    new Promise((resolve, reject) => {
+      const width = Number(svg.getAttribute('width'));
+      const height = Number(svg.getAttribute('height'));
+      const clone = svg.cloneNode(true);
+      // 縮小表示用のstyle(width:100%等)は画像に持ち込まない
+      clone.removeAttribute('style');
+      const source = new XMLSerializer().serializeToString(clone);
+      const blob = new Blob([source], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const image = new Image();
+      image.onload = () => {
+        const scale = 2;
+        const canvas = document.createElement('canvas');
+        canvas.width = width * scale;
+        canvas.height = height * scale;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.scale(scale, scale);
+        ctx.drawImage(image, 0, 0, width, height);
+        URL.revokeObjectURL(url);
+        canvas.toBlob((png) => {
+          if (!png) {
+            reject(new Error('画像を作成できませんでした。'));
+            return;
+          }
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(png);
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+          resolve();
+        }, 'image/png');
+      };
+      image.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error('画像を作成できませんでした。'));
+      };
+      image.src = url;
+    });
+
+  const buildSvgFor = (model, options) => {
+    const layout = NS.Layout.layout(model);
+    return renderSvg(NS.Scene.buildScene(model, layout, options));
+  };
+
+  NS.Renderer = {
+    renderSvg,
+    buildSvgFor,
+    renderLegend,
+    renderMemoList,
+    exportPng,
+    personLabel,
+    h,
+  };
+})(window);
+
+// ---- src/js/viewer.js ----
+(function (root) {
+  'use strict';
+
+  // 閲覧用の表示(PCの詳細画面・印刷画面、モバイル)。図・人物の詳細・凡例・メモ一覧と、
+  // options.onAddMemoを渡した場合はメモの追記フォームを出す。
+
+  const NS = root.Genogram;
+  const { h, personLabel } = NS.Renderer;
+  const L = NS.Model.LABELS;
+
+  const describeParents = (model, person) => {
+    if (person.parentUnionId) {
+      const union = model.unions.find((u) => u.id === person.parentUnionId);
+      if (union) {
+        const byId = (id) => model.persons.find((p) => p.id === id);
+        return `${personLabel(byId(union.a))} と ${personLabel(byId(union.b))} の${L.childType[person.childType]}`;
+      }
+    }
+    if (person.parentId) {
+      const parent = model.persons.find((p) => p.id === person.parentId);
+      return `${personLabel(parent)} の${L.childType[person.childType]}`;
+    }
+    return '';
+  };
+
+  const renderPersonInfo = (model, person) => {
+    const rows = [
+      ['名前', personLabel(person)],
+      ['性別', L.gender[person.gender]],
+      ['年齢', person.age],
+      [
+        '',
+        [person.isClient ? '本人' : '', person.deceased ? '死亡' : '']
+          .filter(Boolean)
+          .join('・'),
+      ],
+      ['親', describeParents(model, person)],
+      ['備考', person.note],
+    ].filter(([, value]) => value);
+    const dl = h('dl', { className: 'gng-info-list' });
+    rows.forEach(([label, value]) => {
+      dl.appendChild(h('dt', {}, [label || '状態']));
+      dl.appendChild(h('dd', {}, [value]));
+    });
+    return dl;
+  };
+
+  // 戻り値: { root, setModel(model) }
+  const mountViewer = (container, initialModel, options) => {
+    const opts = options || {};
+    let model = initialModel;
+    let compact = !!opts.compact;
+    let selectedId = '';
+    let memoDraft = { targetId: '', text: '' };
+    let busy = false;
+
+    const rootEl = h('div', { className: 'gng-root gng-view' });
+    container.textContent = '';
+    container.appendChild(rootEl);
+
+    const render = () => {
+      rootEl.textContent = '';
+
+      if (!opts.print) {
+        const compactButton = h(
+          'button',
+          {
+            type: 'button',
+            className: 'gng-button js-gng-compact',
+            onclick: () => {
+              compact = !compact;
+              render();
+            },
+          },
+          [compact ? '等倍で表示' : '画面幅に縮小'],
+        );
+        const pngButton = h(
+          'button',
+          {
+            type: 'button',
+            className: 'gng-button js-gng-png',
+            onclick: () => {
+              const svg = rootEl.querySelector('.gng-svg');
+              NS.Renderer.exportPng(svg, opts.filename || 'genogram.png').catch(
+                (e) => window.alert(e.message),
+              );
+            },
+          },
+          ['画像を保存'],
+        );
+        rootEl.appendChild(
+          h('div', { className: 'gng-toolbar' }, [compactButton, pngButton]),
+        );
+      }
+
+      if (model.persons.length === 0) {
+        rootEl.appendChild(
+          h('p', { className: 'gng-empty' }, [
+            opts.emptyMessage ||
+              'まだ人物が登録されていません。レコードを編集して人物を追加してください。',
+          ]),
+        );
+      }
+
+      const svg = NS.Renderer.buildSvgFor(model, { selectedId });
+      if (compact || opts.print) {
+        svg.setAttribute('style', 'width:100%;height:auto;');
+      }
+      const canvas = h('div', { className: 'gng-canvas' }, [svg]);
+      canvas.addEventListener('click', (e) => {
+        const el = e.target.closest('[data-gtype]');
+        if (!el) {
+          selectedId = '';
+          render();
+          return;
+        }
+        const type = el.getAttribute('data-gtype');
+        if (type === 'person' || type === 'memo') {
+          const id = el.getAttribute('data-gid');
+          selectedId = selectedId === id ? '' : id;
+          render();
+        }
+      });
+      rootEl.appendChild(canvas);
+
+      const selected = model.persons.find((p) => p.id === selectedId);
+      if (selected && !opts.print) {
+        rootEl.appendChild(
+          h('div', { className: 'gng-info' }, [
+            h('div', { className: 'gng-section-title' }, ['人物の詳細']),
+            renderPersonInfo(model, selected),
+            h('div', { className: 'gng-subtitle' }, ['この人へのメモ']),
+            NS.Renderer.renderMemoList(model, { filterTargetId: selected.id }),
+          ]),
+        );
+      }
+
+      rootEl.appendChild(NS.Renderer.renderLegend(!!opts.print));
+
+      const memoSection = h('div', { className: 'gng-memos' }, [
+        h('div', { className: 'gng-section-title' }, ['メモ']),
+        NS.Renderer.renderMemoList(model),
+      ]);
+      if (opts.onAddMemo) {
+        memoSection.appendChild(renderMemoForm());
+      }
+      rootEl.appendChild(memoSection);
+    };
+
+    const renderMemoForm = () => {
+      const targetSelect = h(
+        'select',
+        { className: 'gng-select js-gng-memo-target' },
+        [h('option', { value: '' }, ['全体'])],
+      );
+      model.persons.forEach((p) => {
+        targetSelect.appendChild(
+          h('option', { value: p.id }, [personLabel(p)]),
+        );
+      });
+      targetSelect.value = model.persons.some(
+        (p) => p.id === memoDraft.targetId,
+      )
+        ? memoDraft.targetId
+        : '';
+      targetSelect.addEventListener('change', () => {
+        memoDraft.targetId = targetSelect.value;
+      });
+      const textarea = h('textarea', {
+        className: 'gng-textarea js-gng-memo-text',
+        rows: 3,
+        placeholder: 'メモを入力(例: 本人と電話。母の入院を確認)',
+        value: memoDraft.text,
+        maxLength: NS.Model.LIMITS.memo,
+      });
+      textarea.addEventListener('input', () => {
+        memoDraft.text = textarea.value;
+      });
+      const errorEl = h('div', { className: 'gng-error', hidden: true });
+      const submit = h(
+        'button',
+        {
+          type: 'button',
+          className: 'gng-button gng-button-primary js-gng-memo-add',
+        },
+        ['メモを追記'],
+      );
+      submit.addEventListener('click', () => {
+        if (busy) {
+          return;
+        }
+        errorEl.hidden = true;
+        if (!memoDraft.text.trim()) {
+          errorEl.textContent = 'メモを入力してください。';
+          errorEl.hidden = false;
+          return;
+        }
+        busy = true;
+        submit.disabled = true;
+        Promise.resolve()
+          .then(() =>
+            opts.onAddMemo({
+              targetId: memoDraft.targetId,
+              text: memoDraft.text,
+            }),
+          )
+          .then(() => {
+            memoDraft = { targetId: '', text: '' };
+          })
+          .catch((e) => {
+            errorEl.textContent =
+              (e && e.message) || 'メモを追記できませんでした。';
+            errorEl.hidden = false;
+          })
+          .finally(() => {
+            busy = false;
+            submit.disabled = false;
+          });
+      });
+      return h('div', { className: 'gng-memo-form' }, [
+        h('label', { className: 'gng-field' }, [
+          h('span', { className: 'gng-field-label' }, ['対象']),
+          targetSelect,
+        ]),
+        textarea,
+        errorEl,
+        submit,
+      ]);
+    };
+
+    render();
+    return {
+      root: rootEl,
+      setModel(next) {
+        model = next;
+        render();
+      },
+    };
+  };
+
+  NS.Viewer = { mountViewer, describeParents, renderPersonInfo };
+})(window);
+
+// ---- src/js/editor.js ----
+(function (root) {
+  'use strict';
+
+  // PCの追加・編集画面のエディター。モデルを画面内に持ち、変更のたびに図を描き直す。
+  // レコードへの書き込みは desktop.js が保存イベントで getModel() の結果を event.record に入れて行う
+  // (kintone.app.record.set()はkintone.events.on()のハンドラー内で使えないため、保存時に一括で反映する)。
+
+  const NS = root.Genogram;
+  const { Model, Ops } = NS;
+  const { h, personLabel } = NS.Renderer;
+  const L = Model.LABELS;
+  const DRAG_THRESHOLD = 4;
+
+  const options = (entries, selected) =>
+    entries.map(([value, label]) =>
+      h('option', { value, selected: value === selected }, [label]),
+    );
+
+  const field = (label, control, extraClass) =>
+    h(
+      'label',
+      { className: 'gng-field' + (extraClass ? ' ' + extraClass : '') },
+      [h('span', { className: 'gng-field-label' }, [label]), control],
+    );
+
+  const button = (label, onclick, extraClass, disabled) =>
+    h(
+      'button',
+      {
+        type: 'button',
+        className: 'gng-button' + (extraClass ? ' ' + extraClass : ''),
+        onclick,
+        disabled: !!disabled,
+      },
+      [label],
+    );
+
+  const linkButton = (label, onclick, extraClass) =>
+    h(
+      'button',
+      {
+        type: 'button',
+        className: 'gng-link-button' + (extraClass ? ' ' + extraClass : ''),
+        onclick,
+      },
+      [label],
+    );
+
+  const mountEditor = (container, initialModel, editorOptions) => {
+    const opts = editorOptions || {};
+    const model = initialModel;
+    const state = {
+      selection: null, // { type: 'person'|'union'|'relation'|'household'|'newUnion'|'newRelation'|'newHousehold', id? }
+      compact: false,
+      memoDraft: { targetId: '', text: '' },
+      panelError: '',
+    };
+
+    const rootEl = h('div', { className: 'gng-root gng-edit' });
+    const toolbarEl = h('div', { className: 'gng-toolbar' });
+    const canvasEl = h('div', { className: 'gng-canvas gng-editable' });
+    const panelEl = h('div', { className: 'gng-panel' });
+    const listsEl = h('div', { className: 'gng-lists' });
+    const memosEl = h('div', { className: 'gng-memos' });
+    rootEl.appendChild(toolbarEl);
+    rootEl.appendChild(
+      h('div', { className: 'gng-body' }, [canvasEl, panelEl]),
+    );
+    rootEl.appendChild(NS.Renderer.renderLegend(false));
+    rootEl.appendChild(listsEl);
+    rootEl.appendChild(memosEl);
+    container.textContent = '';
+    container.appendChild(rootEl);
+
+    const personById = (id) => model.persons.find((p) => p.id === id);
+    const personOptions = (selected, includeEmpty) =>
+      options(
+        (includeEmpty ? [['', '(選択してください)']] : []).concat(
+          model.persons.map((p) => [p.id, personLabel(p)]),
+        ),
+        selected,
+      );
+    const unionLabel = (u) =>
+      `${personLabel(personById(u.a))} と ${personLabel(personById(u.b))}`;
+
+    // ---- 再描画 ----
+
+    // 選択中の人物ID(1人選択・複数選択のどちらでも配列で返す)
+    const selectedPersonIds = () => {
+      const sel = state.selection;
+      if (!sel) {
+        return [];
+      }
+      if (sel.type === 'person') {
+        return [sel.id];
+      }
+      if (sel.type === 'multi') {
+        return sel.ids.filter((id) => personById(id));
+      }
+      return [];
+    };
+
+    let lastLayout = null;
+    const renderDiagram = () => {
+      lastLayout = NS.Layout.layout(model);
+      const svg = NS.Renderer.renderSvg(
+        NS.Scene.buildScene(model, lastLayout, {
+          selectedIds: selectedPersonIds(),
+        }),
+      );
+      if (state.compact) {
+        svg.setAttribute('style', 'width:100%;height:auto;');
+      }
+      canvasEl.textContent = '';
+      if (model.persons.length === 0) {
+        canvasEl.appendChild(
+          h('p', { className: 'gng-empty' }, [
+            '「＋ 人物を追加」から、本人(相談者)を追加してください。続けて「両親を追加」「配偶者・パートナーを追加」「子を追加」で家族を広げられます。',
+          ]),
+        );
+      }
+      canvasEl.appendChild(svg);
+    };
+
+    const refresh = (withPanel) => {
+      renderDiagram();
+      renderLists();
+      renderMemos();
+      if (withPanel) {
+        renderPanel();
+      }
+    };
+
+    const select = (selection) => {
+      state.selection = selection;
+      state.panelError = '';
+      refresh(true);
+    };
+
+    // ---- ツールバー ----
+
+    const renderToolbar = () => {
+      toolbarEl.textContent = '';
+      toolbarEl.appendChild(
+        button(
+          '＋ 人物を追加',
+          () => {
+            const id = Ops.addPerson(model, {});
+            select({ type: 'person', id });
+            focusName();
+          },
+          'gng-button-primary js-gng-add-person',
+        ),
+      );
+      toolbarEl.appendChild(
+        button(
+          '＋ 夫婦・パートナー',
+          () => select({ type: 'newUnion' }),
+          'js-gng-new-union',
+        ),
+      );
+      toolbarEl.appendChild(
+        button(
+          '＋ 関係',
+          () => select({ type: 'newRelation' }),
+          'js-gng-new-relation',
+        ),
+      );
+      toolbarEl.appendChild(
+        button(
+          '＋ 同居(世帯)',
+          () => select({ type: 'newHousehold' }),
+          'js-gng-new-household',
+        ),
+      );
+      toolbarEl.appendChild(h('span', { className: 'gng-toolbar-sep' }));
+      toolbarEl.appendChild(
+        button(
+          '自動配置に戻す',
+          () => {
+            if (!model.persons.some((p) => p.pos)) {
+              return;
+            }
+            if (
+              window.confirm(
+                'ドラッグで動かした位置をすべて解除し、自動配置に戻します。よろしいですか？',
+              )
+            ) {
+              Ops.clearPositions(model);
+              refresh(false);
+            }
+          },
+          'js-gng-reset-layout',
+        ),
+      );
+      toolbarEl.appendChild(
+        button(
+          state.compact ? '等倍で表示' : '画面幅に縮小',
+          () => {
+            state.compact = !state.compact;
+            renderToolbar();
+            renderDiagram();
+          },
+          'js-gng-compact',
+        ),
+      );
+      toolbarEl.appendChild(
+        button(
+          '画像を保存',
+          () => {
+            const svg = canvasEl.querySelector('.gng-svg');
+            NS.Renderer.exportPng(svg, opts.filename || 'genogram.png').catch(
+              (e) => window.alert(e.message),
+            );
+          },
+          'js-gng-png',
+        ),
+      );
+    };
+
+    const focusName = () => {
+      const input = panelEl.querySelector('.js-gng-person-name');
+      if (input) {
+        input.focus();
+      }
+    };
+
+    // ---- パネル(選択中の対象の編集フォーム) ----
+
+    const panelHeader = (title) =>
+      h('div', { className: 'gng-panel-head' }, [
+        h('div', { className: 'gng-section-title' }, [title]),
+        linkButton('閉じる', () => select(null), 'js-gng-panel-close'),
+      ]);
+
+    const panelErrorEl = () =>
+      h('div', { className: 'gng-error', hidden: !state.panelError }, [
+        state.panelError,
+      ]);
+
+    const renderPersonPanel = (person) => {
+      const update = (fields, structural) => {
+        Ops.updatePerson(model, person.id, fields);
+        if (structural) {
+          refresh(true);
+        } else {
+          renderDiagram();
+          renderLists();
+        }
+      };
+      const current = () => personById(person.id);
+
+      const nameInput = h('input', {
+        type: 'text',
+        className: 'gng-input js-gng-person-name',
+        value: person.name,
+        maxLength: Model.LIMITS.name,
+        placeholder: '例) 山田太郎',
+      });
+      nameInput.addEventListener('input', () =>
+        update({ name: nameInput.value }),
+      );
+      const genderSelect = h(
+        'select',
+        { className: 'gng-select js-gng-person-gender' },
+        options(
+          Model.GENDERS.map((g) => [g, L.gender[g]]),
+          person.gender,
+        ),
+      );
+      genderSelect.addEventListener('change', () =>
+        update({ gender: genderSelect.value }),
+      );
+      const ageInput = h('input', {
+        type: 'text',
+        className: 'gng-input gng-input-short js-gng-person-age',
+        value: person.age,
+        maxLength: Model.LIMITS.age,
+        placeholder: '例) 45',
+      });
+      ageInput.addEventListener('input', () => update({ age: ageInput.value }));
+      const deceasedBox = h('input', {
+        type: 'checkbox',
+        className: 'js-gng-person-deceased',
+        checked: person.deceased,
+      });
+      deceasedBox.addEventListener('change', () =>
+        update({ deceased: deceasedBox.checked }),
+      );
+      const clientBox = h('input', {
+        type: 'checkbox',
+        className: 'js-gng-person-client',
+        checked: person.isClient,
+      });
+      clientBox.addEventListener('change', () =>
+        update({ isClient: clientBox.checked }),
+      );
+
+      const parentChoices = Ops.parentOptions(model, person.id);
+      let parentValue = '';
+      if (person.parentUnionId) {
+        parentValue = `u:${person.parentUnionId}`;
+      } else if (person.parentId) {
+        parentValue = `p:${person.parentId}`;
+      }
+      const parentSelect = h(
+        'select',
+        { className: 'gng-select js-gng-person-parent' },
+        options(
+          [['', '(なし)']]
+            .concat(
+              parentChoices.unions.map((u) => [
+                `u:${u.id}`,
+                `${unionLabel(u)} の子`,
+              ]),
+            )
+            .concat(
+              parentChoices.persons.map((p) => [
+                `p:${p.id}`,
+                `${personLabel(p)} の子(片親のみ)`,
+              ]),
+            ),
+          parentValue,
+        ),
+      );
+      parentSelect.addEventListener('change', () => {
+        const v = parentSelect.value;
+        update(
+          {
+            parentUnionId: v.startsWith('u:') ? v.slice(2) : '',
+            parentId: v.startsWith('p:') ? v.slice(2) : '',
+          },
+          true,
+        );
+      });
+      const childTypeSelect = h(
+        'select',
+        {
+          className: 'gng-select js-gng-person-childtype',
+          disabled: !parentValue,
+        },
+        options(
+          Model.CHILD_TYPES.map((t) => [t, L.childType[t]]),
+          person.childType,
+        ),
+      );
+      childTypeSelect.addEventListener('change', () =>
+        update({ childType: childTypeSelect.value }),
+      );
+      const noteInput = h('textarea', {
+        className: 'gng-textarea js-gng-person-note',
+        rows: 2,
+        value: person.note,
+        maxLength: Model.LIMITS.note,
+        placeholder: '例) 会社員、要介護2',
+      });
+      noteInput.addEventListener('input', () =>
+        update({ note: noteInput.value }),
+      );
+
+      const hasParents = !!(person.parentUnionId || person.parentId);
+      return [
+        panelHeader('人物'),
+        field('名前', nameInput),
+        h('div', { className: 'gng-field-row' }, [
+          field('性別', genderSelect),
+          field('年齢', ageInput),
+        ]),
+        h('div', { className: 'gng-field-row' }, [
+          h('label', { className: 'gng-check' }, [clientBox, '本人(相談者)']),
+          h('label', { className: 'gng-check' }, [deceasedBox, '死亡']),
+        ]),
+        field('親', parentSelect),
+        field('続柄', childTypeSelect),
+        field('備考(図に表示)', noteInput),
+        h('div', { className: 'gng-subtitle' }, ['家族を追加']),
+        h('div', { className: 'gng-actions' }, [
+          button(
+            '配偶者・パートナーを追加',
+            () => {
+              const result = Ops.addPartner(model, person.id);
+              select({ type: 'person', id: result.personId });
+              focusName();
+            },
+            'js-gng-add-partner',
+          ),
+          button(
+            '子を追加',
+            () => {
+              const id = Ops.addChild(model, person.id);
+              select({ type: 'person', id });
+              focusName();
+            },
+            'js-gng-add-child',
+          ),
+          button(
+            '両親を追加',
+            () => {
+              const result = Ops.addParents(model, person.id);
+              if (result) {
+                select({ type: 'person', id: result.fatherId });
+                focusName();
+              }
+            },
+            'js-gng-add-parents',
+            hasParents,
+          ),
+        ]),
+        h('div', { className: 'gng-subtitle' }, ['兄弟の中での並び']),
+        h('div', { className: 'gng-actions' }, [
+          button(
+            '← 左へ',
+            () => {
+              Ops.moveSibling(model, person.id, -1);
+              refresh(false);
+            },
+            'js-gng-move-left',
+          ),
+          button(
+            '右へ →',
+            () => {
+              Ops.moveSibling(model, person.id, 1);
+              refresh(false);
+            },
+            'js-gng-move-right',
+          ),
+          current() && current().pos
+            ? button(
+                'この人の位置を自動に戻す',
+                () => {
+                  delete current().pos;
+                  refresh(true);
+                },
+                'js-gng-reset-pos',
+              )
+            : null,
+        ]),
+        h('div', { className: 'gng-actions gng-actions-end' }, [
+          button(
+            'この人へのメモを書く',
+            () => {
+              state.memoDraft.targetId = person.id;
+              renderMemos();
+              const memoText = memosEl.querySelector('.js-gng-memo-text');
+              if (memoText) {
+                memoText.focus();
+              }
+            },
+            'js-gng-memo-for',
+          ),
+          button(
+            '削除',
+            () => {
+              if (
+                window.confirm(
+                  `「${personLabel(current())}」を削除します。この人を含む夫婦・関係・同居の所属・この人へのメモも削除されます。よろしいですか？`,
+                )
+              ) {
+                Ops.removePerson(model, person.id);
+                select(null);
+              }
+            },
+            'gng-button-danger js-gng-delete-person',
+          ),
+        ]),
+      ];
+    };
+
+    const renderUnionPanel = (union) => {
+      const statusSelect = h(
+        'select',
+        { className: 'gng-select js-gng-union-status' },
+        options(
+          Model.UNION_STATUSES.map((s) => [s, L.unionStatus[s]]),
+          union.status,
+        ),
+      );
+      statusSelect.addEventListener('change', () => {
+        Ops.updateUnion(model, union.id, { status: statusSelect.value });
+        refresh(false);
+      });
+      const noteInput = h('textarea', {
+        className: 'gng-textarea js-gng-union-note',
+        rows: 2,
+        value: union.note,
+        maxLength: Model.LIMITS.note,
+        placeholder: '例) 2015年離婚',
+      });
+      noteInput.addEventListener('input', () => {
+        Ops.updateUnion(model, union.id, { note: noteInput.value });
+        renderLists();
+      });
+      return [
+        panelHeader('夫婦・パートナー'),
+        h('p', { className: 'gng-panel-desc' }, [unionLabel(union)]),
+        field('関係', statusSelect),
+        field('備考', noteInput),
+        h('div', { className: 'gng-actions' }, [
+          button(
+            'この2人の子を追加',
+            () => {
+              const id = Ops.addPerson(model, { parentUnionId: union.id });
+              select({ type: 'person', id });
+              focusName();
+            },
+            'js-gng-union-add-child',
+          ),
+        ]),
+        h('div', { className: 'gng-actions gng-actions-end' }, [
+          button(
+            '削除',
+            () => {
+              if (
+                window.confirm(
+                  `「${unionLabel(union)}」の夫婦・パートナー関係を削除します。この2人の子は親が未設定になります。よろしいですか？`,
+                )
+              ) {
+                Ops.removeUnion(model, union.id);
+                select(null);
+              }
+            },
+            'gng-button-danger js-gng-delete-union',
+          ),
+        ]),
+      ];
+    };
+
+    const renderRelationPanel = (relation) => {
+      const kindSelect = h(
+        'select',
+        { className: 'gng-select js-gng-relation-kind' },
+        options(
+          Model.RELATION_KINDS.map((k) => [k, L.relationKind[k]]),
+          relation.kind,
+        ),
+      );
+      kindSelect.addEventListener('change', () => {
+        Ops.updateRelation(model, relation.id, { kind: kindSelect.value });
+        refresh(false);
+      });
+      const noteInput = h('textarea', {
+        className: 'gng-textarea js-gng-relation-note',
+        rows: 2,
+        value: relation.note,
+        maxLength: Model.LIMITS.note,
+      });
+      noteInput.addEventListener('input', () => {
+        Ops.updateRelation(model, relation.id, { note: noteInput.value });
+        renderLists();
+      });
+      return [
+        panelHeader('関係'),
+        h('p', { className: 'gng-panel-desc' }, [
+          `${personLabel(personById(relation.a))} と ${personLabel(personById(relation.b))}`,
+        ]),
+        field('関係の種類', kindSelect),
+        field('備考', noteInput),
+        h('div', { className: 'gng-actions gng-actions-end' }, [
+          button(
+            '削除',
+            () => {
+              if (window.confirm('この関係を削除します。よろしいですか？')) {
+                Ops.removeRelation(model, relation.id);
+                select(null);
+              }
+            },
+            'gng-button-danger js-gng-delete-relation',
+          ),
+        ]),
+      ];
+    };
+
+    const memberChecklist = (selectedIds) => {
+      const list = h('div', { className: 'gng-member-list' });
+      model.persons.forEach((p) => {
+        list.appendChild(
+          h('label', { className: 'gng-check' }, [
+            h('input', {
+              type: 'checkbox',
+              className: 'js-gng-member',
+              value: p.id,
+              checked: selectedIds.includes(p.id),
+            }),
+            personLabel(p),
+          ]),
+        );
+      });
+      return list;
+    };
+    const checkedMembers = (list) =>
+      Array.from(list.querySelectorAll('.js-gng-member'))
+        .filter((el) => el.checked)
+        .map((el) => el.value);
+
+    const renderHouseholdPanel = (household) => {
+      const labelInput = h('input', {
+        type: 'text',
+        className: 'gng-input js-gng-household-label',
+        value: household ? household.label : '同居',
+        maxLength: Model.LIMITS.label,
+      });
+      const defaultMembers =
+        state.selection && state.selection.memberHint
+          ? state.selection.memberHint
+          : [];
+      const list = memberChecklist(
+        household ? household.members : defaultMembers,
+      );
+      if (household) {
+        const apply = () => {
+          const members = checkedMembers(list);
+          if (members.length === 0) {
+            state.panelError =
+              '1人以上選んでください(世帯を消す場合は「削除」を押してください)。';
+            renderPanel();
+            return;
+          }
+          Ops.updateHousehold(model, household.id, labelInput.value, members);
+          refresh(false);
+        };
+        labelInput.addEventListener('input', apply);
+        list.addEventListener('change', apply);
+      }
+      return [
+        panelHeader(household ? '同居(世帯)' : '同居(世帯)を追加'),
+        field('世帯名(図に表示)', labelInput),
+        h('div', { className: 'gng-field-label' }, ['同居している人']),
+        list,
+        panelErrorEl(),
+        household
+          ? h('div', { className: 'gng-actions gng-actions-end' }, [
+              button(
+                '削除',
+                () => {
+                  if (
+                    window.confirm(
+                      'この世帯(同居の枠)を削除します。人物は削除されません。よろしいですか？',
+                    )
+                  ) {
+                    Ops.removeHousehold(model, household.id);
+                    select(null);
+                  }
+                },
+                'gng-button-danger js-gng-delete-household',
+              ),
+            ])
+          : h('div', { className: 'gng-actions' }, [
+              button(
+                '追加',
+                () => {
+                  const id = Ops.addHousehold(
+                    model,
+                    labelInput.value,
+                    checkedMembers(list),
+                  );
+                  if (!id) {
+                    state.panelError =
+                      '同居している人を1人以上選んでください。';
+                    renderPanel();
+                    return;
+                  }
+                  select({ type: 'household', id });
+                },
+                'gng-button-primary js-gng-household-submit',
+              ),
+            ]),
+      ];
+    };
+
+    const renderNewPairPanel = (kind) => {
+      const isUnion = kind === 'union';
+      const hint = state.selection.personHint || '';
+      const aSelect = h(
+        'select',
+        { className: 'gng-select js-gng-pair-a' },
+        personOptions(hint, true),
+      );
+      const bSelect = h(
+        'select',
+        { className: 'gng-select js-gng-pair-b' },
+        personOptions('', true),
+      );
+      const typeSelect = isUnion
+        ? h(
+            'select',
+            { className: 'gng-select js-gng-pair-type' },
+            options(
+              Model.UNION_STATUSES.map((s) => [s, L.unionStatus[s]]),
+              'married',
+            ),
+          )
+        : h(
+            'select',
+            { className: 'gng-select js-gng-pair-type' },
+            options(
+              Model.RELATION_KINDS.map((k) => [k, L.relationKind[k]]),
+              'close',
+            ),
+          );
+      return [
+        panelHeader(isUnion ? '夫婦・パートナーを追加' : '関係を追加'),
+        model.persons.length < 2
+          ? h('p', { className: 'gng-panel-desc' }, [
+              '先に人物を2人以上追加してください。',
+            ])
+          : null,
+        field('1人目', aSelect),
+        field('2人目', bSelect),
+        field(isUnion ? '関係' : '関係の種類', typeSelect),
+        panelErrorEl(),
+        h('div', { className: 'gng-actions' }, [
+          button(
+            '追加',
+            () => {
+              const a = aSelect.value;
+              const b = bSelect.value;
+              if (!a || !b || a === b) {
+                state.panelError = '異なる2人を選んでください。';
+                renderPanel();
+                return;
+              }
+              if (isUnion) {
+                const id = Ops.addUnion(model, a, b, typeSelect.value);
+                select({ type: 'union', id });
+              } else {
+                const id = Ops.addRelation(model, a, b, typeSelect.value);
+                select({ type: 'relation', id });
+              }
+            },
+            'gng-button-primary js-gng-pair-submit',
+          ),
+        ]),
+      ];
+    };
+
+    const renderMultiPanel = (ids) => [
+      panelHeader(`${ids.length}人を選択中`),
+      h('p', { className: 'gng-panel-desc' }, [
+        ids.map((id) => personLabel(personById(id))).join('、'),
+      ]),
+      h('p', { className: 'gng-panel-desc' }, [
+        '選択中の人をドラッグすると、全員をまとめて動かせます。Ctrl(Macは⌘)またはShift+クリックで選択に追加・選択から外せます。',
+      ]),
+      h('div', { className: 'gng-actions' }, [
+        button(
+          '選択した人で同居(世帯)を作る',
+          () => select({ type: 'newHousehold', memberHint: ids }),
+          'js-gng-multi-household',
+        ),
+        button(
+          '位置を自動に戻す',
+          () => {
+            Ops.clearPositions(model, ids);
+            refresh(true);
+          },
+          'js-gng-multi-reset-pos',
+          !ids.some((id) => personById(id).pos),
+        ),
+        button('選択を解除', () => select(null), 'js-gng-multi-clear'),
+      ]),
+    ];
+
+    const renderPanel = () => {
+      panelEl.textContent = '';
+      const sel = state.selection;
+      let content = null;
+      if (sel) {
+        if (sel.type === 'person') {
+          const person = personById(sel.id);
+          content = person ? renderPersonPanel(person) : null;
+        } else if (sel.type === 'union') {
+          const union = model.unions.find((u) => u.id === sel.id);
+          content = union ? renderUnionPanel(union) : null;
+        } else if (sel.type === 'relation') {
+          const relation = model.relations.find((r) => r.id === sel.id);
+          content = relation ? renderRelationPanel(relation) : null;
+        } else if (sel.type === 'household') {
+          const household = model.households.find((x) => x.id === sel.id);
+          content = household ? renderHouseholdPanel(household) : null;
+        } else if (sel.type === 'newHousehold') {
+          content = renderHouseholdPanel(null);
+        } else if (sel.type === 'newUnion') {
+          content = renderNewPairPanel('union');
+        } else if (sel.type === 'newRelation') {
+          content = renderNewPairPanel('relation');
+        } else if (sel.type === 'multi') {
+          const ids = selectedPersonIds();
+          content = ids.length > 1 ? renderMultiPanel(ids) : null;
+        }
+      }
+      if (!content) {
+        panelEl.appendChild(
+          h('p', { className: 'gng-panel-desc' }, [
+            '図の人物をクリックすると、ここで編集できます。人物はドラッグで位置を調整できます。Ctrl(Macは⌘)またはShiftを押しながらクリックすると複数人を選択でき、まとめてドラッグで動かせます。夫婦・関係・同居は下の一覧の「編集」から編集できます。',
+          ]),
+        );
+        return;
+      }
+      content.forEach((el) => el && panelEl.appendChild(el));
+    };
+
+    // ---- 一覧(夫婦・関係・世帯) ----
+
+    const renderLists = () => {
+      listsEl.textContent = '';
+      const section = (title, rows, emptyText) => {
+        const list = h('ul', { className: 'gng-item-list' });
+        if (rows.length === 0) {
+          list.appendChild(
+            h('li', { className: 'gng-memo-empty' }, [emptyText]),
+          );
+        }
+        rows.forEach(([text, selection]) => {
+          list.appendChild(
+            h('li', { className: 'gng-item' }, [
+              h('span', {}, [text]),
+              linkButton('編集', () => select(selection), 'js-gng-list-edit'),
+            ]),
+          );
+        });
+        return h('div', { className: 'gng-list-section' }, [
+          h('div', { className: 'gng-section-title' }, [title]),
+          list,
+        ]);
+      };
+      listsEl.appendChild(
+        section(
+          '夫婦・パートナー',
+          model.unions.map((u) => [
+            `${unionLabel(u)}(${L.unionStatus[u.status]})${u.note ? ' ' + u.note : ''}`,
+            { type: 'union', id: u.id },
+          ]),
+          'まだありません。',
+        ),
+      );
+      listsEl.appendChild(
+        section(
+          '関係',
+          model.relations.map((r) => [
+            `${personLabel(personById(r.a))} と ${personLabel(personById(r.b))}(${L.relationKind[r.kind]})${r.note ? ' ' + r.note : ''}`,
+            { type: 'relation', id: r.id },
+          ]),
+          'まだありません。',
+        ),
+      );
+      listsEl.appendChild(
+        section(
+          '同居(世帯)',
+          model.households.map((x) => [
+            `${x.label || '(名前なし)'}: ${x.members.map((id) => personLabel(personById(id))).join('、')}`,
+            { type: 'household', id: x.id },
+          ]),
+          'まだありません。',
+        ),
+      );
+    };
+
+    // ---- メモ ----
+
+    const renderMemos = () => {
+      memosEl.textContent = '';
+      memosEl.appendChild(
+        h('div', { className: 'gng-section-title' }, ['メモ']),
+      );
+      memosEl.appendChild(
+        NS.Renderer.renderMemoList(model, {
+          onDelete: (memoId) => {
+            if (
+              window.confirm(
+                'このメモを削除します。よろしいですか？(レコードを保存すると確定します)',
+              )
+            ) {
+              Ops.removeMemo(model, memoId);
+              refresh(false);
+            }
+          },
+        }),
+      );
+      const draft = state.memoDraft;
+      if (!model.persons.some((p) => p.id === draft.targetId)) {
+        draft.targetId = '';
+      }
+      const targetSelect = h(
+        'select',
+        { className: 'gng-select js-gng-memo-target' },
+        options(
+          [['', '全体']].concat(
+            model.persons.map((p) => [p.id, personLabel(p)]),
+          ),
+          draft.targetId,
+        ),
+      );
+      targetSelect.addEventListener('change', () => {
+        draft.targetId = targetSelect.value;
+      });
+      const textarea = h('textarea', {
+        className: 'gng-textarea js-gng-memo-text',
+        rows: 3,
+        value: draft.text,
+        maxLength: Model.LIMITS.memo,
+        placeholder: 'メモを入力(例: 本人と電話。母の入院を確認)',
+      });
+      textarea.addEventListener('input', () => {
+        draft.text = textarea.value;
+      });
+      memosEl.appendChild(
+        h('div', { className: 'gng-memo-form' }, [
+          field('対象', targetSelect),
+          textarea,
+          button(
+            'メモを追加',
+            () => {
+              const id = Ops.addMemo(model, {
+                targetId: draft.targetId,
+                text: draft.text,
+                author: opts.getAuthor ? opts.getAuthor() : {},
+                at: new Date().toISOString(),
+              });
+              if (id) {
+                state.memoDraft = { targetId: '', text: '' };
+                refresh(false);
+              }
+            },
+            'gng-button-primary js-gng-memo-add',
+          ),
+          h('p', { className: 'gng-hint' }, [
+            '追加したメモは、レコードを保存すると確定します。',
+          ]),
+        ]),
+      );
+    };
+
+    // ---- 図のクリック・ドラッグ ----
+
+    let drag = null;
+    let frame = 0;
+
+    const toSvgPoint = (clientX, clientY) => {
+      const svg = canvasEl.querySelector('.gng-svg');
+      const ctm = svg && svg.getScreenCTM();
+      if (!ctm) {
+        return null;
+      }
+      const point = svg.createSVGPoint();
+      point.x = clientX;
+      point.y = clientY;
+      return point.matrixTransform(ctm.inverse());
+    };
+
+    const onPointerMove = (e) => {
+      if (!drag) {
+        return;
+      }
+      if (
+        !drag.moved &&
+        Math.hypot(e.clientX - drag.clientX, e.clientY - drag.clientY) <
+          DRAG_THRESHOLD
+      ) {
+        return;
+      }
+      drag.moved = true;
+      const point = toSvgPoint(e.clientX, e.clientY);
+      if (!point) {
+        return;
+      }
+      // 複数選択中の人をつかんだ場合は選択中の全員を、それ以外はその人だけを同じ移動量で動かす
+      Ops.moveGroup(
+        model,
+        drag.ids,
+        drag.startNodes,
+        point.x - drag.startX,
+        point.y - drag.startY,
+      );
+      if (!frame) {
+        frame = window.requestAnimationFrame(() => {
+          frame = 0;
+          renderDiagram();
+        });
+      }
+    };
+
+    const onPointerUp = () => {
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
+      if (!drag) {
+        return;
+      }
+      const { id, moved, additive } = drag;
+      drag = null;
+      if (moved) {
+        refresh(true);
+      } else if (additive) {
+        toggleInSelection(id);
+      } else {
+        select({ type: 'person', id });
+      }
+    };
+
+    // Ctrl(Mac: ⌘)/Shift+クリックで、人物を選択に追加・選択から外す。
+    const toggleInSelection = (id) => {
+      const ids = selectedPersonIds();
+      const next = ids.includes(id)
+        ? ids.filter((x) => x !== id)
+        : ids.concat([id]);
+      if (next.length === 0) {
+        select(null);
+      } else if (next.length === 1) {
+        select({ type: 'person', id: next[0] });
+      } else {
+        select({ type: 'multi', ids: next });
+      }
+    };
+
+    const isAdditive = (e) => e.ctrlKey || e.metaKey || e.shiftKey;
+
+    // MacのCtrl+クリックは右クリック扱いでメニューが開くため、人物の上では抑止する
+    canvasEl.addEventListener('contextmenu', (e) => {
+      if (e.ctrlKey && e.target.closest('[data-gtype="person"]')) {
+        e.preventDefault();
+      }
+    });
+
+    canvasEl.addEventListener('pointerdown', (e) => {
+      const macCtrlClick = e.button === 2 && e.ctrlKey;
+      if (e.button !== 0 && !macCtrlClick) {
+        return;
+      }
+      const el = e.target.closest('[data-gtype]');
+      if (!el) {
+        return;
+      }
+      const type = el.getAttribute('data-gtype');
+      const id = el.getAttribute('data-gid');
+      if (type === 'person' || type === 'memo') {
+        const node = lastLayout && lastLayout.nodes[id];
+        const point = toSvgPoint(e.clientX, e.clientY);
+        if (!node || !point) {
+          return;
+        }
+        e.preventDefault();
+        const selectedIds = selectedPersonIds();
+        const ids =
+          selectedIds.length > 1 && selectedIds.includes(id)
+            ? selectedIds
+            : [id];
+        const startNodes = {};
+        ids.forEach((x) => {
+          if (lastLayout.nodes[x]) {
+            startNodes[x] = {
+              x: lastLayout.nodes[x].x,
+              y: lastLayout.nodes[x].y,
+            };
+          }
+        });
+        drag = {
+          id,
+          ids,
+          startNodes,
+          additive: isAdditive(e),
+          moved: false,
+          clientX: e.clientX,
+          clientY: e.clientY,
+          startX: point.x,
+          startY: point.y,
+        };
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+      } else if (
+        type === 'union' ||
+        type === 'relation' ||
+        type === 'household'
+      ) {
+        select({ type, id });
+      }
+    });
+
+    renderToolbar();
+    refresh(true);
+
+    return {
+      root: rootEl,
+      getModel: () => model,
+    };
+  };
+
+  NS.Editor = { mountEditor };
+})(window);
+
+// ---- webapp/app.js ----
+(function () {
+  'use strict';
+
+  // オフライン版(1つのHTMLファイル)の画面。kintone版と同じエディター(js/editor.js)を使い、
+  // データの保存・読み込みはケースファイル(.json)で行う。ブラウザのストレージには何も保存しない
+  // (共用パソコンに個人情報を残さないため)。未保存の変更がある状態で閉じる・新規・開く場合は確認する。
+
+  const NS = window.Genogram;
+  const { Model, CaseFile } = NS;
+
+  const $ = (selector) => document.querySelector(selector);
+  const caseInput = $('.js-app-case-name');
+  const authorInput = $('.js-app-author');
+  const fileInput = $('.js-app-file');
+  const statusEl = $('.js-app-status');
+  const editorEl = $('.js-app-editor');
+  const printTitleEl = $('.js-app-print-title');
+
+  // エディターはこのオブジェクトを参照し続けるため、ファイル名は書き換えれば反映される
+  const editorOptions = {
+    getAuthor: () => ({ code: '', name: authorInput.value.trim() }),
+    filename: CaseFile.fileName('', new Date(), 'png'),
+  };
+  let editor = null;
+  let savedSnapshot = '';
+
+  // 変更の有無の判定用(保存日時は除く)
+  const snapshot = () =>
+    editor
+      ? CaseFile.serialize(editor.getModel(), {
+          caseName: caseInput.value,
+          savedAt: '-',
+        })
+      : '';
+  const isDirty = () => snapshot() !== savedSnapshot;
+
+  let statusTimer = 0;
+  const showStatus = (message, isError) => {
+    statusEl.textContent = message;
+    statusEl.classList.toggle('is-error', !!isError);
+    clearTimeout(statusTimer);
+    if (!isError) {
+      statusTimer = setTimeout(() => {
+        statusEl.textContent = '';
+      }, 5000);
+    }
+  };
+
+  const onCaseNameChange = () => {
+    editorOptions.filename = CaseFile.fileName(
+      caseInput.value,
+      new Date(),
+      'png',
+    );
+    printTitleEl.textContent = caseInput.value
+      ? `ジェノグラム: ${caseInput.value}`
+      : 'ジェノグラム';
+    document.title = caseInput.value
+      ? `${caseInput.value} - ジェノグラム作成(オフライン版)`
+      : 'ジェノグラム作成(オフライン版)';
+  };
+
+  const mount = (model, caseName) => {
+    caseInput.value = caseName || '';
+    onCaseNameChange();
+    editor = NS.Editor.mountEditor(editorEl, model, editorOptions);
+    savedSnapshot = snapshot();
+  };
+
+  const confirmDiscard = () =>
+    !isDirty() ||
+    window.confirm(
+      '保存していない変更があります。変更を破棄してよろしいですか？',
+    );
+
+  const download = (text, name, type) => {
+    const url = URL.createObjectURL(new Blob([text], { type }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
+  const save = () => {
+    const name = CaseFile.fileName(caseInput.value, new Date(), 'json');
+    download(
+      CaseFile.serialize(editor.getModel(), { caseName: caseInput.value }),
+      name,
+      'application/json',
+    );
+    savedSnapshot = snapshot();
+    showStatus(
+      `「${name}」として保存しました(ブラウザのダウンロード先を確認してください)。`,
+    );
+  };
+
+  const openFile = (file) => {
+    if (!file) {
+      return;
+    }
+    if (!confirmDiscard()) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = CaseFile.parse(reader.result);
+      if (!result.ok) {
+        showStatus(`「${file.name}」を開けませんでした: ${result.error}`, true);
+        return;
+      }
+      mount(result.model, result.caseName);
+      showStatus(`「${file.name}」を開きました。`);
+    };
+    reader.onerror = () => {
+      showStatus(`「${file.name}」を読み込めませんでした。`, true);
+    };
+    reader.readAsText(file);
+  };
+
+  $('.js-app-new').addEventListener('click', () => {
+    if (confirmDiscard()) {
+      mount(Model.empty(), '');
+      showStatus('新しいケースを作成しました。');
+    }
+  });
+  $('.js-app-open').addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', () => {
+    openFile(fileInput.files[0]);
+    fileInput.value = ''; // 同じファイルを続けて開けるように
+  });
+  $('.js-app-save').addEventListener('click', save);
+  $('.js-app-print').addEventListener('click', () => window.print());
+  caseInput.addEventListener('input', onCaseNameChange);
+
+  // ファイルを画面にドラッグ&ドロップして開く
+  document.addEventListener('dragover', (e) => {
+    if (e.dataTransfer && Array.from(e.dataTransfer.types).includes('Files')) {
+      e.preventDefault();
+      document.body.classList.add('is-dragover');
+    }
+  });
+  document.addEventListener('dragleave', (e) => {
+    if (
+      e.target === document.documentElement ||
+      e.clientX <= 0 ||
+      e.clientY <= 0
+    ) {
+      document.body.classList.remove('is-dragover');
+    }
+  });
+  document.addEventListener('drop', (e) => {
+    document.body.classList.remove('is-dragover');
+    if (e.dataTransfer && e.dataTransfer.files.length > 0) {
+      e.preventDefault();
+      openFile(e.dataTransfer.files[0]);
+    }
+  });
+
+  // Ctrl+S / ⌘+S で保存
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+      e.preventDefault();
+      save();
+    }
+  });
+
+  // 閉じた<details>の中身はCSSだけでは印刷に出せないため、印刷の間だけ凡例を開く
+  let legendsOpenedForPrint = [];
+  window.addEventListener('beforeprint', () => {
+    legendsOpenedForPrint = Array.from(
+      document.querySelectorAll('.gng-legend:not([open])'),
+    );
+    legendsOpenedForPrint.forEach((el) => {
+      el.open = true;
+    });
+  });
+  window.addEventListener('afterprint', () => {
+    legendsOpenedForPrint.forEach((el) => {
+      el.open = false;
+    });
+    legendsOpenedForPrint = [];
+  });
+
+  window.addEventListener('beforeunload', (e) => {
+    if (isDirty()) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  });
+
+  mount(Model.empty(), '');
+})();
+
+</script>
+</body>
+</html>

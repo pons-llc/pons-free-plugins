@@ -7,3 +7,6 @@ secureCodingGuideline.md
 /.claude
 vimeo.md
 /pdf_compress
+
+/genogram/webapp/dist
+/articles/*/video/

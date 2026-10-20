@@ -1,0 +1,42 @@
+[hidden] {
+  display: none !important;
+}
+
+.settings-heading {
+  padding: 1em 0;
+}
+
+.gngc-section {
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.5em;
+}
+
+.gngc-error {
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+  border-radius: 4px;
+  padding: 0.75em 1em;
+  margin-bottom: 1em;
+  white-space: pre-wrap;
+}
+
+.gngc-warning {
+  color: #e74c3c;
+  margin: 0.5em 0;
+}
+
+.gngc-note {
+  margin-top: 0.5em;
+  color: #666;
+}
+
+.gngc-section .kintoneplugin-label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.gngc-section select {
+  min-width: 360px;
+}

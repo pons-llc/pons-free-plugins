@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 外部への通信を一切させない(データはこのパソコンの中だけで扱う)。スクリプト・スタイルはこのファイルに埋め込み済み -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; base-uri 'none'; form-action 'none'">
+<title>ジェノグラム作成(オフライン版)</title>
+<style>
+/*__STYLES__*/
+</style>
+</head>
+<body>
+<header class="app-header">
+  <div class="app-title">
+    <span class="app-logo" aria-hidden="true"></span>
+    <div>
+      <h1>ジェノグラム作成 <small>オフライン版</small></h1>
+      <p class="app-sub">kintoneが無くても、このファイルだけで使えます</p>
+    </div>
+  </div>
+  <div class="app-actions">
+    <button type="button" class="app-button js-app-new">新規</button>
+    <button type="button" class="app-button js-app-open">ファイルを開く</button>
+    <button type="button" class="app-button app-button-primary js-app-save">保存する</button>
+    <button type="button" class="app-button js-app-print">印刷</button>
+    <input type="file" class="js-app-file" accept=".json,application/json" hidden>
+  </div>
+</header>
+
+<main class="app-main">
+  <section class="app-case">
+    <label class="app-field">
+      <span>ケース名</span>
+      <input type="text" class="js-app-case-name" maxlength="100" placeholder="例) 佐藤 美咲さん">
+    </label>
+    <label class="app-field app-field-short">
+      <span>記入者(メモに記録されます)</span>
+      <input type="text" class="js-app-author" maxlength="50" placeholder="例) 相談員 田中">
+    </label>
+    <div class="app-status js-app-status" role="status" aria-live="polite"></div>
+  </section>
+
+  <h2 class="app-print-title js-app-print-title"></h2>
+  <div class="app-editor js-app-editor"></div>
+
+  <details class="app-help">
+    <summary>使い方とデータの扱い</summary>
+    <ol>
+      <li>「＋ 人物を追加」から本人(相談者)を追加し、「両親を追加」「配偶者・パートナーを追加」「子を追加」で家族を広げます。人物は図をクリックで編集、ドラッグで位置を調整できます(Ctrl/⌘/Shift+クリックで複数選択)。</li>
+      <li>作った図は「保存する」で、ケースごとのファイル(.json)としてパソコンに保存します。続きは「ファイルを開く」か、ファイルをこの画面にドラッグ&ドロップして開きます。</li>
+      <li>「画像を保存」でPNG画像に、「印刷」で図・凡例・メモを印刷できます。</li>
+    </ol>
+    <p><strong>データはこのパソコンの中だけで扱われ、インターネットには一切送信されません</strong>(このファイル自体が外部との通信を禁止しています)。ブラウザにもデータは残らないため、閉じる前に「保存する」で保存してください。保存したファイルには個人情報が含まれます。保存場所・持ち出しは所属先のルールに従って管理してください。</p>
+    <p>kintone版(ジェノグラム作成プラグイン)のデータ(JSON)も、そのまま開けます。</p>
+  </details>
+</main>
+
+<footer class="app-footer">
+  GovAppsプラグイン ジェノグラム作成(オフライン版) v__VERSION__ ― 無料・広告なし・オープンソース
+  <span class="app-footer-url">https://govapps-plugin.pons-llc.com/</span>
+</footer>
+
+<script>
+/*__SCRIPTS__*/
+</script>
+</body>
+</html>

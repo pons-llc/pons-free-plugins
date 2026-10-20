@@ -1,0 +1,47 @@
+<section class="settings">
+  <h2 class="settings-heading">ジェノグラム作成プラグインの設定</h2>
+  <p class="kintoneplugin-desc">
+    人物・夫婦(パートナー)・親子・関係・同居・メモを、1つの「文字列(複数行)」フィールドにデータ(JSON)として保存し、「スペース」フィールドにジェノグラム(家族関係図)として表示します。<br>
+    あらかじめアプリのフォームに、データを保存する「文字列(複数行)」フィールドと、図を表示する「スペース」フィールド(要素IDを設定したもの)を配置してください。図はスペースの横幅いっぱいに表示されるため、スペースは1行に単独で置くことをおすすめします。
+  </p>
+
+  <div id="js-errors" class="gngc-error" hidden></div>
+
+  <form class="js-submit-settings">
+    <div class="gngc-section">
+      <label class="kintoneplugin-label" for="js-json-field">データを保存するフィールド(文字列(複数行))<span class="kintoneplugin-require">*</span></label>
+      <p id="js-no-text-warning" class="gngc-warning" hidden>フォームに「文字列(複数行)」フィールドがありません(テーブル内のフィールドは使えません)。フォームに追加してから、もう一度この画面を開いてください。</p>
+      <div class="kintoneplugin-select-outer">
+        <div class="kintoneplugin-select">
+          <select id="js-json-field" class="js-json-field"></select>
+        </div>
+      </div>
+      <p class="kintoneplugin-desc gngc-note">このフィールドの値はプラグインが書き換えます。ほかの用途に使っているフィールドは選ばないでください。</p>
+    </div>
+
+    <div class="gngc-section">
+      <label class="kintoneplugin-label" for="js-space">図を表示するスペースフィールド(要素ID)<span class="kintoneplugin-require">*</span></label>
+      <p id="js-no-space-warning" class="gngc-warning" hidden>要素IDを設定した「スペース」フィールドがありません(テーブル内は使えません)。フォームにスペースを追加し、要素IDを設定してから、もう一度この画面を開いてください。</p>
+      <div class="kintoneplugin-select-outer">
+        <div class="kintoneplugin-select">
+          <select id="js-space" class="js-space"></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="gngc-section">
+      <div class="kintoneplugin-input-checkbox">
+        <span class="kintoneplugin-input-checkbox-item">
+          <input type="checkbox" id="js-hide-json" class="js-hide-json">
+          <label for="js-hide-json">データ(JSON)のフィールドを画面に表示しない(おすすめ)</label>
+        </span>
+      </div>
+      <p class="kintoneplugin-desc gngc-note">データが読み込めない(手で書き換えて壊れた)場合は、修正できるよう自動的に表示します。一覧画面のインライン編集では、このフィールドは常に編集できなくなります。</p>
+    </div>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">キャンセル</button>
+      <button type="submit" class="js-save-button kintoneplugin-button-dialog-ok">保存する</button>
+    </p>
+  </form>
+</section>

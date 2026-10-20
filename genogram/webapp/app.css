@@ -1,0 +1,253 @@
+/* オフライン版の画面(ヘッダー・ケース情報・印刷)。図とエディターは kintone版の desktop.css をそのまま使う */
+
+[hidden] {
+  display: none !important;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: #f5f6f7;
+  color: #333;
+  font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+  font-size: 14px;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #e3e7e8;
+  background: #fff;
+}
+
+.app-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-logo {
+  width: 40px;
+  height: 40px;
+  background: url(__ICON_DATA_URI__) center / contain no-repeat;
+}
+
+.app-title h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.app-title h1 small {
+  margin-left: 4px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: #e8f4fc;
+  color: #2980b9;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.app-sub {
+  margin: 2px 0 0;
+  color: #888;
+  font-size: 12px;
+}
+
+.app-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.app-button {
+  min-height: 36px;
+  padding: 6px 16px;
+  border: 1px solid #d0d6d8;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.app-button:hover {
+  background: #f3f6f8;
+}
+
+.app-button-primary {
+  border-color: #3498db;
+  background: #3498db;
+  color: #fff;
+}
+
+.app-button-primary:hover {
+  background: #2d86c3;
+}
+
+.app-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 20px 40px;
+}
+
+.app-case {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 20px;
+  margin-bottom: 8px;
+}
+
+.app-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 320px;
+  max-width: 480px;
+  color: #666;
+  font-size: 12px;
+}
+
+.app-field-short {
+  flex: 0 1 240px;
+}
+
+.app-field input {
+  padding: 8px 10px;
+  border: 1px solid #d0d6d8;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 15px;
+}
+
+.app-status {
+  flex: 1 1 100%;
+  min-height: 1.5em;
+  color: #27ae60;
+}
+
+.app-status.is-error {
+  color: #c0392b;
+}
+
+.app-print-title {
+  display: none;
+}
+
+.app-editor .gng-root {
+  padding-top: 0;
+}
+
+.app-editor .gng-canvas {
+  max-height: none;
+}
+
+.app-help {
+  margin-top: 24px;
+  padding: 12px 16px;
+  border: 1px solid #e3e7e8;
+  border-radius: 4px;
+  background: #fff;
+  line-height: 1.7;
+}
+
+.app-help summary {
+  color: #2980b9;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.app-footer {
+  padding: 16px 20px 24px;
+  color: #999;
+  font-size: 12px;
+  text-align: center;
+}
+
+.app-footer-url {
+  display: block;
+}
+
+body.is-dragover::after {
+  content: 'ここにファイルをドロップして開く';
+  position: fixed;
+  inset: 12px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px dashed #3498db;
+  border-radius: 12px;
+  background: rgba(232, 244, 252, 0.9);
+  color: #2980b9;
+  font-size: 24px;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+/* 印刷: 図・凡例・メモだけを出す */
+@media print {
+  html,
+  body {
+    background: #fff;
+  }
+
+  .app-header,
+  .app-case,
+  .app-help,
+  .gng-toolbar,
+  .gng-panel,
+  .gng-lists,
+  .gng-memo-form,
+  .gng-memo-delete,
+  .gng-hint {
+    display: none !important;
+  }
+
+  .app-main {
+    max-width: none;
+    padding: 0;
+  }
+
+  .app-print-title {
+    display: block;
+    margin: 0 0 8px;
+    font-size: 18px;
+  }
+
+  .gng-body {
+    display: block;
+  }
+
+  .gng-canvas {
+    border: none;
+    overflow: visible;
+  }
+
+  .gng-svg {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .gng-legend summary {
+    display: none;
+  }
+
+  .app-footer {
+    padding: 8px 0 0;
+    text-align: left;
+  }
+}
