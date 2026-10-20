@@ -1,0 +1,172 @@
+# GovAppsプラグイン
+
+> 合同会社Pons(kintoneオフィシャルパートナー)が運営する、無料のkintoneプラグイン集です。すべてのプラグインが無料・広告なしで、ソースコードをGitHubで公開しており(オープンソース)、kintoneセキュアコーディングガイドラインに沿ったセキュリティレビューの結果を各プラグインのページに掲載しています。
+
+- 対象: サイボウズ社のクラウドサービス「kintone」の利用者(自治体・企業・団体)。各プラグインのページに、機能・ユースケース・セットアップ手順・セキュリティレビュー結果・kintone REST APIの実行数を記載しています。
+- 導入方法: 各プラグインのページの「ダウンロード」から plugin.zip を取得し、kintoneの「kintoneシステム管理」→「プラグイン」で読み込んだあと、アプリの設定の「プラグイン」で追加・設定します。
+- ソースコード: https://github.com/pons-llc/pons-free-plugins (プラグインごとのディレクトリに仕様メモ idea.md とセキュリティチェックリスト security-checklist.md があります)
+- ライセンス: 公開しているプラグインはすべて Apache License 2.0(改変・複製・商用利用も可)
+- 不具合報告・改善要望: https://github.com/pons-llc/pons-free-plugins/issues
+- 本サイトのプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。kintoneはサイボウズ株式会社の登録商標です。
+
+## プラグイン一覧(全54件、カテゴリ別)
+
+### ファイル・埋め込み
+
+- [box・googleドライブ埋め込みプラグイン](https://govapps-plugin.pons-llc.com/plugins/box_gdrive_iframe/): box・googleドライブをレコード画面に埋め込むプラグイン(v0.1.0・公開 2026-07-10・タグ: ファイル管理、埋め込み表示)
+- [生成AIアプリ共有プラグイン](https://govapps-plugin.pons-llc.com/plugins/genai_app_share/): Gemini Canvas等で生成したHTML/CSS/JS(Reactを含む)を文字列複数行フィールドに貼り付けると、レコード詳細画面からsandbox化した別タブで実行できるプラグイン(v1・公開 2026-08-03・タグ: 生成AI、アプリ共有)
+
+### 日付・書式
+
+- [西暦和暦変換プラグイン](https://govapps-plugin.pons-llc.com/plugins/wareki_date_format/): 日付・日時フィールドの値を和暦(または西暦・和暦併記)の文字列に変換し、指定した文字列フィールドへ自動入力するプラグイン(v1・公開 2026-07-10・タグ: 日付変換、自動入力)
+- [時間帯集計項目自動作成プラグイン](https://govapps-plugin.pons-llc.com/plugins/time_band_aggregator/): 日時・時刻フィールドから時間帯(例: 09:00〜10:00)を自動算出するドロップダウン・数値フィールドを保存時に自動作成し、値を自動入力するプラグイン(v1・公開 2026-07-12・タグ: 時間帯集計、自動フィールド作成)
+- [年齢・学年フィールド計算用フィールド更新プラグイン](https://govapps-plugin.pons-llc.com/plugins/age_grade_field_update/): レコード一覧画面のボタン押下で、設定した条件に一致する全レコードのDATE/DATETIMEフィールドへ現在の日付・日時を一括書き込みするプラグイン(v1・公開 2026-08-08・タグ: 基準日更新、一括更新)
+- [日付自動入力プラグイン](https://govapps-plugin.pons-llc.com/plugins/date_offset_autofill/): 基準となる日付/日時フィールドの値に、固定値または数値・計算フィールドの値(日数または分数)をプラスマイナスして、別の日付/日時フィールドへ保存時に自動入力するプラグイン。計算フィールドの日付演算では使えない「今日」「今月」等の動的な絞り込みに対応できます。(v1・公開 2026-08-20・タグ: 期限日自動計算、日付演算、自動入力)
+
+### 文字列処理
+
+- [スプリットプラグイン](https://govapps-plugin.pons-llc.com/plugins/text_split/): 文字列フィールドの値を指定した記号・文字または正規表現で分割し、複数の出力先フィールドへ順番に格納するプラグイン(v0.1.0・公開 2026-07-10・タグ: 文字列分割、自動入力)
+- [RIGHT・LEFT・MID関数プラグイン](https://govapps-plugin.pons-llc.com/plugins/text_slice/): 元の文字列フィールドから指定した位置・文字数の部分文字列を取り出し、出力先フィールドへ格納するプラグイン(v0.1.0・公開 2026-07-10・タグ: 文字列抽出、自動入力)
+- [数字抽出プラグイン](https://govapps-plugin.pons-llc.com/plugins/number_extract/): 文字列フィールドの値から数字(半角・全角・漢数字)の連続を左から順に抽出し、複数の出力先フィールドへ格納するプラグイン(v1・公開 2026-07-13・タグ: 数字抽出、自動入力)
+- [テンプレート挿入プラグイン](https://govapps-plugin.pons-llc.com/plugins/template_insert/): 文字列(複数行)またはリッチエディターフィールドに、他フィールドの値を埋め込める定型文(テンプレート)を挿入するプラグイン。ラジオボタンの選択肢に応じた自動選択や、サブテーブルの行を展開して繰り返し挿入する機能にも対応しています。(v1・公開 2026-08-27・タグ: 定型文挿入、プレースホルダー、自動入力)
+
+### サブテーブル
+
+- [サブテーブルソートプラグイン](https://govapps-plugin.pons-llc.com/plugins/subtable_sort/): サブテーブルの行を複数列の条件でソートするプラグイン。保存時に自動ソート、またはボタンで任意実行できる(v0.1.0・公開 2026-07-10・タグ: サブテーブル整列、自動化)
+- [サブテーブルルックアッププラグイン](https://govapps-plugin.pons-llc.com/plugins/subtable_lookup/): サブテーブルの中から条件に一致する1行を探し、その行の値をテーブル外のフィールドへ自動入力するプラグイン(v0.1.0・公開 2026-07-10・タグ: サブテーブル検索、自動入力)
+- [決裁者稟議者記録プラグイン](https://govapps-plugin.pons-llc.com/plugins/approval_history/): プロセス管理のアクション実行ごとに、実行前後のステータス・実行ユーザー・役職・実行日時をサブテーブルへ自動記録するプラグイン(v1・公開 2026-07-17・タグ: 決裁履歴、プロセス管理)
+
+### 入力制御
+
+- [選択肢絞込プラグイン](https://govapps-plugin.pons-llc.com/plugins/narrowDown/): あるフィールドの値に応じて、別のフィールドの選択肢をモーダルで絞り込んで選び直させるプラグイン(v1.0.0・公開 2026-07-10・タグ: 選択肢絞込、入力補助)
+- [条件つき必須プラグイン](https://govapps-plugin.pons-llc.com/plugins/requiredCondition/): あるフィールドが特定の値のとき、指定した別のフィールドを必須項目にするプラグイン(v1.0.0・公開 2026-07-10・タグ: 条件付き必須、入力チェック)
+- [条件つき非表示プラグイン](https://govapps-plugin.pons-llc.com/plugins/setFieldShown/): あるフィールドが特定の値のとき、指定した別のフィールドを非表示にするプラグイン(v1.0.0・公開 2026-07-10・タグ: 条件付き非表示、表示制御)
+- [入力補助サイドパネルプラグイン](https://govapps-plugin.pons-llc.com/plugins/field_input_panel/): レコード追加・編集画面にフローティングボタンを設置し、指定したフィールドだけを画面右端のパネルにまとめて表示して入力しやすくするプラグイン(v1・公開 2026-07-12・タグ: まとめ入力、入力補助)
+- [モーダル確認プラグイン](https://govapps-plugin.pons-llc.com/plugins/confirm_modal/): レコードの保存・削除・プロセス管理のアクション実行時に確認ダイアログを表示し、キャンセルを選ぶと処理を中止できるプラグイン(レコード一覧からの削除の確認のみPC専用)(v2・公開 2026-07-13・タグ: 確認ダイアログ、誤操作防止)
+- [位置情報強制登録プラグイン](https://govapps-plugin.pons-llc.com/plugins/geo_checkin/): レコード保存時に端末の位置情報(緯度・経度)を自動取得し、指定した数値フィールドへ書き込むプラグイン。出退勤や現場作業の証跡取得に使えます。緯度・経度フィールドは常に非表示になり、地図表示にも対応しています。(v1・公開 2026-08-22・タグ: 位置情報取得、出退勤、証跡)
+- [入力規則プラグイン](https://govapps-plugin.pons-llc.com/plugins/input_format_rule/): 文字列1行フィールドに、禁止する文字種(半角/全角のひらがな・カタカナ・英数字・記号、全角すべて・半角すべて・スペースの計10種類)をチェックボックスで指定できるプラグイン。値の変更時・保存時にチェックし、禁止文字が含まれていればフィールドにエラーを表示して保存をブロックします(PC・モバイル対応)。(v2・公開 2026-09-18・タグ: 文字種チェック、入力規則、バリデーション)
+- [レコード指摘改善プラグイン](https://govapps-plugin.pons-llc.com/plugins/record_review/): レコード詳細画面で、フィールドやテーブルの行ごとの修正指摘と解決内容を下書きし、まとめて登録できるプラグイン(API実行は通常1回)。未解決の指摘がある箇所には赤いバツ、解決済みには緑のチェックを表示し、指摘日時・指摘者・指摘内容・解決状況・解決内容・対応者・解決日時を「指摘履歴」サブテーブルに残します(サブテーブルは設定保存時に自動作成)。(v4・公開 2026-10-01・タグ: 修正指摘、レビュー、差し戻し)
+
+### レイアウト・表示
+
+- [タブ表示プラグイン](https://govapps-plugin.pons-llc.com/plugins/tab_layout/): スペースフィールドにタブUIを描画し、タブごとにフィールド(通常のフィールド・ラベル・スペース・罫線)の表示/非表示を切り替えるプラグイン(v1・公開 2026-07-10・タグ: タブ表示、表示切替)
+- [矢羽プラグイン](https://govapps-plugin.pons-llc.com/plugins/status_arrow/): ドロップダウン・ラジオボタン・プロセス管理のステータスの値に応じて、矢羽根(進捗インジケーター)をレコードのヘッダーメニューに表示するプラグイン(v1・公開 2026-07-10・タグ: 進捗表示、矢羽根)
+- [印刷選択プラグイン](https://govapps-plugin.pons-llc.com/plugins/printSelect/): レコード印刷画面で、あらかじめ設定画面でチェックしておいたフィールドを非表示にできるプラグイン(v1.0.0・公開 2026-07-12・タグ: 印刷設定、表示制御)
+- [お祝いプラグイン](https://govapps-plugin.pons-llc.com/plugins/status_celebration/): ドロップダウン・ラジオボタン・プロセス管理のステータスが指定した値に変わったとき、くす玉・クラッカー・紙吹雪のお祝い演出をレコード画面に表示するプラグイン(v1・公開 2026-07-12・タグ: お祝い演出、ステータス)
+- [一覧強調プラグイン](https://govapps-plugin.pons-llc.com/plugins/list_highlight/): レコード一覧画面(表形式)で、条件に一致する行を指定した色で強調表示するプラグイン(v1・公開 2026-07-13・タグ: 一覧強調、表示制御)
+- [サイドバー（コメント欄・履歴）開閉プラグイン](https://govapps-plugin.pons-llc.com/plugins/sidebar_toggle/): レコードの値の条件によって、レコード詳細・編集画面のサイドバー(コメント欄・変更履歴)の表示状態を自動的に切り替えるプラグイン(PC専用)(v1・公開 2026-07-24・タグ: サイドバー開閉、表示制御)
+- [グループフィールド開閉プラグイン](https://govapps-plugin.pons-llc.com/plugins/group_field_toggle/): レコードの値の条件によって、レコード画面のグループフィールドの開閉状態を自動的に切り替えるプラグイン(PC・モバイル対応)(v1・公開 2026-07-24・タグ: グループフィールド、表示制御)
+- [追加・編集・コピーボタン非表示プラグイン](https://govapps-plugin.pons-llc.com/plugins/record_button_toggle/): レコードの値の条件によって、追加・編集・コピー(再利用)ボタンの表示/非表示を自動的に切り替えるプラグイン(コピーボタンの制御はPC専用)(v1・公開 2026-07-24・タグ: ボタン非表示、表示制御)
+- [レーダーチャートプラグイン](https://govapps-plugin.pons-llc.com/plugins/radar_chart_view/): レコード一覧画面のボタン押下で、3〜8角形のレーダーチャートを別タブの自己完結HTMLとして生成するプラグイン(v1・公開 2026-07-25・タグ: グラフ表示、集計)
+- [詳細カレンダープラグイン](https://govapps-plugin.pons-llc.com/plugins/calendar_view/): レコード一覧画面に、グループ分け・色分け(凡例付き)・週表示/日表示に対応した詳細なカレンダーを表示するプラグイン。REST APIを一切使わずJavaScript APIのみで実現しているため、表示は一覧の現在ページから最大100件までです。(v1・公開 2026-08-12・タグ: カレンダー表示、グループ分け、色分け)
+- [予算管理プラグイン](https://govapps-plugin.pons-llc.com/plugins/budget_meter/): 一覧(View)ごとに予算額と集計対象フィールドを設定し、絞り込み条件に該当するレコードの合計値を予算に対する使用率メーターで表示するプラグイン。許可グループ限定の「すべての予算を確認」ボタンで複数の一覧の予算をまとめて確認することもできます。(v1・公開 2026-08-13・タグ: 予算管理、進捗メーター、一覧集計)
+- [カンバンボードプラグイン](https://govapps-plugin.pons-llc.com/plugins/kanban_view/): レコード一覧画面に、グループ分け・担当者表示・期限超過マークに対応したカンバンボードを表示するプラグイン。REST APIを一切使わずJavaScript APIのみで実現しています。(v1・公開 2026-08-13・タグ: カンバンボード、グループ分け、期限管理)
+- [サイドパネルモバイル表示プラグイン](https://govapps-plugin.pons-llc.com/plugins/sidebar_mobile_view/): 関連する顧客マスタや過去の履歴を確認したいだけなのに、別アプリ・別タブをいちいち開き直すのは面倒じゃないですか?このプラグインなら、レコード編集・新規作成画面のサイドパネルにそのままモバイル版画面を表示でき、関連アプリを見ながら手元の作業を進められます(PC専用)。(v4・公開 2026-09-24・タグ: サイドパネル、モバイル表示、表示切替)
+- [ジェノグラム作成プラグイン](https://govapps-plugin.pons-llc.com/plugins/genogram/): 人物・婚姻・離婚・内縁・別居・養子・里子・親密/対立/疎遠/断絶・同居・メモを画面で入力すると、レコードのスペースフィールドにジェノグラム(家族関係図)を世代ごとに自動配置して描画するプラグイン。データは文字列(複数行)フィールドにJSONで保存。画像(PNG)保存・印刷に対応し、kintoneが無い環境向けにオフラインで使える1ファイルのWebアプリ版もあります。(v1・公開 2026-10-20・タグ: ジェノグラム、家族関係図、相談支援)
+
+### データ連携
+
+- [セルフルックアッププラグイン](https://govapps-plugin.pons-llc.com/plugins/self_lookup/): 同一アプリ内の他レコードをキー一致で検索し、一致したレコードの値を自レコードへ反映するプラグイン(v1・公開 2026-07-10・タグ: セルフルックアップ、自動入力)
+- [関連レコード集計プラグイン](https://govapps-plugin.pons-llc.com/plugins/related_record_summary/): 関連レコード一覧フィールドが参照する先のアプリのレコードを件数・合計・平均で集計し、自アプリの指定フィールドへ書き込むプラグイン(v1・公開 2026-07-11・タグ: 関連レコード集計、自動集計)
+- [ユーザー情報ルックアッププラグイン](https://govapps-plugin.pons-llc.com/plugins/user_info_lookup/): 文字列1行またはユーザー選択フィールドに入力されたユーザーコードをもとに、氏名・メールアドレス・所属・グループなどのユーザー情報を別の文字列フィールドへ自動入力するプラグイン(v1・公開 2026-07-11・タグ: ユーザー情報、自動入力)
+- [組織ルックアッププラグイン](https://govapps-plugin.pons-llc.com/plugins/org_lookup/): 文字列1行または組織選択フィールドに入力された組織コードをもとに、組織名・説明・親組織の情報を別の文字列フィールドへ自動入力するプラグイン(v1・公開 2026-07-11・タグ: 組織情報、自動入力)
+- [自動ルックアッププラグイン](https://govapps-plugin.pons-llc.com/plugins/auto_lookup/): レコード追加・編集画面を開いたとき、選んだルックアップフィールド(サブテーブル内含む)を自動的に再取得(再ルックアップ)するプラグイン。発動タイミングはフィールドごとに選択可能(v2・公開 2026-07-13・タグ: 自動ルックアップ、再取得)
+- [法人番号検索プラグイン](https://govapps-plugin.pons-llc.com/plugins/biz_code_search/): gBizINFO REST API v2を利用し、法人番号から法人情報を、法人名から法人番号を検索して自動入力するプラグイン(v1・公開 2026-07-14・タグ: 法人情報、自動入力)
+- [照会回答パッケージプラグイン](https://govapps-plugin.pons-llc.com/plugins/research_and_answer/): 「依頼アプリ」「回答アプリ」の2つだけで、部署間の照会(調査依頼)・回答業務をノーコードで動的フォーム化できるプラグイン(v5・公開 2026-07-21・タグ: 照会回答、ノーコードフォーム)
+- [削除バックアッププラグイン](https://govapps-plugin.pons-llc.com/plugins/delete_backup/): レコード削除の直前に、削除されるレコードの内容(添付ファイルを含む)をzipダウンロードまたは別アプリへのアーカイブで必ずバックアップしてから削除を許可するプラグイン(v1・公開 2026-07-24・タグ: 削除防止、バックアップ)
+- [プロセスアクション自動入力プラグイン](https://govapps-plugin.pons-llc.com/plugins/process_action_autofill/): プロセス管理のアクションボタンを実行したとき、指定した条件(アクション名・変更前ステータス・変更後ステータス、各項目内はOR・項目間はAND)に一致する場合のみ、対象フィールドの値を自動的に設定・クリアするプラグイン。日付/日時フィールドは実行時点・作成日時・更新日時・特定のフィールドを基準に加減算できます。(v2・公開 2026-09-14・タグ: プロセス管理、自動入力、ワークフロー)
+
+### 自動採番
+
+- [年度リセット自動採番プラグイン](https://govapps-plugin.pons-llc.com/plugins/fiscal_year_numbering/): APIキー・APIトークン不要で、会計年度(4月始まり)でリセットされる和暦+セグメント文字列+連番を自動採番するプラグイン。採番タイミングは保存時・ボタン押下時・ステータス変化時から選べる(v1・公開 2026-07-14・タグ: 自動採番、APIキー不要)
+
+### プラグイン管理
+
+- [プラグイン利用状況AI検索台帳プラグイン](https://govapps-plugin.pons-llc.com/plugins/plugin_catalog_builder/): kintone環境にインストール済みのプラグインと、それを利用しているアプリの一覧を台帳アプリに自動収集し、簡易AI検索やAI用データダウンロードで探せるようにするプラグイン(v1・公開 2026-07-19・タグ: プラグイン一覧、AI検索)
+- [notebookLM用設計ファイルダウンロードプラグイン](https://govapps-plugin.pons-llc.com/plugins/notebooklm_export/): アプリの設計情報(フィールド・設定・カスタマイズ・アクセス権・通知・導入プラグイン一覧)を、関連アプリの分も含めてNotebookLMなど外部AIツール向けの.txt/.md形式でzipダウンロードするプラグイン(v1・公開 2026-07-26・タグ: 設計書、引き継ぎ)
+
+### 一括更新
+
+- [特定フィールド一括更新プラグイン](https://govapps-plugin.pons-llc.com/plugins/bulk_field_update/): レコード一覧画面のボタン押下で、対象フィールドの値を確認ダイアログでその都度入力し、一覧画面の現在の絞り込み条件に一致する全レコードへ一括で書き込むプラグイン(v1・公開 2026-08-08・タグ: 一括編集、絞り込み条件、ルックアップ)
+- [一括承認プラグイン](https://govapps-plugin.pons-llc.com/plugins/bulk_approval/): プロセス管理を有効にすると自動的に作成される「（作業者が自分）」一覧に一括承認ボタンを設置し、現在のステータスごとにグループ分けしたモーダルでチェックボックスにより対象レコードを選択、グループごとに実行可能なプロセス管理のアクションを選んで最終確認のうえ一括実行するプラグイン。モーダルに表示する項目は設定画面から選択できます。(v1・公開 2026-08-13・タグ: 一括承認、プロセス管理、ワークフロー)
+
+### セキュリティ
+
+- [フィールド暗号化プラグイン](https://govapps-plugin.pons-llc.com/plugins/field_encryption/): 文字列(1行)・文字列(複数行)フィールドの値を、ブラウザ内でパスフレーズによりAES-256-GCM暗号化してから保存するプラグイン。パスフレーズはどこにも保存されません。(v1・公開 2026-08-12・タグ: 暗号化、機密情報保護)
+
+### 一括作成
+
+- [レコード一括作成プラグイン](https://govapps-plugin.pons-llc.com/plugins/bulk_record_creation/): レコード一覧画面のボタン押下で、ユーザー・組織・グループへの割り当てや、日付/時刻の繰り返し(定例)日程に応じて複数レコードを一括作成するプラグイン。会議室の予約枠作成や、日報の事前作成による提出状況の可視化などに使えます。(v1・公開 2026-08-12・タグ: 予約枠作成、定例タスク、組織階層選択)
+
+### データ分析
+
+- [AIダッシュボード for kintone](https://govapps-plugin.pons-llc.com/plugins/natural_text_dashboard/): レコード一覧画面に「現在のクエリでダッシュボードを作成」ボタンを追加し、AIとのチャットでKPI・グラフ・表・地図のダッシュボードを組み立てるプラグイン。利用にはご自身のGemini/OpenAI/Claude APIキーが必要です。(v1・公開 2026-08-15・タグ: AI活用、ダッシュボード、自然言語)
+- [アプリ間突合プラグイン](https://govapps-plugin.pons-llc.com/plugins/cross_app_check/): 基準アプリに登録されている人が別のアプリにも提出しているかを突き合わせ、「提出済/未提出」の一覧を作成するプラグイン。アプリと絞り込み条件はレコード一覧のURLを貼り付けるだけで指定でき、突合の設定はレコードごとに持てます。結果は実行のたびに履歴として蓄積されます。(v1・公開 2026-08-18・タグ: アプリ間突合、未提出チェック、名寄せ)
+
+### 帳票・出力
+
+- [帳票ビルダープラグイン](https://govapps-plugin.pons-llc.com/plugins/report_prompt_builder/): kintoneのレコード情報から見積書・請求書などの帳票を、外部の生成AIを使わずドラッグ&ドロップでノーコード作成できるプラグイン。PDF出力・添付ファイルへの自動保存、テーブル明細の単位・桁区切り表示にも対応しています。(v1・公開 2026-08-21・タグ: 見積書作成、PDF出力、ノーコード)
+
+## 解決策ページ(「kintoneで○○したい」別の解決方法)
+
+- [kintoneでレコードを集計する方法｜予算管理・関連レコード集計の無料プラグイン](https://govapps-plugin.pons-llc.com/solutions/aggregation/): kintoneで経費一覧の合計額を予算と見比べたい、関連レコード一覧が参照する明細を件数・合計・平均で集計したい方向けに、無料プラグインで実現する方法を解説します。
+- [kintoneで決裁・承認プロセスを管理する方法｜決裁履歴記録の無料プラグイン](https://govapps-plugin.pons-llc.com/solutions/approval/): kintoneのプロセス管理で決裁履歴を記録したい、承認の進捗を見える化したい方向けに、無料プラグインで実現する方法を解説します。
+- [kintoneで自動採番する方法｜無料プラグインで連番・年度リセット](https://govapps-plugin.pons-llc.com/solutions/automatic-numbering/): kintoneで連番を自動採番したい、年度が変わったら番号をリセットしたい、和暦の文書番号を使いたい方向けに、APIキー不要の無料プラグインで実現する方法を解説します。
+- [kintoneで法人番号を自動取得する方法｜gBizINFO連携の無料プラグイン](https://govapps-plugin.pons-llc.com/solutions/biz-code-search/): kintoneで法人番号から会社情報を、法人名から法人番号を自動入力したい方向けに、gBizINFO REST APIを使った無料プラグインで実現する方法を解説します。
+- [kintoneにBox・Google Driveを埋め込む方法｜無料プラグインでファイルをその場に表示](https://govapps-plugin.pons-llc.com/solutions/box-google-drive/): kintoneのレコード画面に、Google DriveやBoxのフォルダ・ファイルを埋め込んで表示したい方向けに、無料プラグインで実現する方法を解説します。
+- [kintoneのレコードを一括更新する方法｜無料プラグインでまとめて変更](https://govapps-plugin.pons-llc.com/solutions/bulk-update/): kintoneで一覧の絞り込み条件に一致する複数レコードのフィールド値をまとめて変更したい、ステータスを一括で進めたい方向けに、無料プラグインで実現する方法を解説します。
+- [kintoneで大切なデータを守る方法｜誤削除防止・暗号化の無料プラグイン](https://govapps-plugin.pons-llc.com/solutions/data-protection/): kintoneでレコードの誤削除に備えたい、口座番号のような機微な個人情報を暗号化して保存したい方向けに、無料プラグインで実現する方法を解説します。
+- [kintoneの入力を制御する方法｜条件付き必須・非表示・絞込の無料プラグイン](https://govapps-plugin.pons-llc.com/solutions/input-control/): kintoneで条件によって入力項目を必須にしたい、非表示にしたい、選択肢を絞り込みたい方向けに、無料プラグインで実現する方法を解説します。
+- [kintoneの日付を和暦表示する方法｜無料プラグインで西暦・令和を自動変換](https://govapps-plugin.pons-llc.com/solutions/japanese-calendar/): kintoneの日付フィールドの値を、令和などの和暦表記(西暦併記可)へ自動変換したい方向けに、無料プラグインで実現する方法を解説します。
+- [kintoneの一覧を見やすくする方法｜カンバン表示・色分け強調の無料プラグイン](https://govapps-plugin.pons-llc.com/solutions/list-visualization/): kintoneのレコード一覧を表形式のまま眺めていても進捗や優先度がつかみにくい方向けに、カンバンボード表示・条件による色分け強調を無料プラグインで実現する方法を解説します。
+- [kintoneのルックアップを自動化・拡張する方法｜ユーザー・組織・自動更新の無料プラグイン](https://govapps-plugin.pons-llc.com/solutions/lookup/): kintoneでルックアップ先の情報を自動更新したい、ユーザーコードから氏名を、組織コードから組織名を自動入力したい方向けに、無料プラグインで実現する方法を解説します。
+- [kintoneの印刷項目を制御する方法｜無料プラグインで不要なフィールドを非表示](https://govapps-plugin.pons-llc.com/solutions/print-control/): kintoneのレコード印刷時に、社内向けメモや作業用フィールドなど帳票に出したくない項目を非表示にしたい方向けに、無料プラグインで実現する方法を解説します。
+- [kintoneで会議室予約・タスク管理を自動化する方法｜一括作成・カレンダー表示の無料プラグイン](https://govapps-plugin.pons-llc.com/solutions/scheduling/): kintoneで会議室の予約枠や定例タスクを一括作成したい、作った予定をカレンダーで確認したい方向けに、無料プラグインで実現する方法を解説します。
+- [kintoneのサブテーブルを使いこなす方法｜並び替え・ルックアップの無料プラグイン](https://govapps-plugin.pons-llc.com/solutions/subtable/): kintoneのサブテーブルの行を並び替えたい、サブテーブル内の値を検索して自動入力したい方向けに、無料プラグインで実現する方法を解説します。
+- [kintoneのフォームをタブ表示にする方法｜無料プラグインで入力画面を整理](https://govapps-plugin.pons-llc.com/solutions/tab-layout/): kintoneの入力項目が多いフォームを、基本情報・契約詳細のようにタブで切り替えて見やすくしたい方向けに、無料プラグインで実現する方法を解説します。
+- [kintoneの文字列を分割・抽出する方法｜無料プラグインで文字列処理を自動化](https://govapps-plugin.pons-llc.com/solutions/text-processing/): kintoneで住所のような1つの文字列フィールドを区切り文字で分割したい、部分文字列や数字だけを抽出したい方向けに、無料プラグインで実現する方法を解説します。
+
+## 記事
+
+- [kintoneで決裁履歴を自動で記録する方法（無料）](https://govapps-plugin.pons-llc.com/articles/approval-history/): kintoneのプロセス管理で、誰がいつ承認したかの履歴を自動で記録したい方向けに、無料プラグインで実現する方法を、実際の承認操作と記録結果つきで解説します。
+- [kintoneでルックアップ先の情報を自動更新する方法（無料）](https://govapps-plugin.pons-llc.com/articles/auto-lookup/): kintoneでルックアップ先のマスタ情報が変わったとき、既存レコード側の値も自動で最新化したい方向けに、無料プラグインで実現する方法を、実際の自動反映結果つきで解説します。
+- [kintoneで予算と実績を管理する方法（無料）](https://govapps-plugin.pons-llc.com/articles/budget-management/): kintoneの経費一覧の合計額が予算の何%に達しているかを、無料プラグインでメーター表示する方法を、実際の設定画面・警告表示結果つきで解説します。
+- [kintoneで複数レコードを一括承認する方法（無料）](https://govapps-plugin.pons-llc.com/articles/bulk-approval/): kintoneのプロセス管理で、「(作業者が自分)」一覧に並ぶ複数の申請をまとめて承認したい場合の実現方法を、無料プラグインの実際の設定画面・実行結果つきで解説します。
+- [kintoneのレコードを一括更新する方法｜条件に一致するレコードをまとめて変更（無料）](https://govapps-plugin.pons-llc.com/articles/bulk-field-update/): kintoneで、一覧の絞り込み条件に一致する複数レコードのステータス等をまとめて変更したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。
+- [kintoneでレコードを一括作成する方法｜複数レコードをまとめて登録（無料）](https://govapps-plugin.pons-llc.com/articles/bulk-record-creation/): kintoneで、毎週の定例会議のように同じ内容のレコードを日付を変えて何件も作りたい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。
+- [kintoneの予定をカレンダーで表示する方法（無料）](https://govapps-plugin.pons-llc.com/articles/calendar-view/): kintoneのレコード一覧を、担当チームごとに色分け・列分けした週表示・日表示のカレンダーとして見たい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。
+- [kintoneで条件によってフィールドを非表示にする方法（無料）](https://govapps-plugin.pons-llc.com/articles/conditional-display/): kintoneで、ドロップダウン・ラジオボタンの選択値に応じて不要なフィールドを非表示にしたい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。
+- [kintoneで削除・保存時に確認ダイアログを表示する方法（無料）](https://govapps-plugin.pons-llc.com/articles/confirm-modal/): kintoneでレコードの保存・削除・プロセス管理のアクション実行時に、独自の文言で確認ダイアログを表示してキャンセルできるようにしたい場合の実現方法を、無料プラグインの実際の設定画面・動作結果つきで解説します。
+- [kintoneで法人番号から会社情報を自動入力する方法｜gBizINFO連携（無料）](https://govapps-plugin.pons-llc.com/articles/corporate-number-lookup/): kintoneで法人番号や法人名から、正式名称・代表者名などの会社情報を自動入力したい方向けに、経済産業省gBizINFOと連携する無料プラグインで実現する方法を、実際のAPIリクエスト結果つきで解説します。
+- [kintoneでレコードを削除する前にバックアップする方法（無料）](https://govapps-plugin.pons-llc.com/articles/delete-backup/): kintoneでレコードを削除する前に、添付ファイルを含めた内容を必ずバックアップしてから削除を許可したい場合の実現方法を、無料プラグインの実際の設定画面・削除結果つきで解説します。
+- [kintoneで個人情報を暗号化して保存する方法（無料）](https://govapps-plugin.pons-llc.com/articles/field-encryption/): kintoneの口座番号のような機微な個人情報を、REST APIからも読み取れない形で暗号化して保存したい場合の実現方法を、無料プラグインの実際の設定画面・暗号化/復号結果つきで解説します。
+- [kintoneで年度が変わったら番号をリセットして自動採番する方法（無料）](https://govapps-plugin.pons-llc.com/articles/fiscal-year-numbering/): kintoneで会計年度が変わったら連番を1にリセットしたい、和暦の文書番号を自動で振りたい方向けに、APIキー不要の無料プラグインで実現する方法を、実際に採番した結果つきで解説します。
+- [kintoneにGoogle Driveのファイルを表示・埋め込む方法（無料）](https://govapps-plugin.pons-llc.com/articles/google-drive-embed/): kintoneのレコード画面に、Google DriveやBoxのフォルダを埋め込んで表示したい場合の実現方法を、無料プラグインの実際の設定画面・許可ドメイン以外をブロックする挙動つきで解説します。
+- [kintoneでカンバンボードを作る方法｜案件・タスクを見える化（無料）](https://govapps-plugin.pons-llc.com/articles/kanban-board/): kintoneの一覧を表形式のまま眺めていると、案件やタスクの進捗の全体感がつかみにくいことがあります。この記事では、無料プラグインで進捗ごとに列分けしたカンバンボードを表示する方法を、実際の設定画面と表示結果つきで解説します。
+- [kintoneの一覧を条件によって色分けする方法（無料）](https://govapps-plugin.pons-llc.com/articles/list-highlight/): kintoneのレコード一覧で、対応状況が「未対応」の行だけを色分けして目立たせたい場合の実現方法を、無料プラグインの実際の設定画面・強調表示結果つきで解説します。
+- [kintoneで会議室の予約枠を一括作成する方法｜平日9-17時を1時間ごとに（無料）](https://govapps-plugin.pons-llc.com/articles/meeting-room-booking/): kintoneで会議室の予約枠を、平日9-17時を1時間ごとに一括で作成したい方向けに、無料プラグインで実現する方法を、実際に24件のレコードを作成した結果つきで解説します。
+- [kintoneの組織コードから組織名を取得する方法（無料）](https://govapps-plugin.pons-llc.com/articles/organization-code-lookup/): kintoneで、入力した組織コードから組織名・説明・親組織名を自動入力したい場合の実現方法を、無料プラグインの実際の設定画面・反映結果つきで解説します。
+- [kintoneで全部署に一斉に調査照会を作成する方法｜レコード一括作成プラグイン（無料）](https://govapps-plugin.pons-llc.com/articles/organization-inquiry/): kintoneで、総務課などの1部署から社内のすべての組織(部署)に対して一斉に調査照会レコードを作成したい場合の実現方法を、無料プラグインの実際の設定画面・作成結果つきで解説します。
+- [自治体でkintoneの無料プラグインを安全に導入するために確認したい6つのポイント](https://govapps-plugin.pons-llc.com/articles/plugin-security-checklist/): 自治体・企業でkintoneの無料プラグインを導入する前に確認したいセキュリティチェックポイントを6つにまとめました。外部通信先・認証情報の保存場所・XSS対策・ソース公開の有無などを解説します。
+- [kintoneの関連レコードを件数・合計・平均で集計する方法（無料）](https://govapps-plugin.pons-llc.com/articles/related-record-summary/): kintoneの関連レコード一覧フィールドが参照する明細の金額合計を、自アプリのフィールドへ自動で書き込みたい場合の実現方法を、無料プラグインの実際の設定画面・集計結果つきで解説します。
+- [kintoneで条件によって入力項目を必須にする方法（無料）](https://govapps-plugin.pons-llc.com/articles/required-condition/): kintoneで特定の選択肢を選んだときだけ別のフィールドを必須にしたい方向けに、無料プラグインで実現する方法を、実際のバリデーションエラー画面つきで解説します。
+- [kintoneで同じアプリの別レコードを検索して値を取得する方法（無料）](https://govapps-plugin.pons-llc.com/articles/self-lookup/): kintoneで同一アプリ内の別レコードをキー一致で検索し、値を自レコードへ自動転記する方法を、無料プラグインの実際の設定画面・検索結果つきで解説します。
+- [kintoneのサブテーブルを金額順に並び替える方法（無料）](https://govapps-plugin.pons-llc.com/articles/subtable-sort/): kintoneのサブテーブルの行を保存するたびに自動で金額順・日付順に並び替えたい方向けに、無料プラグインで実現する方法を、実際の並び替え結果つきで解説します。
+- [kintoneの入力フォームをタブ化する方法（無料）](https://govapps-plugin.pons-llc.com/articles/tab-layout/): kintoneの入力項目が多いフォームを、基本情報・契約詳細のようにタブで切り替えて見やすくしたい場合の実現方法を、無料プラグインの実際の設定画面・表示結果つきで解説します。
+- [kintoneの文字列から数字だけを抽出する方法（無料）](https://govapps-plugin.pons-llc.com/articles/text-extract-number/): kintoneで、住所のような文字列から丁目・番地・号のような数字部分だけを取り出して別フィールドに入力したい場合の実現方法を、無料プラグインの実際の設定画面・抽出結果つきで解説します。
+- [kintoneの文字列を区切り文字で分割する方法（無料）](https://govapps-plugin.pons-llc.com/articles/text-split/): kintoneで、住所のような1つの文字列フィールドをスペースなどの区切り文字で複数のフィールドに自動分割したい場合の実現方法を、無料プラグインの実際の設定画面・分割結果つきで解説します。
+- [kintoneでユーザーコードから氏名・メールアドレスを自動取得する方法（無料）](https://govapps-plugin.pons-llc.com/articles/user-info-lookup/): kintoneでユーザーコードを入力するだけで氏名・メールアドレス・所属を自動入力したい方向けに、無料プラグインで実現する方法を、実際のUser API実行結果つきで解説します。
+- [kintoneの日付を令和・和暦に変換する方法（無料）](https://govapps-plugin.pons-llc.com/articles/wareki-date/): kintoneの日付フィールドの値を、令和などの和暦表記(西暦併記可)へ自動変換して別フィールドに入力したい場合の実現方法を、無料プラグインの実際の設定画面・変換結果つきで解説します。
+
+## 機械可読データ
+
+- [plugins.json](https://govapps-plugin.pons-llc.com/plugins.json): 全プラグインの一覧(id・名称・説明・バージョン・公開日・ダウンロードURL・ページ・カテゴリ・タグ・紹介動画)のJSON
+- [llms-full.txt](https://govapps-plugin.pons-llc.com/llms-full.txt): 全プラグインページの本文をMarkdownにまとめたもの(機能・セットアップ・セキュリティ・API実行数の詳細)
+- [sitemap.xml](https://govapps-plugin.pons-llc.com/sitemap.xml) / [rss.xml](https://govapps-plugin.pons-llc.com/rss.xml)
+
+## Optional
+
+- [About](https://govapps-plugin.pons-llc.com/about): 運営者・サイトの方針
+- [FAQ](https://govapps-plugin.pons-llc.com/faq): よくある質問
+- [利用規約](https://govapps-plugin.pons-llc.com/terms)
+- [プライバシーポリシー](https://govapps-plugin.pons-llc.com/privacypolicy)
