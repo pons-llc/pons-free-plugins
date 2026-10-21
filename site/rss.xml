@@ -5,7 +5,28 @@
     <link>https://govapps-plugin.pons-llc.com/</link>
     <description>安全性を確認できる無料kintoneプラグイン集の新着プラグイン・記事・解決策ページ情報</description>
     <language>ja</language>
-    <lastBuildDate>Mon, 19 Oct 2026 15:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 21 Oct 2026 07:55:04 GMT</lastBuildDate>
+    <item>
+      <title>kintoneで決裁・承認プロセスを管理する方法｜決裁履歴記録の無料プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/solutions/approval/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/approval/</guid>
+      <description>kintoneのプロセス管理で決裁履歴を記録したい、承認の進捗を見える化したい方向けに、無料プラグインで実現する方法を解説します。</description>
+      <pubDate>Wed, 21 Oct 2026 07:55:04 GMT</pubDate>
+    </item>
+    <item>
+      <title>kintoneのアプリ設定の変更履歴を残す方法 ― 変更を承認制にしてガバナンス・監査に対応（無料）</title>
+      <link>https://govapps-plugin.pons-llc.com/articles/app-settings-change-history/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/articles/app-settings-change-history/</guid>
+      <description>kintoneのアプリ設定(フィールドや一覧)を「誰が・いつ・何を・なぜ変えたか」を変更履歴として残し、設定変更を承認制にする方法を、無料プラグインで実際に依頼・承認・自動反映した結果つきで解説します。アプリ設定のガバナンス、監査・内部統制への対応に。</description>
+      <pubDate>Wed, 21 Oct 2026 07:54:41 GMT</pubDate>
+    </item>
+    <item>
+      <title>アプリ設定変更依頼プラグイン</title>
+      <link>https://govapps-plugin.pons-llc.com/plugins/app_settings_request/</link>
+      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/app_settings_request/</guid>
+      <description>アプリのフィールド設定・一覧の変更をレコードで依頼・承認し、プロセス管理で「完了」になったときにREST APIで対象アプリへ自動反映(アプリの更新まで)するプラグイン。フィールド名・コード・必須・重複禁止・初期値・選択肢・文字数/値の範囲・削除と、一覧の作成・修正・削除(一覧画面のURLから条件を変換)に対応。依頼レコードがアプリ設定の変更履歴になり、ガバナンス・監査対応に使えます。</description>
+      <pubDate>Tue, 20 Oct 2026 15:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>ジェノグラム作成プラグイン</title>
       <link>https://govapps-plugin.pons-llc.com/plugins/genogram/</link>
@@ -33,13 +54,6 @@
       <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/plugins/input_format_rule/</guid>
       <description>文字列1行フィールドに、禁止する文字種(半角/全角のひらがな・カタカナ・英数字・記号、全角すべて・半角すべて・スペースの計10種類)をチェックボックスで指定できるプラグイン。値の変更時・保存時にチェックし、禁止文字が含まれていればフィールドにエラーを表示して保存をブロックします(PC・モバイル対応)。</description>
       <pubDate>Thu, 17 Sep 2026 15:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>kintoneで決裁・承認プロセスを管理する方法｜決裁履歴記録の無料プラグイン</title>
-      <link>https://govapps-plugin.pons-llc.com/solutions/approval/</link>
-      <guid isPermaLink="true">https://govapps-plugin.pons-llc.com/solutions/approval/</guid>
-      <description>kintoneのプロセス管理で決裁履歴を記録したい、承認の進捗を見える化したい方向けに、無料プラグインで実現する方法を解説します。</description>
-      <pubDate>Mon, 14 Sep 2026 08:04:31 GMT</pubDate>
     </item>
     <item>
       <title>プロセスアクション自動入力プラグイン</title>

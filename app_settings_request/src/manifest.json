@@ -1,0 +1,66 @@
+{
+  "$schema": "https://raw.githubusercontent.com/kintone/js-sdk/%40kintone/plugin-manifest-validator%4010.2.0/packages/plugin-manifest-validator/manifest-schema.json",
+  "manifest_version": 1,
+  "version": 1,
+  "type": "APP",
+  "desktop": {
+    "js": [
+      "js/lib/option-changes.js",
+      "js/lib/operations.js",
+      "js/lib/target-fields.js",
+      "js/lib/view-changes.js",
+      "js/lib/query-url.js",
+      "js/lib/change-request.js",
+      "js/lib/api-path.js",
+      "js/lib/deploy-poller.js",
+      "js/lib/field-defs.js",
+      "js/lib/config-store.js",
+      "js/lib/process-setup.js",
+      "js/lib/apply-runner.js",
+      "js/proceed.js",
+      "js/view-editor.js",
+      "js/desktop.js"
+    ],
+    "css": ["css/desktop.css"]
+  },
+  "mobile": {
+    "js": [
+      "js/lib/option-changes.js",
+      "js/lib/operations.js",
+      "js/lib/target-fields.js",
+      "js/lib/view-changes.js",
+      "js/lib/query-url.js",
+      "js/lib/change-request.js",
+      "js/lib/api-path.js",
+      "js/lib/deploy-poller.js",
+      "js/lib/field-defs.js",
+      "js/lib/config-store.js",
+      "js/lib/process-setup.js",
+      "js/lib/apply-runner.js",
+      "js/proceed.js",
+      "js/mobile.js"
+    ]
+  },
+  "icon": "image/icon.png",
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/lib/api-path.js",
+      "js/lib/deploy-poller.js",
+      "js/lib/field-defs.js",
+      "js/lib/config-store.js",
+      "js/lib/process-setup.js",
+      "js/config.js"
+    ],
+    "css": ["css/51-modern-default.css", "css/config.css"],
+    "required_params": []
+  },
+  "name": {
+    "en": "App Settings Change Request",
+    "ja": "アプリ設定変更依頼プラグイン"
+  },
+  "description": {
+    "en": "Request changes to kintone app field settings as records, approve them with process management, and apply them to the target app automatically on completion.",
+    "ja": "アプリのフィールド設定の変更をレコードで依頼・承認し、プロセス管理で「完了」になったときにREST APIで対象アプリへ自動反映(運用環境への反映まで)するプラグイン"
+  }
+}

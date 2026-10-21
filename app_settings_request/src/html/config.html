@@ -1,0 +1,49 @@
+<section class="settings">
+  <h2 class="settings-heading">アプリ設定変更依頼プラグイン 設定</h2>
+  <p class="kintoneplugin-desc">
+    このアプリを「アプリ設定の変更依頼アプリ」として使います。1レコードが1件の変更依頼(1つのフィールドに対する1つの変更)です。
+    レコード追加画面で対象アプリとフィールド、変更内容を選んで依頼し、プロセス管理で完了ステータスになったときに、
+    そのアクションを実行したユーザーの権限で対象アプリへ反映し、運用環境へ反映(アプリを更新)します。
+  </p>
+
+  <form class="js-submit-settings">
+    <div id="js-errors" class="asr-errors" role="alert"></div>
+    <div id="js-progress" class="asr-progress"></div>
+
+    <section class="asr-section">
+      <div class="asr-section-heading">完了ステータス名</div>
+      <p class="kintoneplugin-desc">このステータスへ進むアクションを実行したときに、依頼内容を対象アプリへ反映します。</p>
+      <div class="kintoneplugin-input-outer">
+        <input type="text" class="kintoneplugin-input-text js-complete-status" maxlength="64">
+      </div>
+    </section>
+
+    <section class="asr-section">
+      <div class="asr-section-heading">保存時に自動で行うこと</div>
+      <ul class="asr-list">
+        <li>必要なフィールド(対象アプリID/対象アプリ名/対象フィールド/変更内容/変更内容(JSON)/依頼理由/反映結果/反映日時)と、依頼の入力欄になるスペースを作成します(既にあるフィールドは変更しません)。</li>
+        <li>プロセス管理をONにします。一度もプロセス管理を設定していない場合は「未申請 →[申請する]→ 承認待ち →[承認する]→ 完了」(承認待ちから「差し戻す」で未申請へ)の承認フローを作成します。</li>
+        <li>最後にアプリを更新(運用環境へ反映)します。</li>
+      </ul>
+      <div id="js-field-status" class="asr-field-status"></div>
+      <div id="js-process-status" class="asr-field-status"></div>
+    </section>
+
+    <div class="asr-notice">
+      <div class="asr-notice-title">承認経路(作業者)を必ず設定してください</div>
+      <ul class="asr-list">
+        <li>保存後、アプリの設定 → プロセス管理で、各ステータスの作業者(承認経路)を運用に合わせて設定し、アプリを更新してください。
+          既定の承認フローでは「承認待ち」の作業者を<strong>この設定を保存したユーザー</strong>にしています。</li>
+        <li>作業者を設定していないステータスでは、レコードを閲覧できるすべてのユーザーがアクションを実行できてしまいます(kintoneの仕様)。</li>
+        <li>完了ステータスへ進むアクションを実行するユーザー(承認者)は、<strong>対象アプリのアプリ管理権限</strong>が必要です。権限が無い場合はエラーになり、ステータスは変わりません。</li>
+        <li>依頼の内容(変更内容)は承認後に書き換えられないよう、承認待ち以降のステータスではレコードの編集を作業者に限定する(レコードのアクセス権など)運用をおすすめします。反映時には、承認者が見ている画面の内容と保存されている内容が一致するかを確認しています。</li>
+        <li>対象アプリに運用環境へ未反映の設定変更(アプリの設定画面で「アプリを更新」していない変更)がある場合は、ほかの人の作業途中の変更まで反映しないよう、エラーで中止します。</li>
+      </ul>
+    </div>
+
+    <p class="kintoneplugin-row">
+      <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">キャンセル</button>
+      <button class="kintoneplugin-button-dialog-ok">保存</button>
+    </p>
+  </form>
+</section>

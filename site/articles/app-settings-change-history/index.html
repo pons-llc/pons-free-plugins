@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBC6P96DBD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CBC6P96DBD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kintoneのアプリ設定の変更履歴を残す方法 ― 変更を承認制にしてガバナンス・監査に対応（無料） | GovAppsプラグイン</title>
+<meta name="description" content="kintoneのアプリ設定(フィールドや一覧)を「誰が・いつ・何を・なぜ変えたか」を変更履歴として残し、設定変更を承認制にする方法を、無料プラグインで実際に依頼・承認・自動反映した結果つきで解説します。アプリ設定のガバナンス、監査・内部統制への対応に。">
+<link rel="stylesheet" href="../../css/51-modern-default.css">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-top">
+    <p class="site-title">
+      <a class="site-logo" href="/"><span class="logo-gov">Gov</span><span class="logo-apps">Apps</span><span class="logo-plugin">プラグイン</span></a>
+      <span class="site-tagline">安全性を確認できる無料kintoneプラグイン集</span>
+    </p>
+    <button type="button" class="header-menu-toggle" id="header-menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="メニューを開く">
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+      <span class="header-menu-toggle-bar"></span>
+    </button>
+  </div>
+  <p class="breadcrumb"><a href="/">トップ</a> &gt; <a href="/articles">記事一覧</a> &gt; kintoneのアプリ設定の変更履歴を残す方法</p>
+  <nav class="header-menu" id="header-menu" hidden>
+    <a href="/">トップ</a>
+    <a href="/solutions">解決策から探す</a>
+    <a href="/articles">記事</a>
+    <a href="/about">About</a>
+    <a href="/faq">FAQ</a>
+  </nav>
+</header>
+<div class="container">
+
+<div class="plugin-hero">
+  <h1>kintoneのアプリ設定の変更履歴を残す方法 ― 変更を承認制にしてガバナンス・監査に対応（無料）</h1>
+  <p class="plugin-lead">
+    kintoneは現場で手軽にアプリを直せるのが魅力ですが、利用が広がるほど
+    「この項目はいつから必須になったのか」「誰の判断で選択肢を変えたのか」が分からなくなりがちです。
+    この記事では、アプリの設定変更を<strong>レコードで依頼 → 承認 → 自動で反映</strong>する流れにして、
+    <strong>アプリ設定の変更履歴</strong>を残す方法を、実際に検証環境で依頼・承認した結果つきで解説します。
+  </p>
+  <a class="hero-cta-jump" href="#cta-plugins">→ 対応プラグインを見る</a>
+  <p class="author-bio">
+    執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
+    kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
+    <span class="author-bio-note">※本サイトで配布するプラグインは、サイボウズ株式会社のオフィシャルプロダクトではありません。</span>
+  </p>
+</div>
+
+<section class="plugin-section">
+  <h2>こんな方におすすめ</h2>
+  <ul class="recommend-list">
+    <li>kintoneのアプリ設定の変更履歴(誰が・いつ・何を・なぜ変えたか)を残したい</li>
+    <li>アプリの設定変更を、上長や情報システム担当の承認を経てから行う運用にしたい</li>
+    <li>アプリ管理者を少人数に絞り、現場からは「依頼」だけを受け付けたい(kintoneのガバナンス)</li>
+    <li>監査・内部統制・情報セキュリティの規程で、システムの設定変更の記録や承認の証跡を求められている</li>
+    <li>チャットや口頭での設定変更の依頼が多く、対応漏れや設定ミスが心配</li>
+    <li>「kintone アプリ設定 変更履歴」「kintone 設定変更 承認」「kintone ガバナンス」「kintone 監査」を探している</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>なぜアプリ設定の変更履歴が必要になるのか</h2>
+  <p>
+    kintoneでは、アプリ管理権限を持つ人なら誰でも、フィールドの追加・必須化・選択肢の変更・一覧の作成などを
+    その場で行えます。立ち上げ期にはこの手軽さが強みですが、アプリが業務の基幹になってくると、次のような困りごとが出てきます。
+  </p>
+  <ul class="review-checklist">
+    <li><strong>経緯が追えない</strong>: 「この項目が必須になったのはいつから?」「選択肢『解約』は誰が追加した?」に答えられない。</li>
+    <li><strong>勝手な変更・設定ミス</strong>: アプリ管理者が増えると、相談なしの変更や、他の業務に影響する変更(フィールドの削除・コード変更)が起きる。</li>
+    <li><strong>監査・内部統制で説明できない</strong>: システムの設定変更について「承認を経て行ったか」「記録はあるか」を求められても、根拠を出せない。</li>
+    <li><strong>依頼が散らばる</strong>: チャット・メール・口頭で来る依頼の対応状況を、アプリ管理者が個人で抱えてしまう。</li>
+  </ul>
+  <p>
+    解決の方向性は、「設定変更は必ず<strong>依頼</strong>として記録し、<strong>承認</strong>されたものだけを反映する」という
+    変更管理(チェンジマネジメント)の仕組みを、kintoneの中に用意することです。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>kintone標準機能ではどこまでできるか</h2>
+  <ul class="review-checklist">
+    <li><strong>アプリ管理権限の限定</strong>: アプリのアクセス権で、設定を変更できる人を絞ることはできます。ただし、変更の「依頼」や「承認」の仕組みはありません。</li>
+    <li><strong>動作テスト環境(アプリの更新前のプレビュー)</strong>: 設定を変えてから「アプリを更新」するまでの間に動作を確認できますが、誰かに承認してもらう機能ではありません。</li>
+    <li><strong>操作の記録</strong>: 監査ログなどで「設定が変更された」という操作を後から確認できる場合はありますが、<strong>なぜ変えたのか(依頼理由)</strong>・<strong>誰が承認したのか</strong>・<strong>変更前と変更後</strong>を、業務の記録として残すものではありません。</li>
+    <li><strong>依頼用のアプリ+プロセス管理</strong>: 「設定変更依頼」アプリを作り、プロセス管理で承認フローを組むことは標準機能でできます。ただし、承認後に<strong>アプリ管理者が手作業で設定を変える</strong>必要があり、依頼内容と実際の設定がずれたり、作業を忘れたりするリスクが残ります。</li>
+  </ul>
+  <p>
+    つまり、標準機能だけでも「依頼と承認の記録」までは作れますが、<strong>承認された内容をそのまま確実に反映する</strong>部分が手作業になります。
+    ここをREST APIで自動化するのが、この記事で紹介する方法です。
+  </p>
+</section>
+
+<section class="plugin-section">
+  <h2>JavaScript自作・他社プラグインとの比較、なぜGovAppsプラグインか</h2>
+  <div class="table-scroll">
+  <table class="fyn-table">
+    <thead>
+      <tr><th>方法</th><th>向いている場合</th><th>注意点</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>依頼アプリ+手作業で反映</td><td>変更の頻度が少なく、反映作業をアプリ管理者が確実にこなせる場合</td><td>承認後の設定作業が手作業のため、作業漏れや依頼内容との食い違いが起きうる。反映したかどうかも別途記録が必要</td></tr>
+      <tr><td>JavaScriptを自作する</td><td>社内に開発者がいて、自社の規程に合わせて作り込みたい場合</td><td>フィールド設定・一覧の変更API、アプリの更新(デプロイ)、権限確認、失敗時の取り消しまでを自前で実装・保守する必要がある。誤った実装はアプリ設定を壊すため、テストの負担が大きい</td></tr>
+      <tr><td>有料の他社プラグイン・サービス</td><td>予算があり、サポートや多機能さを重視する場合</td><td>月額・年額の費用がかかる。他のアプリの設定を書き換える強い操作を行うのに、処理の中身(ソースコード)を確認できないことが多い</td></tr>
+      <tr><td><strong>GovAppsプラグイン(アプリ設定変更依頼プラグイン)</strong></td><td>無料で、依頼・承認・自動反映と変更履歴をすぐに始めたい場合</td><td>変更できる内容は、フィールドの主な設定(名前・コード・必須・重複禁止・初期値・選択肢・文字数/値の範囲・削除)と一覧の作成・修正・削除に限られる(計算式・ルックアップ・アクセス権などは対象外)</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>
+    <a href="/plugins/app_settings_request/">アプリ設定変更依頼プラグイン</a>は<strong>無料・広告なし</strong>で、
+    <a href="https://github.com/pons-llc/pons-free-plugins/tree/main/app_settings_request" target="_blank" rel="noopener">ソースコードをGitHubで全公開</a>
+    しています。他のアプリの設定を書き換えるプラグインだからこそ、処理の中身を誰でも確認できること、
+    <a href="https://github.com/pons-llc/pons-free-plugins/blob/main/app_settings_request/security-checklist.md" target="_blank" rel="noopener">セキュリティレビューのチェックリスト</a>を公開していることを重視しています。
+    主な設計は次のとおりです。
+  </p>
+  <ul class="review-checklist">
+    <li><strong>承認者自身の権限で反映</strong>: APIトークンやパスワードを一切保存せず、完了にするアクションを実行した人の権限で反映します。対象アプリの管理権限が無ければエラーになり、ステータスは変わりません(プラグインで権限が広がることはありません)。</li>
+    <li><strong>見た内容=反映される内容</strong>: 承認時に変更内容の確認ダイアログを出し、反映の直前に依頼レコードを取り直して、承認者が見ている内容と一致するかを確認します。</li>
+    <li><strong>他人の作業途中の変更を巻き込まない</strong>: 対象アプリにまだ「アプリを更新」していない変更がある場合は中止します。アプリの更新に失敗したら変更を取り消します。</li>
+    <li><strong>外部通信なし</strong>: kintone自身のREST APIだけを使い、外部サーバーへの通信や外部ライブラリはありません。</li>
+  </ul>
+</section>
+
+<section class="plugin-section">
+  <h2>プラグインでの実現方法</h2>
+  <p>
+    今回は、変更対象のアプリとして「契約管理」(契約名・契約先・契約金額・契約区分)を用意し、
+    別に「アプリ設定変更依頼」アプリを作って<a href="/plugins/app_settings_request/">アプリ設定変更依頼プラグイン</a>を追加しました。
+  </p>
+  <ol class="setup-steps">
+    <li>
+      <strong>依頼用のアプリを作り、プラグインを追加して設定画面で「保存」を押す</strong><br>
+      依頼に必要なフィールド(対象アプリ・対象フィールド・変更内容・依頼理由・反映結果・反映日時など)と依頼の入力欄が自動で作成され、
+      プロセス管理(未申請 →[申請する]→ 承認待ち →[承認する]→ 完了)がONになります。手動でのフィールド作成は不要です。
+    </li>
+    <li>
+      <strong>プロセス管理の承認経路(作業者)を設定する</strong><br>
+      「承認待ち」の作業者を、アプリ管理者や情報システム担当にします。承認する人には、変更対象アプリのアプリ管理権限が必要です。
+      承認後に依頼内容を書き換えられないよう、レコードのアクセス権もあわせて設定しておくと安心です。
+    </li>
+  </ol>
+  <div class="screenshot-frame">
+    <img src="screenshots/config-screen.png" alt="アプリ設定変更依頼プラグインの設定画面。完了ステータス名の入力欄と、保存時にフィールドとスペースの作成・プロセス管理のON・アプリの更新を自動で行う旨、承認経路(作業者)を必ず設定するよう促す注意書きが表示されている。" loading="lazy">
+  </div>
+  <ol class="setup-steps" start="3">
+    <li>
+      <strong>依頼者がレコードを追加して依頼する</strong><br>
+      対象アプリをアプリ名で検索し、フィールドを「フィールド名(フィールドコード)」で選び、変更内容を選びます。
+      選べる変更内容は、フィールドの種類に合わせて自動で絞り込まれ、現在の設定も表示されます。今回は「契約名を必須にする」依頼を、依頼理由つきで作成しました。
+    </li>
+  </ol>
+  <div class="screenshot-frame">
+    <img src="screenshots/request-editor.png" alt="依頼の入力欄。対象アプリ「契約管理」を検索して選び、変更の対象に「フィールド」、対象フィールドに「契約名(契約名)」、変更内容に「必須項目の設定」、変更後に「必須」を選んでいる。現在は「任意」であることが表示されている。" loading="lazy">
+  </div>
+  <ol class="setup-steps" start="4">
+    <li>
+      <strong>一覧の作成も依頼できる</strong><br>
+      「こういう一覧がほしい」という依頼は、対象アプリの一覧画面で絞り込み・並べ替えをして、そのURLを貼り付けて「変換」を押すだけです。
+      URLの条件が、フィールドコードの絞り込み条件・並び順に変換されます。
+    </li>
+  </ol>
+  <div class="screenshot-frame">
+    <img src="screenshots/request-view.png" alt="一覧の作成を依頼する入力欄。一覧名「更新予定の契約(金額順)」、一覧画面のURLを変換した結果として絞り込み条件「契約区分 in (&quot;更新&quot;)」、並び順「契約金額 desc」が表示され、表示するフィールドを選べる。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>実行結果: 承認すると対象アプリに自動で反映され、変更履歴が残る</h2>
+  <p>
+    依頼者が「申請する」を実行し、承認者が「承認する」を押すと、<strong>変更内容の確認ダイアログ</strong>が表示されます。
+    「反映する」を押すと、承認者の権限で対象アプリの管理権限を確認したうえで設定を変更し、アプリの更新(運用環境への反映)まで自動で行われます。
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/confirm-dialog.png" alt="「承認する」を押したときの「変更内容の確認」ダイアログ。対象アプリ「契約管理」、対象フィールド「契約名」、変更内容「必須項目の設定」、変更前「任意」、変更後「必須」と、承認者の権限で設定を変更しアプリを更新する旨の説明、「反映する」ボタンが表示されている。" loading="lazy">
+  </div>
+  <p>
+    反映が終わるとステータスが「完了」になり、依頼レコードに<strong>反映結果(変更前・変更後)と反映日時</strong>が記録されます。
+    対象アプリを開くと、「契約名」が必須項目になり、別の依頼で追加した契約区分「解約」も選べるようになっていました。
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/record-result.png" alt="完了した依頼レコードの詳細画面。ステータスが「完了」になり、依頼内容の表(契約名を必須にする)と、反映結果に「対象アプリ『契約管理』に『必須項目の設定』を反映し、運用環境へ反映しました」、反映日時が記録されている。" loading="lazy">
+  </div>
+  <div class="screenshot-frame">
+    <img src="screenshots/target-form.png" alt="変更対象アプリ「契約管理」のレコード追加画面。契約名に必須マーク(*)が付き、契約区分のドロップダウンがある。" loading="lazy">
+  </div>
+  <p>
+    依頼アプリに「変更履歴」という一覧を作っておくと、<strong>アプリ設定の変更履歴(変更管理台帳)</strong>として、
+    どのアプリの・何を・誰の依頼で・なぜ変えたか、承認済みか(ステータス)・いつ反映されたかを一覧で確認できます。
+    監査で設定変更の経緯を聞かれたときも、この一覧を絞り込んだりCSVに書き出したりして答えられます。
+    ステータスの履歴から、誰が承認したかも確認できます。
+  </p>
+  <div class="screenshot-frame">
+    <img src="screenshots/history-list.png" alt="アプリ設定変更依頼アプリの「変更履歴」一覧。対象アプリ名・対象フィールド・変更内容・依頼理由・ステータス・作成者・反映日時の列に、「契約名を必須に(完了)」「契約区分の選択肢の変更(完了)」「一覧の作成(承認待ち)」の3件の依頼が並んでいる。" loading="lazy">
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて確認したいポイント</h2>
+  <ul class="review-checklist">
+    <li><strong>承認経路を必ず設定する</strong>: プロセス管理で作業者を設定していないステータスでは、レコードを閲覧できる全員がアクションを実行できてしまいます(kintoneの仕様)。</li>
+    <li><strong>承認者にはアプリ管理権限が必要</strong>: 反映は承認者の権限で行います。権限が無い場合はエラーになり、ステータスは変わりません。</li>
+    <li><strong>選択肢の名前変更・削除の影響</strong>: 名前の変更は、既存レコードの値や一覧・グラフの絞り込み条件も新しい名前に変わります。削除した選択肢は既存レコードに値として残ります(依頼画面と確認ダイアログで警告します)。</li>
+    <li><strong>フィールドコードの変更・削除は影響が大きい</strong>: そのフィールドを使っているJavaScript・プラグイン・計算式・一覧の条件に影響します。</li>
+    <li><strong>対象外の設定</strong>: 計算式・ルックアップ・関連レコード一覧・アクセス権・プロセス管理の設定などは、このプラグインでは変更できません。</li>
+  </ul>
+</section>
+
+<section class="plugin-section" id="cta-plugins">
+  <h2>対応するプラグイン</h2>
+  <div class="plugin-cta-grid">
+    <div class="plugin-cta">
+      <p class="plugin-cta-badge">無料プラグイン</p>
+      <p class="plugin-cta-name">アプリ設定変更依頼プラグイン</p>
+      <p class="plugin-cta-desc">アプリのフィールド設定・一覧の変更をレコードで依頼・承認し、完了になったときに対象アプリへ自動反映(アプリの更新まで)。依頼レコードがアプリ設定の変更履歴になる</p>
+      <a class="plugin-cta-button" href="/plugins/app_settings_request/">プラグイン詳細を見る →</a>
+    </div>
+    <div class="plugin-cta">
+      <p class="plugin-cta-badge">無料プラグイン</p>
+      <p class="plugin-cta-name">決裁者稟議者記録プラグイン</p>
+      <p class="plugin-cta-desc">プロセス管理のアクション実行ごとに、実行前後のステータス・実行ユーザー・役職・実行日時をサブテーブルへ自動記録。承認の証跡をレコード内に残したい場合に</p>
+      <a class="plugin-cta-button" href="/plugins/approval_history/">プラグイン詳細を見る →</a>
+    </div>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて見たい記事・解決策ページ</h2>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="/articles/approval-history/">kintoneで決裁履歴を自動で記録する方法 ― 実際に承認操作を行った記録結果つきで解説</a>
+    <a class="related-service-card is-govapps" href="/articles/plugin-security-checklist/">kintoneプラグインのセキュリティチェックリスト</a>
+    <a class="related-service-card" href="/solutions/approval/">kintoneで決裁・承認プロセスを管理する方法(解決策ページ)</a>
+    <a class="related-service-card" href="/articles/">記事一覧に戻る</a>
+  </div>
+</section>
+
+<section class="plugin-section">
+  <h2>あわせて検討したいkintone関連サービス</h2>
+  <p class="related-services-by">by <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> kintoneオフィシャルパートナー</p>
+  <div class="related-services">
+    <a class="related-service-card is-govapps" href="https://govapps.pons-llc.com" target="_blank" rel="noopener">GovApps(自治体向けkintoneアプリテンプレート集)</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/gis-for-kintone/" target="_blank" rel="noopener">統合公開型GIS for kintone</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/map-display/" target="_blank" rel="noopener">地図表示プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/image-compression/" target="_blank" rel="noopener">画像圧縮プラグイン</a>
+    <a class="related-service-card" href="https://www.pons-llc.com/kintone-plugins/handwriting-memo/" target="_blank" rel="noopener">手書きメモプラグイン</a>
+  </div>
+</section>
+
+</div>
+<footer class="site-footer">
+  <p class="footer-disclaimer">kintoneはサイボウズ株式会社の登録商標です。本サイトはサイボウズ株式会社とは無関係のプロジェクトです。</p>
+  <p class="footer-operator">運営: <a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a> ／ <a href="/about">About</a> ／ <a href="/faq">FAQ</a> ／ <a href="/terms">利用規約</a> ／ <a href="/privacypolicy">プライバシーポリシー</a></p>
+</footer>
+
+<script src="../../js/site.js"></script>
+</body>
+</html>

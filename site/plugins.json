@@ -816,5 +816,21 @@
       "相談支援"
     ],
     "video": "https://vimeo.com/1237475706"
+  },
+  {
+    "id": "app_settings_request",
+    "name": "アプリ設定変更依頼プラグイン",
+    "description": "アプリのフィールド設定・一覧の変更をレコードで依頼・承認し、プロセス管理で「完了」になったときにREST APIで対象アプリへ自動反映(アプリの更新まで)するプラグイン。フィールド名・コード・必須・重複禁止・初期値・選択肢・文字数/値の範囲・削除と、一覧の作成・修正・削除(一覧画面のURLから条件を変換)に対応。依頼レコードがアプリ設定の変更履歴になり、ガバナンス・監査対応に使えます。",
+    "version": "1",
+    "publishedAt": "2026-10-21",
+    "zip": "plugins/app_settings_request/plugin.zip",
+    "page": "plugins/app_settings_request/index.html",
+    "category": "プラグイン管理",
+    "tags": [
+      "設定変更依頼",
+      "承認フロー",
+      "ガバナンス"
+    ],
+    "video": "https://vimeo.com/1237894847"
   }
 ]
