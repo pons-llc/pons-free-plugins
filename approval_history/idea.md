@@ -13,9 +13,13 @@
     操作」のサンプルコードもすべて行内フィールド単位、`fiscal_year_numbering`が無効化しているのも通常の
     数値フィールドでありSUBTABLEではない)。そのため`js/lib/table-disabler.js`で既存の全行の内包フィールドを
     1つずつdisabledにし、加えてテーブルの行追加・削除ボタン押下でも発生する`change.フィールドコード`
-    イベントを購読して、後から手動追加された行も即座にdisabledにする。行の追加・削除ボタン自体を
-    非表示にするJavaScript APIはkintoneに存在しないため、空の行が追加されること自体は防げないが、
-    追加された行のフィールドは即座に編集不可になる。
+    イベントを購読して、後から手動追加された行も即座にdisabledにする。
+  - **v2で追加**: 行の追加(+)・削除(-)ボタン自体も、公式のJavaScript API
+    `kintone.app.record.showAddTableRowButtons()` / `showDeleteTableRowButtons()`(モバイルは
+    `kintone.mobile.app.record.*`)で非表示にする(レコード追加・編集画面のみ利用可。両方を非表示にすると
+    操作UIの列ごと消える。kintoneドキュメントMCPで確認)。これで決裁履歴の行を手作業で追加・削除できなくなる
+    (v1の時点では「ボタンを非表示にするAPIは無い」としていたが、その後APIが提供されていた)。古いkintoneで
+    APIが無い場合は呼ばず、行のdisabledによる保護だけが効く。一覧画面のインライン編集ではテーブルを編集できないため対象外。
 - 狙い: 公文書を外部に保存する際、kintone標準の「更新履歴」では残らない決裁の経緯
   (誰が・どの役職で・どのステータスからどのステータスへ・いつ決裁したか)を、レコードそのものの一部
   (サブテーブル)として保持する。
@@ -75,7 +79,8 @@
 
 - **作成画面・編集画面**(`app.record.create.show` / `app.record.edit.show`)と、
   **一覧画面のインライン編集**(`app.record.index.edit.show`、モバイルには存在しないイベントのため
-  desktop.jsのみ): サブテーブルフィールドの`disabled`を`true`にして編集不可にする。
+  desktop.jsのみ): サブテーブルフィールドの`disabled`を`true`にして編集不可にする。作成画面・編集画面では
+  あわせて行の追加・削除ボタンを非表示にする(上記「v2で追加」)。
 - **詳細画面のプロセスアクション実行時**(`app.record.detail.process.proceed` /
   モバイル`mobile.app.record.detail.process.proceed`): `event.status.value`(実行前ステータス)、
   `event.nextStatus.value`(実行後ステータス)、`kintone.getLoginUser()`(実行ユーザーのコード・表示名)、

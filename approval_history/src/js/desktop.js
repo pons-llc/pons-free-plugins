@@ -32,12 +32,31 @@
     NS.TableDisabler.disableAllRows(table);
   };
 
+  // 行の追加(+)・削除(-)ボタンを非表示にし、決裁履歴の行を手作業で足したり消したりできないようにする
+  // (kintoneドキュメント「テーブルフィールドの行の追加/削除ボタンの表示/非表示を切り替える」。
+  // 利用できるのはレコード追加・編集画面のみで、両方を非表示にすると操作UIの列ごと消える)。
+  // 古いkintoneでAPIが無い場合は何もしない(行のdisabledによる保護は引き続き効く)。
+  const hideRowButtons = async (tableCode) => {
+    const record = kintone.app.record;
+    try {
+      if (typeof record.showAddTableRowButtons === 'function') {
+        await record.showAddTableRowButtons(tableCode, 'HIDDEN');
+      }
+      if (typeof record.showDeleteTableRowButtons === 'function') {
+        await record.showDeleteTableRowButtons(tableCode, 'HIDDEN');
+      }
+    } catch {
+      // テーブルが手動で削除された場合などはボタンの切り替えだけ諦める(画面の表示は妨げない)
+    }
+  };
+
   kintone.events.on(
     ['app.record.create.show', 'app.record.edit.show'],
     async (event) => {
       const config = await loadConfig();
       if (NS.ConfigStore.isConfigured(config)) {
         disableTable(event.record, config);
+        await hideRowButtons(config.fieldCodes.table);
       }
       return event;
     },

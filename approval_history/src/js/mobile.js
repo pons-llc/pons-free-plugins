@@ -25,12 +25,28 @@
 
   // モバイルには一覧画面のインライン編集(index.edit.show)が存在しないため、
   // 作成画面・編集画面のみ対応する(desktop.jsと同じ理由)。
+  // 行の追加(+)・削除(-)ボタンを非表示にする(desktop.jsと同じ理由。モバイル版のAPIを使う)。
+  const hideRowButtons = async (tableCode) => {
+    const record = kintone.mobile.app.record;
+    try {
+      if (typeof record.showAddTableRowButtons === 'function') {
+        await record.showAddTableRowButtons(tableCode, 'HIDDEN');
+      }
+      if (typeof record.showDeleteTableRowButtons === 'function') {
+        await record.showDeleteTableRowButtons(tableCode, 'HIDDEN');
+      }
+    } catch {
+      // テーブルが手動で削除された場合などはボタンの切り替えだけ諦める(画面の表示は妨げない)
+    }
+  };
+
   kintone.events.on(
     ['mobile.app.record.create.show', 'mobile.app.record.edit.show'],
     async (event) => {
       const config = await loadConfig();
       if (NS.ConfigStore.isConfigured(config)) {
         disableTable(event.record, config);
+        await hideRowButtons(config.fieldCodes.table);
       }
       return event;
     },

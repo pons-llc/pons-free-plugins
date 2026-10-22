@@ -55,7 +55,7 @@
     <span class="badge badge-tag">#決裁履歴</span>
     <span class="badge badge-tag">#プロセス管理</span>
   </div>
-  <a class="download-button" href="download" data-dl-plugin="approval_history">ダウンロード(v1)</a>
+  <a class="download-button" href="download" data-dl-plugin="approval_history">ダウンロード(v2)</a>
   <p class="author-bio">
     執筆者: <a href="/about#author">羽鳥達郎</a>(<a href="https://www.pons-llc.com" target="_blank" rel="noopener">合同会社Pons</a>) ／
     kintoneアプリデザインスペシャリスト・基本情報技術者・cybozuオフィシャルパートナー
@@ -110,7 +110,8 @@
     <li>「保存」を押す。決裁履歴を記録するサブテーブル(既定のフィールドコード: <code>approval_history_table</code>)が自動的に作成されます。既に作成済みの場合は再作成されません(冪等)。</li>
     <li>保存後、アプリを更新する(kintoneのアプリ設定は保存しただけでは反映されず、更新〈デプロイ〉して初めてレコード画面に反映されます)。</li>
   </ol>
-  <p class="download-note">サブテーブルの内包フィールドは、一覧画面のインライン編集・レコード作成画面・レコード編集画面のいずれからも手入力できません。行の追記は、プロセス管理のアクション実行時にプラグインが自動で行います。</p>
+  <p class="download-note">サブテーブルの内包フィールドは、一覧画面のインライン編集・レコード作成画面・レコード編集画面のいずれからも手入力できません。レコード作成画面・編集画面では、テーブルの行の追加(＋)・削除(－)ボタンも表示しないため、決裁履歴の行を手作業で足したり消したりできません(v2)。行の追記は、プロセス管理のアクション実行時にプラグインが自動で行います。</p>
+  <p class="download-note"><strong>v1をお使いの場合:</strong> プラグインを更新すると、行の追加・削除ボタンが表示されなくなります(設定の保存し直しは不要です)。</p>
 </section>
 
 <section class="plugin-section">

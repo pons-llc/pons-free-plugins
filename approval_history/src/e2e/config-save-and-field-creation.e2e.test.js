@@ -6,7 +6,7 @@
 // 機能面を検証する。
 //
 // プロセス管理のアクション実行(ステータス変更ボタン押下)自体は、検証環境アプリ側にプロセス管理・
-// アクションが設定されている前提が必要で、TEST_APP_ID_1にその前提が整っているとは限らないため、
+// アクションが設定されている前提が必要で、TEST_APP_ID_2にその前提が整っているとは限らないため、
 // このE2Eの必須シナリオには含めない(idea.md「TDD」参照)。実際のプロセスアクション実行時の
 // 行追記は目視確認、またはプロセス管理を設定した別アプリでの確認に委ねる。
 //
@@ -20,6 +20,9 @@ const kintoneAdmin = require('../../../scripts/kintone-admin');
 
 const PLUGIN_SRC_DIR = path.join(__dirname, '..');
 const TABLE_CODE = 'approval_history_table';
+// TEST_APP_ID_1はkintoneの「1アプリ20個まで」のプラグイン上限に達しており追加できない(GAIA_PL15、
+// 2026-10-22に確認)ため、TEST_APP_ID_2を使う。設定保存で追加されるのは決裁履歴テーブル1つだけで、
+// 既存のフィールドは変更しない。
 
 describe('設定の保存とレコードへの反映(実環境)', () => {
   let browser;
@@ -31,7 +34,7 @@ describe('設定の保存とレコードへの反映(実環境)', () => {
     const repoRoot = common.findRepoRoot(PLUGIN_SRC_DIR);
     env = common.loadEnv(repoRoot);
     pluginId = common.getPluginId(PLUGIN_SRC_DIR);
-    await kintoneAdmin.ensurePluginAdded(env, env.TEST_APP_ID_1, pluginId);
+    await kintoneAdmin.ensurePluginAdded(env, env.TEST_APP_ID_2, pluginId);
 
     browser = await puppeteer.launch({ headless: true });
     page = await browser.newPage();
@@ -39,9 +42,9 @@ describe('設定の保存とレコードへの反映(実環境)', () => {
     await common.login(page, env);
 
     // 既に決裁履歴テーブルが作成済み(再実行時)なら保存自体をスキップする(冪等)。
-    const fields = await kintoneAdmin.getFormFields(env, env.TEST_APP_ID_1);
+    const fields = await kintoneAdmin.getFormFields(env, env.TEST_APP_ID_2);
     if (!fields[TABLE_CODE] || fields[TABLE_CODE].type !== 'SUBTABLE') {
-      await common.openPluginConfig(page, env, env.TEST_APP_ID_1, pluginId);
+      await common.openPluginConfig(page, env, env.TEST_APP_ID_2, pluginId);
 
       // 保存処理はREST APIでのフィールド追加・デプロイのポーリングを含むため時間がかかる。
       await Promise.all([
@@ -53,7 +56,7 @@ describe('設定の保存とレコードへの反映(実環境)', () => {
       // レコード画面(create/edit)に反映するには明示的なデプロイが必要
       // (org_lookupのrecord-lookup.e2e.test.jsと同じ理由。フィールド追加自体はjs/config.jsが
       // 保存時に自らデプロイ済みだが、プラグイン設定の反映は別途必要)。
-      await kintoneAdmin.deployApp(env, env.TEST_APP_ID_1);
+      await kintoneAdmin.deployApp(env, env.TEST_APP_ID_2);
     }
   }, 120000);
 
@@ -64,7 +67,7 @@ describe('設定の保存とレコードへの反映(実環境)', () => {
   });
 
   test('保存により決裁履歴テーブル(5つの内包フィールド)が実際に作成される', async () => {
-    const fields = await kintoneAdmin.getFormFields(env, env.TEST_APP_ID_1);
+    const fields = await kintoneAdmin.getFormFields(env, env.TEST_APP_ID_2);
     expect(fields[TABLE_CODE]).toBeDefined();
     expect(fields[TABLE_CODE].type).toBe('SUBTABLE');
 
@@ -83,7 +86,7 @@ describe('設定の保存とレコードへの反映(実環境)', () => {
     // `disabled`はイベントハンドラーからUIへの一方向の描画指示であり、
     // `kintone.app.record.get()`では返ってこない(実機検証済み)ため、DOM上の<input>に
     // disabled属性が付与されているかで検証する。
-    await page.goto(`https://${env.KINTONE_DOMAIN}/k/${env.TEST_APP_ID_1}/`, {
+    await page.goto(`https://${env.KINTONE_DOMAIN}/k/${env.TEST_APP_ID_2}/`, {
       waitUntil: 'networkidle0',
     });
     const addLinkEl = await page.$('a.gaia-argoui-app-menu-add');
@@ -114,6 +117,33 @@ describe('設定の保存とレコードへの反映(実環境)', () => {
 
     expect(result.inputCount).toBeGreaterThan(0);
     expect(result.rowDisabledInDom).toBe(true);
+
+    // 行の追加(+)・削除(-)ボタンも非表示になっている(公式APIの表示状態と、画面上のボタンの両方で確認)。
+    // 表示状態の切り替えはshowイベント内の非同期処理のため、反映されるまで待つ。
+    await page.waitForFunction(
+      async (code) =>
+        (await kintone.app.record.getAddTableRowButtonsDisplayState(code)) ===
+          'HIDDEN' &&
+        (await kintone.app.record.getDeleteTableRowButtonsDisplayState(
+          code,
+        )) === 'HIDDEN',
+      { timeout: 15000 },
+      TABLE_CODE,
+    );
+    const visibleRowButtons = await page.evaluate(() => {
+      const label = Array.from(
+        document.querySelectorAll('.subtable-row-label-text-gaia'),
+      ).find((el) => el.textContent.trim() === '決裁履歴');
+      const table = label.closest('.subtable-row-gaia');
+      // 行の追加・削除ボタンのクラス名は実環境で確認(2026-10-22)。実行ユーザー列のユーザー選択の
+      // アイコン(無効化済み)は対象外。
+      return Array.from(
+        table.querySelectorAll(
+          'button.add-row-image-gaia, button.remove-row-image-gaia',
+        ),
+      ).filter((el) => el.offsetParent !== null).length;
+    });
+    expect(visibleRowButtons).toBe(0);
 
     expect(pageErrors).toEqual([]);
   });

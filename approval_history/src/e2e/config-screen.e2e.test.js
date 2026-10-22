@@ -5,7 +5,7 @@
 //
 // 事前準備:
 //   1. pnpm run build && pnpm run upload  でこのプラグインを検証環境アプリにアップロードしておく
-//   2. .env に KINTONE_DOMAIN / KINTONE_USERNAME / KINTONE_PASSWORD / TEST_APP_ID_1 が設定済みであること
+//   2. .env に KINTONE_DOMAIN / KINTONE_USERNAME / KINTONE_PASSWORD / TEST_APP_ID_2 が設定済みであること
 //
 // 実行: pnpm run test:e2e
 //
@@ -33,8 +33,8 @@ describe('設定画面(実環境)', () => {
     repoRoot = common.findRepoRoot(PLUGIN_SRC_DIR);
     env = common.loadEnv(repoRoot);
     pluginId = common.getPluginId(PLUGIN_SRC_DIR);
-    // 新規プラグインのため、初回実行時はTEST_APP_ID_1にまだ追加されていない(冪等)。
-    await kintoneAdmin.ensurePluginAdded(env, env.TEST_APP_ID_1, pluginId);
+    // 新規プラグインのため、初回実行時はTEST_APP_ID_2にまだ追加されていない(冪等)。
+    await kintoneAdmin.ensurePluginAdded(env, env.TEST_APP_ID_2, pluginId);
 
     browser = await puppeteer.launch({ headless: true });
     page = await browser.newPage();
@@ -51,7 +51,7 @@ describe('設定画面(実環境)', () => {
     const pageErrors = [];
     page.on('pageerror', (err) => pageErrors.push(err.message));
 
-    await common.openPluginConfig(page, env, env.TEST_APP_ID_1, pluginId);
+    await common.openPluginConfig(page, env, env.TEST_APP_ID_2, pluginId);
 
     const heading = await page.$eval(
       '.settings-heading',
